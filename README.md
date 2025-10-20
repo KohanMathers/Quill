@@ -112,7 +112,7 @@ View scope info:
 
 **Current Status:**
 - [x] Language specification
-- [ ] Lexer/Tokenizer
+- [x] Lexer/Tokenizer
 - [ ] Parser
 - [ ] Interpreter
 - [ ] Bukkit plugin integration

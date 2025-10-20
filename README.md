@@ -113,7 +113,7 @@ View scope info:
 **Current Status:**
 - [x] Language specification
 - [x] Lexer/Tokenizer
-- [ ] Parser
+- [x] Parser
 - [ ] Interpreter
 - [ ] Bukkit plugin integration
 - [ ] In-game editor

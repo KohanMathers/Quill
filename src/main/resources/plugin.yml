@@ -1,0 +1,5 @@
+name: Quill
+version: 0.1.0
+main: me.kmathers.quill.Quill
+api-version: 1.20
+description: A sandboxed scripting language for Minecraft event automation.

@@ -53,14 +53,11 @@ Feature requests are welcome! When suggesting a feature:
 #### Development Setup
 
 ```bash
-# Build the project
-./gradlew build
-
 # Run tests
-./gradlew test
+mvn test
 
 # Create a plugin JAR
-./gradlew shadowJar
+mvn clean package
 ```
 
 #### Code Style
@@ -142,7 +139,7 @@ quill/
 ├── src/
 │   ├── main/
 │   │   ├── java/
-│   │   │   └── me/kohanmathers/quill/
+│   │   │   └── me/kmathers/quill/
 │   │   │       ├── lexer/        # Tokenization
 │   │   │       ├── parser/       # AST generation
 │   │   │       ├── interpreter/  # Execution engine
@@ -155,7 +152,7 @@ quill/
 │   │       └── config.yml
 │   └── test/
 │       └── java/
-│           └── me/kohanmathers/quill/
+│           └── me/kmathers/quill/
 ├── examples/                      # Example scripts
 ├── docs/                          # Documentation
 ├── SPEC.md                        # Language specification

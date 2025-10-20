@@ -140,20 +140,20 @@ func do_something(param) {
 
 #### Function Calls
 ```
-result = function_name(arg1, arg2)
-do_something(arg)
+result = function_name(arg1, arg2);
+do_something(arg);
 ```
 
 ### Scope Management
 
 #### Creating Subscopes
 ```
-let subscope = new Scope(x1, y1, z1, x2, y2, z2)
+let subscope = new Scope(x1, y1, z1, x2, y2, z2);
 ```
 
 #### Defining Scope-Local Variables
 ```
-subscope.define(variable_name, initial_value)
+subscope.define(variable_name, initial_value);
 ```
 
 #### Scope Properties
@@ -494,28 +494,28 @@ entity.alive         // Boolean
 
 ### Example:
 ```
-let global_count = 0  // Global variable
+let global_count = 0;  // Global variable
 
-let arena1 = new Scope(-100, 0, -100, 100, 256, 100)
-arena1.define(kills, 0)  // Local to arena1
+let arena1 = new Scope(-100, 0, -100, 100, 256, 100);
+arena1.define(kills, 0);  // Local to arena1
 
-let arena2 = new Scope(200, 0, 200, 400, 256, 400)
-arena2.define(kills, 0)  // Local to arena2 (different variable)
+let arena2 = new Scope(200, 0, 200, 400, 256, 400);
+arena2.define(kills, 0);  // Local to arena2 (different variable)
 
 OnEvent(PlayerDeath) {
-    global_count = global_count + 1  // Always works
+    global_count = global_count + 1;  // Always works
     
     for player in arena1.players {
-        kills = kills + 1  // Accesses arena1's kills variable
-        sendmessage(player, "Arena 1 kills: {kills}")
+        kills = kills + 1;  // Accesses arena1's kills variable
+        sendmessage(player, "Arena 1 kills: {kills}");
     }
     
     for player in arena2.players {
-        kills = kills + 1  // Accesses arena2's kills variable
-        sendmessage(player, "Arena 2 kills: {kills}")
+        kills = kills + 1;  // Accesses arena2's kills variable
+        sendmessage(player, "Arena 2 kills: {kills}");
     }
     
-    // kills = kills + 1  // ERROR: No scope context here
+    // kills = kills + 1;  // ERROR: No scope context here
 }
 ```
 
@@ -539,7 +539,7 @@ The language includes basic error handling:
 try {
     // code that might fail
 } catch error {
-    log("Error occurred: {error}")
+    log("Error occurred: {error}");
 }
 ```
 
@@ -555,28 +555,28 @@ Errors can occur from:
 
 ```
 // Global variables
-let game_active = false
-let winner = null
+let game_active = false;
+let winner = null;
 
 // Create arena subscope
-let arena = new Scope(-50, 60, -50, 50, 100, 50)
-arena.define(participants, [])
-arena.define(eliminations, 0)
+let arena = new Scope(-50, 60, -50, 50, 100, 50);
+arena.define(participants, []);
+arena.define(eliminations, 0);
 
 // Helper function
 func reset_game() {
-    game_active = false
-    winner = null
-    arena.eliminations = 0
-    arena.participants = []
+    game_active = false;
+    winner = null;
+    arena.eliminations = 0;
+    arena.participants = [];
 }
 
 // Player join event
 OnEvent(PlayerJoin) {
     if in_region(player, arena) && !game_active {
-        addtoscope(player, arena)
-        append(arena.participants, player)
-        broadcast("{player.name} joined the arena!")
+        addtoscope(player, arena);
+        append(arena.participants, player);
+        broadcast("{player.name} joined the arena!");
     }
 }
 
@@ -584,17 +584,17 @@ OnEvent(PlayerJoin) {
 OnEvent(PlayerChat) {
     if chat.message == "!start" && !game_active {
         if len(arena.participants) >= 2 {
-            game_active = true
-            broadcast("Game starting!")
+            game_active = true;
+            broadcast("Game starting!");
             
             for player in arena.players {
-                set_gamemode(player, "survival")
-                give(player, "minecraft:stone_sword")
-                give(player, "minecraft:bread", 5)
-                heal(player)
+                set_gamemode(player, "survival");
+                give(player, "minecraft:stone_sword");
+                give(player, "minecraft:bread", 5);
+                heal(player);
             }
         } else {
-            sendmessage(player, "Need at least 2 players!")
+            sendmessage(player, "Need at least 2 players!");
         }
     }
 }
@@ -603,23 +603,23 @@ OnEvent(PlayerChat) {
 OnEvent(PlayerDeath) {
     if game_active && in_region(player, arena) {
         for p in arena.players {
-            arena.eliminations = arena.eliminations + 1
+            arena.eliminations = arena.eliminations + 1;
             
-            let remaining = len(arena.participants) - arena.eliminations
-            broadcast("{player.name} was eliminated! {remaining} remaining.")
+            let remaining = len(arena.participants) - arena.eliminations;
+            broadcast("{player.name} was eliminated! {remaining} remaining.");
             
             if remaining == 1 {
                 // Find winner
                 for survivor in arena.players {
                     if survivor.health > 0 {
-                        winner = survivor
-                        broadcast("{winner.name} wins the game!")
-                        give(winner, "minecraft:diamond", 10)
+                        winner = survivor;
+                        broadcast("{winner.name} wins the game!");
+                        give(winner, "minecraft:diamond", 10);
                     }
                 }
                 
-                wait(100)  // Wait 5 seconds
-                reset_game()
+                wait(100);  // Wait 5 seconds
+                reset_game();
             }
         }
     }
@@ -629,8 +629,8 @@ OnEvent(PlayerDeath) {
 OnEvent(PlayerMove) {
     if game_active && contains(arena.participants, player) {
         if !in_region(move.to, arena) {
-            teleport(player, move.from)
-            sendmessage(player, "You cannot leave during the game!")
+            teleport(player, move.from);
+            sendmessage(player, "You cannot leave during the game!");
         }
     }
 }

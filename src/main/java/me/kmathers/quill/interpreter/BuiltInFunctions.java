@@ -1,16 +1,22 @@
 package me.kmathers.quill.interpreter;
 
 import me.kmathers.quill.interpreter.QuillValue.*;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 import java.util.Set;
@@ -160,6 +166,26 @@ public class BuiltInFunctions {
         }
     }
 
+    public static class SetHungerFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 2) {
+                throw new RuntimeException("set_hunger() requires 2 arguments:set_hunger(player, hunger)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+
+            double hunger = args.get(1).asNumber();
+
+            if (hunger < 0 || hunger > 20) {
+                throw new RuntimeException("Expected digit between 0 and 20 in set_hunger(), found: " + args.get(1).asString());
+            }
+
+            player.setFoodLevel((int) hunger);
+
+            return new BooleanValue(true);
+        }
+    }
+
     public static class HealFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
@@ -225,14 +251,14 @@ public class BuiltInFunctions {
         }
     }
 
-        public static class PlaySoundFunction implements QuillInterpreter.BuiltInFunction {
+    public static class PlaySoundFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 4) {
                 throw new RuntimeException("playsound() requires 4 arguments:playsound(player, sound, volume, pitch)");
             }
             
             Player player = args.get(0).asPlayer();
-            String sound = args.get(1).asString();
+            String soundName = args.get(1).asString();
             double volume = args.get(2).asNumber();
             double pitch = args.get(3).asNumber();
 
@@ -244,11 +270,48 @@ public class BuiltInFunctions {
                 throw new RuntimeException("Expected digit between 0 and 1 in playsound(), found: " + args.get(3).asString());
             }
 
-//            player.playsound(Sound.)
+            if (!soundName.contains(":")) {
+                soundName = "minecraft:" + soundName;
+            }
+
+            try {
+                Sound sound = Sound.sound(Key.key("minecraft", soundName), Sound.Source.MASTER, (float) volume, (float) pitch);
+                player.playSound(sound);
+            } catch (IllegalArgumentException e) {
+                throw new RuntimeException("Invalid sound found in playsound: " + soundName);
+            }
 
             return new BooleanValue(true);
         }
     }
+
+    public static class GiveEffectFunction implements QuillInterpreter.BuiltInFunction {
+        @Override
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 4) {
+                throw new RuntimeException("give_effect() requires 4 arguments: give_effect(player, effect, duration, amplifier)");
+            }
+
+            Player player = args.get(0).asPlayer();
+            String effectString = args.get(1).asString().toLowerCase();
+            int duration = (int) args.get(2).asNumber();
+            int amplifier = (int) args.get(3).asNumber();
+
+            NamespacedKey key = effectString.contains(":")
+                    ? NamespacedKey.fromString(effectString)
+                    : NamespacedKey.minecraft(effectString);
+
+            PotionEffectType effectType = Registry.EFFECT.get(key);
+            if (effectType == null) {
+                throw new RuntimeException("Invalid potion effect: " + effectString);
+            }
+
+            player.addPotionEffect(new PotionEffect(effectType, duration, amplifier));
+            return new BooleanValue(true);
+        }
+    }
+
+
 
     // === Scope Functions ===
     

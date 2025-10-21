@@ -225,6 +225,31 @@ public class BuiltInFunctions {
         }
     }
 
+        public static class PlaySoundFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 4) {
+                throw new RuntimeException("playsound() requires 4 arguments:playsound(player, sound, volume, pitch)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+            String sound = args.get(1).asString();
+            double volume = args.get(2).asNumber();
+            double pitch = args.get(3).asNumber();
+
+            if (volume < 0 || volume > 1) {
+                throw new RuntimeException("Expected digit between 0 and 1 in playsound(), found: " + args.get(2).asString());
+            }
+
+            if (pitch < 0 || pitch > 1) {
+                throw new RuntimeException("Expected digit between 0 and 1 in playsound(), found: " + args.get(3).asString());
+            }
+
+//            player.playsound(Sound.)
+
+            return new BooleanValue(true);
+        }
+    }
+
     // === Scope Functions ===
     
     public static class AddToScopeFunction implements QuillInterpreter.BuiltInFunction {

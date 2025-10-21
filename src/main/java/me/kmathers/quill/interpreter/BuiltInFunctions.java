@@ -1,0 +1,277 @@
+package me.kmathers.quill.interpreter;
+
+import me.kmathers.quill.interpreter.QuillValue.*;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
+
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
+import java.util.Set;
+
+/**
+ * Built-in functions for Quill.
+ * These connect Quill scripts to Minecraft's Bukkit API.
+ */
+public class BuiltInFunctions {
+    
+    // === Player Functions ===
+    
+    public static class TeleportFunction implements QuillInterpreter.BuiltInFunction {
+        @Override
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 2 && args.size() != 4) {
+                throw new RuntimeException("teleport() requires 2 or 4 arguments: teleport(player, x, y, z) or teleport(player, location)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+            
+            if (args.size() == 2) {
+                Location loc = args.get(1).asLocation();
+                player.teleport(loc);
+            } else {
+                double x = args.get(1).asNumber();
+                double y = args.get(2).asNumber();
+                double z = args.get(3).asNumber();
+                Location loc = new Location(player.getWorld(), x, y, z);
+                player.teleport(loc);
+            }
+            
+            return new BooleanValue(true);
+        }
+    }
+    
+    public static class GiveFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() < 2 || args.size() > 3) {
+                throw new RuntimeException("give() requires 2 or 3 arguments:\n- give(player, item_id)\n- give(player, item_id, amount)\n- give(player, item)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+            ItemStack item = null;
+            int amount = 1;
+            String itemId = null;
+
+            if (args.size() == 2) {
+                QuillValue second = args.get(1);
+                if (second.isString()) {
+                    itemId = second.asString();
+                } else if (second.isItem()) {
+                    item = second.asItem();
+                } else {
+                    throw new RuntimeException("Second argument must be item_id (string) or item (Item)");
+                }
+            } else {
+                itemId = args.get(1).asString();
+                amount = (int) args.get(2).asNumber();
+            }
+            
+            if (item == null) {
+                item = createItemStack(itemId, amount);
+            }
+
+            player.give(item);
+
+            return new BooleanValue(true);
+        }
+    }
+
+    public static class RemoveItemFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() < 2 || args.size() > 3) {
+                throw new RuntimeException("remove_item() requires 2 or 3 arguments:remove_item(player, item_id) or remove_item(player, item_id, amount)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+            int amount = 1;
+            String itemId = null;
+            Material itemMaterial = null;
+            ItemStack item = null;
+
+            if (args.size() == 2) {
+                QuillValue second = args.get(1);
+                if (second.isString()) {
+                    itemId = second.asString();
+                } else {
+                    throw new RuntimeException("Second argument must be item_id (string)");
+                }
+            } else {
+                itemId = args.get(1).asString();
+                amount = (int) Math.floor(args.get(2).asNumber());
+            }
+
+            itemMaterial = Material.matchMaterial(itemId);
+            item = createItemStack(itemId, amount);
+
+            if(player.getInventory().contains(itemMaterial)) {
+                player.getInventory().remove(item);
+            } else {
+                return new NumberValue(0);
+            }
+            
+            return new NumberValue(amount);
+        }
+    }
+
+    public static class SetGamemodeFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 2) {
+                throw new RuntimeException("set_gamemode() requires 2 arguments:set_gamemode(player, mode)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+            String gamemode = args.get(1).asString();
+
+            Set<String> validModes = Set.of("adventure", "creative", "spectator", "survival");
+
+            if (!validModes.contains(gamemode.toLowerCase())) {
+                throw new RuntimeException("Invalid gamemode found in set_gamemode(): " + gamemode);
+            }
+
+            player.setGameMode(GameMode.valueOf(gamemode.toUpperCase()));
+            
+            return new BooleanValue(true);
+        }
+    }
+
+    public static class SetHealthFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 2) {
+                throw new RuntimeException("set_health() requires 2 arguments:set_health(player, health)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+
+            double health = args.get(1).asNumber();
+
+            if (health < 0 || health > 20) {
+                throw new RuntimeException("Expected digit between 0 and 20 in set_health(), found: " + args.get(1).asString());
+            }
+
+            player.setHealth(health);
+
+            return new BooleanValue(true);
+        }
+    }
+
+    public static class HealFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 1) {
+                throw new RuntimeException("heal() requires 1 argument: heal(player)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+            AttributeInstance maxHealth = player.getAttribute(Attribute.MAX_HEALTH);
+
+            player.heal(maxHealth.getValue());
+
+            return new BooleanValue(true);
+        }
+    }
+
+    public static class KillFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 1) {
+                throw new RuntimeException("kill() requires 1 argument: kill(player)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+
+            player.setHealth(0);
+
+            return new BooleanValue(true);
+        }
+    }
+
+    public static class SendMessageFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 2) {
+                throw new RuntimeException("sendmessage() requires 2 arguments:sendmessage(player, message)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+            String message = args.get(1).asString();
+
+            player.sendMessage(message);
+            
+            return new BooleanValue(true);
+        }
+    }
+
+    public static class SendTitleFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 6) {
+                throw new RuntimeException("sendtitle() requires 6 arguments:sendmessage(player, title, subtitle, fade_in, stay, fade_out)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+            String title = args.get(1).asString();
+            String subtitle = args.get(2).asString();
+            int fade_in = (int) args.get(3).asNumber();
+            int stay = (int) args.get(4).asNumber();
+            int fade_out = (int) args.get(5).asNumber();
+
+            Title playerTitle = Title.title(Component.text(title), Component.text(subtitle), fade_in, stay, fade_out);
+
+            player.showTitle(playerTitle);
+
+            return new BooleanValue(true);
+        }
+    }
+
+    // === Scope Functions ===
+    
+    public static class AddToScopeFunction implements QuillInterpreter.BuiltInFunction {
+        @Override
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 2) {
+                throw new RuntimeException("addtoscope() requires 2 arguments: addtoscope(player, scope)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+            ScopeContext targetScope = args.get(1).asScope().getScope();
+            
+            targetScope.addPlayer(player);
+            
+            return new BooleanValue(true);
+        }
+    }
+
+    // === Helper Methods ===
+    private static ItemStack createItemStack(String itemId, int amount) {
+        if (itemId == null || itemId.isEmpty()) {
+            throw new RuntimeException("Invalid item_id: cannot be null or empty");
+        }
+        
+        String materialName = itemId;
+        if (itemId.contains(":")) {
+            String[] parts = itemId.split(":", 2);
+            // TODO: Implement handling for other namespaces
+            materialName = parts[1].toUpperCase();
+        } else {
+            materialName = itemId.toUpperCase();
+        }
+        
+        Material material;
+        try {
+            material = Material.valueOf(materialName);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Invalid item_id: '" + itemId + "' is not a valid Minecraft item");
+        }
+        
+        if (amount < 1) {
+            throw new RuntimeException("Item amount must be at least 1, got: " + amount);
+        }
+        if (amount > 64) {
+            amount = Math.min(amount, material.getMaxStackSize());
+        }
+        
+        return new ItemStack(material, amount);
+    }
+}

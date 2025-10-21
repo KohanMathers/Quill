@@ -311,7 +311,43 @@ public class BuiltInFunctions {
         }
     }
 
+    public static class RemoveEffectFunction implements QuillInterpreter.BuiltInFunction {
+        @Override
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 2) {
+                throw new RuntimeException("remove_effect() requires 2 arguments: remove_effect(player, effect)");
+            }
 
+            Player player = args.get(0).asPlayer();
+            String effectString = args.get(1).asString().toLowerCase();
+
+            NamespacedKey key = effectString.contains(":")
+                    ? NamespacedKey.fromString(effectString)
+                    : NamespacedKey.minecraft(effectString);
+
+            PotionEffectType effectType = Registry.EFFECT.get(key);
+            if (effectType == null) {
+                throw new RuntimeException("Invalid potion effect: " + effectString);
+            }
+
+            player.removePotionEffect(effectType);
+            return new BooleanValue(true);
+        }
+    }
+
+    public static class ClearEffectsFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 1) {
+                throw new RuntimeException("heal() requires 1 argument: heal(player)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+
+            player.clearActivePotionEffects();
+
+            return new BooleanValue(true);
+        }
+    }
 
     // === Scope Functions ===
     

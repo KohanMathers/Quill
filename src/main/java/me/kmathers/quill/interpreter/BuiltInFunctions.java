@@ -349,6 +349,146 @@ public class BuiltInFunctions {
         }
     }
 
+    public static class KickFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 2) {
+                throw new RuntimeException("kick() requires 2 arguments: kick(player, reason)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+            String reason = args.get(1).asString();
+
+            player.kick(Component.text(reason));
+
+            return new BooleanValue(true);
+        }
+    }
+
+    public static class GetHealthFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 1) {
+                throw new RuntimeException("get_health() requires 1 argument: get_health(player)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+
+            double health = player.getHealth();
+
+            return new NumberValue(health);
+        }
+    }
+
+    public static class GetHungerFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 1) {
+                throw new RuntimeException("get_hunger() requires 1 argument: get_hunger(player)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+
+            double hunger = player.getFoodLevel();
+
+            return new NumberValue(hunger);
+        }
+    }
+
+    public static class GetLocationFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 1) {
+                throw new RuntimeException("get_location() requires 1 argument: get_location(player)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+
+            Location loc = player.getLocation();
+
+            return new LocationValue(loc);
+        }
+    }
+
+    public static class GetGamemodeFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 1) {
+                throw new RuntimeException("get_gamemode() requires 1 argument: get_gamemode(player)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+
+            String gamemode = player.getGameMode().toString();
+
+            return new StringValue(gamemode);
+        }
+    }
+
+    public static class HasItemFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() < 2 || args.size() > 3) {
+                throw new RuntimeException("has_item() requires 2 or 3 arguments:has_item(player, item_id) or has_item(player, item_id, amount)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+            int amount = 1;
+            String itemId = null;
+            Material itemMaterial = null;
+
+            if (args.size() == 2) {
+                QuillValue second = args.get(1);
+                if (second.isString()) {
+                    itemId = second.asString();
+                } else {
+                    throw new RuntimeException("Expected string in has_item(), found: " + args.get(1).getType());
+                }
+            } else {
+                itemId = args.get(1).asString();
+                amount = (int) Math.floor(args.get(2).asNumber());
+            }
+
+            itemMaterial = Material.matchMaterial(itemId);
+
+            if(player.getInventory().contains(itemMaterial, amount)) {
+                return new BooleanValue(true);
+            } else {
+                return new BooleanValue(false);
+            }
+        }
+    }    
+
+    public static class GetNameFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 1) {
+                throw new RuntimeException("get_name() requires 1 argument: get_name(player)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+
+            return new StringValue(player.getName());
+        }
+    }    
+
+    public static class IsOnlineFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 1) {
+                throw new RuntimeException("is_online() requires 1 argument: is_online(player)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+
+            return new BooleanValue(player.isOnline());
+        }
+    }
+
+    public static class IsOpFunction implements QuillInterpreter.BuiltInFunction {
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 1) {
+                throw new RuntimeException("is_op() requires 1 argument: is_op(player)");
+            }
+            
+            Player player = args.get(0).asPlayer();
+
+            return new BooleanValue(player.isOp());
+        }
+    }
+
     // === Scope Functions ===
     
     public static class AddToScopeFunction implements QuillInterpreter.BuiltInFunction {
@@ -362,7 +502,7 @@ public class BuiltInFunctions {
             ScopeContext targetScope = args.get(1).asScope().getScope();
             
             targetScope.addPlayer(player);
-            
+
             return new BooleanValue(true);
         }
     }

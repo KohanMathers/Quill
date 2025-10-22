@@ -1,6 +1,30 @@
 package me.kmathers.quill.interpreter;
 
 import me.kmathers.quill.parser.AST.*;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.ClearEffectsFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetGamemodeFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetHealthFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetHungerFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetLocationFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetNameFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GiveEffectFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GiveFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.HasItemFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.HealFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.IsOnlineFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.IsOpFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.KickFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.KillFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.PlaySoundFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.RemoveEffectFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.RemoveItemFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SendMessageFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SendTitleFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SetFlyingFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SetGamemodeFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SetHealthFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SetHungerFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.TeleportFunction;
 import me.kmathers.quill.interpreter.QuillValue.*;
 import org.bukkit.entity.Player;
 
@@ -561,6 +585,30 @@ public class QuillInterpreter {
     
     private void registerBuiltIns() {
         // TODO: Implement built in functions
+        builtIns.put("teleport", new TeleportFunction());
+        builtIns.put("give", new GiveFunction());
+        builtIns.put("remove_item", new RemoveItemFunction());
+        builtIns.put("set_gamemode", new SetGamemodeFunction());
+        builtIns.put("set_health", new SetHealthFunction());
+        builtIns.put("set_hunger", new SetHungerFunction());
+        builtIns.put("heal", new HealFunction());
+        builtIns.put("kill", new KillFunction());
+        builtIns.put("sendmessage", new SendMessageFunction());
+        builtIns.put("sendtitle", new SendTitleFunction());
+        builtIns.put("playsound", new PlaySoundFunction());
+        builtIns.put("give_effect", new GiveEffectFunction());
+        builtIns.put("remove_effect", new RemoveEffectFunction());
+        builtIns.put("clear_effects", new ClearEffectsFunction());
+        builtIns.put("set_flying", new SetFlyingFunction());
+        builtIns.put("kick", new KickFunction());
+        builtIns.put("get_health", new GetHealthFunction());
+        builtIns.put("get_hunger", new GetHungerFunction());
+        builtIns.put("get_location", new GetLocationFunction());
+        builtIns.put("get_gamemode", new GetGamemodeFunction());
+        builtIns.put("has_item", new HasItemFunction());
+        builtIns.put("get_name", new GetNameFunction());
+        builtIns.put("is_online", new IsOnlineFunction());
+        builtIns.put("is_op", new IsOpFunction());
     }
     
     public interface BuiltInFunction {

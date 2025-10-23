@@ -25,6 +25,25 @@ import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SetGamemodeFunction;
 import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SetHealthFunction;
 import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SetHungerFunction;
 import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.TeleportFunction;
+import me.kmathers.quill.interpreter.BuiltInScopeFuncs.AddToScopeFunction;
+import me.kmathers.quill.interpreter.BuiltInScopeFuncs.GetPlayersFunction;
+import me.kmathers.quill.interpreter.BuiltInScopeFuncs.GetRegionFunction;
+import me.kmathers.quill.interpreter.BuiltInScopeFuncs.InRegionFunction;
+import me.kmathers.quill.interpreter.BuiltInScopeFuncs.RemoveFromScopeFunction;
+import me.kmathers.quill.interpreter.BuiltInScopeFuncs.SetRegionFunction;
+import me.kmathers.quill.interpreter.BuiltInWorldFuncs.BreakBlockFunction;
+import me.kmathers.quill.interpreter.BuiltInWorldFuncs.BroadcastFunction;
+import me.kmathers.quill.interpreter.BuiltInWorldFuncs.CreateExplosionFunction;
+import me.kmathers.quill.interpreter.BuiltInWorldFuncs.GetTimeFunction;
+import me.kmathers.quill.interpreter.BuiltInWorldFuncs.GetWeatherFunction;
+import me.kmathers.quill.interpreter.BuiltInWorldFuncs.GetWorldFunction;
+import me.kmathers.quill.interpreter.BuiltInWorldFuncs.RemoveEntityFunction;
+import me.kmathers.quill.interpreter.BuiltInWorldFuncs.SetBlockFunction;
+import me.kmathers.quill.interpreter.BuiltInWorldFuncs.GetBlockFunction;
+import me.kmathers.quill.interpreter.BuiltInWorldFuncs.SetTimeFunction;
+import me.kmathers.quill.interpreter.BuiltInWorldFuncs.SetWeatherFunction;
+import me.kmathers.quill.interpreter.BuiltInWorldFuncs.SpawnEntityFunction;
+import me.kmathers.quill.interpreter.BuiltInWorldFuncs.StrikeLightningFunction;
 import me.kmathers.quill.interpreter.QuillValue.*;
 import org.bukkit.entity.Player;
 
@@ -186,9 +205,15 @@ public class QuillInterpreter {
             } else if (node.property.equals("region")) {
                 ScopeContext.Region region = scope.getRegion();
                 if (region == null) return NullValue.INSTANCE;
-                // For now, just return the scope itself
-                // TODO: Add RegionValue typw
-                return object;
+                
+                return new RegionValue(
+                    region.getX1(),
+                    region.getY1(),
+                    region.getZ1(),
+                    region.getX2(),
+                    region.getY2(),
+                    region.getZ2()
+                );
             } else {
                 return scope.get(node.property);
             }
@@ -584,7 +609,7 @@ public class QuillInterpreter {
     // === Built-in Functions ===
     
     private void registerBuiltIns() {
-        // TODO: Implement built in functions
+        // TODO: Implement utility and constructor built in functions
         builtIns.put("teleport", new TeleportFunction());
         builtIns.put("give", new GiveFunction());
         builtIns.put("remove_item", new RemoveItemFunction());
@@ -609,6 +634,25 @@ public class QuillInterpreter {
         builtIns.put("get_name", new GetNameFunction());
         builtIns.put("is_online", new IsOnlineFunction());
         builtIns.put("is_op", new IsOpFunction());
+        builtIns.put("addtoscope", new AddToScopeFunction());
+        builtIns.put("removefromscope", new RemoveFromScopeFunction());
+        builtIns.put("getplayers", new GetPlayersFunction());
+        builtIns.put("in_region", new InRegionFunction());
+        builtIns.put("get_region", new GetRegionFunction());
+        builtIns.put("set_region", new SetRegionFunction());
+        builtIns.put("set_block", new SetBlockFunction());
+        builtIns.put("get_block", new GetBlockFunction());
+        builtIns.put("break_block", new BreakBlockFunction());
+        builtIns.put("spawn_entity", new SpawnEntityFunction());
+        builtIns.put("remove_entity", new RemoveEntityFunction());
+        builtIns.put("create_explosion", new CreateExplosionFunction());
+        builtIns.put("strike_lightning", new StrikeLightningFunction());
+        builtIns.put("set_time", new SetTimeFunction());
+        builtIns.put("get_time", new GetTimeFunction());
+        builtIns.put("set_weather", new SetWeatherFunction());
+        builtIns.put("get_weather", new GetWeatherFunction());
+        builtIns.put("get_world", new GetWorldFunction());
+        builtIns.put("broadcast", new BroadcastFunction());
     }
     
     public interface BuiltInFunction {

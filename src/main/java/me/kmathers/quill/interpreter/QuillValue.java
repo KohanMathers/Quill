@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
 import org.bukkit.World;
 
 import java.util.List;
@@ -22,7 +23,8 @@ public abstract class QuillValue {
         LIST,
         ENTITY,
         FUNCTION,
-        WORLD
+        WORLD, 
+        REGION,
     }
     
     public abstract ValueType getType();
@@ -42,6 +44,7 @@ public abstract class QuillValue {
     public boolean isEntity() { return getType() == ValueType.ENTITY; }
     public boolean isFunction() { return getType() == ValueType.FUNCTION; }
     public boolean isWorld() { return getType() == ValueType.WORLD; }
+    public boolean isRegion() {return getType() == ValueType.REGION; }
     
     // === Type Conversion (with runtime checks) ===
     
@@ -116,6 +119,13 @@ public abstract class QuillValue {
         return (World) getValue();
     }
     
+    public RegionValue asRegion() {
+        if (!isRegion()) {
+            throw new RuntimeException("Expected region but got " + getType());
+        }
+        return (RegionValue) getValue();
+    }
+
     // === Truthiness ===
     
     public boolean isTruthy() {
@@ -370,5 +380,37 @@ public abstract class QuillValue {
         
         @Override
         public String toString() { return "World(" + world.getName() + ")"; }
+    }
+
+    public static class RegionValue extends QuillValue {
+        private final double x1, y1, z1, x2, y2, z2;
+        
+        public RegionValue(double x1, double y1, double z1, double x2, double y2, double z2) {
+            this.x1 = x1;
+            this.y1 = y1;
+            this.z1 = z1;
+            this.x2 = x2;
+            this.y2 = y2;
+            this.z2 = z2;
+        }
+        
+        @Override
+        public ValueType getType() { return ValueType.REGION; }
+        
+        @Override
+        public Object getValue() { return this; }
+        
+        public double getX1() { return x1; }
+        public double getY1() { return y1; }
+        public double getZ1() { return z1; }
+        public double getX2() { return x2; }
+        public double getY2() { return y2; }
+        public double getZ2() { return z2; }
+        
+        @Override
+        public String toString() { 
+            return String.format("Region(%.1f, %.1f, %.1f -> %.1f, %.1f, %.1f)", 
+                x1, y1, z1, x2, y2, z2);
+        }
     }
 }

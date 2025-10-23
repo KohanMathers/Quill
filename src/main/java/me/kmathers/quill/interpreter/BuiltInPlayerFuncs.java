@@ -72,7 +72,7 @@ public class BuiltInPlayerFuncs {
                 } else if (second.isItem()) {
                     item = second.asItem();
                 } else {
-                    throw new RuntimeException("Second argument must be item_id (string) or item (Item)");
+                    throw new RuntimeException("Expected string or item in give(), found: " + second.getType());
                 }
             } else {
                 itemId = args.get(1).asString();
@@ -80,7 +80,7 @@ public class BuiltInPlayerFuncs {
             }
             
             if (item == null) {
-                item = BuiltInFunctions.createItemStack(itemId, amount);
+                item = createItemStack(itemId, amount);
             }
 
             player.give(item);
@@ -106,7 +106,7 @@ public class BuiltInPlayerFuncs {
                 if (second.isString()) {
                     itemId = second.asString();
                 } else {
-                    throw new RuntimeException("Second argument must be item_id (string)");
+                    throw new RuntimeException("Expected string or item in remove_item(), found: " + second.getType());
                 }
             } else {
                 itemId = args.get(1).asString();
@@ -114,7 +114,7 @@ public class BuiltInPlayerFuncs {
             }
 
             itemMaterial = Material.matchMaterial(itemId);
-            item = BuiltInFunctions.createItemStack(itemId, amount);
+            item = createItemStack(itemId, amount);
 
             if(player.getInventory().contains(itemMaterial)) {
                 player.getInventory().remove(item);
@@ -140,7 +140,7 @@ public class BuiltInPlayerFuncs {
             Set<String> validModes = Set.of("adventure", "creative", "spectator", "survival");
 
             if (!validModes.contains(gamemode.toLowerCase())) {
-                throw new RuntimeException("Invalid gamemode found in set_gamemode(): " + gamemode);
+                throw new RuntimeException("Expected one of ['adventure', 'creative', 'spectator', 'survival'] in set_gamemode(), found: " + gamemode);
             }
 
             player.setGameMode(GameMode.valueOf(gamemode.toUpperCase()));
@@ -283,7 +283,7 @@ public class BuiltInPlayerFuncs {
                 Sound sound = Sound.sound(Key.key("minecraft", soundName), Sound.Source.MASTER, (float) volume, (float) pitch);
                 player.playSound(sound);
             } catch (IllegalArgumentException e) {
-                throw new RuntimeException("Invalid sound found in playsound: " + soundName);
+                throw new RuntimeException("Expected valid sound in playsound(), found: " + soundName);
             }
 
             return new BooleanValue(true);
@@ -334,7 +334,7 @@ public class BuiltInPlayerFuncs {
 
             PotionEffectType effectType = Registry.EFFECT.get(key);
             if (effectType == null) {
-                throw new RuntimeException("Invalid potion effect: " + effectString);
+                throw new RuntimeException("Expected valid potion effect in remove_effect, found: " + effectString);
             }
 
             player.removePotionEffect(effectType);
@@ -513,5 +513,37 @@ public class BuiltInPlayerFuncs {
 
             return new BooleanValue(player.isOp());
         }
+    }
+
+    // === Helpers ===
+    private static ItemStack createItemStack(String itemId, int amount) {
+        if (itemId == null || itemId.isEmpty()) {
+            throw new RuntimeException("Invalid item_id: cannot be null or empty");
+        }
+        
+        String materialName = itemId;
+        if (itemId.contains(":")) {
+            String[] parts = itemId.split(":", 2);
+            // TODO: Implement handling for other namespaces
+            materialName = parts[1].toUpperCase();
+        } else {
+            materialName = itemId.toUpperCase();
+        }
+        
+        Material material;
+        try {
+            material = Material.valueOf(materialName);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Invalid item_id: '" + itemId + "' is not a valid Minecraft item");
+        }
+        
+        if (amount < 1) {
+            throw new RuntimeException("Item amount must be at least 1, got: " + amount);
+        }
+        if (amount > 64) {
+            amount = Math.min(amount, material.getMaxStackSize());
+        }
+        
+        return new ItemStack(material, amount);
     }
 }

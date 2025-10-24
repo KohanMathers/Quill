@@ -5,6 +5,7 @@ import me.kmathers.quill.interpreter.QuillInterpreter;
 import me.kmathers.quill.interpreter.QuillValue;
 import me.kmathers.quill.interpreter.QuillValue.*;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,6 +20,7 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.TimeSkipEvent;
+import org.bukkit.plugin.Plugin;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -34,9 +36,11 @@ import java.util.Map;
  */
 public class QuillEventBridge implements Listener {
     private final QuillScriptManager scriptManager;
+    private final Plugin plugin;
     
-    public QuillEventBridge(QuillScriptManager scriptManager) {
+    public QuillEventBridge(QuillScriptManager scriptManager, Plugin plugin) {
         this.scriptManager = scriptManager;
+        this.plugin = plugin;
     }
     
     private void triggerForAllScripts(String eventName, Map<String, QuillValue> context) {
@@ -67,12 +71,13 @@ public class QuillEventBridge implements Listener {
         context.put("player", new PlayerValue(event.getPlayer()));
         
         Map<String, QuillValue> chatData = new HashMap<>();
-        // Extract plain text from the Adventure Component
         String plainMessage = PlainTextComponentSerializer.plainText().serialize(event.message());
         chatData.put("message", new StringValue(plainMessage));
         context.put("chat", new MapValue(chatData));
         
-        triggerForAllScripts("PlayerChat", context);
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            triggerForAllScripts("PlayerChat", context);
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)

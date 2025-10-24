@@ -72,9 +72,8 @@ public class Quill extends JavaPlugin {
         
         getLogger().info("Successfully loaded " + loaded + "/" + scripts.length + " script(s)");
         
-        // Register ONE event bridge that triggers ALL loaded scripts
         if (loaded > 0) {
-            eventBridge = new QuillEventBridge(scriptManager);
+            eventBridge = new QuillEventBridge(scriptManager, this);
             getServer().getPluginManager().registerEvents(eventBridge, this);
         }
     }

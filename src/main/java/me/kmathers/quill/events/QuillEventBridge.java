@@ -21,6 +21,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.world.TimeSkipEvent;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
 import org.bukkit.event.weather.WeatherChangeEvent;
 
@@ -66,7 +67,9 @@ public class QuillEventBridge implements Listener {
         context.put("player", new PlayerValue(event.getPlayer()));
         
         Map<String, QuillValue> chatData = new HashMap<>();
-        chatData.put("message", new StringValue(event.message().toString()));
+        // Extract plain text from the Adventure Component
+        String plainMessage = PlainTextComponentSerializer.plainText().serialize(event.message());
+        chatData.put("message", new StringValue(plainMessage));
         context.put("chat", new MapValue(chatData));
         
         triggerForAllScripts("PlayerChat", context);

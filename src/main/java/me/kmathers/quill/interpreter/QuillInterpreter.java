@@ -84,7 +84,7 @@ public class QuillInterpreter {
     private ScopeContext globalScope;
     private ScopeContext currentScope;
     private Map<String, BuiltInFunction> builtIns;
-    private Map<String, EventHandler> eventHandlers;
+    private Map<String, List<EventHandler>> eventHandlers;
     
     private static class ReturnSignal extends RuntimeException {
         final QuillValue value;
@@ -98,7 +98,7 @@ public class QuillInterpreter {
         this.globalScope = globalScope;
         this.currentScope = globalScope;
         this.builtIns = new HashMap<>();
-        this.eventHandlers = new HashMap<>();
+        this.eventHandlers = new HashMap<>(); // Now stores lists
         registerBuiltIns();
     }
     
@@ -595,7 +595,7 @@ public class QuillInterpreter {
     }
     
     private QuillValue evaluateEventHandler(EventHandler node) {
-        eventHandlers.put(node.eventName, node);
+        eventHandlers.computeIfAbsent(node.eventName, k -> new ArrayList<>()).add(node);
         return NullValue.INSTANCE;
     }
     
@@ -623,23 +623,29 @@ public class QuillInterpreter {
     // === Event Handling ===
     
     public void triggerEvent(String eventName, Map<String, QuillValue> eventContext) {
-        EventHandler handler = eventHandlers.get(eventName);
-        if (handler == null) return;
+        List<EventHandler> handlers = eventHandlers.get(eventName);
+        if (handlers == null || handlers.isEmpty()) return;
         
-        ScopeContext eventScope = new ScopeContext(globalScope);
-        for (Map.Entry<String, QuillValue> entry : eventContext.entrySet()) {
-            eventScope.define(entry.getKey(), entry.getValue());
-        }
-        
-        ScopeContext previousScope = currentScope;
-        currentScope = eventScope;
-        
-        try {
-            for (ASTNode statement : handler.body) {
-                evaluate(statement);
+        for (EventHandler handler : handlers) {
+            ScopeContext eventScope = new ScopeContext(globalScope);
+            for (Map.Entry<String, QuillValue> entry : eventContext.entrySet()) {
+                eventScope.define(entry.getKey(), entry.getValue());
             }
-        } finally {
-            currentScope = previousScope;
+            
+            ScopeContext previousScope = currentScope;
+            currentScope = eventScope;
+            
+            try {
+                for (ASTNode statement : handler.body) {
+                    evaluate(statement);
+                }
+            } catch (Exception e) {
+                // Log error but continue with other handlers
+                System.err.println("Error in event handler " + eventName + ": " + e.getMessage());
+                e.printStackTrace();
+            } finally {
+                currentScope = previousScope;
+            }
         }
     }
     

@@ -20,7 +20,7 @@ Quill is a simple, event-driven scripting language designed for Minecraft server
 ```
 // Create an arena
 let arena = new Scope(-50, 60, -50, 50, 100, 50);
-arena.define(game_active, false);
+arena.game_active = false;
 
 // Start game on chat command
 OnEvent(PlayerChat) {

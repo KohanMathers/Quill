@@ -710,6 +710,7 @@ public class QuillInterpreter {
         builtIns.put("trigger_custom", new TriggerCustomFunction());
         builtIns.put("get_player", new GetPlayerFunction());
         builtIns.put("get_online_players", new GetOnlinePlayersFunction());
+        builtIns.put("log", new LogFunction());
         builtIns.put("len", new LenFunction());
         builtIns.put("append", new AppendFunction());
         builtIns.put("remove", new RemoveFunction());

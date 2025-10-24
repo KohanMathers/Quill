@@ -17,7 +17,7 @@ Quill is a sandboxed scripting language for Minecraft server event automation. I
 let variable_name = value
 ```
 
-Variables are dynamically typed. All root-level variables are global to the scope. Subscope-local variables are created using `subscope.define()`.
+Variables are dynamically typed. All root-level variables are global to the scope. Subscope-local variables are created by assigning them a value.
 
 ### Data Types
 
@@ -153,7 +153,7 @@ let subscope = new Scope(x1, y1, z1, x2, y2, z2);
 
 #### Defining Scope-Local Variables
 ```
-subscope.define(variable_name, initial_value);
+subscope.variable_name = initial_value;
 ```
 
 #### Scope Properties
@@ -485,7 +485,7 @@ entity.alive         // Boolean
 ## Scope Context Rules
 
 1. **Root-level variables** are global to the entire scope and accessible everywhere
-2. **Subscope-local variables** (created with `subscope.define()`) are only accessible when operating within that subscope's context
+2. **Subscope-local variables** are only accessible when operating within that subscope's context
 3. **Context is entered** when:
    - Iterating over `subscope.players`
    - Calling functions that operate on subscope players
@@ -497,10 +497,10 @@ entity.alive         // Boolean
 let global_count = 0;  // Global variable
 
 let arena1 = new Scope(-100, 0, -100, 100, 256, 100);
-arena1.define(kills, 0);  // Local to arena1
+arena1.kills = 0;  // Local to arena1
 
 let arena2 = new Scope(200, 0, 200, 400, 256, 400);
-arena2.define(kills, 0);  // Local to arena2 (different variable)
+arena2.kills = 0;  // Local to arena2 (different variable)
 
 OnEvent(PlayerDeath) {
     global_count = global_count + 1;  // Always works
@@ -560,8 +560,8 @@ let winner = null;
 
 // Create arena subscope
 let arena = new Scope(-50, 60, -50, 50, 100, 50);
-arena.define(participants, []);
-arena.define(eliminations, 0);
+arena.participants = [];
+arena.eliminations = 0;
 
 // Helper function
 func reset_game() {

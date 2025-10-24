@@ -65,18 +65,18 @@ public class Quill extends JavaPlugin {
             getLogger().info("Loading: " + script);
             if (scriptManager.loadScript(script)) {
                 loaded++;
-                
-                var interpreter = scriptManager.getInterpreter(script);
-                if (interpreter != null) {
-                    eventBridge = new QuillEventBridge(interpreter);
-                    getServer().getPluginManager().registerEvents(eventBridge, this);
-                }
             } else {
                 getLogger().warning("Failed to load: " + script);
             }
         }
         
         getLogger().info("Successfully loaded " + loaded + "/" + scripts.length + " script(s)");
+        
+        // Register ONE event bridge that triggers ALL loaded scripts
+        if (loaded > 0) {
+            eventBridge = new QuillEventBridge(scriptManager);
+            getServer().getPluginManager().registerEvents(eventBridge, this);
+        }
     }
     
     /**

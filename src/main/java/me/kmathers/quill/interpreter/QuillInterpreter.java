@@ -181,7 +181,8 @@ public class QuillInterpreter {
     private QuillValue evaluateNumberLiteral(NumberLiteral node) {
         return new NumberValue(node.value);
     }
-    
+
+    @SuppressWarnings("unused")
     private QuillValue evaluateStringLiteral(StringLiteral node) {
         String result = node.value;
         int start = 0;
@@ -189,10 +190,100 @@ public class QuillInterpreter {
             int end = result.indexOf('}', start);
             if (end == -1) break;
             
-            String varName = result.substring(start + 1, end);
-            QuillValue value = currentScope.get(varName);
-            String replacement = value.toString();
+            String expression = result.substring(start + 1, end);
+            QuillValue value;
             
+            if (expression.contains(".")) {
+                String[] parts = expression.split("\\.", 2);
+                String objectName = parts[0];
+                String propertyName = parts[1];
+                
+                try {
+                    QuillValue object = currentScope.get(objectName);
+                    
+                    String[] allParts = expression.split("\\.");
+                    QuillValue current = currentScope.get(allParts[0]);
+                    
+                    for (int i = 1; i < allParts.length; i++) {
+                        String prop = allParts[i];
+                        
+                        if (current.isScope()) {
+                            ScopeContext scope = current.asScope().getScope();
+                            if (prop.equals("players")) {
+                                List<QuillValue> players = scope.getPlayers().stream()
+                                    .map(PlayerValue::new)
+                                    .collect(java.util.stream.Collectors.toList());
+                                current = new ListValue(players);
+                            } else if (prop.equals("region")) {
+                                ScopeContext.Region region = scope.getRegion();
+                                if (region == null) {
+                                    current = NullValue.INSTANCE;
+                                } else {
+                                    current = new RegionValue(
+                                        region.getX1(), region.getY1(), region.getZ1(),
+                                        region.getX2(), region.getY2(), region.getZ2()
+                                    );
+                                }
+                            } else {
+                                current = scope.get(prop);
+                            }
+                        } else if (current.isPlayer()) {
+                            Player player = current.asPlayer();
+                            switch (prop) {
+                                case "name": current = new StringValue(player.getName()); break;
+                                case "health": current = new NumberValue(player.getHealth()); break;
+                                case "hunger": current = new NumberValue(player.getFoodLevel()); break;
+                                case "location": current = new LocationValue(player.getLocation()); break;
+                                case "gamemode": current = new StringValue(player.getGameMode().name().toLowerCase()); break;
+                                case "flying": current = new BooleanValue(player.isFlying()); break;
+                                case "online": current = new BooleanValue(player.isOnline()); break;
+                                default:
+                                    throw new RuntimeException("Unknown player property: " + prop);
+                            }
+                        } else if (current.isLocation()) {
+                            org.bukkit.Location loc = current.asLocation();
+                            switch (prop) {
+                                case "x": current = new NumberValue(loc.getX()); break;
+                                case "y": current = new NumberValue(loc.getY()); break;
+                                case "z": current = new NumberValue(loc.getZ()); break;
+                                case "world": current = new WorldValue(loc.getWorld()); break;
+                                default:
+                                    throw new RuntimeException("Unknown location property: " + prop);
+                            }
+                        } else if (current.isItem()) {
+                            org.bukkit.inventory.ItemStack item = current.asItem();
+                            switch (prop) {
+                                case "type": current = new StringValue(item.getType().name().toLowerCase()); break;
+                                case "amount": current = new NumberValue(item.getAmount()); break;
+                                default:
+                                    throw new RuntimeException("Unknown item property: " + prop);
+                            }
+                        } else if (current.isEntity()) {
+                            org.bukkit.entity.Entity entity = current.asEntity();
+                            switch (prop) {
+                                case "type": current = new StringValue(entity.getType().name().toLowerCase()); break;
+                                case "location": current = new LocationValue(entity.getLocation()); break;
+                                case "alive": current = new BooleanValue(!entity.isDead()); break;
+                                default:
+                                    throw new RuntimeException("Unknown entity property: " + prop);
+                            }
+                        } else if (current.isMap()) {
+                            MapValue mapValue = (MapValue) current;
+                            current = mapValue.get(prop);
+                        } else {
+                            throw new RuntimeException("Cannot access property '" + prop + "' on " + current.getType());
+                        }
+                    }
+                    
+                    value = current;
+                } catch (RuntimeException e) {
+                    value = currentScope.get(expression);
+                }
+            } else {
+                value = currentScope.get(expression);
+            }
+            
+            String replacement = value.toString();
             result = result.substring(0, start) + replacement + result.substring(end + 1);
             start += replacement.length();
         }

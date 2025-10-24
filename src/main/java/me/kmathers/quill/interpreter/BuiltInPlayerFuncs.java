@@ -23,7 +23,6 @@ import java.util.Set;
 
 /**
  * Built-in player functions for Quill.
- * See ./BuiltInFunctions.java
  */
 public class BuiltInPlayerFuncs {
     // === Movement ===

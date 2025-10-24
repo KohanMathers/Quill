@@ -14,7 +14,6 @@ import me.kmathers.quill.interpreter.ScopeContext.Region;
 
 /**
  * Built-in scope functions for Quill.
- * See ./BuiltInFunctions.java
  */
 public class BuiltInScopeFuncs {
     public static class AddToScopeFunction implements QuillInterpreter.BuiltInFunction {

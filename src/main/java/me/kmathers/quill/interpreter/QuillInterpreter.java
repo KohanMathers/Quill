@@ -31,6 +31,32 @@ import me.kmathers.quill.interpreter.BuiltInScopeFuncs.GetRegionFunction;
 import me.kmathers.quill.interpreter.BuiltInScopeFuncs.InRegionFunction;
 import me.kmathers.quill.interpreter.BuiltInScopeFuncs.RemoveFromScopeFunction;
 import me.kmathers.quill.interpreter.BuiltInScopeFuncs.SetRegionFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.AbsFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.AppendFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.CancelFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.CeilFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.ContainsFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.DistanceFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.FloorFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.GetOnlinePlayersFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.GetPlayerFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.JoinFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.LenFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.LogFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.PowFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.RandomChoiceFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.RandomFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.RangeFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.RemoveFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.RoundFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.SplitFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.SqrtFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.ToBooleanFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.ToNumberFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.ToStringFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.TriggerCustomFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.TypeOfFunction;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.WaitFunction;
 import me.kmathers.quill.interpreter.BuiltInWorldFuncs.BreakBlockFunction;
 import me.kmathers.quill.interpreter.BuiltInWorldFuncs.BroadcastFunction;
 import me.kmathers.quill.interpreter.BuiltInWorldFuncs.CreateExplosionFunction;
@@ -609,7 +635,7 @@ public class QuillInterpreter {
     // === Built-in Functions ===
     
     private void registerBuiltIns() {
-        // TODO: Implement utility and constructor built in functions
+        // Player Functions
         builtIns.put("teleport", new TeleportFunction());
         builtIns.put("give", new GiveFunction());
         builtIns.put("remove_item", new RemoveItemFunction());
@@ -634,12 +660,16 @@ public class QuillInterpreter {
         builtIns.put("get_name", new GetNameFunction());
         builtIns.put("is_online", new IsOnlineFunction());
         builtIns.put("is_op", new IsOpFunction());
+        
+        // Scope Functions
         builtIns.put("addtoscope", new AddToScopeFunction());
         builtIns.put("removefromscope", new RemoveFromScopeFunction());
         builtIns.put("getplayers", new GetPlayersFunction());
         builtIns.put("in_region", new InRegionFunction());
         builtIns.put("get_region", new GetRegionFunction());
         builtIns.put("set_region", new SetRegionFunction());
+        
+        // World Functions
         builtIns.put("set_block", new SetBlockFunction());
         builtIns.put("get_block", new GetBlockFunction());
         builtIns.put("break_block", new BreakBlockFunction());
@@ -653,6 +683,38 @@ public class QuillInterpreter {
         builtIns.put("get_weather", new GetWeatherFunction());
         builtIns.put("get_world", new GetWorldFunction());
         builtIns.put("broadcast", new BroadcastFunction());
+        
+        // Utility Functions
+        builtIns.put("cancel", new CancelFunction());
+        builtIns.put("wait", new WaitFunction());
+        builtIns.put("random", new RandomFunction());
+        builtIns.put("round", new RoundFunction());
+        builtIns.put("floor", new FloorFunction());
+        builtIns.put("ceil", new CeilFunction());
+        builtIns.put("abs", new AbsFunction());
+        builtIns.put("sqrt", new SqrtFunction());
+        builtIns.put("pow", new PowFunction());
+        builtIns.put("distance", new DistanceFunction());
+        builtIns.put("log", new LogFunction());
+        builtIns.put("trigger_custom", new TriggerCustomFunction());
+        builtIns.put("get_player", new GetPlayerFunction());
+        builtIns.put("get_online_players", new GetOnlinePlayersFunction());
+        builtIns.put("len", new LenFunction());
+        builtIns.put("append", new AppendFunction());
+        builtIns.put("remove", new RemoveFunction());
+        builtIns.put("contains", new ContainsFunction());
+        builtIns.put("split", new SplitFunction());
+        builtIns.put("join", new JoinFunction());
+        builtIns.put("to_string", new ToStringFunction());
+        builtIns.put("to_number", new ToNumberFunction());
+        builtIns.put("to_boolean", new ToBooleanFunction());
+        builtIns.put("type_of", new TypeOfFunction());
+        builtIns.put("range", new RangeFunction());
+        builtIns.put("random_choice", new RandomChoiceFunction());
+        
+        // Constructor Functions
+        builtIns.put("location", new BuiltInConstructorFuncs.LocationFunction());
+        builtIns.put("item", new BuiltInConstructorFuncs.ItemFunction());
     }
     
     public interface BuiltInFunction {

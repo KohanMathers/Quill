@@ -114,7 +114,7 @@ View scope info:
 - [x] Language specification
 - [x] Lexer/Tokenizer
 - [x] Parser
-- [x] Interpreter **⚠️ Missing utility and constructor built-in functions**
+- [x] Interpreter
 - [ ] Bukkit plugin integration
 - [ ] In-game editor
 - [ ] Persistence layer

@@ -21,7 +21,6 @@ import me.kmathers.quill.interpreter.QuillValue.WorldValue;
 
 /**
  * Built-in world functions for Quill.
- * See ./BuiltInFunctions.java
  */
 public class BuiltInWorldFuncs {
     public static class SetBlockFunction implements QuillInterpreter.BuiltInFunction {
@@ -387,7 +386,7 @@ public class BuiltInWorldFuncs {
         }
     }
 
-    private static World getWorld(ScopeContext scope) {
+    public static World getWorld(ScopeContext scope) {
         ScopeContext.Region region = scope.getRegion();
         if (region == null) {
             throw new RuntimeException("No region defined in scope - cannot determine world for coordinates");

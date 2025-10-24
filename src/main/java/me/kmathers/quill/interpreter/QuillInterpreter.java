@@ -410,6 +410,17 @@ public class QuillInterpreter {
     // === Function Calls ===
     
     private QuillValue evaluateCallExpression(CallExpression node) {
+        if (node.callee instanceof Identifier) {
+            String name = ((Identifier) node.callee).name;
+            if (builtIns.containsKey(name)) {
+                List<QuillValue> args = new ArrayList<>();
+                for (ASTNode arg : node.arguments) {
+                    args.add(evaluate(arg));
+                }
+                return builtIns.get(name).call(args, currentScope, this);
+            }
+        }
+        
         QuillValue callee = evaluate(node.callee);
         List<QuillValue> args = new ArrayList<>();
         for (ASTNode arg : node.arguments) {

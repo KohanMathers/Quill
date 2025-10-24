@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.World;
 
 import java.util.List;
+import java.util.Map;
 
 public abstract class QuillValue {
     
@@ -25,6 +26,8 @@ public abstract class QuillValue {
         FUNCTION,
         WORLD, 
         REGION,
+        MAP,
+        EVENT,
     }
     
     public abstract ValueType getType();
@@ -45,6 +48,8 @@ public abstract class QuillValue {
     public boolean isFunction() { return getType() == ValueType.FUNCTION; }
     public boolean isWorld() { return getType() == ValueType.WORLD; }
     public boolean isRegion() {return getType() == ValueType.REGION; }
+    public boolean isMap() { return getType() == ValueType.MAP; }
+    public boolean isEvent() { return getType() == ValueType.EVENT; }
     
     // === Type Conversion (with runtime checks) ===
     
@@ -124,6 +129,21 @@ public abstract class QuillValue {
             throw new RuntimeException("Expected region but got " + getType());
         }
         return (RegionValue) getValue();
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, QuillValue> asMap() {
+        if (!isMap()) {
+            throw new RuntimeException("Expected map but got " + getType());
+        }
+        return (Map<String, QuillValue>) getValue();
+    }
+    
+    public org.bukkit.event.Event asEvent() {
+        if (!isEvent()) {
+            throw new RuntimeException("Expected event but got " + getType());
+        }
+        return (org.bukkit.event.Event) getValue();
     }
 
     // === Truthiness ===
@@ -411,6 +431,72 @@ public abstract class QuillValue {
         public String toString() { 
             return String.format("Region(%.1f, %.1f, %.1f -> %.1f, %.1f, %.1f)", 
                 x1, y1, z1, x2, y2, z2);
+        }
+    }
+
+    public static class MapValue extends QuillValue {
+        private final Map<String, QuillValue> map;
+        
+        public MapValue(Map<String, QuillValue> map) {
+            this.map = map;
+        }
+        
+        @Override
+        public ValueType getType() { return ValueType.MAP; }
+        
+        @Override
+        public Object getValue() { return map; }
+        
+        public QuillValue get(String key) {
+            return map.getOrDefault(key, NullValue.INSTANCE);
+        }
+        
+        public void put(String key, QuillValue value) {
+            map.put(key, value);
+        }
+        
+        public boolean has(String key) {
+            return map.containsKey(key);
+        }
+        
+        public Map<String, QuillValue> getMap() {
+            return map;
+        }
+        
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder("{");
+            int i = 0;
+            for (Map.Entry<String, QuillValue> entry : map.entrySet()) {
+                if (i > 0) sb.append(", ");
+                sb.append(entry.getKey()).append(": ").append(entry.getValue().toString());
+                i++;
+            }
+            sb.append("}");
+            return sb.toString();
+        }
+    }
+    
+    public static class EventValue extends QuillValue {
+        private final org.bukkit.event.Event event;
+        
+        public EventValue(org.bukkit.event.Event event) {
+            this.event = event;
+        }
+        
+        @Override
+        public ValueType getType() { return ValueType.EVENT; }
+        
+        @Override
+        public Object getValue() { return event; }
+        
+        public org.bukkit.event.Event getEvent() {
+            return event;
+        }
+        
+        @Override
+        public String toString() { 
+            return "Event(" + event.getEventName() + ")";
         }
     }
 }

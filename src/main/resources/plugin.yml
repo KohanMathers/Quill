@@ -2,4 +2,39 @@ name: Quill
 version: 0.1.0
 main: me.kmathers.quill.Quill
 api-version: 1.20
-description: A sandboxed scripting language for Minecraft event automation.
+author: Kohan Mathers
+description: A sandboxed scripting language for Minecraft event automation
+website: https://github.com/kohanmathers/quill
+
+commands:
+  quill:
+    description: Main Quill command
+    usage: /quill <load|reload|unload|list|info|help> [filename]
+    aliases: [ql]
+    permission: quill.command
+
+permissions:
+  quill.command:
+    description: Access to basic Quill commands
+    default: true
+  quill.script.load:
+    description: Load Quill scripts
+    default: op
+  quill.script.reload:
+    description: Reload Quill scripts
+    default: op
+  quill.script.unload:
+    description: Unload Quill scripts
+    default: op
+  quill.script.list:
+    description: List Quill scripts
+    default: true
+  quill.admin:
+    description: Full Quill administrative access
+    default: op
+    children:
+      quill.command: true
+      quill.script.load: true
+      quill.script.reload: true
+      quill.script.unload: true
+      quill.script.list: true

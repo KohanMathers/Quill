@@ -30,8 +30,18 @@ public class BuiltInUtilFuncs {
                 throw new RuntimeException("cancel() requires 1 argument: cancel(event)");
             }
             
-            // TODO: Handle event cancellation
-            return new BooleanValue(true);
+            if (!args.get(0).isEvent()) {
+                throw new RuntimeException("cancel() requires an event argument");
+            }
+            
+            org.bukkit.event.Event event = args.get(0).asEvent();
+            
+            if (event instanceof org.bukkit.event.Cancellable) {
+                ((org.bukkit.event.Cancellable) event).setCancelled(true);
+                return new BooleanValue(true);
+            } else {
+                throw new RuntimeException("Event " + event.getEventName() + " is not cancellable");
+            }
         }
     }
 

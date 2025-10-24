@@ -1,66 +1,88 @@
 package me.kmathers.quill;
 
-import java.util.List;
-
+import me.kmathers.quill.commands.QuillCommands;
+import me.kmathers.quill.events.QuillEventBridge;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.kmathers.quill.lexer.QuillLexer;
-import me.kmathers.quill.lexer.QuillLexer.Token;
-import me.kmathers.quill.parser.AST.ASTNode;
-import me.kmathers.quill.parser.AST.Program;
-import me.kmathers.quill.parser.QuillParser;
-
+/**
+ * Main plugin class for Quill.
+ */
 public class Quill extends JavaPlugin {
+    private QuillScriptManager scriptManager;
+    private QuillEventBridge eventBridge;
+    
     @Override
     public void onEnable() {
         getLogger().info("Enabling Quill...");
-        getLogger().info("===========Quill Tests===========");
-        getLogger().info("              Lexer");
-        getLogger().info("---------------------------------");
-        testLexer();
-        getLogger().info("---------------------------------");
-        getLogger().info("              Parser");
-        getLogger().info("---------------------------------");
-        testParser();
-        getLogger().info("=================================");
-    }
-
-    private void testLexer() {
-        try {
-            String sourceCode = "let x = 27;";
-            QuillLexer lexer = new QuillLexer(sourceCode);
-            List<Token> tokens = lexer.tokenize();
-            for (Token token: tokens) {
-                getLogger().info(token.value + "| " + token.kind.toString() + " | " + token.line + ", " + token.column);
-            }
-        } catch (QuillLexer.LexerException e) {
-            getLogger().severe("Lexer error: " + e.getMessage());
-            return;
+        
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdirs();
         }
+        
+        scriptManager = new QuillScriptManager(getDataFolder(), getLogger());
+        
+        QuillCommands commandHandler = new QuillCommands(this, scriptManager);
+        getCommand("quill").setExecutor(commandHandler);
+        getCommand("quill").setTabCompleter(commandHandler);
+        
+        autoLoadScripts();
+        
+        getLogger().info("Quill enabled successfully!");
     }
-
-    private void testParser() {
-        try {
-            String sourceCode = "let x = 27;";
-            QuillLexer lexer = new QuillLexer(sourceCode);
-            List<Token> tokens = lexer.tokenize();
-            QuillParser parser = new QuillParser(tokens);
-            Program ast = parser.parse();
-            List<ASTNode> statements = ast.statements;
-            for (ASTNode statement: statements) {
-                getLogger().info(statement.line + ", " + statement.column);
-            }
-        } catch (QuillLexer.LexerException e) {
-            getLogger().severe("Lexer error: " + e.getMessage());
-            return;
-        } catch (QuillParser.ParseException e) {
-            getLogger().severe("Parser error: " + e.getMessage());
-            return;
-        }
-    }
-
+    
     @Override
     public void onDisable() {
         getLogger().info("Disabling Quill...");
+        
+        if (scriptManager != null) {
+            scriptManager.unloadAll();
+        }
+        
+        if (eventBridge != null) {
+            // Event handlers are automatically unregistered when plugin disables
+        }
+        
+        getLogger().info("Quill disabled successfully!");
+    }
+    
+    /**
+     * Auto-load all scripts in the scripts folder.
+     */
+    private void autoLoadScripts() {
+        String[] scripts = scriptManager.listScripts();
+        
+        if (scripts.length == 0) {
+            getLogger().info("No scripts found to auto-load");
+            getLogger().info("Place .ql or .quill files in: " + 
+                scriptManager.getScriptsDirectory().getAbsolutePath());
+            return;
+        }
+        
+        getLogger().info("Auto-loading " + scripts.length + " script(s)...");
+        
+        int loaded = 0;
+        for (String script : scripts) {
+            getLogger().info("Loading: " + script);
+            if (scriptManager.loadScript(script)) {
+                loaded++;
+                
+                var interpreter = scriptManager.getInterpreter(script);
+                if (interpreter != null) {
+                    eventBridge = new QuillEventBridge(interpreter);
+                    getServer().getPluginManager().registerEvents(eventBridge, this);
+                }
+            } else {
+                getLogger().warning("Failed to load: " + script);
+            }
+        }
+        
+        getLogger().info("Successfully loaded " + loaded + "/" + scripts.length + " script(s)");
+    }
+    
+    /**
+     * Get the script manager.
+     */
+    public QuillScriptManager getScriptManager() {
+        return scriptManager;
     }
 }

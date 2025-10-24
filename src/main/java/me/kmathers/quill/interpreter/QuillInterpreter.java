@@ -293,6 +293,11 @@ public class QuillInterpreter {
             }
         }
         
+        if (object.isMap()) {
+            MapValue mapValue = (MapValue) object;
+            return mapValue.get(node.property);
+        }
+
         throw new RuntimeException("Cannot access property '" + node.property + "' on " + object.getType());
     }
     
@@ -387,6 +392,12 @@ public class QuillInterpreter {
             if (object.isScope()) {
                 ScopeContext scope = object.asScope().getScope();
                 scope.set(member.property, value);
+                return value;
+            }
+            
+            if (object.isMap()) {
+                MapValue mapValue = (MapValue) object;
+                mapValue.put(member.property, value);
                 return value;
             }
             

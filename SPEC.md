@@ -17,7 +17,7 @@ Quill is a sandboxed scripting language for Minecraft server event automation. I
 let variable_name = value
 ```
 
-Variables are dynamically typed. All root-level variables are global to the scope. Subscope-local variables are created using `subscope.define()`.
+Variables are dynamically typed. All root-level variables are global to the scope. Subscope-local variables are created by assigning them a value.
 
 ### Data Types
 
@@ -140,20 +140,20 @@ func do_something(param) {
 
 #### Function Calls
 ```
-result = function_name(arg1, arg2)
-do_something(arg)
+result = function_name(arg1, arg2);
+do_something(arg);
 ```
 
 ### Scope Management
 
 #### Creating Subscopes
 ```
-let subscope = new Scope(x1, y1, z1, x2, y2, z2)
+let subscope = new Scope(x1, y1, z1, x2, y2, z2);
 ```
 
 #### Defining Scope-Local Variables
 ```
-subscope.define(variable_name, initial_value)
+subscope.variable_name = initial_value;
 ```
 
 #### Scope Properties
@@ -485,7 +485,7 @@ entity.alive         // Boolean
 ## Scope Context Rules
 
 1. **Root-level variables** are global to the entire scope and accessible everywhere
-2. **Subscope-local variables** (created with `subscope.define()`) are only accessible when operating within that subscope's context
+2. **Subscope-local variables** are only accessible when operating within that subscope's context
 3. **Context is entered** when:
    - Iterating over `subscope.players`
    - Calling functions that operate on subscope players
@@ -494,28 +494,28 @@ entity.alive         // Boolean
 
 ### Example:
 ```
-let global_count = 0  // Global variable
+let global_count = 0;  // Global variable
 
-let arena1 = new Scope(-100, 0, -100, 100, 256, 100)
-arena1.define(kills, 0)  // Local to arena1
+let arena1 = new Scope(-100, 0, -100, 100, 256, 100);
+arena1.kills = 0;  // Local to arena1
 
-let arena2 = new Scope(200, 0, 200, 400, 256, 400)
-arena2.define(kills, 0)  // Local to arena2 (different variable)
+let arena2 = new Scope(200, 0, 200, 400, 256, 400);
+arena2.kills = 0;  // Local to arena2 (different variable)
 
 OnEvent(PlayerDeath) {
-    global_count = global_count + 1  // Always works
+    global_count = global_count + 1;  // Always works
     
     for player in arena1.players {
-        kills = kills + 1  // Accesses arena1's kills variable
-        sendmessage(player, "Arena 1 kills: {kills}")
+        kills = kills + 1;  // Accesses arena1's kills variable
+        sendmessage(player, "Arena 1 kills: {kills}");
     }
     
     for player in arena2.players {
-        kills = kills + 1  // Accesses arena2's kills variable
-        sendmessage(player, "Arena 2 kills: {kills}")
+        kills = kills + 1;  // Accesses arena2's kills variable
+        sendmessage(player, "Arena 2 kills: {kills}");
     }
     
-    // kills = kills + 1  // ERROR: No scope context here
+    // kills = kills + 1;  // ERROR: No scope context here
 }
 ```
 
@@ -539,7 +539,7 @@ The language includes basic error handling:
 try {
     // code that might fail
 } catch error {
-    log("Error occurred: {error}")
+    log("Error occurred: {error}");
 }
 ```
 
@@ -554,84 +554,140 @@ Errors can occur from:
 ## Complete Example
 
 ```
-// Global variables
-let game_active = false
-let winner = null
+let welcome_enabled = true;
+let player_count = 0;
 
-// Create arena subscope
-let arena = new Scope(-50, 60, -50, 50, 100, 50)
-arena.define(participants, [])
-arena.define(eliminations, 0)
+let arena = new Scope(411, 60, 120, 416, 100, 125);
+arena.game_active = false;
+arena.participants = [];
+let alive_count = 0;
+let winner = null;
 
-// Helper function
-func reset_game() {
-    game_active = false
-    winner = null
-    arena.eliminations = 0
-    arena.participants = []
-}
-
-// Player join event
 OnEvent(PlayerJoin) {
-    if in_region(player, arena) && !game_active {
-        addtoscope(player, arena)
-        append(arena.participants, player)
-        broadcast("{player.name} joined the arena!")
+    player_count = player_count + 1;
+    
+    if welcome_enabled {
+        sendmessage(player, "Welcome to the server!");
+        sendmessage(player, "You are player #{player_count}");
+        give(player, "minecraft:bread", 5);
+        
+        sendtitle(player, "Welcome!", player.name, 20, 60, 20);
     }
 }
 
-// Start game with chat command
+OnEvent(PlayerQuit) {
+    broadcast("{player.name} has left the server!");
+}
+
 OnEvent(PlayerChat) {
-    if chat.message == "!start" && !game_active {
-        if len(arena.participants) >= 2 {
-            game_active = true
-            broadcast("Game starting!")
-            
-            for player in arena.players {
-                set_gamemode(player, "survival")
-                give(player, "minecraft:stone_sword")
-                give(player, "minecraft:bread", 5)
-                heal(player)
-            }
+    if chat.message == "!arena" {
+        if in_region(player, arena) {
+            sendmessage(player, "You are already in the arena!");
         } else {
-            sendmessage(player, "Need at least 2 players!")
+            let arena_loc = location(413.5, 80, 122.5);
+            teleport(player, arena_loc);
+            addtoscope(player, arena);
+            append(arena.participants, player);
+            broadcast("{player.name} joined the arena!");
         }
+    }
+    
+    if chat.message == "!start" && in_region(player, arena) {
+        if arena.game_active {
+            sendmessage(player, "Game is already active!");
+        } else if len(arena.participants) < 2 {
+            sendmessage(player, "Need at least 2 players to start!");
+        } else {
+            arena.game_active = true;
+            broadcast("Arena game starting!");
+            
+            for p in arena.players {
+                set_gamemode(p, "survival");
+                heal(p);
+                give(p, "minecraft:stone_sword");
+                give(p, "minecraft:bow");
+                give(p, "minecraft:arrow", 32);
+                clear_effects(p);
+            }
+        }
+    }
+    
+    if chat.message == "!stop" && in_region(player, arena) {
+        if !arena.game_active {
+            sendmessage(player, "No game is active!");
+        } else {
+            arena.game_active = false;
+            broadcast("Game stopped!");
+            
+            for p in arena.players {
+                set_gamemode(p, "adventure");
+            }
+        }
+    }
+    
+    if chat.message == "!toggle_welcome" && is_op(player) {
+        welcome_enabled = !welcome_enabled;
+        let status = welcome_enabled;
+        sendmessage(player, "Welcome system: {status}");
     }
 }
 
-// Handle player deaths
 OnEvent(PlayerDeath) {
-    if game_active && in_region(player, arena) {
+    if arena.game_active && in_region(player, arena) {
+        let killer_name = "unknown";
+        
+        if death.killer != null {
+            killer_name = death.killer.name;
+        }
+        
+        broadcast("{player.name} was eliminated by {killer_name}!");
+        
         for p in arena.players {
-            arena.eliminations = arena.eliminations + 1
+            if p.health > 0 {
+                alive_count = alive_count + 1;
+                winner = p;
+            }
+        }
+        
+        if alive_count == 1 {
+            broadcast("{winner.name} wins the arena game!");
+            give(winner, "minecraft:diamond", 5);
+            give(winner, "minecraft:golden_apple", 1);
             
-            let remaining = len(arena.participants) - arena.eliminations
-            broadcast("{player.name} was eliminated! {remaining} remaining.")
+            arena.game_active = false;
             
-            if remaining == 1 {
-                // Find winner
-                for survivor in arena.players {
-                    if survivor.health > 0 {
-                        winner = survivor
-                        broadcast("{winner.name} wins the game!")
-                        give(winner, "minecraft:diamond", 10)
-                    }
-                }
-                
-                wait(100)  // Wait 5 seconds
-                reset_game()
+            for p in arena.players {
+                set_gamemode(p, "adventure");
             }
         }
     }
 }
 
-// Prevent leaving arena during game
 OnEvent(PlayerMove) {
-    if game_active && contains(arena.participants, player) {
+    if arena.game_active && contains(arena.participants, player) {
         if !in_region(move.to, arena) {
-            teleport(player, move.from)
-            sendmessage(player, "You cannot leave during the game!")
+            teleport(player, move.from);
+            sendmessage(player, "You cannot leave during the game!");
         }
+    }
+}
+
+OnEvent(BlockBreak) {
+    if in_region(block.location, arena) {
+        if !arena.game_active {
+            cancel(event);
+            sendmessage(player, "You can't break blocks when no game is active!");
+        }
+    }
+}
+
+OnEvent(PlayerChat) {
+    if chat.message == "!help" {
+        sendmessage(player, "=== Available Commands ===");
+        sendmessage(player, "!arena - Join the arena");
+        sendmessage(player, "!start - Start arena game (in arena)");
+        sendmessage(player, "!stop - Stop arena game (in arena)");
+        sendmessage(player, "!help - Show this help");
     }
 }
 ```

@@ -25,3 +25,7 @@ replay_pid*
 
 # Maven specific
 target/
+
+# Oops
+.vscode/*
+.idea/*

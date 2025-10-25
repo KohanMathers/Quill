@@ -19,19 +19,19 @@ Quill is a simple, event-driven scripting language designed for Minecraft server
 
 ```
 // Create an arena
-let arena = new Scope(-50, 60, -50, 50, 100, 50)
-arena.define(game_active, false)
+let arena = new Scope(-50, 60, -50, 50, 100, 50);
+arena.game_active = false;
 
 // Start game on chat command
 OnEvent(PlayerChat) {
     if chat.message == "!start" {
-        arena.game_active = true
-        broadcast("Game starting!")
+        arena.game_active = true;
+        broadcast("Game starting!");
         
         for player in arena.players {
-            set_gamemode(player, "survival")
-            give(player, "minecraft:stone_sword")
-            teleport(player, 0, 65, 0)
+            set_gamemode(player, "survival");
+            give(player, "minecraft:stone_sword");
+            teleport(player, 0, 65, 0);
         }
     }
 }
@@ -39,7 +39,7 @@ OnEvent(PlayerChat) {
 // Handle player deaths
 OnEvent(PlayerDeath) {
     if arena.game_active && in_region(player, arena) {
-        broadcast("{player.name} was eliminated!")
+        broadcast("{player.name} was eliminated!");
     }
 }
 ```
@@ -112,9 +112,9 @@ View scope info:
 
 **Current Status:**
 - [x] Language specification
-- [ ] Lexer/Tokenizer
-- [ ] Parser
-- [ ] Interpreter
+- [x] Lexer/Tokenizer
+- [x] Parser
+- [x] Interpreter
 - [ ] Bukkit plugin integration
 - [ ] In-game editor
 - [ ] Persistence layer

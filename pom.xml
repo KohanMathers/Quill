@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.kmathers.quill</groupId>
-    <artifactId>quill</artifactId>
+    <artifactId>Quill</artifactId>
     <version>0.1.0</version>
     <packaging>jar</packaging>
 

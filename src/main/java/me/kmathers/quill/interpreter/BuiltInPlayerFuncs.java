@@ -258,7 +258,7 @@ public class BuiltInPlayerFuncs {
     public static class PlaySoundFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 4) {
-                throw new RuntimeException("playsound() requires 4 arguments:playsound(player, sound, volume, pitch)");
+                throw new RuntimeException("playsound() requires 4 arguments: playsound(player, sound, volume, pitch)");
             }
             
             Player player = args.get(0).asPlayer();
@@ -266,23 +266,26 @@ public class BuiltInPlayerFuncs {
             double volume = args.get(2).asNumber();
             double pitch = args.get(3).asNumber();
 
-            if (volume < 0 || volume > 1) {
-                throw new RuntimeException("Expected digit between 0 and 1 in playsound(), found: " + args.get(2).asString());
+            if (volume < 0) {
+                throw new RuntimeException("Expected positive digit volume in playsound(), found: " + volume);
             }
 
-            if (pitch < 0 || pitch > 1) {
-                throw new RuntimeException("Expected digit between 0 and 1 in playsound(), found: " + args.get(3).asString());
+            if (pitch < 0 || pitch > 2) {
+                throw new RuntimeException("Pitch must be between 0 and 2 in playsound(), found: " + pitch);
             }
 
-            if (!soundName.contains(":")) {
-                soundName = "minecraft:" + soundName;
+            Key soundKey;
+            if (soundName.contains(":")) {
+                soundKey = Key.key(soundName);
+            } else {
+                soundKey = Key.key("minecraft", soundName);
             }
 
             try {
-                Sound sound = Sound.sound(Key.key("minecraft", soundName), Sound.Source.MASTER, (float) volume, (float) pitch);
+                Sound sound = Sound.sound(soundKey, Sound.Source.MASTER, (float) volume, (float) pitch);
                 player.playSound(sound);
             } catch (IllegalArgumentException e) {
-                throw new RuntimeException("Expected valid sound in playsound(), found: " + soundName);
+                throw new RuntimeException("Invalid sound in playsound(): " + soundName);
             }
 
             return new BooleanValue(true);

@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea Quill
+about: Suggest an idea for Quill
 title: ''
 labels: ''
 assignees: ''

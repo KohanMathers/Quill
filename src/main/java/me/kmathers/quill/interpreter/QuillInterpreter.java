@@ -618,6 +618,7 @@ public class QuillInterpreter {
         return NullValue.INSTANCE;
     }
     
+
     private QuillValue evaluateForStatement(ForStatement node) {
         QuillValue iterable = evaluate(node.iterable);
         
@@ -642,6 +643,7 @@ public class QuillInterpreter {
         }
         
         try {
+            boolean firstIteration = true;
             for (QuillValue item : items) {
                 ScopeContext previousScope = null;
                 if (isSubscopeIteration) {
@@ -650,7 +652,12 @@ public class QuillInterpreter {
                 }
                 
                 try {
-                    currentScope.define(node.variable, item);
+                    if (firstIteration) {
+                        currentScope.define(node.variable, item);
+                        firstIteration = false;
+                    } else {
+                        currentScope.set(node.variable, item);
+                    }
                     
                     try {
                         for (ASTNode statement : node.body) {
@@ -671,7 +678,7 @@ public class QuillInterpreter {
         
         return NullValue.INSTANCE;
     }
-    
+
     private QuillValue evaluateTryStatement(TryStatement node) {
         try {
             for (ASTNode statement : node.tryBlock) {

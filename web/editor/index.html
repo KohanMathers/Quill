@@ -2,192 +2,66 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Editor</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #1e1e1e;
-            color: #d4d4d4;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .session-input {
-            text-align: center;
-            padding: 60px 20px;
-        }
-
-        .session-input h1 {
-            margin-bottom: 20px;
-            font-size: 32px;
-        }
-
-        .session-input input {
-            padding: 12px 20px;
-            font-size: 18px;
-            border: 2px solid #404040;
-            background: #2d2d2d;
-            color: #d4d4d4;
-            border-radius: 8px;
-            width: 300px;
-            text-align: center;
-            text-transform: lowercase;
-        }
-
-        .session-input button {
-            padding: 12px 30px;
-            font-size: 18px;
-            background: #0e639c;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        .session-input button:hover {
-            background: #1177bb;
-        }
-
-        .editor-container {
-            display: none;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .editor-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #404040;
-        }
-
-        .editor-header h2 {
-            font-size: 18px;
-            color: #888;
-        }
-
-        .save-button {
-            padding: 10px 24px;
-            background: #0e639c;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .save-button:hover {
-            background: #1177bb;
-        }
-
-        .save-button:disabled {
-            background: #404040;
-            cursor: not-allowed;
-        }
-
-        #editor {
-            flex: 1;
-            margin-top: 15px;
-            padding: 20px;
-            background: #2d2d2d;
-            border: 1px solid #404040;
-            border-radius: 8px;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 14px;
-            line-height: 1.6;
-            resize: none;
-            color: #d4d4d4;
-        }
-
-        .status {
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 6px;
-            text-align: center;
-            display: none;
-        }
-
-        .status.error {
-            background: #5a1d1d;
-            color: #f48771;
-        }
-
-        .status.success {
-            background: #1e5631;
-            color: #4ec9b0;
-        }
-
-        .status.info {
-            background: #1e3a5a;
-            color: #9cdcfe;
-        }
-
-        .inactivity-warning {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #2d2d2d;
-            padding: 30px;
-            border-radius: 12px;
-            border: 2px solid #0e639c;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            text-align: center;
-        }
-
-        .inactivity-warning button {
-            margin-top: 15px;
-            padding: 10px 24px;
-            background: #0e639c;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quill Editor</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+    <div class="particles" id="particles"></div>
+
     <div class="container">
+        <div class="header">
+            <div class="status-dot" id="statusDot"></div>
+            <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png" alt="Quill"
+                style="height: 32px; margin-right: -4px;">
+            <h1>Editor</h1>
+        </div>
+
         <div class="session-input" id="sessionInput">
-            <h1>Enter Session ID</h1>
-            <input type="text" id="sessionId" placeholder="abcd1234" maxlength="8">
-            <button onclick="loadSession()">Load</button>
+            <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png" alt="Quill"
+                style="height: 64px; margin-bottom: 15px; filter: drop-shadow(0 4px 8px rgba(78, 201, 176, 0.3));">
+            <h2>Enter Session ID</h2>
+            <p>Paste the session ID from your Minecraft server</p>
+            <div class="input-group">
+                <input type="text" id="sessionId" placeholder="abcd1234" maxlength="8">
+                <button onclick="loadSession()">Connect</button>
+            </div>
         </div>
 
         <div class="editor-container" id="editorContainer">
             <div class="editor-header">
-                <h2>Session: <span id="currentSession"></span></h2>
-                <button class="save-button" id="saveButton" onclick="saveContent()">Save</button>
+                <div class="editor-info">
+                    <h2>Session: <span id="currentSession"></span></h2>
+                    <div class="stats">
+                        <div class="stat">
+                            <span>Lines:</span>
+                            <span class="stat-value" id="lineCount">0</span>
+                        </div>
+                        <div class="stat">
+                            <span>Characters:</span>
+                            <span class="stat-value" id="charCount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="save-button" id="saveButton" onclick="saveContent()">
+                    💾 Save & Exit (<span class="kbd">Ctrl+S</span>)
+                </button>
             </div>
-            <textarea id="editor"></textarea>
-            <div class="status" id="status"></div>
+            <div id="editor"></div>
+        </div>
+
+        <div class="footer">
+            <p>
+                Quill Scripting Language •
+                <a href="https://github.com/kohanmathers/quill" target="_blank">Documentation</a> •
+                <a href="https://discord.gg/FZuVXszuuM" target="_blank">Discord</a>
+            </p>
         </div>
     </div>
+
+    <div class="toast-container" id="toastContainer"></div>
 
     <div class="inactivity-warning" id="inactivityWarning">
         <h2>Are you still there?</h2>
@@ -195,133 +69,6 @@
         <button onclick="dismissInactivityWarning()">Yes, I'm here</button>
     </div>
 
-    <script>
-        const RELAY_URL = 'https://quill-relay.kohanmathersmcgonnell.workers.dev';
-        let sessionId = null;
-        let lastActivity = Date.now();
-        let inactivityTimer = null;
-        let warningTimer = null;
-
-        if (window.location.hash) {
-            const hashSessionId = window.location.hash.substring(1);
-            if (hashSessionId.length === 8) {
-                document.getElementById('sessionId').value = hashSessionId;
-                loadSession();
-            }
-        }
-
-        async function loadSession() {
-            const input = document.getElementById('sessionId').value.toLowerCase().trim();
-            if (input.length !== 8) {
-                showStatus('Session ID must be 8 characters', 'error');
-                return;
-            }
-
-            sessionId = input;
-            showStatus('Loading...', 'info');
-
-            try {
-                const response = await fetch(`${RELAY_URL}/session/${sessionId}`);
-                if (!response.ok) {
-                    throw new Error('Session not found');
-                }
-
-                const content = await response.text();
-                document.getElementById('editor').value = content;
-                document.getElementById('currentSession').textContent = sessionId;
-                document.getElementById('sessionInput').style.display = 'none';
-                document.getElementById('editorContainer').style.display = 'flex';
-                document.getElementById('status').style.display = 'none';
-
-                window.location.hash = sessionId;
-                startInactivityTracking();
-
-            } catch (error) {
-                showStatus('Failed to load session: ' + error.message, 'error');
-            }
-        }
-
-        async function saveContent() {
-            const content = document.getElementById('editor').value;
-            const button = document.getElementById('saveButton');
-            button.disabled = true;
-            showStatus('Saving...', 'info');
-
-            try {
-                const response = await fetch(`${RELAY_URL}/session/${sessionId}`, {
-                    method: 'POST',
-                    body: content,
-                    headers: {
-                        'Content-Type': 'text/plain'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to save');
-                }
-
-                showStatus('Saved successfully! Returning to session input...', 'success');
-
-                setTimeout(() => {
-                    window.location.hash = '';
-                    window.location.reload();
-                }, 2000);
-
-            } catch (error) {
-                showStatus('Failed to save: ' + error.message, 'error');
-                button.disabled = false;
-            }
-        }
-
-        function showStatus(message, type) {
-            const status = document.getElementById('status');
-            status.textContent = message;
-            status.className = 'status ' + type;
-            status.style.display = 'block';
-        }
-
-        function startInactivityTracking() {
-            const editor = document.getElementById('editor');
-
-            editor.addEventListener('input', () => {
-                lastActivity = Date.now();
-                resetInactivityTimers();
-            });
-
-            editor.addEventListener('keydown', () => {
-                lastActivity = Date.now();
-            });
-
-            resetInactivityTimers();
-        }
-
-        function resetInactivityTimers() {
-            clearTimeout(inactivityTimer);
-            clearTimeout(warningTimer);
-            document.getElementById('inactivityWarning').style.display = 'none';
-
-            inactivityTimer = setTimeout(() => {
-                document.getElementById('inactivityWarning').style.display = 'block';
-
-                warningTimer = setTimeout(() => {
-                    alert('Session closed due to inactivity');
-                    window.location.reload();
-                }, 15 * 60 * 1000);
-
-            }, 15 * 60 * 1000);
-        }
-
-        function dismissInactivityWarning() {
-            lastActivity = Date.now();
-            resetInactivityTimers();
-        }
-
-        document.getElementById('sessionId').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                loadSession();
-            }
-        });
-    </script>
+    <script type="module" src="editor.js"></script>
 </body>
-
 </html>

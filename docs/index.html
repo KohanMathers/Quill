@@ -1,105 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quill - Minecraft Event Automation</title>
-    <link rel="stylesheet" href="./styles.css">
-</head> 
-<body> 
-    <div class="outer-div">
-        <section class="hero"> 
-            <h1>Quill</h1> 
-            <p class="section-subtitle">A sandboxed scripting language for Minecraft event automation</p> 
-            <p>Create community-run events, minigames, and custom game modes without bugging your admins. Simple, powerful, and safe.</p> 
-            <div class="button-group">
-                <button class="ghbutton" onclick="window.location.href='https://github.com/KohanMathers/Quill'">View on GitHub</button> 
-                <button class="learnmore" onclick="window.location.href='#features'">Learn More</button>
+    <title>Quill — Sandboxed Scripting for Minecraft</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="cursor"></div>
+    
+    <div class="loading">
+        <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png" alt="Quill" class="loading-logo">
+        <div class="loading-subtitle">Sandboxed Scripting for Minecraft</div>
+    </div>
+
+    <nav>
+        <div class="nav-content">
+            <a href="#" class="logo">
+                <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png" alt="Quill">
+                <span>Quill</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#docs">Documentation</a></li>
+                <li><a href="#install">Install</a></li>
+                <li><a href="https://discord.gg/FZuVXszuuM" target="_blank">Discord</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-content">
+            <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png" alt="Quill" class="hero-logo">
+            <h1 class="hero-title">Quill</h1>
+            <p class="hero-subtitle">Sandboxed Scripting for Minecraft</p>
+            <p class="hero-description">Create community-run events without bugging your admins. Event-driven scripting within isolated, permission-controlled scopes.</p>
+            <div class="cta-group">
+                <a href="#install" class="cta-button">
+                    Get Started
+                    <span>→</span>
+                </a>
+                <a href="https://github.com/kohanmathers/quill" class="cta-button secondary" target="_blank">
+                    View on GitHub
+                </a>
             </div>
-        </section> 
+        </div>
+    </section>
 
-        <section class="features" id="features"> 
-            <p class="section-title">Why Quill?</p> 
-            <p class="section-subtitle">Powerful features designed for both players and admins</p> 
-            <div class="feature-grid"> 
-                <div class="feature-card"> 
-                    <span class="feature-icon">🎯</span> 
-                    <p class="feature-title">Event-Driven</p> 
-                    <p class="feature-description">React to player actions, block changes, and world events in real-time with simple event handlers.</p> 
-                </div> 
-                <div class="feature-card"> 
-                    <span class="feature-icon">🔒</span> 
-                    <p class="feature-title">Sandboxed</p> 
-                    <p class="feature-description">Scripts run in isolated scopes with physical boundaries, preventing interference and abuse.</p> 
-                </div> 
-                <div class="feature-card"> 
-                    <span class="feature-icon">🎮</span> 
-                    <p class="feature-title">Player-Friendly</p> 
-                    <p class="feature-description">Simple, readable syntax designed for non-programmers. If you can read it, you can write it.</p> 
-                </div> 
-                <div class="feature-card"> 
-                    <span class="feature-icon">🛡️</span> 
-                    <p class="feature-title">Permission-Controlled</p> 
-                    <p class="feature-description">Admins maintain full control with granular permission management per scope and function.</p> 
-                </div> 
-                <div class="feature-card"> 
-                    <span class="feature-icon">💾</span> 
-                    <p class="feature-title">Persistent</p> 
-                    <p class="feature-description">State and variables survive server restarts, keeping your games running smoothly.</p> 
-                </div> 
-                <div class="feature-card"> 
-                    <span class="feature-icon">✍️</span> 
-                    <p class="feature-title">In-Game Editing</p> 
-                    <p class="feature-description">Write, test, and debug code directly in Minecraft without leaving the game.</p> 
-                </div> 
-            </div> 
-        </section> 
-
-        <section class="action"> 
-            <p class="section-title">See It In Action</p> 
-            <p class="section-subtitle">A simple arena deathmatch game in just a few lines</p>
-            <div class="code-container"> 
-                <div class="code-header"> 
-                    <span class="code-dot dot-red"></span> 
-                    <span class="code-dot dot-yellow"></span> 
-                    <span class="code-dot dot-green"></span> 
-                </div> 
-                <div class="code"> 
-<pre><code><span class="code-line"><span class="comment">// Create an arena</span></span>
-<span class="code-line"><span class="keyword">let </span><span class="var">arena </span><span>= </span><span class="keyword">new </span><span class="func">Scope</span><span>(</span><span class="type">-50</span><span>, </span><span class="type">60</span><span>, </span><span class="type">-50</span><span>, </span><span class="type">50</span><span>, </span><span class="type">100</span><span>, </span><span class="type">50</span><span>)</span></span>
-<span class="code-line"><span class="var">arena</span><span>.</span><span class="var">game_active</span><span> = </span><span class="keyword">false</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="comment">// Start game on chat command</span></span>
-<span class="code-line"><span class="func">OnEvent</span><span>(</span><span class="var">PlayerChat</span><span>) {</span></span>
-<span class="code-line">    <span class="keyword">if </span><span class="var">chat</span><span>.</span><span class="var">message </span><span>== </span><span class="type">"!start" </span><span>{</span></span>
-<span class="code-line">        <span class="var">arena</span><span>.</span><span class="var">game_active </span><span>= </span><span class="keyword">true</span></span>
-<span class="code-line">        <span class="func">broadcast</span><span>(</span><span class="type">"Game starting!"</span><span>)</span></span>
-<span class="code-line">        <span class="keyword">for </span><span class="var">player </span><span class="keyword">in </span><span class="var">arena</span><span>.</span><span class="var">players </span><span>{</span></span>
-<span class="code-line">            <span class="func">set_gamemode</span><span>(</span><span class="var">player</span><span>, </span><span class="type">"survival"</span><span>)</span></span>
-<span class="code-line">            <span class="func">give</span><span>(</span><span class="var">player</span><span>, </span><span class="type">"minecraft:stone_sword"</span><span>)</span></span>
-<span class="code-line">            <span class="func">teleport</span><span>(</span><span class="var">player</span><span>, </span><span class="type">0</span><span>, </span><span class="type">65</span><span>, </span><span class="type">0</span><span>)</span></span>
-<span class="code-line">        }</span></span>
-<span class="code-line">    }</span></span>
-<span class="code-line">}</span></span>
-<span class="code-line"></span>
-<span class="code-line"><span class="comment">// Handle player deaths</span></span>
-<span class="code-line"><span class="func">OnEvent</span><span>(</span><span class="var">PlayerDeath</span><span>) {</span></span>
-<span class="code-line">    <span class="keyword">if </span><span class="var">arena</span><span>.</span><span class="var">game_active </span><span>&& </span><span class="func">in_region</span><span>(</span><span class="var">player</span><span>, </span><span class="var">arena</span><span>) </span><span>{</span></span>
-<span class="code-line">        <span class="func">broadcast</span><span>(</span><span class="type">"{player.name} was eliminated!"</span><span>)</span></span>
-<span class="code-line">    }</span></span>
-<span class="code-line">}</span></span></code></pre>
-                </div> 
+    <section id="features" class="section">
+        <h2 class="section-title reveal">Features</h2>
+        <p class="section-subtitle reveal">Simple, powerful, and safe scripting for Minecraft servers</p>
+        
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <span class="feature-icon">🎯</span>
+                <h3>Event-Driven</h3>
+                <p>React to player actions, block changes, and world events with OnEvent handlers. Write code that responds to your server naturally.</p>
             </div>
-        </section> 
+            
+            <div class="feature-card reveal">
+                <span class="feature-icon">🔒</span>
+                <h3>Sandboxed</h3>
+                <p>Scripts run in isolated scopes with physical boundaries. Players can't affect areas outside their designated regions.</p>
+            </div>
+            
+            <div class="feature-card reveal">
+                <span class="feature-icon">🎮</span>
+                <h3>Player-Friendly</h3>
+                <p>Simple JavaScript-like syntax designed for non-programmers. Let your community create custom game modes and mini-games.</p>
+            </div>
+            
+            <div class="feature-card reveal">
+                <span class="feature-icon">🛡️</span>
+                <h3>Permission-Controlled</h3>
+                <p>Admins can revoke specific functions per scope. Grant teleportation in one area, but not block modification in another.</p>
+            </div>
+            
+            <div class="feature-card reveal">
+                <span class="feature-icon">💾</span>
+                <h3>Persistent</h3>
+                <p>State and variables survive server restarts. Your mini-games and events remember their progress automatically.</p>
+            </div>
+            
+            <div class="feature-card reveal">
+                <span class="feature-icon">✍️</span>
+                <h3>Web Editor</h3>
+                <p>Edit code directly from Minecraft with a modern web-based editor. Syntax highlighting, autocomplete, and live feedback.</p>
+            </div>
+        </div>
 
-        <section class="comingsoon"> 
-            <div class="alpha-banner"> 
-                <p>⚠️ ALPHA - IN DEVELOPMENT</p> 
-            </div> 
-            <p class="section-title">Coming Soon</p> 
-            <p class="section-subtitle">Quill is in early development. Star the repo on GitHub to follow progress and get notified of releases!</p> 
-            <button class="ghbutton" onclick="window.location.href='https://github.com/KohanMathers/Quill'">Star on GitHub</button> 
-        </section>
-    </div> 
-</body> 
+        <div class="code-example reveal">
+            <pre><code><span class="comment">// Create an arena mini-game</span>
+<span class="keyword">let</span> arena = <span class="keyword">new</span> <span class="type">Scope</span>(-<span class="number">50</span>, <span class="number">60</span>, -<span class="number">50</span>, <span class="number">50</span>, <span class="number">100</span>, <span class="number">50</span>);
+arena.game_active = <span class="keyword">false</span>;
+
+<span class="comment">// Start game on chat command</span>
+<span class="keyword">OnEvent</span>(<span class="type">PlayerChat</span>) {
+    <span class="keyword">if</span> chat.message == <span class="string">"!start"</span> {
+        arena.game_active = <span class="keyword">true</span>;
+        <span class="function">broadcast</span>(<span class="string">"Game starting!"</span>);
+        
+        <span class="keyword">for</span> player <span class="keyword">in</span> arena.players {
+            <span class="function">set_gamemode</span>(player, <span class="string">"survival"</span>);
+            <span class="function">give</span>(player, <span class="string">"minecraft:stone_sword"</span>);
+            <span class="function">teleport</span>(player, <span class="number">0</span>, <span class="number">65</span>, <span class="number">0</span>);
+        }
+    }
+}
+
+<span class="comment">// Handle player deaths</span>
+<span class="keyword">OnEvent</span>(<span class="type">PlayerDeath</span>) {
+    <span class="keyword">if</span> arena.game_active && <span class="function">in_region</span>(player, arena) {
+        <span class="function">broadcast</span>(<span class="string">"{player.name} was eliminated!"</span>);
+    }
+}</code></pre>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="stats reveal">
+            <div class="stat">
+                <span class="stat-number">Alpha</span>
+                <span class="stat-label">Development Stage</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">Java 21+</span>
+                <span class="stat-label">Requirements</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">Bukkit</span>
+                <span class="stat-label">Platform Support</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">MIT</span>
+                <span class="stat-label">License</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="install" class="section">
+        <h2 class="section-title reveal">Getting Started</h2>
+            <div class="install-section reveal">
+                        <h3 style="margin-bottom: 1rem; color: var(--accent);">Installation</h3>
+                        
+                        <div style="text-align: left; max-width: 700px; margin: 0 auto;">
+                            <h4 style="color: var(--quill-teal); margin-bottom: 1rem; font-size: 1rem;">Requirements</h4>
+                            <ul style="color: var(--muted); margin-bottom: 2rem; line-height: 1.8;">
+                                <li>Minecraft Server (Bukkit/Spigot/Paper)</li>
+                                <li>Java 21 or higher</li>
+                            </ul>
+                            
+                            <h4 style="color: var(--quill-teal); margin-bottom: 1rem; font-size: 1rem;">Setup</h4>
+                            <ol style="color: var(--muted); line-height: 1.8; margin-bottom: 2rem;">
+                                <li>Download the <code style="background: var(--primary); padding: 0.2rem 0.5rem; border-radius: 3px; color: var(--quill-teal);">Quill-0.1.0-ALPHA.jar</code> from <a href="https://github.com/kohanmathers/quill/releases" target="_blank" style="color: var(--quill-blue); text-decoration: underline;">Releases</a></li>
+                                <li>Place in your server's <code style="background: var(--primary); padding: 0.2rem 0.5rem; border-radius: 3px; color: var(--quill-teal);">plugins/</code> folder</li>
+                                <li>Restart your server</li>
+                                <li>Configure in <code style="background: var(--primary); padding: 0.2rem 0.5rem; border-radius: 3px; color: var(--quill-teal);">plugins/Quill/config.yml</code></li>
+                            </ol>
+                        </div>
+                        
+                        <div class="mode-tabs">
+                            <button class="mode-tab active" data-mode="admin">For Admins</button>
+                            <button class="mode-tab" data-mode="player">For Players</button>
+                        </div>
+                        
+                        <div class="install-code" id="install-code">
+            /quill scope create &lt;scope_name&gt; &lt;owner&gt; &lt;x1&gt; &lt;y1&gt; &lt;z1&gt; &lt;x2&gt; &lt;y2&gt; &lt;z2&gt;
+                        </div>
+                        
+                        <p style="color: var(--muted); font-size: 0.9rem;" id="install-description">Create a scope for a player to start scripting</p>
+                    </div>
+        <div class="code-example reveal">
+        <pre><code><span class="comment">// Example: Teleport pads</span>
+<span class="keyword">let</span> pad1 = <span class="keyword">null</span>;
+<span class="keyword">let</span> pad2 = <span class="keyword">null</span>;
+
+<span class="keyword">OnEvent</span>(<span class="type">PlayerInteract</span>) {
+    <span class="keyword">if</span> <span class="function">is_op</span>(player) {
+        <span class="keyword">let</span> held_item = interact.item;
+        
+        <span class="keyword">if</span> held_item != <span class="keyword">null</span> {
+            <span class="keyword">if</span> held_item.type == <span class="string">"wooden_sword"</span> {
+                pad1 = interact.block;
+                <span class="function">sendmessage</span>(player, <span class="string">"pad 1 set at {pad1.x}, {pad1.y}, {pad1.z}"</span>);
+            }
+            
+            <span class="keyword">if</span> held_item.type == <span class="string">"stone_sword"</span> {
+                pad2 = interact.block;
+                <span class="function">sendmessage</span>(player, <span class="string">"pad 2 set at {pad2.x}, {pad2.y}, {pad2.z}"</span>);
+            }
+        }
+    }
+}
+
+<span class="keyword">OnEvent</span>(<span class="type">PlayerChat</span>) {
+    <span class="keyword">if</span> chat.message == <span class="string">"!teleport"</span> {
+        <span class="keyword">let</span> stand_loc1 = <span class="function">location</span>(pad1.x, pad1.y + <span class="number">1</span>, pad1.z);
+        <span class="keyword">let</span> stand_loc2 = <span class="function">location</span>(pad2.x, pad2.y + <span class="number">1</span>, pad2.z);
+        <span class="keyword">let</span> player_location = <span class="function">location</span>(<span class="function">floor</span>(player.location.x), <span class="function">floor</span>(player.location.y), <span class="function">floor</span>(player.location.z));
+        <span class="keyword">if</span> <span class="function">distance</span>(player_location, stand_loc1) &lt; <span class="number">1</span> {
+            <span class="function">teleport</span>(player, stand_loc2);
+        } <span class="keyword">else if</span> <span class="function">distance</span>(player_location, stand_loc2) &lt; <span class="number">1</span> {
+            <span class="function">teleport</span>(player, stand_loc1);
+        }
+    }
+}</code></pre>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="https://discord.gg/FZuVXszuuM" target="_blank">Discord</a>
+            <a href="https://github.com/kohanmathers/quill" target="_blank">GitHub</a>
+            <a href="#docs">Documentation</a>
+            <a href="#install">Download</a>
+        </div>
+        <p>&copy; 2024 Quill Scripting Language. Licensed under MIT.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">Created with ❤️ by Kohan Mathers</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
 </html>

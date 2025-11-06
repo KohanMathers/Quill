@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quill Editor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <div class="header">
+            <div class="status-dot" id="statusDot"></div>
+            <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png" alt="Quill"
+                style="height: 32px; margin-right: -4px;">
+            <h1>Editor</h1>
+        </div>
+
+        <div class="session-input" id="sessionInput">
+            <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png" alt="Quill"
+                style="height: 64px; margin-bottom: 15px; filter: drop-shadow(0 4px 8px rgba(78, 201, 176, 0.3));">
+            <h2>Enter Session ID</h2>
+            <p>Paste the session ID from your Minecraft server</p>
+            <div class="input-group">
+                <input type="text" id="sessionId" placeholder="abcd1234" maxlength="8">
+                <button onclick="loadSession()">Connect</button>
+            </div>
+        </div>
+
+        <div class="editor-container" id="editorContainer">
+            <div class="editor-header">
+                <div class="editor-info">
+                    <h2>Session: <span id="currentSession"></span></h2>
+                    <div class="stats">
+                        <div class="stat">
+                            <span>Lines:</span>
+                            <span class="stat-value" id="lineCount">0</span>
+                        </div>
+                        <div class="stat">
+                            <span>Characters:</span>
+                            <span class="stat-value" id="charCount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="save-button" id="saveButton" onclick="saveContent()">
+                    💾 Save & Exit (<span class="kbd">Ctrl+S</span>)
+                </button>
+            </div>
+            <div id="editor"></div>
+        </div>
+
+        <div class="footer">
+            <p>
+                Quill Scripting Language •
+                <a href="https://github.com/kohanmathers/quill" target="_blank">Documentation</a> •
+                <a href="https://discord.gg/FZuVXszuuM" target="_blank">Discord</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="inactivity-warning" id="inactivityWarning">
+        <h2>Are you still there?</h2>
+        <p>You've been inactive for 15 minutes</p>
+        <button onclick="dismissInactivityWarning()">Yes, I'm here</button>
+    </div>
+
+    <script type="module" src="editor.js"></script>
+</body>
+</html>

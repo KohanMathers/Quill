@@ -2,8 +2,11 @@ package me.kmathers.quill.commands;
 
 import me.kmathers.quill.Quill;
 import me.kmathers.quill.QuillScriptManager;
+import me.kmathers.quill.utils.Editor;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,6 +16,7 @@ import org.bukkit.command.TabCompleter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Command handler for Quill plugin.
@@ -24,8 +28,11 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
     public QuillCommands(Quill plugin, QuillScriptManager scriptManager) {
         this.plugin = plugin;
         this.scriptManager = scriptManager;
+        this.editor = new Editor(plugin);
     }
     
+    private Editor editor;
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
@@ -46,6 +53,9 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
                 return handleList(sender);
             case "info":
                 return handleInfo(sender);
+            case "edit":
+                createSession(sender);
+                return true;
             case "help":
                 sendHelp(sender);
                 return true;
@@ -178,6 +188,24 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
     }
     
+    private void createSession(CommandSender sender) {
+        if (plugin.editValid) {
+            editor.createSession().thenAccept(sessionId -> {
+                if (sessionId != null) {
+                    String url = plugin.getConfig().getString("editor.url") + sessionId;
+                    sender.sendMessage(Component.text("Editor session created! ", NamedTextColor.GREEN)
+                        .append(Component.text(url, NamedTextColor.GREEN, TextDecoration.UNDERLINED)
+                        .clickEvent(ClickEvent.openUrl(url))));
+                } else {
+                    plugin.getLogger().log(Level.SEVERE, "createSession() did not return a session id!");
+                    sender.sendMessage(Component.text("Failed to create session, please check console for errors.", NamedTextColor.RED));
+                }
+            });
+        } else {
+            sender.sendMessage(Component.text("Cannot open editor, editor url is not valid! Ask an admin to check the config.", NamedTextColor.RED));
+        }
+    }
+
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();

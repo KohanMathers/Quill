@@ -14,7 +14,7 @@
 # Config options for the web editor
 # Do not touch unless you know what you're doing!
 editor:
-  url: https://quill.kmathers.co.uk/editor/
+  url: https://quill.kmathers.co.uk/editor/#
 
 ####################
 # DO NOT CHANGE THIS

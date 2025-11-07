@@ -2,6 +2,9 @@ package me.kmathers.quill;
 
 import me.kmathers.quill.commands.QuillCommands;
 import me.kmathers.quill.events.QuillEventBridge;
+
+import java.io.File;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -10,15 +13,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Quill extends JavaPlugin {
     private QuillScriptManager scriptManager;
     private QuillEventBridge eventBridge;
-    
+
+    public boolean editValid = true;
+
     @Override
     public void onEnable() {
         getLogger().info("Enabling Quill...");
-        
+    
+        saveDefaultConfig();
+
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
-        
+
+        validateConfig();
+
         scriptManager = new QuillScriptManager(getDataFolder(), getLogger());
         
         QuillCommands commandHandler = new QuillCommands(this, scriptManager);
@@ -26,7 +35,7 @@ public class Quill extends JavaPlugin {
         getCommand("quill").setTabCompleter(commandHandler);
         
         autoLoadScripts();
-        
+
         getLogger().info("Quill enabled successfully!");
     }
     
@@ -37,7 +46,7 @@ public class Quill extends JavaPlugin {
         if (scriptManager != null) {
             scriptManager.unloadAll();
         }
-        
+
         if (eventBridge != null) {
             // Event handlers are automatically unregistered when plugin disables
         }
@@ -83,5 +92,43 @@ public class Quill extends JavaPlugin {
      */
     public QuillScriptManager getScriptManager() {
         return scriptManager;
+    }
+
+    /**
+     * Validate the config
+     */
+
+    private void validateConfig() {
+        int version = getConfig().getInt("config-version", 0);
+        if (version < 1) {
+            getLogger().warning("Config version is lower than current plugin version; some features may have changed.");
+        } else if (version > 1) {
+            getLogger().warning("User changed the config version! For safety, reverting config to stable version...");
+
+            File configFile = new File(getDataFolder(), "config.yml");
+            File backupFile = new File(getDataFolder(), "config_broken_backup.yml");
+
+            if (configFile.exists()) {
+                if (backupFile.exists()) {
+                    backupFile.delete();
+                }
+                if (configFile.renameTo(backupFile)) {
+                    getLogger().warning("Backed up user-modified config to config_broken_backup.yml");
+                } else {
+                    getLogger().warning("Failed to back up config; attempting to overwrite anyway.");
+                }
+            }
+
+            saveResource("config.yml", true);
+            reloadConfig();
+            getLogger().warning("Default config has been restored. Please do not change the config version manually!");
+        }
+
+        String url = getConfig().getString("editor.url", "");
+        if (!(url.startsWith("https://") || url.startsWith("http://"))) {
+            getLogger().warning("Invalid editor URL: must start with http:// or https://");
+            getLogger().warning("/quill edit will NOT work!");
+            editValid = false;
+        }
     }
 }

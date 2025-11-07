@@ -202,7 +202,7 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
                 }
             });
         } else {
-            sender.sendMessage(Component.text("Cannot open editor, editor url is not valid! Ask an admin to check the config.", NamedTextColor.RED));
+            sender.sendMessage(Component.text("Cannot open editor, url is not valid! Ask an admin to check the config.", NamedTextColor.RED));
         }
     }
 

@@ -103,7 +103,7 @@ public class Quill extends JavaPlugin {
         if (version < 1) {
             getLogger().warning("Config version is lower than current plugin version; some features may have changed.");
         } else if (version > 1) {
-            getLogger().warning("User changed the config version! For safety, reverting config to stable version...");
+            getLogger().warning("PEBKAC error detected in config version! For safety, reverting config to stable version...");
 
             File configFile = new File(getDataFolder(), "config.yml");
             File backupFile = new File(getDataFolder(), "config_broken_backup.yml");

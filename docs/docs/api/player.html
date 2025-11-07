@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>API Reference — Player Functions — Quill</title>
+    <link rel="stylesheet" href="http://127.0.0.1:5500/output/quilldocs.css">
+</head>
+
+<body>
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/output/api/player.html' class='active'>Player</a></li><li><a href='/output/api/scope.html'>Scope</a></li><li><a href='/output/api/utility.html'>Utility</a></li><li><a href='/output/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>concepts</span><ul><li><a href='/output/concepts/events.html'>Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/output/examples/welcome-system.html'>Welcome System</a></li></ul></li><li><a href='/output/index.html'>Index</a></li><li><a href='/output/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/output/language/control-flow.html'>Control Flow</a></li><li><a href='/output/language/data-types.html'>Data Types</a></li><li><a href='/output/language/functions.html'>Functions</a></li><li><a href='/output/language/syntax.html'>Syntax</a></li></ul></li><li class='folder'><span class='folder-name'>tutorial</span><ul><li><a href='/output/tutorial/first-script.html'>First Script</a></li></ul></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content">
+            <!-- Hero Section (only on index) -->
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Api</span><span class='separator'>/</span><span class='current'>Player</span>
+            </nav>
+
+            <!-- Documentation Content -->
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">API Reference — Player Functions</h1>
+                    <h1 id="api-reference-player-functions">API Reference — Player Functions</h1>
+<p>This page documents all built-in functions for interacting with players in Quill scripts. These functions let you manage player state, inventory, effects, and more.</p>
+<h2 id="movement-and-location">Movement and Location</h2>
+<h3 id="teleport">teleport</h3>
+<p>Teleport a player to coordinates or location.</p>
+<div class="highlight"><pre><span></span><code><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+<span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Returns <code>true</code> if teleport successful.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Teleport to coordinates</span>
+<span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">// Teleport to location</span>
+<span class="n">let</span><span class="w"> </span><span class="n">spawn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">spawn</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="get_location">get_location</h3>
+<p>Get a player's current location.</p>
+<div class="highlight"><pre><span></span><code><span class="n">get_location</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Location</span>
+</code></pre></div>
+
+<p>Returns a Location object with x, y, z coordinates.</p>
+<h2 id="health-and-status">Health and Status</h2>
+<h3 id="heal">heal</h3>
+<p>Restore a player to full health.</p>
+<div class="highlight"><pre><span></span><code><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Sets health to maximum (20).</p>
+<h3 id="set_health">set_health</h3>
+<p>Set a player's health points.</p>
+<div class="highlight"><pre><span></span><code><span class="n">set_health</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<ul>
+<li><code>amount</code>: 0-20 (0 = dead, 20 = full)<br />
+Returns <code>true</code> if health was set.</li>
+</ul>
+<h3 id="get_health">get_health</h3>
+<p>Get a player's current health.</p>
+<div class="highlight"><pre><span></span><code><span class="n">get_health</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span>
+</code></pre></div>
+
+<p>Returns health points (0-20).</p>
+<h3 id="set_hunger">set_hunger</h3>
+<p>Set a player's hunger level.</p>
+<div class="highlight"><pre><span></span><code><span class="n">set_hunger</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<ul>
+<li><code>amount</code>: 0-20 (0 = starving, 20 = full)</li>
+</ul>
+<h3 id="get_hunger">get_hunger</h3>
+<p>Get a player's current hunger level.</p>
+<div class="highlight"><pre><span></span><code><span class="n">get_hunger</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span>
+</code></pre></div>
+
+<p>Returns hunger points (0-20).</p>
+<h3 id="kill">kill</h3>
+<p>Kill a player instantly.</p>
+<div class="highlight"><pre><span></span><code><span class="n">kill</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Returns <code>true</code> if player was killed.</p>
+<h2 id="game-mode">Game Mode</h2>
+<h3 id="set_gamemode">set_gamemode</h3>
+<p>Change a player's game mode.</p>
+<div class="highlight"><pre><span></span><code><span class="n">set_gamemode</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<ul>
+<li><code>mode</code>: "survival", "creative", "adventure", or "spectator"<br />
+Returns <code>true</code> if mode was changed.</li>
+</ul>
+<h3 id="get_gamemode">get_gamemode</h3>
+<p>Get a player's current game mode.</p>
+<div class="highlight"><pre><span></span><code><span class="n">get_gamemode</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span>
+</code></pre></div>
+
+<p>Returns game mode as string.</p>
+<h2 id="inventory">Inventory</h2>
+<h3 id="give">give</h3>
+<p>Give items to a player.</p>
+<div class="highlight"><pre><span></span><code><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">item_id</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+<span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">item_id</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+<span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">item</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<ul>
+<li><code>item_id</code>: Minecraft item ID (e.g., "minecraft:diamond_sword")</li>
+<li><code>amount</code>: Stack size (default: 1)</li>
+<li><code>item</code>: Item object from <code>item()</code> constructor<br />
+Returns <code>true</code> if items were given.</li>
+</ul>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Give one item</span>
+<span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;minecraft:bread&quot;</span><span class="p">);</span>
+
+<span class="c1">// Give stack</span>
+<span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;minecraft:arrow&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">);</span>
+
+<span class="c1">// Give custom item</span>
+<span class="n">let</span><span class="w"> </span><span class="n">sword</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">item</span><span class="p">(</span><span class="s">&quot;minecraft:diamond_sword&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="n">Enchantments</span><span class="p">:[{</span><span class="n">id</span><span class="p">:</span><span class="s">&quot;sharpness&quot;</span><span class="p">,</span><span class="n">lvl</span><span class="p">:</span><span class="mi">5</span><span class="p">}]});</span>
+<span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">sword</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="remove_item">remove_item</h3>
+<p>Remove items from a player's inventory.</p>
+<div class="highlight"><pre><span></span><code><span class="n">remove_item</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">item_id</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span>
+<span class="n">remove_item</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">item_id</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span>
+</code></pre></div>
+
+<p>Returns number of items actually removed.</p>
+<h3 id="has_item">has_item</h3>
+<p>Check if player has an item.</p>
+<div class="highlight"><pre><span></span><code><span class="n">has_item</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">item_id</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+<span class="n">has_item</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">item_id</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Returns <code>true</code> if player has the item(s).</p>
+<h2 id="effects">Effects</h2>
+<h3 id="give_effect">give_effect</h3>
+<p>Apply a potion effect to a player.</p>
+<div class="highlight"><pre><span></span><code><span class="n">give_effect</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">effect</span><span class="p">,</span><span class="w"> </span><span class="n">duration</span><span class="p">,</span><span class="w"> </span><span class="n">amplifier</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<ul>
+<li><code>effect</code>: Potion effect ID (e.g., "speed", "strength")</li>
+<li><code>duration</code>: Time in ticks</li>
+<li><code>amplifier</code>: Effect level (0 = I, 1 = II, etc.)</li>
+</ul>
+<h3 id="remove_effect">remove_effect</h3>
+<p>Remove a specific effect from a player.</p>
+<div class="highlight"><pre><span></span><code><span class="n">remove_effect</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">effect</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<h3 id="clear_effects">clear_effects</h3>
+<p>Remove all effects from a player.</p>
+<div class="highlight"><pre><span></span><code><span class="n">clear_effects</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<h2 id="messages">Messages</h2>
+<h3 id="sendmessage">sendmessage</h3>
+<p>Send a chat message to a player.</p>
+<div class="highlight"><pre><span></span><code><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Supports string interpolation with <code>{}</code>.</p>
+<h3 id="sendtitle">sendtitle</h3>
+<p>Display title text to a player.</p>
+<div class="highlight"><pre><span></span><code><span class="n">sendtitle</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="p">,</span><span class="w"> </span><span class="n">fade_in</span><span class="p">,</span><span class="w"> </span><span class="n">stay</span><span class="p">,</span><span class="w"> </span><span class="n">fade_out</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Times are in ticks (20 ticks = 1 second).</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Show &quot;Game Over&quot; for 3 seconds</span>
+<span class="n">sendtitle</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Game Over&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Thanks for playing!&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="playsound">playsound</h3>
+<p>Play a sound for a player.</p>
+<div class="highlight"><pre><span></span><code><span class="n">playsound</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">sound</span><span class="p">,</span><span class="w"> </span><span class="n">volume</span><span class="p">,</span><span class="w"> </span><span class="n">pitch</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<ul>
+<li><code>sound</code>: Minecraft sound ID</li>
+<li><code>volume</code>: 0.0-1.0</li>
+<li><code>pitch</code>: 0.5-2.0</li>
+</ul>
+<h2 id="movement-states">Movement States</h2>
+<h3 id="set_flying">set_flying</h3>
+<p>Toggle a player's flying state.</p>
+<div class="highlight"><pre><span></span><code><span class="n">set_flying</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">flying</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Only works in creative/spectator mode.</p>
+<h2 id="administration">Administration</h2>
+<h3 id="kick">kick</h3>
+<p>Kick a player from the server.</p>
+<div class="highlight"><pre><span></span><code><span class="n">kick</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">reason</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Returns <code>true</code> if player was kicked.</p>
+<h2 id="information">Information</h2>
+<h3 id="get_name">get_name</h3>
+<p>Get a player's username.</p>
+<div class="highlight"><pre><span></span><code><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span>
+</code></pre></div>
+
+<h3 id="is_online">is_online</h3>
+<p>Check if a player is connected.</p>
+<div class="highlight"><pre><span></span><code><span class="n">is_online</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<h3 id="is_op">is_op</h3>
+<p>Check if a player is an operator.</p>
+<div class="highlight"><pre><span></span><code><span class="n">is_op</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<h2 id="examples">Examples</h2>
+<p>Complete example managing player state:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">prepare_for_game</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Reset</span><span class="w"> </span><span class="n">state</span>
+<span class="w">    </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">);</span>
+<span class="w">    </span><span class="n">clear_effects</span><span class="p">(</span><span class="n">player</span><span class="p">);</span>
+<span class="w">    </span><span class="n">set_gamemode</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;survival&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Give</span><span class="w"> </span><span class="n">starter</span><span class="w"> </span><span class="n">kit</span>
+<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;minecraft:iron_sword&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;minecraft:bread&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Apply</span><span class="w"> </span><span class="n">effects</span>
+<span class="w">    </span><span class="n">give_effect</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;resistance&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">seconds</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">Resistance</span><span class="w"> </span><span class="n">I</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Notify</span>
+<span class="w">    </span><span class="n">sendtitle</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Ready!&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Game starting...&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="w">    </span><span class="n">playsound</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;entity.player.levelup&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="related-topics">Related topics</h2>
+<ul>
+<li><a href="world.html">World Functions</a> - Modify the world around players</li>
+<li><a href="scope.html">Scope Functions</a> - Manage player regions</li>
+<li><a href="../language/data-types.html">Data Types</a> - Player type details</li>
+<li><a href="../concepts/events.html">Events</a> - Player-related events</li>
+</ul>
+
+                    <!-- Last Modified -->
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 07, 2025</span>
+                    </div>
+                </article>
+
+                <!-- Table of Contents -->
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#movement-and-location'>Movement and Location</a></li><li style='margin-left:20px'><a href='#teleport'>teleport</a></li><li style='margin-left:20px'><a href='#get_location'>get_location</a></li><li style='margin-left:0px'><a href='#health-and-status'>Health and Status</a></li><li style='margin-left:20px'><a href='#heal'>heal</a></li><li style='margin-left:20px'><a href='#set_health'>set_health</a></li><li style='margin-left:20px'><a href='#get_health'>get_health</a></li><li style='margin-left:20px'><a href='#set_hunger'>set_hunger</a></li><li style='margin-left:20px'><a href='#get_hunger'>get_hunger</a></li><li style='margin-left:20px'><a href='#kill'>kill</a></li><li style='margin-left:0px'><a href='#game-mode'>Game Mode</a></li><li style='margin-left:20px'><a href='#set_gamemode'>set_gamemode</a></li><li style='margin-left:20px'><a href='#get_gamemode'>get_gamemode</a></li><li style='margin-left:0px'><a href='#inventory'>Inventory</a></li><li style='margin-left:20px'><a href='#give'>give</a></li><li style='margin-left:20px'><a href='#remove_item'>remove_item</a></li><li style='margin-left:20px'><a href='#has_item'>has_item</a></li><li style='margin-left:0px'><a href='#effects'>Effects</a></li><li style='margin-left:20px'><a href='#give_effect'>give_effect</a></li><li style='margin-left:20px'><a href='#remove_effect'>remove_effect</a></li><li style='margin-left:20px'><a href='#clear_effects'>clear_effects</a></li><li style='margin-left:0px'><a href='#messages'>Messages</a></li><li style='margin-left:20px'><a href='#sendmessage'>sendmessage</a></li><li style='margin-left:20px'><a href='#sendtitle'>sendtitle</a></li><li style='margin-left:20px'><a href='#playsound'>playsound</a></li><li style='margin-left:0px'><a href='#movement-states'>Movement States</a></li><li style='margin-left:20px'><a href='#set_flying'>set_flying</a></li><li style='margin-left:0px'><a href='#administration'>Administration</a></li><li style='margin-left:20px'><a href='#kick'>kick</a></li><li style='margin-left:0px'><a href='#information'>Information</a></li><li style='margin-left:20px'><a href='#get_name'>get_name</a></li><li style='margin-left:20px'><a href='#is_online'>is_online</a></li><li style='margin-left:20px'><a href='#is_op'>is_op</a></li><li style='margin-left:0px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#related-topics'>Related topics</a></li></ul></nav>
+            </div>
+
+            <!-- Footer -->
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Smooth scroll and particle animation -->
+    <script>
+        // Generate floating particles
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            // Smooth scroll for TOC links
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Highlight current section in TOC
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

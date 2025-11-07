@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>API Reference — Utility Functions — Quill</title>
+    <link rel="stylesheet" href="http://127.0.0.1:5500/output/quilldocs.css">
+</head>
+
+<body>
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/output/api/player.html'>Player</a></li><li><a href='/output/api/scope.html'>Scope</a></li><li><a href='/output/api/utility.html' class='active'>Utility</a></li><li><a href='/output/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>concepts</span><ul><li><a href='/output/concepts/events.html'>Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/output/examples/welcome-system.html'>Welcome System</a></li></ul></li><li><a href='/output/index.html'>Index</a></li><li><a href='/output/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/output/language/control-flow.html'>Control Flow</a></li><li><a href='/output/language/data-types.html'>Data Types</a></li><li><a href='/output/language/functions.html'>Functions</a></li><li><a href='/output/language/syntax.html'>Syntax</a></li></ul></li><li class='folder'><span class='folder-name'>tutorial</span><ul><li><a href='/output/tutorial/first-script.html'>First Script</a></li></ul></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content">
+            <!-- Hero Section (only on index) -->
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Api</span><span class='separator'>/</span><span class='current'>Utility</span>
+            </nav>
+
+            <!-- Documentation Content -->
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">API Reference — Utility Functions</h1>
+                    <h1 id="api-reference-utility-functions">API Reference — Utility Functions</h1>
+<p>This page documents utility functions in Quill that help with common programming tasks like math, random numbers, lists, strings, and type conversion.</p>
+<h2 id="event-control">Event Control</h2>
+<h3 id="cancel">cancel</h3>
+<p>Cancel the current event.</p>
+<div class="highlight"><pre><span></span><code><span class="n">cancel</span><span class="p">(</span><span class="nf">event</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Prevents default event behavior. Returns <code>true</code> if event was cancelled.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">safe_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">);</span><span class="w">  </span><span class="c1">// No damage in safe zone</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You are protected here.&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="random-numbers">Random Numbers</h2>
+<h3 id="random">random</h3>
+<p>Generate random numbers.</p>
+<div class="highlight"><pre><span></span><code><span class="nf">random</span><span class="p">(</span><span class="nf">max</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span>
+<span class="nf">random</span><span class="p">(</span><span class="nf">min</span><span class="p">,</span><span class="w"> </span><span class="nf">max</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span>
+</code></pre></div>
+
+<p>Returns random integer in range (inclusive).</p>
+<h3 id="random_choice">random_choice</h3>
+<p>Pick random item from list.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">random_choice</span><span class="p">(</span><span class="nx">list</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nx">Any</span>
+</code></pre></div>
+
+<p>Returns randomly selected item.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">items</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;emerald&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;gold_ingot&quot;</span><span class="p">];</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">random_item</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">random_choice</span><span class="p">(</span><span class="nx">items</span><span class="p">);</span>
+<span class="nx">give</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">random_item</span><span class="p">);</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">random</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span><span class="w">  </span><span class="c1">// Random coordinate</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">amount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">random</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span><span class="w">  </span><span class="c1">// Random quantity</span>
+</code></pre></div>
+
+<h2 id="math-functions">Math Functions</h2>
+<h3 id="basic-math">Basic Math</h3>
+<div class="highlight"><pre><span></span><code><span class="nf">round</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span><span class="w">  </span><span class="c1">// Round to nearest integer</span>
+<span class="n">floor</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span><span class="w">  </span><span class="c1">// Round down</span>
+<span class="n">ceil</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span><span class="w">   </span><span class="c1">// Round up</span>
+<span class="nf">abs</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span><span class="w">    </span><span class="c1">// Absolute value</span>
+</code></pre></div>
+
+<h3 id="advanced-math">Advanced Math</h3>
+<div class="highlight"><pre><span></span><code><span class="nf">sqrt</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span><span class="w">          </span><span class="c1">// Square root</span>
+<span class="n">pow</span><span class="p">(</span><span class="n">base</span><span class="p">,</span><span class="w"> </span><span class="n">exponent</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span><span class="w">   </span><span class="c1">// Power/exponentiation</span>
+</code></pre></div>
+
+<h3 id="distance">Distance</h3>
+<p>Calculate distance between points.</p>
+<div class="highlight"><pre><span></span><code><span class="n">distance</span><span class="p">(</span><span class="n">loc1</span><span class="p">,</span><span class="w"> </span><span class="n">loc2</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span>
+<span class="n">distance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">y1</span><span class="p">,</span><span class="w"> </span><span class="n">z1</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">y2</span><span class="p">,</span><span class="w"> </span><span class="n">z2</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span>
+</code></pre></div>
+
+<p>Example math usage:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">is_near</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">distance</span><span class="p">(</span><span class="n">get_location</span><span class="p">(</span><span class="n">player</span><span class="p">),</span><span class="w"> </span><span class="n">location</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">radius</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">calculate_damage</span><span class="p">(</span><span class="n">base_damage</span><span class="p">,</span><span class="w"> </span><span class="n">distance</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="n">base_damage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">pow</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">distance</span><span class="p">)));</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="lists">Lists</h2>
+<h3 id="len">len</h3>
+<p>Get length of list or string.</p>
+<div class="highlight"><pre><span></span><code><span class="n">len</span><span class="p">(</span><span class="n">list</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span>
+<span class="n">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span>
+</code></pre></div>
+
+<h3 id="append">append</h3>
+<p>Add item to end of list.</p>
+<div class="highlight"><pre><span></span><code><span class="n">append</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">item</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Returns <code>true</code> if item was added.</p>
+<h3 id="remove">remove</h3>
+<p>Remove item at index from list.</p>
+<div class="highlight"><pre><span></span><code><span class="n">remove</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="nf">index</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kr">Any</span>
+</code></pre></div>
+
+<p>Returns removed item.</p>
+<h3 id="contains">contains</h3>
+<p>Check if list contains item or string contains substring.</p>
+<div class="highlight"><pre><span></span><code><span class="n">contains</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">item</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+<span class="n">contains</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">substring</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Example list manipulation:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">add_player</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">contains</span><span class="p">(</span><span class="n">players</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">append</span><span class="p">(</span><span class="n">players</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">);</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Added {player.name} ({len(players)} total)&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">remove_player</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">players</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">remove</span><span class="p">(</span><span class="n">players</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="p">);</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Removed {player.name}&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="strings">Strings</h2>
+<h3 id="split">split</h3>
+<p>Split string into list by delimiter.</p>
+<div class="highlight"><pre><span></span><code><span class="n">split</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">delimiter</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">List</span>
+</code></pre></div>
+
+<h3 id="join">join</h3>
+<p>Join list into string with delimiter.</p>
+<div class="highlight"><pre><span></span><code><span class="nf">join</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">delimiter</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span>
+</code></pre></div>
+
+<p>Example string processing:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">OnEvent</span><span class="o">(</span><span class="nt">PlayerChat</span><span class="o">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="err">let</span><span class="w"> </span><span class="err">words</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">split(chat.message,</span><span class="w"> </span><span class="err">&quot;</span><span class="w"> </span><span class="err">&quot;)</span><span class="p">;</span>
+
+<span class="w">    </span><span class="err">if</span><span class="w"> </span><span class="err">words</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span><span class="w"> </span><span class="err">==</span><span class="w"> </span><span class="err">&quot;!team&quot;</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="err">let</span><span class="w"> </span><span class="err">team_name</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">join(remove(words,</span><span class="w"> </span><span class="err">0),</span><span class="w"> </span><span class="err">&quot;</span><span class="w"> </span><span class="err">&quot;)</span><span class="p">;</span>
+<span class="w">        </span><span class="err">broadcast(&quot;Team</span><span class="w"> </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="n">team_name</span><span class="p">}</span><span class="err">&quot;</span><span class="o">);</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="type-system">Type System</h2>
+<h3 id="type_of">type_of</h3>
+<p>Get type of a value.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">type_of</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nx">String</span>
+</code></pre></div>
+
+<p>Returns type name as string.</p>
+<h3 id="type-conversion">Type Conversion</h3>
+<p>Convert between types:</p>
+<div class="highlight"><pre><span></span><code><span class="n">to_string</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span>
+<span class="n">to_number</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span>
+<span class="n">to_boolean</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Example type handling:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">validate_input</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">type_of</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="bp">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="bp">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">safe_number</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_number</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">type_of</span><span class="p">(</span><span class="n">num</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">num</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">default</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="player-lookup">Player Lookup</h2>
+<h3 id="get_player">get_player</h3>
+<p>Get player by name.</p>
+<div class="highlight"><pre><span></span><code><span class="n">get_player</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Player</span>
+</code></pre></div>
+
+<p>Returns Player object or null if not found.</p>
+<h3 id="get_online_players">get_online_players</h3>
+<p>Get list of all online players.</p>
+<div class="highlight"><pre><span></span><code><span class="n">get_online_players</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">List</span>
+</code></pre></div>
+
+<p>Returns list of Player objects.</p>
+<h2 id="debugging">Debugging</h2>
+<h3 id="log">log</h3>
+<p>Log message to server console.</p>
+<div class="highlight"><pre><span></span><code><span class="nf">log</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Useful for debugging.</p>
+<p>Example logging:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">debug_scope</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Scope Debug:&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;- Players: {len(scope.players)}&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;- Active: {scope.game_active}&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_region</span><span class="p">(</span><span class="n">scope</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;- Region: {region.x1},{region.y1},{region.z1} to {region.x2},{region.y2},{region.z2}&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="custom-events">Custom Events</h2>
+<h3 id="trigger_custom">trigger_custom</h3>
+<p>Trigger a custom event.</p>
+<div class="highlight"><pre><span></span><code><span class="n">trigger_custom</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Useful for communication between scripts.</p>
+<p>Example custom events:</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Trigger</span><span class="w"> </span><span class="n">event</span>
+<span class="k">func</span><span class="w"> </span><span class="n">announce_winner</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">trigger_custom</span><span class="p">(</span><span class="s2">&quot;game_win&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">player</span><span class="p">:</span><span class="w"> </span><span class="n">player</span><span class="p">,</span>
+<span class="w">        </span><span class="n">time</span><span class="p">:</span><span class="w"> </span><span class="n">get_time</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Handle</span><span class="w"> </span><span class="n">event</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">CustomEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">event</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;game_win&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">winner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">player</span><span class="p">;</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">time</span><span class="p">;</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;🏆 {winner.name} won at time {time}!&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="examples">Examples</h2>
+<p>Utility function collection:</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Random</span><span class="w"> </span><span class="k">position</span><span class="w"> </span><span class="k">within</span><span class="w"> </span><span class="n">region</span>
+<span class="n">func</span><span class="w"> </span><span class="n">random_position</span><span class="p">(</span><span class="n">region</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">location</span><span class="p">(</span>
+<span class="w">        </span><span class="n">random</span><span class="p">(</span><span class="n">region</span><span class="p">.</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">.</span><span class="n">x2</span><span class="p">),</span>
+<span class="w">        </span><span class="n">random</span><span class="p">(</span><span class="n">region</span><span class="p">.</span><span class="n">y1</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">.</span><span class="n">y2</span><span class="p">),</span>
+<span class="w">        </span><span class="n">random</span><span class="p">(</span><span class="n">region</span><span class="p">.</span><span class="n">z1</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">.</span><span class="n">z2</span><span class="p">)</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="err">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="nf">Format</span><span class="w"> </span><span class="nc">time</span><span class="w"> </span><span class="n">nicely</span>
+<span class="n">func</span><span class="w"> </span><span class="n">format_time</span><span class="p">(</span><span class="n">ticks</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">seconds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">floor</span><span class="p">(</span><span class="n">ticks</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">minutes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">floor</span><span class="p">(</span><span class="n">seconds</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">60</span><span class="p">);</span>
+<span class="w">    </span><span class="n">seconds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seconds</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">60</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="ss">&quot;{minutes}:{seconds &lt; 10 ? &#39;0&#39; : &#39;&#39;}{seconds}&quot;</span><span class="p">;</span>
+<span class="err">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Safe</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">lookup</span>
+<span class="n">func</span><span class="w"> </span><span class="n">find_player</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_player</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="n">player</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="ss">&quot;Player {name} not found!&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">null</span><span class="p">;</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">player</span><span class="p">;</span>
+<span class="err">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">List</span><span class="w"> </span><span class="n">utilities</span>
+<span class="n">func</span><span class="w"> </span><span class="n">shuffle</span><span class="p">(</span><span class="n">list</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">range</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="n">list</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="n">list</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="related-topics">Related topics</h2>
+<ul>
+<li><a href="../language/data-types.html">Data Types</a> - Type system details</li>
+<li><a href="../language/functions.html">Functions</a> - Function concepts</li>
+<li><a href="../concepts/events.html">Events</a> - Event system</li>
+<li><a href="../examples/welcome-system.html">Examples</a> - More code samples</li>
+</ul>
+
+                    <!-- Last Modified -->
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 07, 2025</span>
+                    </div>
+                </article>
+
+                <!-- Table of Contents -->
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#event-control'>Event Control</a></li><li style='margin-left:20px'><a href='#cancel'>cancel</a></li><li style='margin-left:0px'><a href='#random-numbers'>Random Numbers</a></li><li style='margin-left:20px'><a href='#random'>random</a></li><li style='margin-left:20px'><a href='#random_choice'>random_choice</a></li><li style='margin-left:0px'><a href='#math-functions'>Math Functions</a></li><li style='margin-left:20px'><a href='#basic-math'>Basic Math</a></li><li style='margin-left:20px'><a href='#advanced-math'>Advanced Math</a></li><li style='margin-left:20px'><a href='#distance'>Distance</a></li><li style='margin-left:0px'><a href='#lists'>Lists</a></li><li style='margin-left:20px'><a href='#len'>len</a></li><li style='margin-left:20px'><a href='#append'>append</a></li><li style='margin-left:20px'><a href='#remove'>remove</a></li><li style='margin-left:20px'><a href='#contains'>contains</a></li><li style='margin-left:0px'><a href='#strings'>Strings</a></li><li style='margin-left:20px'><a href='#split'>split</a></li><li style='margin-left:20px'><a href='#join'>join</a></li><li style='margin-left:0px'><a href='#type-system'>Type System</a></li><li style='margin-left:20px'><a href='#type_of'>type_of</a></li><li style='margin-left:20px'><a href='#type-conversion'>Type Conversion</a></li><li style='margin-left:0px'><a href='#player-lookup'>Player Lookup</a></li><li style='margin-left:20px'><a href='#get_player'>get_player</a></li><li style='margin-left:20px'><a href='#get_online_players'>get_online_players</a></li><li style='margin-left:0px'><a href='#debugging'>Debugging</a></li><li style='margin-left:20px'><a href='#log'>log</a></li><li style='margin-left:0px'><a href='#custom-events'>Custom Events</a></li><li style='margin-left:20px'><a href='#trigger_custom'>trigger_custom</a></li><li style='margin-left:0px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#related-topics'>Related topics</a></li></ul></nav>
+            </div>
+
+            <!-- Footer -->
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Smooth scroll and particle animation -->
+    <script>
+        // Generate floating particles
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            // Smooth scroll for TOC links
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Highlight current section in TOC
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

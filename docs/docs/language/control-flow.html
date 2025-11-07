@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Language — Control Flow — Quill</title>
+    <link rel="stylesheet" href="http://127.0.0.1:5500/output/quilldocs.css">
+</head>
+
+<body>
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/output/api/player.html'>Player</a></li><li><a href='/output/api/scope.html'>Scope</a></li><li><a href='/output/api/utility.html'>Utility</a></li><li><a href='/output/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>concepts</span><ul><li><a href='/output/concepts/events.html'>Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/output/examples/welcome-system.html'>Welcome System</a></li></ul></li><li><a href='/output/index.html'>Index</a></li><li><a href='/output/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/output/language/control-flow.html' class='active'>Control Flow</a></li><li><a href='/output/language/data-types.html'>Data Types</a></li><li><a href='/output/language/functions.html'>Functions</a></li><li><a href='/output/language/syntax.html'>Syntax</a></li></ul></li><li class='folder'><span class='folder-name'>tutorial</span><ul><li><a href='/output/tutorial/first-script.html'>First Script</a></li></ul></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content">
+            <!-- Hero Section (only on index) -->
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Language</span><span class='separator'>/</span><span class='current'>Control Flow</span>
+            </nav>
+
+            <!-- Documentation Content -->
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Language — Control Flow</h1>
+                    <h1 id="language-control-flow">Language — Control Flow</h1>
+<p>This page covers Quill's control flow structures that let you make decisions and repeat actions in your scripts: if statements, loops, and control statements.</p>
+<h2 id="if-statements">If Statements</h2>
+<p>Make decisions based on conditions:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="nv">condition</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">code</span><span class="w"> </span><span class="nv">runs</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">condition</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">true</span>
+}
+
+<span class="k">if</span><span class="w"> </span><span class="nv">condition</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">runs</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">true</span>
+}<span class="w"> </span><span class="k">else</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">runs</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">false</span>
+}
+
+<span class="k">if</span><span class="w"> </span><span class="nv">condition1</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">first</span><span class="w"> </span><span class="nv">check</span>
+}<span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">condition2</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">second</span><span class="w"> </span><span class="nv">check</span>
+}<span class="w"> </span><span class="k">else</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">fallback</span>
+}
+</code></pre></div>
+
+<p>Common condition patterns:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">heal</span><span class="p">(</span><span class="nx">player</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">if</span><span class="w"> </span><span class="nx">in_region</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">arena</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">arena</span><span class="p">.</span><span class="nx">game_active</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// player is in active game</span>
+<span class="p">}</span>
+
+<span class="k">if</span><span class="w"> </span><span class="nx">type_of</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;string&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Got string:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">item</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="for-loops">For Loops</h2>
+<p>Three main ways to iterate:</p>
+<h3 id="list-iteration">List iteration</h3>
+<div class="highlight"><pre><span></span><code><span class="nt">for</span><span class="w"> </span><span class="nt">item</span><span class="w"> </span><span class="nt">in</span><span class="w"> </span><span class="nt">list</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="err">//</span><span class="w"> </span><span class="err">process</span><span class="w"> </span><span class="err">each</span><span class="w"> </span><span class="err">item</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="nt">Example</span><span class="o">:</span><span class="w"> </span><span class="nt">Give</span><span class="w"> </span><span class="nt">items</span><span class="w"> </span><span class="nt">to</span><span class="w"> </span><span class="nt">players</span>
+<span class="nt">let</span><span class="w"> </span><span class="nt">items</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cp">[</span><span class="s2">&quot;diamond_sword&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;bread&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;arrows&quot;</span><span class="cp">]</span><span class="o">;</span>
+<span class="nt">for</span><span class="w"> </span><span class="nt">item_id</span><span class="w"> </span><span class="nt">in</span><span class="w"> </span><span class="nt">items</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="err">give(player,</span><span class="w"> </span><span class="err">item_id)</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="numeric-ranges">Numeric ranges</h3>
+<div class="highlight"><pre><span></span><code><span class="nt">for</span><span class="w"> </span><span class="nt">i</span><span class="w"> </span><span class="nt">in</span><span class="w"> </span><span class="nt">range</span><span class="o">(</span><span class="nt">0</span><span class="o">,</span><span class="w"> </span><span class="nt">5</span><span class="o">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="err">//</span><span class="w"> </span><span class="err">runs</span><span class="w"> </span><span class="err">5</span><span class="w"> </span><span class="err">times</span><span class="w"> </span><span class="err">(0</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">4)</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="nt">Example</span><span class="o">:</span><span class="w"> </span><span class="nt">Countdown</span>
+<span class="nt">for</span><span class="w"> </span><span class="nt">i</span><span class="w"> </span><span class="nt">in</span><span class="w"> </span><span class="nt">range</span><span class="o">(</span><span class="nt">10</span><span class="o">,</span><span class="w"> </span><span class="nt">0</span><span class="o">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="err">broadcast(&quot;Starting</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">{i</span><span class="p">}</span><span class="o">...</span><span class="err">&quot;</span><span class="o">);</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h3 id="scope-players">Scope players</h3>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="nv">player</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">arena</span>.<span class="nv">players</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">enters</span><span class="w"> </span><span class="nv">arena</span><span class="err">&#39;s context</span>
+<span class="err">    if player.health &lt; 20 {</span>
+<span class="err">        heal(player);</span>
+<span class="err">    }</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p>Note: When iterating over <code>scope.players</code>, the code runs in that scope's context and can access its local variables.</p>
+<h2 id="while-loops">While Loops</h2>
+<p>Repeat while a condition is true:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">while</span><span class="w"> </span><span class="nt">condition</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="err">//</span><span class="w"> </span><span class="err">repeats</span><span class="w"> </span><span class="err">until</span><span class="w"> </span><span class="err">condition</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">false</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="nt">Example</span><span class="o">:</span><span class="w"> </span><span class="nt">Wait</span><span class="w"> </span><span class="nt">for</span><span class="w"> </span><span class="nt">players</span>
+<span class="nt">arena</span><span class="p">.</span><span class="nc">min_players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nt">4</span><span class="o">;</span>
+<span class="nt">while</span><span class="w"> </span><span class="nt">len</span><span class="o">(</span><span class="nt">arena</span><span class="p">.</span><span class="nc">players</span><span class="o">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nt">arena</span><span class="p">.</span><span class="nc">min_players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="err">broadcast(&quot;Waiting</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">more</span><span class="w"> </span><span class="err">players...&quot;)</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Be careful with while loops:<br />
+- Always ensure the condition will eventually become false<br />
+- Consider using events instead for continuous checks</p>
+<h2 id="loop-control">Loop Control</h2>
+<p>Two special statements for controlling loops:</p>
+<h3 id="break">Break</h3>
+<p>Exit the loop immediately:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="nv">player</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">arena</span>.<span class="nv">players</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">player</span>.<span class="nv">health</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">broadcast</span><span class="ss">(</span><span class="s2">&quot;Game over!&quot;</span><span class="ss">)</span><span class="c1">;</span>
+<span class="w">        </span><span class="k">break</span><span class="c1">; // exit loop</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<h3 id="continue">Continue</h3>
+<p>Skip to the next iteration:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">get_online_players</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arena</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">continue</span><span class="p">;</span><span class="w"> </span><span class="c1">// skip to next player</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// only runs for players in arena</span>
+<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;minecraft:diamond&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="examples">Examples</h2>
+<p>Game countdown with player checks:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">start_game</span><span class="p">(</span><span class="n">arena</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">arena</span><span class="o">.</span><span class="n">starting</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">true</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">tick</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">arena</span><span class="o">.</span><span class="n">players</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Not enough players, cancelling!&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Starting in {i}...&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">arena</span><span class="o">.</span><span class="n">starting</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">arena</span><span class="o">.</span><span class="n">game_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">true</span><span class="p">;</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Game started!&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Processing items with validation:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">give_rewards</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">rewards</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">rewards</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Skip</span><span class="w"> </span><span class="n">invalid</span><span class="w"> </span><span class="n">items</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">type_of</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Invalid item:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">item</span><span class="p">);</span>
+<span class="w">            </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Try</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">give</span><span class="w"> </span><span class="n">item</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">item</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Failed to give {item}!&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="related-topics">Related topics</h2>
+<ul>
+<li><a href="data-types.html">Data Types</a> - Types used in conditions</li>
+<li><a href="functions.html">Functions</a> - Creating reusable code blocks</li>
+<li><a href="../concepts/events.html">Events</a> - Event-driven alternatives</li>
+</ul>
+<hr />
+<p>Control flow structures let you write dynamic, responsive scripts. For more examples, check out the <a href="../examples/">Examples</a> section.</p>
+
+                    <!-- Last Modified -->
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 07, 2025</span>
+                    </div>
+                </article>
+
+                <!-- Table of Contents -->
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#if-statements'>If Statements</a></li><li style='margin-left:0px'><a href='#for-loops'>For Loops</a></li><li style='margin-left:20px'><a href='#list-iteration'>List iteration</a></li><li style='margin-left:20px'><a href='#numeric-ranges'>Numeric ranges</a></li><li style='margin-left:20px'><a href='#scope-players'>Scope players</a></li><li style='margin-left:0px'><a href='#while-loops'>While Loops</a></li><li style='margin-left:0px'><a href='#loop-control'>Loop Control</a></li><li style='margin-left:20px'><a href='#break'>Break</a></li><li style='margin-left:20px'><a href='#continue'>Continue</a></li><li style='margin-left:0px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#related-topics'>Related topics</a></li></ul></nav>
+            </div>
+
+            <!-- Footer -->
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Smooth scroll and particle animation -->
+    <script>
+        // Generate floating particles
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            // Smooth scroll for TOC links
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Highlight current section in TOC
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

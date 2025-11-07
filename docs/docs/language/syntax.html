@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Language — Syntax — Quill</title>
+    <link rel="stylesheet" href="http://127.0.0.1:5500/output/quilldocs.css">
+</head>
+
+<body>
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/output/api/player.html'>Player</a></li><li><a href='/output/api/scope.html'>Scope</a></li><li><a href='/output/api/utility.html'>Utility</a></li><li><a href='/output/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>concepts</span><ul><li><a href='/output/concepts/events.html'>Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/output/examples/welcome-system.html'>Welcome System</a></li></ul></li><li><a href='/output/index.html'>Index</a></li><li><a href='/output/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/output/language/control-flow.html'>Control Flow</a></li><li><a href='/output/language/data-types.html'>Data Types</a></li><li><a href='/output/language/functions.html'>Functions</a></li><li><a href='/output/language/syntax.html' class='active'>Syntax</a></li></ul></li><li class='folder'><span class='folder-name'>tutorial</span><ul><li><a href='/output/tutorial/first-script.html'>First Script</a></li></ul></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content">
+            <!-- Hero Section (only on index) -->
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Language</span><span class='separator'>/</span><span class='current'>Syntax</span>
+            </nav>
+
+            <!-- Documentation Content -->
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Language — Syntax</h1>
+                    <h1 id="language-syntax">Language — Syntax</h1>
+<p>This page covers the core Quill syntax you need to write scripts: comments, variables, types, operators, control flow, and functions. It is a concise reference derived from the language specification.</p>
+<h2 id="comments">Comments</h2>
+<div class="highlight"><pre><span></span><code><span class="c1">// Single-line comment</span>
+<span class="o">/*</span><span class="w"> </span><span class="n">Multi</span><span class="o">-</span><span class="n">line</span>
+<span class="w">   </span><span class="n">comment</span><span class="w"> </span><span class="o">*/</span>
+</code></pre></div>
+
+<p>Use comments to explain intent or temporarily disable code.</p>
+<h2 id="variables">Variables</h2>
+<p>Declare variables with <code>let</code> (dynamically typed):</p>
+<div class="highlight"><pre><span></span><code>let count = 0;
+let name = &quot;Player&quot;;
+</code></pre></div>
+
+<p>Root-level <code>let</code> variables are global to the scope. Assigning to properties of a <code>Scope</code> creates subscope-local variables.</p>
+<h2 id="data-types">Data types</h2>
+<p>Primitives<br />
+- Number: <code>42</code>, <code>3.14</code>, <code>-7</code><br />
+- String: <code>"hello"</code>, <code>'world'</code><br />
+- Boolean: <code>true</code>, <code>false</code><br />
+- Null: <code>null</code></p>
+<p>Complex<br />
+- Player — a reference to an online player<br />
+- Location — <code>location(x, y, z)</code><br />
+- Item — <code>item("minecraft:diamond_sword", amount, metadata)</code><br />
+- Scope — <code>new Scope(x1, y1, z1, x2, y2, z2)</code><br />
+- List — <code>[1, 2, "a"]</code><br />
+- Entity — game entity reference</p>
+<p>Use <code>type_of(value)</code> to inspect types at runtime.</p>
+<h2 id="operators">Operators</h2>
+<p>Arithmetic</p>
+<div class="highlight"><pre><span></span><code>+  -  *  /  %
+</code></pre></div>
+
+<p>Comparison</p>
+<div class="highlight"><pre><span></span><code>==  !=  &gt;  &lt;  &gt;=  &lt;=
+</code></pre></div>
+
+<p>Logical</p>
+<div class="highlight"><pre><span></span><code>&amp;&amp;  ||  !
+</code></pre></div>
+
+<p>String</p>
+<div class="highlight"><pre><span></span><code>&quot;a&quot; + &quot;b&quot;        // concatenation
+&quot;Hello {name}&quot;    // interpolation using { }
+</code></pre></div>
+
+<h2 id="control-flow">Control flow</h2>
+<p>If statements</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="nv">condition</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">code</span>
+}<span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">other</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">code</span>
+}<span class="w"> </span><span class="k">else</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">code</span>
+}
+</code></pre></div>
+
+<p>For loops</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="nv">item</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">list</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">iterate</span><span class="w"> </span><span class="nv">list</span>
+}
+
+<span class="k">for</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">range</span><span class="ss">(</span><span class="mi">0</span>,<span class="w"> </span><span class="mi">10</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">iterate</span><span class="w"> </span><span class="nv">numeric</span><span class="w"> </span><span class="nv">range</span>
+}
+
+<span class="k">for</span><span class="w"> </span><span class="nv">p</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">subscope</span>.<span class="nv">players</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">enters</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">subscope</span><span class="w"> </span><span class="nv">context</span>
+}
+</code></pre></div>
+
+<p>While loops</p>
+<div class="highlight"><pre><span></span><code><span class="k">while</span><span class="w"> </span><span class="nv">condition</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">code</span>
+}
+</code></pre></div>
+
+<p>Loop control<br />
+- <code>break</code> — exit loop<br />
+- <code>continue</code> — next iteration</p>
+<h2 id="functions">Functions</h2>
+<p>Define functions with <code>func</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">hello</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Hi!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Call functions like <code>result = add(1, 2)</code> or <code>hello(player)</code>.</p>
+<h2 id="scope-basics-short">Scope basics (short)</h2>
+<p>Create subscopes with <code>new Scope(x1, y1, z1, x2, y2, z2)</code>. Scopes provide:<br />
+- <code>scope.players</code> — list of players in that scope<br />
+- <code>in_region(player, scope)</code> — check membership</p>
+<p>Context rules<br />
+- Root-level variables are always accessible.<br />
+- Subscope-local variables are only available when executing within that subscope's context (for example, when iterating <code>subscope.players</code>).</p>
+<h2 id="quick-examples">Quick examples</h2>
+<p>Variables and interpolation</p>
+<div class="highlight"><pre><span></span><code>let greeting = &quot;Welcome&quot;
+sendmessage(player, &quot;{greeting}, {player.name}!&quot;)
+</code></pre></div>
+
+<p>Simple function and loop</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">give_starter</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;minecraft:bread&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Starter kit given.&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">for</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">get_online_players</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">give_starter</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="related-topics">Related topics</h2>
+<ul>
+<li>Scopes and regions: <code>../concepts/scopes.html</code></li>
+<li>Events: <code>../concepts/events.html</code></li>
+<li>Full language specification: <code>../../SPEC.md</code></li>
+</ul>
+<hr />
+<p>This page is a concise reference — for the full details and examples see the complete language specification (<code>SPEC.md</code>) and the API pages in <code>docs/api/</code>.</p>
+
+                    <!-- Last Modified -->
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 07, 2025</span>
+                    </div>
+                </article>
+
+                <!-- Table of Contents -->
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#comments'>Comments</a></li><li style='margin-left:0px'><a href='#variables'>Variables</a></li><li style='margin-left:0px'><a href='#data-types'>Data types</a></li><li style='margin-left:0px'><a href='#operators'>Operators</a></li><li style='margin-left:0px'><a href='#control-flow'>Control flow</a></li><li style='margin-left:0px'><a href='#functions'>Functions</a></li><li style='margin-left:0px'><a href='#scope-basics-short'>Scope basics (short)</a></li><li style='margin-left:0px'><a href='#quick-examples'>Quick examples</a></li><li style='margin-left:0px'><a href='#related-topics'>Related topics</a></li></ul></nav>
+            </div>
+
+            <!-- Footer -->
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Smooth scroll and particle animation -->
+    <script>
+        // Generate floating particles
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            // Smooth scroll for TOC links
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Highlight current section in TOC
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>API Reference — Scope Functions — Quill</title>
+    <link rel="stylesheet" href="http://127.0.0.1:5500/output/quilldocs.css">
+</head>
+
+<body>
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/output/api/player.html'>Player</a></li><li><a href='/output/api/scope.html' class='active'>Scope</a></li><li><a href='/output/api/utility.html'>Utility</a></li><li><a href='/output/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>concepts</span><ul><li><a href='/output/concepts/events.html'>Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/output/examples/welcome-system.html'>Welcome System</a></li></ul></li><li><a href='/output/index.html'>Index</a></li><li><a href='/output/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/output/language/control-flow.html'>Control Flow</a></li><li><a href='/output/language/data-types.html'>Data Types</a></li><li><a href='/output/language/functions.html'>Functions</a></li><li><a href='/output/language/syntax.html'>Syntax</a></li></ul></li><li class='folder'><span class='folder-name'>tutorial</span><ul><li><a href='/output/tutorial/first-script.html'>First Script</a></li></ul></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content">
+            <!-- Hero Section (only on index) -->
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Api</span><span class='separator'>/</span><span class='current'>Scope</span>
+            </nav>
+
+            <!-- Documentation Content -->
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">API Reference — Scope Functions</h1>
+                    <h1 id="api-reference-scope-functions">API Reference — Scope Functions</h1>
+<p>This page documents all built-in functions for managing scopes in Quill scripts. Scopes are physical regions in the world where scripts run and maintain their own state.</p>
+<h2 id="scope-management">Scope Management</h2>
+<h3 id="addtoscope">addtoscope</h3>
+<p>Add a player to a scope's player list.</p>
+<div class="highlight"><pre><span></span><code><span class="n">addtoscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">scope</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Returns <code>true</code> if player was added.</p>
+<h3 id="removefromscope">removefromscope</h3>
+<p>Remove a player from a scope's player list.</p>
+<div class="highlight"><pre><span></span><code><span class="n">removefromscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">scope</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Returns <code>true</code> if player was removed.</p>
+<h3 id="getplayers">getplayers</h3>
+<p>Get all players currently in a scope.</p>
+<div class="highlight"><pre><span></span><code><span class="n">getplayers</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">List</span>
+</code></pre></div>
+
+<p>Returns list of Player objects.</p>
+<p>Example managing scope membership:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Add players in region</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arena</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>!<span class="n">contains</span><span class="p">(</span><span class="n">arena</span><span class="p">.</span><span class="n">players</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">addtoscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arena</span><span class="p">);</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Welcome to the arena!&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Remove players who leave</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerQuit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">contains</span><span class="p">(</span><span class="n">arena</span><span class="p">.</span><span class="n">players</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">removefromscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arena</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="region-checking">Region Checking</h2>
+<h3 id="in_region">in_region</h3>
+<p>Check if a player or location is within a scope's physical bounds.</p>
+<div class="highlight"><pre><span></span><code><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">scope</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Boolean</span>
+<span class="n">in_region</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">scope</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Boolean</span>
+</code></pre></div>
+
+<p>Returns <code>true</code> if target is inside the scope's region.</p>
+<p>Example using region checks:</p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// No PvP outside arena</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">pvp_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">);</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;PvP is only allowed in the arena!&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="region-information">Region Information</h2>
+<h3 id="get_region">get_region</h3>
+<p>Get a scope's physical boundaries.</p>
+<div class="highlight"><pre><span></span><code><span class="n">get_region</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Region</span>
+</code></pre></div>
+
+<p>Returns Region object with properties:<br />
+- <code>x1</code>, <code>y1</code>, <code>z1</code>: Minimum corner<br />
+- <code>x2</code>, <code>y2</code>, <code>z2</code>: Maximum corner</p>
+<h3 id="set_region">set_region</h3>
+<p>Update a scope's physical boundaries.</p>
+<div class="highlight"><pre><span></span><code><span class="n">set_region</span><span class="p">(</span><span class="n">scope</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">y1</span><span class="p">,</span><span class="w"> </span><span class="n">z1</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">y2</span><span class="p">,</span><span class="w"> </span><span class="n">z2</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Boolean</span>
+</code></pre></div>
+
+<p>Returns <code>true</code> if region was updated.</p>
+<p>Example using region data:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">teleport_to_random</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">scope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_region</span><span class="p">(</span><span class="n">scope</span><span class="p">);</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Random</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="n">within</span><span class="w"> </span><span class="n">bounds</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="o">.</span><span class="n">x2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">region</span><span class="o">.</span><span class="n">y1</span><span class="p">;</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Ground</span><span class="w"> </span><span class="n">level</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">z1</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="o">.</span><span class="n">z2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="scope-variables">Scope Variables</h2>
+<p>Scopes can store persistent variables as properties:</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Set</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">variables</span>
+<span class="n">arena</span><span class="o">.</span><span class="n">game_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">false</span><span class="p">;</span>
+<span class="n">arena</span><span class="o">.</span><span class="n">min_players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<span class="n">arena</span><span class="o">.</span><span class="n">round</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Access</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">events</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">arena</span><span class="o">.</span><span class="n">players</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">arena</span><span class="o">.</span><span class="n">min_players</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">arena</span><span class="o">.</span><span class="n">game_active</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">start_game</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Variables persist until server restart or scope deletion.</p>
+<h2 id="examples">Examples</h2>
+<p>Complete arena management:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">arena</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">);</span>
+<span class="n">arena</span><span class="o">.</span><span class="n">game_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">false</span><span class="p">;</span>
+<span class="n">arena</span><span class="o">.</span><span class="n">min_players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="n">arena</span><span class="o">.</span><span class="n">round</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Player</span><span class="w"> </span><span class="n">join</span><span class="o">/</span><span class="n">leave</span><span class="w"> </span><span class="n">handling</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arena</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">contains</span><span class="p">(</span><span class="n">arena</span><span class="o">.</span><span class="n">players</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">addtoscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arena</span><span class="p">);</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Welcome to the arena!&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">check_game_start</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">contains</span><span class="p">(</span><span class="n">arena</span><span class="o">.</span><span class="n">players</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">removefromscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arena</span><span class="p">);</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Come back soon!&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">check_game_end</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">check_game_start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">arena</span><span class="o">.</span><span class="n">game_active</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">arena</span><span class="o">.</span><span class="n">players</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">arena</span><span class="o">.</span><span class="n">min_players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Game starting with {len(arena.players)} players!&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">arena</span><span class="o">.</span><span class="n">game_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">true</span><span class="p">;</span>
+<span class="w">        </span><span class="n">arena</span><span class="o">.</span><span class="n">round</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arena</span><span class="o">.</span><span class="n">round</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">arena</span><span class="o">.</span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">reset_player</span><span class="p">(</span><span class="n">player</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">check_game_end</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">arena</span><span class="o">.</span><span class="n">game_active</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">arena</span><span class="o">.</span><span class="n">players</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">arena</span><span class="o">.</span><span class="n">min_players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Not enough players, ending game.&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">arena</span><span class="o">.</span><span class="n">game_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">false</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">arena</span><span class="o">.</span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">set_gamemode</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;adventure&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Multi-scope interaction:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">lobby</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">70</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="n">let</span><span class="w"> </span><span class="n">game</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">);</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">transfer_players</span><span class="p">(</span><span class="n">from_scope</span><span class="p">,</span><span class="w"> </span><span class="n">to_scope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">from_scope</span><span class="o">.</span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">removefromscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">from_scope</span><span class="p">);</span>
+<span class="w">        </span><span class="n">addtoscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">to_scope</span><span class="p">);</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Teleport</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">scope</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_region</span><span class="p">(</span><span class="n">to_scope</span><span class="p">);</span>
+<span class="w">        </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span>
+<span class="w">            </span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">region</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">            </span><span class="n">region</span><span class="o">.</span><span class="n">y1</span><span class="p">,</span>
+<span class="w">            </span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">z1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">region</span><span class="o">.</span><span class="n">z2</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Example</span><span class="w"> </span><span class="n">usage</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">chat</span><span class="o">.</span><span class="n">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!start&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">lobby</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">transfer_players</span><span class="p">(</span><span class="n">lobby</span><span class="p">,</span><span class="w"> </span><span class="n">game</span><span class="p">);</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Game starting!&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="related-topics">Related topics</h2>
+<ul>
+<li><a href="player.html">Player Functions</a> - Interact with players in scopes</li>
+<li><a href="world.html">World Functions</a> - Modify the world within scopes</li>
+<li><a href="../concepts/events.html">Events</a> - Event handling in scopes</li>
+<li><a href="../concepts/scopes.html">Scopes and Regions</a> - Detailed scope concepts</li>
+</ul>
+
+                    <!-- Last Modified -->
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 07, 2025</span>
+                    </div>
+                </article>
+
+                <!-- Table of Contents -->
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#scope-management'>Scope Management</a></li><li style='margin-left:20px'><a href='#addtoscope'>addtoscope</a></li><li style='margin-left:20px'><a href='#removefromscope'>removefromscope</a></li><li style='margin-left:20px'><a href='#getplayers'>getplayers</a></li><li style='margin-left:0px'><a href='#region-checking'>Region Checking</a></li><li style='margin-left:20px'><a href='#in_region'>in_region</a></li><li style='margin-left:0px'><a href='#region-information'>Region Information</a></li><li style='margin-left:20px'><a href='#get_region'>get_region</a></li><li style='margin-left:20px'><a href='#set_region'>set_region</a></li><li style='margin-left:0px'><a href='#scope-variables'>Scope Variables</a></li><li style='margin-left:0px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#related-topics'>Related topics</a></li></ul></nav>
+            </div>
+
+            <!-- Footer -->
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Smooth scroll and particle animation -->
+    <script>
+        // Generate floating particles
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            // Smooth scroll for TOC links
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Highlight current section in TOC
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

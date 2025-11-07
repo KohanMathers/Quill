@@ -1,0 +1,21 @@
+###############################################
+#      Quill — A sandboxed scripting language #
+#          for Minecraft event automation     #
+#               By Kohan Mathers              #
+###############################################
+
+# Join the support server for config help
+# https://discord.gg/FZuVXszuuM
+
+##############
+# Web Editor #
+##############
+
+# Config options for the web editor
+# Do not touch unless you know what you're doing!
+editor:
+  url: https://quill.kmathers.co.uk/editor/
+
+####################
+# DO NOT CHANGE THIS
+config-version: 1

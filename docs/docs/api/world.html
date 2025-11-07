@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>API Reference — World Functions — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html' class='active'>World</a></li></ul></li><li class='folder'><span class='folder-name'>concepts</span><ul><li><a href='/docs/concepts/events.html'>Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/welcome-system.html'>Welcome System</a></li></ul></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/control-flow.html'>Control Flow</a></li><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li class='folder'><span class='folder-name'>tutorial</span><ul><li><a href='/docs/tutorial/first-script.html'>First Script</a></li></ul></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content">
+            <!-- Hero Section (only on index) -->
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Api</span><span class='separator'>/</span><span class='current'>World</span>
+            </nav>
+
+            <!-- Documentation Content -->
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">API Reference — World Functions</h1>
+                    <h1 id="api-reference-world-functions">API Reference — World Functions</h1>
+<p>This page documents all built-in functions for modifying the Minecraft world in Quill scripts. These functions let you manipulate blocks, spawn entities, and control environmental effects.</p>
+<h2 id="block-management">Block Management</h2>
+<h3 id="set_block">set_block</h3>
+<p>Place or replace a block at a location.</p>
+<div class="highlight"><pre><span></span><code><span class="n">set_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">block_id</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+<span class="n">set_block</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">block_id</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<ul>
+<li><code>block_id</code>: Minecraft block ID (e.g., "minecraft:stone")<br />
+Returns <code>true</code> if block was set.</li>
+</ul>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Set block at coordinates</span>
+<span class="n">set_block</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;minecraft:diamond_block&quot;</span><span class="p">);</span>
+
+<span class="c1">// Set block at location</span>
+<span class="n">let</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">set_block</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;minecraft:stone&quot;</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="get_block">get_block</h3>
+<p>Get the block type at a location.</p>
+<div class="highlight"><pre><span></span><code><span class="n">get_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span>
+<span class="n">get_block</span><span class="p">(</span><span class="n">location</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span>
+</code></pre></div>
+
+<p>Returns block ID as string.</p>
+<h3 id="break_block">break_block</h3>
+<p>Break a block naturally (drops items).</p>
+<div class="highlight"><pre><span></span><code><span class="n">break_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+<span class="n">break_block</span><span class="p">(</span><span class="n">location</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Returns <code>true</code> if block was broken.</p>
+<p>Example building a structure:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">build_platform</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">dz</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">set_block</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dz</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;minecraft:stone&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="entity-management">Entity Management</h2>
+<h3 id="spawn_entity">spawn_entity</h3>
+<p>Create a new entity in the world.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">spawn_entity</span><span class="p">(</span><span class="nx">entity_type</span><span class="p">,</span><span class="w"> </span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nx">Entity</span>
+<span class="nx">spawn_entity</span><span class="p">(</span><span class="nx">entity_type</span><span class="p">,</span><span class="w"> </span><span class="nx">location</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nx">Entity</span>
+</code></pre></div>
+
+<ul>
+<li><code>entity_type</code>: Minecraft entity ID (e.g., "minecraft:zombie")<br />
+Returns the spawned Entity object.</li>
+</ul>
+<h3 id="remove_entity">remove_entity</h3>
+<p>Remove an entity from the world.</p>
+<div class="highlight"><pre><span></span><code><span class="n">remove_entity</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Returns <code>true</code> if entity was removed.</p>
+<p>Example spawning mobs:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">spawn_wave</span><span class="p">(</span><span class="n">center_x</span><span class="p">,</span><span class="w"> </span><span class="n">center_y</span><span class="p">,</span><span class="w"> </span><span class="n">center_z</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Random</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">center</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">center_x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">center_z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+<span class="w">        </span><span class="n">spawn_entity</span><span class="p">(</span><span class="s2">&quot;minecraft:zombie&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">center_y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="environmental-effects">Environmental Effects</h2>
+<h3 id="create_explosion">create_explosion</h3>
+<p>Create an explosion.</p>
+<div class="highlight"><pre><span></span><code><span class="n">create_explosion</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="nf">power</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+<span class="n">create_explosion</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="nf">power</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+<span class="n">create_explosion</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="nf">power</span><span class="p">,</span><span class="w"> </span><span class="n">fire</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+<span class="n">create_explosion</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="nf">power</span><span class="p">,</span><span class="w"> </span><span class="n">fire</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<ul>
+<li><code>power</code>: 0-10 (TNT = 4)</li>
+<li><code>fire</code>: Whether to create fire blocks (optional)<br />
+Returns <code>true</code> if explosion was created.</li>
+</ul>
+<h3 id="strike_lightning">strike_lightning</h3>
+<p>Create a lightning strike.</p>
+<div class="highlight"><pre><span></span><code><span class="n">strike_lightning</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+<span class="n">strike_lightning</span><span class="p">(</span><span class="n">location</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Returns <code>true</code> if lightning was created.</p>
+<h2 id="time-control">Time Control</h2>
+<h3 id="set_time">set_time</h3>
+<p>Set the world time.</p>
+<div class="highlight"><pre><span></span><code><span class="n">set_time</span><span class="p">(</span><span class="n">world</span><span class="p">,</span><span class="w"> </span><span class="n">time</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<ul>
+<li><code>time</code>: 0-24000 (0 = sunrise, 6000 = noon, 12000 = sunset, 18000 = midnight)</li>
+</ul>
+<h3 id="get_time">get_time</h3>
+<p>Get the current world time.</p>
+<div class="highlight"><pre><span></span><code><span class="n">get_time</span><span class="p">(</span><span class="n">world</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Number</span>
+</code></pre></div>
+
+<p>Returns time (0-24000).</p>
+<h2 id="weather-control">Weather Control</h2>
+<h3 id="set_weather">set_weather</h3>
+<p>Change the weather.</p>
+<div class="highlight"><pre><span></span><code><span class="n">set_weather</span><span class="p">(</span><span class="n">world</span><span class="p">,</span><span class="w"> </span><span class="n">weather</span><span class="p">,</span><span class="w"> </span><span class="n">duration</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<ul>
+<li><code>weather</code>: "clear", "rain", or "thunder"</li>
+<li><code>duration</code>: Time in ticks<br />
+Returns <code>true</code> if weather was changed.</li>
+</ul>
+<h3 id="get_weather">get_weather</h3>
+<p>Get the current weather.</p>
+<div class="highlight"><pre><span></span><code><span class="n">get_weather</span><span class="p">(</span><span class="n">world</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">String</span>
+</code></pre></div>
+
+<p>Returns weather type as string.</p>
+<h2 id="world-access">World Access</h2>
+<h3 id="get_world">get_world</h3>
+<p>Get a world by name.</p>
+<div class="highlight"><pre><span></span><code><span class="n">get_world</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">World</span>
+</code></pre></div>
+
+<p>Returns World object or null if not found.</p>
+<h2 id="broadcasting">Broadcasting</h2>
+<h3 id="broadcast">broadcast</h3>
+<p>Send a message to all players in scope.</p>
+<div class="highlight"><pre><span></span><code><span class="n">broadcast</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Boolean</span>
+</code></pre></div>
+
+<p>Supports string interpolation with <code>{}</code>.</p>
+<h2 id="examples">Examples</h2>
+<p>Creating an arena:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">create_arena</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_region</span><span class="p">(</span><span class="n">scope</span><span class="p">);</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">region</span><span class="o">.</span><span class="n">x1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">region</span><span class="o">.</span><span class="n">x2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">z1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">region</span><span class="o">.</span><span class="n">z1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">z2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">region</span><span class="o">.</span><span class="n">z2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">region</span><span class="o">.</span><span class="n">y1</span><span class="p">;</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Clear</span><span class="w"> </span><span class="n">area</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="n">z1</span><span class="p">,</span><span class="w"> </span><span class="n">z2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">set_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dy</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;minecraft:air&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Build</span><span class="w"> </span><span class="nb">floor</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="n">z1</span><span class="p">,</span><span class="w"> </span><span class="n">z2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">set_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;minecraft:stone&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Build</span><span class="w"> </span><span class="n">walls</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">set_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dy</span><span class="p">,</span><span class="w"> </span><span class="n">z1</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;minecraft:stone_bricks&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">set_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dy</span><span class="p">,</span><span class="w"> </span><span class="n">z2</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;minecraft:stone_bricks&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="n">z1</span><span class="p">,</span><span class="w"> </span><span class="n">z2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">set_block</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dy</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;minecraft:stone_bricks&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">set_block</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dy</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;minecraft:stone_bricks&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Day/night cycle event:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">OnEvent</span><span class="o">(</span><span class="nt">TimeChange</span><span class="o">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="err">let</span><span class="w"> </span><span class="err">t</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">get_time(world)</span><span class="p">;</span>
+
+<span class="w">    </span><span class="err">if</span><span class="w"> </span><span class="err">t</span><span class="w"> </span><span class="err">==</span><span class="w"> </span><span class="err">0</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="err">broadcast(&quot;The</span><span class="w"> </span><span class="err">sun</span><span class="w"> </span><span class="err">rises!&quot;)</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="nt">else</span><span class="w"> </span><span class="nt">if</span><span class="w"> </span><span class="nt">t</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nt">12000</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="err">broadcast(&quot;Night</span><span class="w"> </span><span class="err">falls...&quot;)</span><span class="p">;</span>
+
+<span class="w">        </span><span class="err">//</span><span class="w"> </span><span class="err">Spawn</span><span class="w"> </span><span class="err">some</span><span class="w"> </span><span class="err">monsters</span>
+<span class="w">        </span><span class="err">for</span><span class="w"> </span><span class="err">player</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">get_online_players()</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="err">let</span><span class="w"> </span><span class="err">pos</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">get_location(player)</span><span class="p">;</span>
+<span class="w">            </span><span class="err">for</span><span class="w"> </span><span class="err">i</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">range(0,</span><span class="w"> </span><span class="err">3)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="err">spawn_entity(&quot;</span><span class="n">minecraft</span><span class="p">:</span><span class="n">zombie</span><span class="err">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="related-topics">Related topics</h2>
+<ul>
+<li><a href="player.html">Player Functions</a> - Interact with players</li>
+<li><a href="scope.html">Scope Functions</a> - Define world regions</li>
+<li><a href="../language/data-types.html">Data Types</a> - World-related types</li>
+<li><a href="../concepts/events.html">Events</a> - World events</li>
+</ul>
+
+                    <!-- Last Modified -->
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 07, 2025</span>
+                    </div>
+                </article>
+
+                <!-- Table of Contents -->
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#block-management'>Block Management</a></li><li style='margin-left:20px'><a href='#set_block'>set_block</a></li><li style='margin-left:20px'><a href='#get_block'>get_block</a></li><li style='margin-left:20px'><a href='#break_block'>break_block</a></li><li style='margin-left:0px'><a href='#entity-management'>Entity Management</a></li><li style='margin-left:20px'><a href='#spawn_entity'>spawn_entity</a></li><li style='margin-left:20px'><a href='#remove_entity'>remove_entity</a></li><li style='margin-left:0px'><a href='#environmental-effects'>Environmental Effects</a></li><li style='margin-left:20px'><a href='#create_explosion'>create_explosion</a></li><li style='margin-left:20px'><a href='#strike_lightning'>strike_lightning</a></li><li style='margin-left:0px'><a href='#time-control'>Time Control</a></li><li style='margin-left:20px'><a href='#set_time'>set_time</a></li><li style='margin-left:20px'><a href='#get_time'>get_time</a></li><li style='margin-left:0px'><a href='#weather-control'>Weather Control</a></li><li style='margin-left:20px'><a href='#set_weather'>set_weather</a></li><li style='margin-left:20px'><a href='#get_weather'>get_weather</a></li><li style='margin-left:0px'><a href='#world-access'>World Access</a></li><li style='margin-left:20px'><a href='#get_world'>get_world</a></li><li style='margin-left:0px'><a href='#broadcasting'>Broadcasting</a></li><li style='margin-left:20px'><a href='#broadcast'>broadcast</a></li><li style='margin-left:0px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#related-topics'>Related topics</a></li></ul></nav>
+            </div>
+
+            <!-- Footer -->
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Smooth scroll and particle animation -->
+    <script>
+        // Generate floating particles
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            // Smooth scroll for TOC links
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Highlight current section in TOC
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

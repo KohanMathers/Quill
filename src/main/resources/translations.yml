@@ -2,7 +2,9 @@ system:
   enabled: "Quill enabled successfully!"
   disabled: "Quill disabled successfully!"
   command-unavailable: "{0} will NOT work!"
-  translations-updated: "Updated translations file with new translation strings"
+  translations-rename-fail: "Failed to rename translations.yml to translations_old.yml"
+  config-rename-fail: "Failed to rename config.yml to config_old.yml"
+  config-temp-aile: "Failed to create temp config file"
 
   autoload:
     no-scripts: "No scripts found to auto-load"
@@ -92,13 +94,12 @@ error:
     not-func: "Not a function: {0}"
 
   value:
-    expected: "Epected {0} but got {1}"
+    expected: "Expected {0} but got {1}"
 
   scope:
     already-defined: "Variable {0} already defined in this scope"
     undefined: "Undefined variable: {0}"
     wrong-boundary-list-size: "Scope boundaries must be 6 items: (x1, y1, z1, x2, y2, z2)"
-    invalid-boundary: "Expected one of ('x1', 'y1', 'z1', 'x2', 'y2', 'z2'), found: {0}"
 
   editor:
     no-sessionid: "sessionId not found in response: {0}"

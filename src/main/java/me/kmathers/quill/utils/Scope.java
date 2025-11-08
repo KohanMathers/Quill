@@ -71,7 +71,7 @@ public class Scope {
 
         int index = validModes.indexOf(key);
         if (index == -1) {
-            throw new RuntimeException(plugin.translate("errors.scope.invalid-boundary", boundary));
+            throw new RuntimeException(plugin.translate("errors.value.expected", "one of []'x1', 'y1', 'z1', 'x2', 'y2', 'z2']",  boundary));
         }
 
         this.boundaries.set(index, coord);

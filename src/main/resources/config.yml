@@ -17,5 +17,6 @@ editor:
   url: https://quill.kmathers.co.uk/editor/#
 
 ####################
-# DO NOT CHANGE THIS
+# DO NOT CHANGE THESE
 config-version: 1
+translation-version: 1

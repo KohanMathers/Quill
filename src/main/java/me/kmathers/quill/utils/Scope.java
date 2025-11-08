@@ -1,6 +1,8 @@
 package me.kmathers.quill.utils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import me.kmathers.quill.Quill;
@@ -11,6 +13,7 @@ public class Scope {
     private UUID owner;
     private List<Double> boundaries;
     private SecurityConfig config;
+    private Map<String, Object> persistentVariables;
     private Quill plugin;
 
     public Scope(String name, UUID owner, List<Double> boundaries, SecurityMode mode) {
@@ -18,6 +21,7 @@ public class Scope {
         this.owner = owner;
         this.boundaries = boundaries;
         this.config = new SecurityConfig(mode);
+        this.persistentVariables = new HashMap<>();
         this.plugin = Quill.getPlugin(Quill.class);
     }
 
@@ -41,6 +45,10 @@ public class Scope {
         return config.getFuncs();
     }
 
+    public Map<String, Object> getPersistentVars() {
+        return persistentVariables;
+    }
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -71,14 +79,42 @@ public class Scope {
 
         int index = validModes.indexOf(key);
         if (index == -1) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "one of []'x1', 'y1', 'z1', 'x2', 'y2', 'z2']",  boundary));
+            throw new RuntimeException(plugin.translate("errors.value.expected", "one of ['x1', 'y1', 'z1', 'x2', 'y2', 'z2']",  boundary));
         }
 
         this.boundaries.set(index, coord);
     }
 
+    public void setPersistentVars(Map<String, Object> vars){
+        this.persistentVariables = vars;
+    }
+
     public void addFunc(String func) {
         this.config.addFunc(func);
+    }
+
+    public void addPersistentVar(String name) {
+        if (!(this.persistentVariables.containsKey(name))) {
+            this.persistentVariables.put(name, null);
+        }
+    }
+
+    public void removePersistentVar(String name) {
+        if (this.persistentVariables.containsKey(name)) {
+            this.persistentVariables.remove(name);
+        }
+    }
+
+    public void setPersistentVar(String name, Object value) {
+        if (this.persistentVariables.containsKey(name)) {
+            this.persistentVariables.replace(name, value);
+        } else {
+            throw new IllegalStateException(plugin.translate("errors.scope.no-persistent-var", name));
+        }
+    }
+
+    public boolean hasPersistentVar(String name) {
+        return this.persistentVariables.containsKey(name);
     }
 
     public void removeFunc(String func) {

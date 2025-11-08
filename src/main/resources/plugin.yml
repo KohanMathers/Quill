@@ -29,6 +29,9 @@ permissions:
   quill.script.list:
     description: List Quill scripts
     default: true
+  quill.script.edit:
+    description: Edit Quill scripts
+    default: true
   quill.admin:
     description: Full Quill administrative access
     default: op
@@ -38,3 +41,4 @@ permissions:
       quill.script.reload: true
       quill.script.unload: true
       quill.script.list: true
+      quill.script.edit: true

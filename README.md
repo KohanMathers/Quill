@@ -115,8 +115,8 @@ View scope info:
 - [x] Lexer/Tokenizer
 - [x] Parser
 - [x] Interpreter
-- [ ] Bukkit plugin integration
-- [ ] In-game editor
+- [x] Bukkit plugin integration
+- [x] In-game editor
 - [ ] Persistence layer
 - [ ] Permission system
 

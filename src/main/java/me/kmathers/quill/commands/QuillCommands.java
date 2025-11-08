@@ -16,6 +16,7 @@ import org.bukkit.command.TabCompleter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
 /**
@@ -54,7 +55,7 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
             case "info":
                 return handleInfo(sender);
             case "edit":
-                createSession(sender);
+                createSession(sender, args);
                 return true;
             case "help":
                 sendHelp(sender);
@@ -182,24 +183,49 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text("/quill load <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("commands.help.load"), NamedTextColor.WHITE)));
         sender.sendMessage(Component.text("/quill reload <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("commands.help.reload"), NamedTextColor.WHITE)));
         sender.sendMessage(Component.text("/quill unload <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("commands.help.unload"), NamedTextColor.WHITE)));
+        sender.sendMessage(Component.text("/quill edit <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("commands.help.edit"), NamedTextColor.WHITE)));
         sender.sendMessage(Component.text("/quill list", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("commands.help.list"), NamedTextColor.WHITE)));
         sender.sendMessage(Component.text("/quill info", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("commands.help.info"), NamedTextColor.WHITE)));
         sender.sendMessage(Component.text("/quill help", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("commands.help.help"), NamedTextColor.WHITE)));
         sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
     }
-    
-    private void createSession(CommandSender sender) {
+
+    private void createSession(CommandSender sender, String[] args) {
+        if (args.length < 2) {
+            sender.sendMessage(Component.text(plugin.translate("commands.usage.filename", "edit"), NamedTextColor.RED));
+            return;
+        }
+        
+        if (!sender.hasPermission("quill.script.edit")) {
+            sender.sendMessage(Component.text(plugin.translate("commands.no-permission", "edit scripts"), NamedTextColor.RED));
+            return;
+        }
+        
+        String filename = args[1];
+        if (!filename.endsWith(".ql") && !filename.endsWith(".quill")) {
+            filename += ".ql";
+        }
         if (plugin.editValid) {
-            editor.createSession().thenAccept(sessionId -> {
-                if (sessionId != null) {
-                    String url = plugin.getConfig().getString("editor.url") + sessionId;
-                    sender.sendMessage(Component.text(plugin.translate("commands.session-created") + " ", NamedTextColor.GREEN)
-                        .append(Component.text(url, NamedTextColor.GREEN, TextDecoration.UNDERLINED)
-                        .clickEvent(ClickEvent.openUrl(url))));
-                } else {
-                    plugin.getLogger().log(Level.SEVERE, plugin.translate("commands.no-sessionid"));
-                    sender.sendMessage(Component.text(plugin.translate("commands.command-fail", "create session"), NamedTextColor.RED));
-                }
+            final String finalFilename = filename;
+            editor.readFile(filename).thenAccept(fileData -> {
+                editor.createSession(fileData).thenAccept(sessionId -> {
+                    if (sessionId != null) {
+                        String url = plugin.getConfig().getString("editor.url") + sessionId;
+                        sender.sendMessage(Component.text(plugin.translate("commands.session-created") + " ", NamedTextColor.GREEN)
+                            .append(Component.text(url, NamedTextColor.GREEN, TextDecoration.UNDERLINED)
+                            .clickEvent(ClickEvent.openUrl(url))));
+
+                        CompletableFuture<String> editsFuture = editor.waitForEdits(sessionId);
+                        editsFuture.thenAccept(data -> {
+                            editor.writeFile(finalFilename, data, editsFuture);
+                            sender.sendMessage(Component.text(plugin.translate("commands.saved-script", finalFilename), NamedTextColor.GREEN));
+                            editor.deleteSession(sessionId, editsFuture);
+                        });
+                    } else {
+                        plugin.getLogger().log(Level.SEVERE, plugin.translate("commands.no-sessionid"));
+                        sender.sendMessage(Component.text(plugin.translate("commands.command-fail", "create session"), NamedTextColor.RED));
+                    }
+                });
             });
         } else {
             sender.sendMessage(Component.text(plugin.translate("commands.invalid-url"), NamedTextColor.RED));
@@ -211,7 +237,7 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
         
         if (args.length == 1) {
-            List<String> subcommands = Arrays.asList("load", "reload", "unload", "list", "info", "help");
+            List<String> subcommands = Arrays.asList("load", "reload", "unload", "edit", "list", "info", "help");
             String partial = args[0].toLowerCase();
             
             for (String subcommand : subcommands) {
@@ -222,7 +248,7 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
         } else if (args.length == 2) {
             String subcommand = args[0].toLowerCase();
             
-            if (subcommand.equals("load") || subcommand.equals("reload") || subcommand.equals("unload")) {
+            if (subcommand.equals("load") || subcommand.equals("reload") || subcommand.equals("unload") || subcommand.equals("edit")) {
                 String[] scripts = scriptManager.listScripts();
                 String partial = args[1].toLowerCase();
                 

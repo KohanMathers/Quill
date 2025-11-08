@@ -2,6 +2,7 @@ system:
   enabled: "Quill enabled successfully!"
   disabled: "Quill disabled successfully!"
   command-unavailable: "{0} will NOT work!"
+  translations-updated: "Updated translations file with new translation strings"
 
   autoload:
     no-scripts: "No scripts found to auto-load"
@@ -42,6 +43,7 @@ commands:
   session-created: "Editor session created!"
   available-scripts: "Available Quill Scripts"
   no-scripts: "No scripts found in scripts folder"
+  saved-script: "Saved edits to {0}"
 
   usage:
     filename: "Usage: /quill {0} <filename>"
@@ -98,3 +100,8 @@ error:
 
   editor:
     no-sessionid: "sessionId not found in response: {0}"
+    write-failed: "Failed to write file: {0}"
+    read-failed: "Failed to read file: {0}"
+
+editor:
+  wrote-file: "Saved edits to {0}"

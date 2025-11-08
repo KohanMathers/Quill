@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
@@ -21,8 +22,7 @@ public class Editor {
         this.plugin = plugin;
     }
 
-    public CompletableFuture<String> createSession() {
-        String data = "Hello, World!";
+    public CompletableFuture<String> createSession(String data) {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(ENDPOINT)
@@ -45,5 +45,88 @@ public class Editor {
                     ex.printStackTrace();
                     return null;
                 });
+    }
+
+    public CompletableFuture<String> waitForEdits(String sessionId) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        
+        pollRecursively(sessionId, future);
+        
+        return future;
+    }
+
+    private void pollRecursively(String sessionId, CompletableFuture<String> resultFuture) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(ENDPOINT + sessionId + "/wait"))
+                .timeout(Duration.ofSeconds(26))
+                .GET()
+                .build();
+        
+        CLIENT.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenAccept(response -> {
+                    if (response.body() == null || response.body().isEmpty()) {
+                        pollRecursively(sessionId, resultFuture);
+                    } else {
+                        resultFuture.complete(response.body());
+                    }
+                })
+                .exceptionally(ex -> {
+                    resultFuture.completeExceptionally(ex);
+                    return null;
+                });
+    }
+
+    public void deleteSession(String sessionId, CompletableFuture<String> resultFuture) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(ENDPOINT + sessionId))
+                .DELETE()
+                .build();
+        
+        CLIENT.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenAccept(response -> {
+                    if (response.body() != null && !(response.body().isEmpty())) {
+                        resultFuture.complete(response.body());
+                    }
+                })
+                .exceptionally(ex -> {
+                    resultFuture.completeExceptionally(ex);
+                    return null;
+                });
+    }
+
+    public void writeFile(String name, String content, CompletableFuture<String> resultFuture) {
+        try {
+            java.nio.file.Path dataFolder = plugin.getDataFolder().toPath();
+            java.nio.file.Path scriptsDir = dataFolder.resolve("scripts");
+
+            java.nio.file.Path filePath = scriptsDir.resolve(name);
+
+            java.nio.file.Files.writeString(filePath, content, java.nio.charset.StandardCharsets.UTF_8);
+
+            String result = filePath.toString();
+            plugin.getLogger().info(plugin.translate("editor.wrote-file", result));
+            resultFuture.complete(result);
+        } catch (Exception e) {
+            plugin.getLogger().log(Level.SEVERE, plugin.translate("errors.editor.write-failed", e.getMessage()), e);
+            resultFuture.completeExceptionally(e);
+        }
+    }
+
+    public CompletableFuture<String> readFile(String name) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                java.nio.file.Path dataFolder = plugin.getDataFolder().toPath();
+                java.nio.file.Path scriptsDir = dataFolder.resolve("scripts");
+
+                java.nio.file.Path filePath = scriptsDir.resolve(name);
+
+                String result = java.nio.file.Files.readString(filePath);
+
+                return result;
+            } catch (Exception e) {
+                plugin.getLogger().log(Level.SEVERE, plugin.translate("errors.editor.read-failed", e.getMessage()), e);
+                throw new RuntimeException(e);
+            }
+        });
     }
 }

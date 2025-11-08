@@ -97,6 +97,8 @@ error:
   scope:
     already-defined: "Variable {0} already defined in this scope"
     undefined: "Undefined variable: {0}"
+    wrong-boundary-list-size: "Scope boundaries must be 6 items: (x1, y1, z1, x2, y2, z2)"
+    invalid-boundary: "Expected one of ('x1', 'y1', 'z1', 'x2', 'y2', 'z2'), found: {0}"
 
   editor:
     no-sessionid: "sessionId not found in response: {0}"

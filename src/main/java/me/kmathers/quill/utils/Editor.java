@@ -37,7 +37,7 @@ public class Editor {
                     if (matcher.find()) {
                         return matcher.group(1);
                     } else {
-                        plugin.getLogger().log(Level.SEVERE, "sessionId not found in response: " + response);
+                        plugin.getLogger().log(Level.SEVERE, plugin.translate("errors.editor.no-sessionid", response));
                         return null;
                     }
                 })

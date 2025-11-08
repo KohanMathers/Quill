@@ -1,5 +1,7 @@
 package me.kmathers.quill.interpreter;
 
+import me.kmathers.quill.Quill;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -10,6 +12,7 @@ import java.util.*;
  * Handles variable storage, subscope management, and player tracking.
  */
 public class ScopeContext {
+    private static Quill plugin = Quill.getPlugin(Quill.class);
     private final String name;
     private final ScopeContext parent;
     private final Map<String, QuillValue> variables;
@@ -55,7 +58,7 @@ public class ScopeContext {
      */
     public void define(String name, QuillValue value) {
         if (variables.containsKey(name)) {
-            throw new RuntimeException("Variable '" + name + "' already defined in this scope");
+            throw new RuntimeException(plugin.translate("errors.scope.already-defined", name));
         }
         variables.put(name, value);
     }
@@ -97,7 +100,7 @@ public class ScopeContext {
             return parent.get(name);
         }
         
-        throw new RuntimeException("Undefined variable: " + name);
+    throw new RuntimeException(plugin.translate("errors.scope.undefined", name));
     }
     
     /**

@@ -1,0 +1,100 @@
+system:
+  enabled: "Quill enabled successfully!"
+  disabled: "Quill disabled successfully!"
+  command-unavailable: "{0} will NOT work!"
+
+  autoload:
+    no-scripts: "No scripts found to auto-load"
+    no-scripts-hint: "Place .ql or .quill files in: {0}"
+    autoload: "Auto-loading {0} scripts..."
+    loading: "Loading: {0}"
+    fail: "Failed to load {0}"
+    success: "Successfully loaded {0} / {1} script(s)"
+
+  config:
+    lower-version: "Config version is lower than current plugin version; some features may have changed."
+    higher-version: "PEBKAC error detected in config version! For safety, reverting config to stable version..."
+    usermod-backup: "Backed up user-modified config to config_broken_backup.yml"
+    usermod-fail: "Failed to back up config; attempting to overwrite anyway"
+    config-restore: "Default config has been restored. Please do not change the config version manually!"
+    invalid-url: "Invalid editor URL: must start with http:// or https://"
+
+script-manager:
+  file-not-found: "Script file not found: {0}"
+  read-fail: "Failed to read script ile: {0}"
+  tokenized-count: "Tokenized {0} ({1} tokens)"
+  parsed-count: "Parsed {0} ({1} statements)"
+  execute-success: "Successfully executed script: {0}"
+  lexer-error: "Lexer error in {0}: {1}"
+  parser-error: "Parser error in {0}: {1}"
+  runtime-error: "Runtime error in {0}: {1}"
+  unloaded: "Unloaded script: {0}"
+  unloaded-all: "Unloaded all scripts"
+
+commands:
+  unknown-command: "Unknown subcommand: {0}"
+  unknown-command-hint: "Use /quill help for available commands"
+  no-permission: "You don't have permission to {0}"
+  command-success: "Successfully {0}"
+  command-fail: "Failed to {0}. Check console for errors."
+  invalid-url: "Cannot open editor, url is not valid! Ask an admin to check the config."
+  no-sessionid: "createSession() did not return a session id!"
+  session-created: "Editor session created!"
+  available-scripts: "Available Quill Scripts"
+  no-scripts: "No scripts found in scripts folder"
+
+  usage:
+    filename: "Usage: /quill {0} <filename>"
+
+  help:
+    title: "Quill Commands"
+    load: "Load a script"
+    reload: "Reload a script"
+    unload: "Unload a script"
+    list: "List all scripts"
+    info: "Show plugin info"
+    help: "Show this help"
+
+  info:
+    title: "Quill Plugin Info"
+    version: "Version"
+    loaded: "Scripts Loaded"
+    directory: "Scripts Directory"
+
+error:
+  requires-argument: "{0} requires 1 argument: {1}"
+  requires-arguments: "{0} requires {1} arguments: {2}"
+  expected: "Expected {0} in {1}, found: {2}"
+  invalid-potion: "Invalid potion effect: {0}"
+  invalid-sound: "Invalid sound: {0}"
+  cannot-cancel: "Event {0} is not cancellable"
+  cannot-convert: "Cannot convert {0} to {1}"
+
+  world:
+    world-not-found: "World not found: {0}"
+    no-region-defined: "No region defined in scope - cannot determine world"
+
+  item:
+    empty-item-id: "Invalid item_id: cannot be null or empty"
+    invalid-item-id: "Invalid item_id: '{0}' is not a valid Minecraft item"
+    under-1-item: "Item amount must be at least 1, got: {0}"
+
+  interpreter:
+    unknown-ast: "Unknown AST node type: {0}"
+    unknown-prop: "Unknown {0} property: {1}"
+    cannot-prop: "Cannot access property {0} on {1}"
+    zero-division: "Division by zero"
+    unknown-op: "Unknown {0} operator: {1}"
+    cannot-assign: "Cannot assign to property of {0}"
+    invalid-assignee: "Invalid assignment target"
+    not-func: "Not a function: {0}"
+
+  value:
+    expected: "Epected {0} but got {1}"
+
+  scope:
+    already-defined: "Variable {0} already defined in this scope"
+    undefined: "Undefined variable: {0}"
+
+  editor:
+    no-sessionid: "sessionId not found in response: {0}"

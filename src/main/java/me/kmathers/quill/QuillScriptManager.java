@@ -18,11 +18,13 @@ import java.util.logging.Logger;
  * Manages loading and execution of Quill scripts.
  */
 public class QuillScriptManager {
+    private Quill plugin;
     private final File scriptsDir;
     private final Logger logger;
     private final Map<String, QuillInterpreter> activeScripts;
     
-    public QuillScriptManager(File dataFolder, Logger logger) {
+    public QuillScriptManager(Quill plugin, File dataFolder, Logger logger) {
+        this.plugin = plugin;
         this.scriptsDir = new File(dataFolder, "scripts");
         this.logger = logger;
         this.activeScripts = new HashMap<>();
@@ -39,7 +41,7 @@ public class QuillScriptManager {
         File scriptFile = new File(scriptsDir, filename);
         
         if (!scriptFile.exists()) {
-            logger.severe("Script file not found: " + filename);
+            logger.severe(plugin.translate("script-manager.file-not-found", filename));
             return false;
         }
         
@@ -47,7 +49,7 @@ public class QuillScriptManager {
             String sourceCode = Files.readString(scriptFile.toPath());
             return executeScript(filename, sourceCode);
         } catch (IOException e) {
-            logger.severe("Failed to read script file: " + filename);
+            logger.severe(plugin.translate("script-manager.read-fail", filename));
             e.printStackTrace();
             return false;
         }
@@ -61,12 +63,12 @@ public class QuillScriptManager {
             QuillLexer lexer = new QuillLexer(sourceCode);
             var tokens = lexer.tokenize();
             
-            logger.info("Tokenized " + name + " (" + tokens.size() + " tokens)");
+            logger.info(plugin.translate("script-manager.tokenized-count", name, tokens.size()));
             
             QuillParser parser = new QuillParser(tokens);
             Program ast = parser.parse();
             
-            logger.info("Parsed " + name + " (" + ast.statements.size() + " statements)");
+            logger.info(plugin.translate("script-manager.parsed-count", name, ast.statements.size()));
             
             ScopeContext.Region defaultRegion = new ScopeContext.Region(
                 -1000000, -64, -1000000,
@@ -80,17 +82,17 @@ public class QuillScriptManager {
             
             activeScripts.put(name, interpreter);
             
-            logger.info("Successfully executed script: " + name);
+            logger.info(plugin.translate("script-manager.execute-success", name));
             return true;
             
         } catch (QuillLexer.LexerException e) {
-            logger.severe("Lexer error in " + name + ": " + e.getMessage());
+            logger.severe(plugin.translate("script-manager.lexer-error", name, e.getMessage()));
             return false;
         } catch (QuillParser.ParseException e) {
-            logger.severe("Parser error in " + name + ": " + e.getMessage());
+            logger.severe(plugin.translate("script-manager.parser-error", name, e.getMessage()));
             return false;
         } catch (Exception e) {
-            logger.severe("Runtime error in " + name + ": " + e.getMessage());
+            logger.severe(plugin.translate("script-manager.runtime-error", name, e.getMessage()));
             e.printStackTrace();
             return false;
         }
@@ -109,7 +111,7 @@ public class QuillScriptManager {
      */
     public void unloadScript(String name) {
         activeScripts.remove(name);
-        logger.info("Unloaded script: " + name);
+        logger.info(plugin.translate("script-manager.unloaded", name));
     }
     
     /**
@@ -131,7 +133,7 @@ public class QuillScriptManager {
      */
     public void unloadAll() {
         activeScripts.clear();
-        logger.info("Unloaded all scripts");
+        logger.info(plugin.translate("script-manager.unloaded-all"));
     }
     
     /**

@@ -5,6 +5,8 @@ import me.kmathers.quill.events.QuillEventBridge;
 
 import java.io.File;
 
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -13,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Quill extends JavaPlugin {
     private QuillScriptManager scriptManager;
     private QuillEventBridge eventBridge;
+    private FileConfiguration translations;
 
     public boolean editValid = true;
 
@@ -21,6 +24,7 @@ public class Quill extends JavaPlugin {
         getLogger().info("Enabling Quill...");
     
         saveDefaultConfig();
+        saveResource("translations.yml", false);
 
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
@@ -28,7 +32,10 @@ public class Quill extends JavaPlugin {
 
         validateConfig();
 
-        scriptManager = new QuillScriptManager(getDataFolder(), getLogger());
+        File translationsFile = new File(getDataFolder(), "translations.yml");
+        translations = YamlConfiguration.loadConfiguration(translationsFile);
+
+        scriptManager = new QuillScriptManager(this, getDataFolder(), getLogger());
         
         QuillCommands commandHandler = new QuillCommands(this, scriptManager);
         getCommand("quill").setExecutor(commandHandler);
@@ -36,7 +43,7 @@ public class Quill extends JavaPlugin {
         
         autoLoadScripts();
 
-        getLogger().info("Quill enabled successfully!");
+        getLogger().info(translate("system.enabled"));
     }
     
     @Override
@@ -51,7 +58,7 @@ public class Quill extends JavaPlugin {
             // Event handlers are automatically unregistered when plugin disables
         }
         
-        getLogger().info("Quill disabled successfully!");
+        getLogger().info(translate("system.disabled"));
     }
     
     /**
@@ -61,25 +68,24 @@ public class Quill extends JavaPlugin {
         String[] scripts = scriptManager.listScripts();
         
         if (scripts.length == 0) {
-            getLogger().info("No scripts found to auto-load");
-            getLogger().info("Place .ql or .quill files in: " + 
-                scriptManager.getScriptsDirectory().getAbsolutePath());
+            getLogger().info(translate("autoload.no-scripts"));
+            getLogger().info(translate("autoload.no-scripts-hint", scriptManager.getScriptsDirectory().getAbsolutePath()));
             return;
         }
         
-        getLogger().info("Auto-loading " + scripts.length + " script(s)...");
+        getLogger().info(translate("system.autoload.autoload", scripts.length));
         
         int loaded = 0;
         for (String script : scripts) {
-            getLogger().info("Loading: " + script);
+            getLogger().info(translate("system.autoload.loading", script));
             if (scriptManager.loadScript(script)) {
                 loaded++;
             } else {
-                getLogger().warning("Failed to load: " + script);
+                getLogger().warning(translate("system.autoload.fail", script));
             }
         }
         
-        getLogger().info("Successfully loaded " + loaded + "/" + scripts.length + " script(s)");
+        getLogger().info(translate("system.autoload.success", loaded, scripts.length));
         
         if (loaded > 0) {
             eventBridge = new QuillEventBridge(scriptManager, this);
@@ -101,9 +107,9 @@ public class Quill extends JavaPlugin {
     private void validateConfig() {
         int version = getConfig().getInt("config-version", 0);
         if (version < 1) {
-            getLogger().warning("Config version is lower than current plugin version; some features may have changed.");
+            getLogger().warning(translate("system.config.lower-version"));
         } else if (version > 1) {
-            getLogger().warning("PEBKAC error detected in config version! For safety, reverting config to stable version...");
+            getLogger().warning(translate("system.config.higher-version"));
 
             File configFile = new File(getDataFolder(), "config.yml");
             File backupFile = new File(getDataFolder(), "config_broken_backup.yml");
@@ -113,22 +119,32 @@ public class Quill extends JavaPlugin {
                     backupFile.delete();
                 }
                 if (configFile.renameTo(backupFile)) {
-                    getLogger().warning("Backed up user-modified config to config_broken_backup.yml");
+                    getLogger().warning(translate("system.config.usermod-backup"));
                 } else {
-                    getLogger().warning("Failed to back up config; attempting to overwrite anyway.");
+                    getLogger().warning(translate("system.config.usermod-fail"));
                 }
             }
 
             saveResource("config.yml", true);
             reloadConfig();
-            getLogger().warning("Default config has been restored. Please do not change the config version manually!");
+            getLogger().warning(translate("system.config.config-restore"));
         }
 
         String url = getConfig().getString("editor.url", "");
         if (!(url.startsWith("https://") || url.startsWith("http://"))) {
-            getLogger().warning("Invalid editor URL: must start with http:// or https://");
-            getLogger().warning("/quill edit will NOT work!");
+            getLogger().warning(translate("system.config.invalid-url"));
+            getLogger().warning(translate("system.command-unavailable", "/quill edit"));
             editValid = false;
         }
+    }
+
+    public String translate(String path, Object... args) {
+        String msg = translations.getString(path);
+        if (msg == null) return path;
+
+        for (int i = 0; i < args.length; i++) {
+            msg = msg.replace("{" + i + "}", args[i].toString());
+        }
+        return msg;
     }
 }

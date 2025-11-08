@@ -1,6 +1,7 @@
 package me.kmathers.quill.interpreter;
 
 import me.kmathers.quill.parser.AST.*;
+import me.kmathers.quill.Quill;
 import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.ClearEffectsFunction;
 import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetGamemodeFunction;
 import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetHealthFunction;
@@ -94,6 +95,8 @@ public class QuillInterpreter {
     private static class BreakSignal extends RuntimeException {}
     private static class ContinueSignal extends RuntimeException {}
     
+    private static Quill plugin = Quill.getPlugin(Quill.class);
+
     public QuillInterpreter(ScopeContext globalScope) {
         this.globalScope = globalScope;
         this.currentScope = globalScope;
@@ -173,7 +176,7 @@ public class QuillInterpreter {
             return evaluate(((ExpressionStatement) node).expression);
         }
         
-        throw new RuntimeException("Unknown AST node type: " + node.getClass().getName());
+        throw new RuntimeException(plugin.translate("errors.interpreter.unknown-ast", node.getClass().getName()));
     }
     
     // === Literal Evaluation ===
@@ -238,7 +241,7 @@ public class QuillInterpreter {
                                 case "flying": current = new BooleanValue(player.isFlying()); break;
                                 case "online": current = new BooleanValue(player.isOnline()); break;
                                 default:
-                                    throw new RuntimeException("Unknown player property: " + prop);
+                                    throw new RuntimeException(plugin.translate("errors.interpreter.unknown-prop", "player", prop));
                             }
                         } else if (current.isLocation()) {
                             org.bukkit.Location loc = current.asLocation();
@@ -248,7 +251,7 @@ public class QuillInterpreter {
                                 case "z": current = new NumberValue(loc.getZ()); break;
                                 case "world": current = new WorldValue(loc.getWorld()); break;
                                 default:
-                                    throw new RuntimeException("Unknown location property: " + prop);
+                                    throw new RuntimeException(plugin.translate("errors.interpreter.unknown-prop", "location", prop));
                             }
                         } else if (current.isItem()) {
                             org.bukkit.inventory.ItemStack item = current.asItem();
@@ -256,7 +259,7 @@ public class QuillInterpreter {
                                 case "type": current = new StringValue(item.getType().name().toLowerCase()); break;
                                 case "amount": current = new NumberValue(item.getAmount()); break;
                                 default:
-                                    throw new RuntimeException("Unknown item property: " + prop);
+                                    throw new RuntimeException(plugin.translate("errors.interpreter.unknown-prop", "item", prop));
                             }
                         } else if (current.isEntity()) {
                             org.bukkit.entity.Entity entity = current.asEntity();
@@ -265,13 +268,13 @@ public class QuillInterpreter {
                                 case "location": current = new LocationValue(entity.getLocation()); break;
                                 case "alive": current = new BooleanValue(!entity.isDead()); break;
                                 default:
-                                    throw new RuntimeException("Unknown entity property: " + prop);
+                                    throw new RuntimeException(plugin.translate("errors.interpreter.unknown-prop", "entity", prop));
                             }
                         } else if (current.isMap()) {
                             MapValue mapValue = (MapValue) current;
                             current = mapValue.get(prop);
                         } else {
-                            throw new RuntimeException("Cannot access property '" + prop + "' on " + current.getType());
+                            throw new RuntimeException(plugin.translate("errors.interpreter.cannot-prop", prop, current.getType()));
                         }
                     }
                     
@@ -347,7 +350,7 @@ public class QuillInterpreter {
                 case "flying": return new BooleanValue(player.isFlying());
                 case "online": return new BooleanValue(player.isOnline());
                 default:
-                    throw new RuntimeException("Unknown player property: " + node.property);
+                    throw new RuntimeException(plugin.translate("errors.interpreter.unknown-prop", "player", node.property));
             }
         }
         
@@ -359,7 +362,7 @@ public class QuillInterpreter {
                 case "z": return new NumberValue(loc.getZ());
                 case "world": return new WorldValue(loc.getWorld());
                 default:
-                    throw new RuntimeException("Unknown location property: " + node.property);
+                    throw new RuntimeException(plugin.translate("errors.interpreter.unknown-prop", "location", node.property));
             }
         }
         
@@ -369,7 +372,7 @@ public class QuillInterpreter {
                 case "type": return new StringValue(item.getType().name().toLowerCase());
                 case "amount": return new NumberValue(item.getAmount());
                 default:
-                    throw new RuntimeException("Unknown item property: " + node.property);
+                    throw new RuntimeException(plugin.translate("errors.interpreter.unknown-prop", "item", node.property));
             }
         }
         
@@ -380,7 +383,7 @@ public class QuillInterpreter {
                 case "location": return new LocationValue(entity.getLocation());
                 case "alive": return new BooleanValue(!entity.isDead());
                 default:
-                    throw new RuntimeException("Unknown entity property: " + node.property);
+                    throw new RuntimeException(plugin.translate("errors.interpreter.unknown-prop", "entity", node.property));
             }
         }
         
@@ -389,7 +392,7 @@ public class QuillInterpreter {
             return mapValue.get(node.property);
         }
 
-        throw new RuntimeException("Cannot access property '" + node.property + "' on " + object.getType());
+        throw new RuntimeException(plugin.translate("errors.interpreter.cannot-prop", node.property, object.getType()));
     }
     
     // === Binary Expressions ===
@@ -411,7 +414,7 @@ public class QuillInterpreter {
                 return new NumberValue(left.asNumber() * right.asNumber());
             case "/":
                 if (right.asNumber() == 0) {
-                    throw new RuntimeException("Division by zero");
+                    throw new RuntimeException(plugin.translate("errors.interpreter.zero-division"));
                 }
                 return new NumberValue(left.asNumber() / right.asNumber());
             case "%":
@@ -436,7 +439,7 @@ public class QuillInterpreter {
                 return new BooleanValue(left.isTruthy() || right.isTruthy());
                 
             default:
-                throw new RuntimeException("Unknown binary operator: " + node.operator);
+                throw new RuntimeException(plugin.translate("errors.interpreter.unknown-op", "binary", node.operator));
         }
     }
     
@@ -463,7 +466,7 @@ public class QuillInterpreter {
             case "-":
                 return new NumberValue(-operand.asNumber());
             default:
-                throw new RuntimeException("Unknown unary operator: " + node.operator);
+                throw new RuntimeException(plugin.translate("errors.interpreter.unknown-op", "unary", node.operator));
         }
     }
     
@@ -492,10 +495,10 @@ public class QuillInterpreter {
                 return value;
             }
             
-            throw new RuntimeException("Cannot assign to property of " + object.getType());
+            throw new RuntimeException(plugin.translate("errors.interpreter.cannot-assign", object.getType()));
         }
         
-        throw new RuntimeException("Invalid assignment target");
+        throw new RuntimeException(plugin.translate("errors.interpreter.invalid-assignee"));
     }
     
     // === Function Calls ===
@@ -531,8 +534,7 @@ public class QuillInterpreter {
             ScopeContext funcScope = new ScopeContext(func.getClosure());
             
             if (args.size() != func.getParameters().size()) {
-                throw new RuntimeException("Function " + func.getName() + " expects " + 
-                    func.getParameters().size() + " arguments but got " + args.size());
+                throw new RuntimeException(plugin.translate("errors.requires-arguments", "function " + func.getName(), String.valueOf(func.getParameters().size()), "function(...)"));
             }
             
             for (int i = 0; i < args.size(); i++) {
@@ -557,7 +559,7 @@ public class QuillInterpreter {
             }
         }
         
-        throw new RuntimeException("Not a function: " + callee.getType());
+        throw new RuntimeException(plugin.translate("errors.interpreter.not-func", callee.getType()));
     }
     
     // === Statements ===
@@ -623,7 +625,7 @@ public class QuillInterpreter {
         QuillValue iterable = evaluate(node.iterable);
         
         if (!iterable.isList()) {
-            throw new RuntimeException("For loop requires a list, got " + iterable.getType());
+            throw new RuntimeException(plugin.translate("errors.expected", "list", "for-loop iterable", iterable.getType()));
         }
         
         List<QuillValue> items = iterable.asList();
@@ -710,7 +712,7 @@ public class QuillInterpreter {
     
     private QuillValue evaluateScopeCreation(ScopeCreation node) {
         if (node.arguments.size() != 6) {
-            throw new RuntimeException("Scope creation requires 6 arguments (x1, y1, z1, x2, y2, z2)");
+            throw new RuntimeException(plugin.translate("errors.requires-arguments", "scope_creation()", "6", "(x1, y1, z1, x2, y2, z2)"));
         }
         
         double x1 = evaluate(node.arguments.get(0)).asNumber();

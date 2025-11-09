@@ -130,15 +130,20 @@ public class QuillScopeManager {
     }
 
     public Map<String, Scope> loadAll() {
+        int loaded = 0;
+        int total = 0;
         Map<String, Scope> scopes = new HashMap<>();
         for (File file : scopesDir.listFiles()) {
             if (file.getName().endsWith(".yml")) {
+                total++;
                 Scope scope = loadScope(file.getName());
                 if (scope != null) {
                     scopes.put(scope.getName(), scope);
+                    loaded++;
                 }
             }
         }
+        logger.info(plugin.translate("scope-manager.loaded", loaded, total));
         return scopes;
     }
 }

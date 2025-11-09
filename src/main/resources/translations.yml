@@ -43,6 +43,7 @@ scope-manager:
   read-fail: "Failed to read scope file: {0}"
   saved-success: "Successfully saved scope '{0}' to {1}"
   write-fail: "Failed to write scope file: {0}"
+  loaded: "Successfully loaded {0} / {1} scope(s)"
 
 commands:
   unknown-command: "Unknown subcommand: {0}"

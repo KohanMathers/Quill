@@ -24,7 +24,7 @@ system:
 
 script-manager:
   file-not-found: "Script file not found: {0}"
-  read-fail: "Failed to read script ile: {0}"
+  read-fail: "Failed to read script file: {0}"
   tokenized-count: "Tokenized {0} ({1} tokens)"
   parsed-count: "Parsed {0} ({1} statements)"
   execute-success: "Successfully executed script: {0}"
@@ -33,6 +33,16 @@ script-manager:
   runtime-error: "Runtime error in {0}: {1}"
   unloaded: "Unloaded script: {0}"
   unloaded-all: "Unloaded all scripts"
+
+scope-manager:
+  file-not-found: "Scope file not found: {0}"
+  invalid-format: "Scope {0} has invalid format"
+  invalid-mode: "Scope security mode {0} is invalid"
+  loaded-success: "Successfully loaded scope: {0}"
+  invalid-mode: "Scope owner UUID '{0}' is invalid"
+  read-fail: "Failed to read scope file: {0}"
+  saved-success: "Successfully saved scope '{0}' to {1}"
+  write-fail: "Failed to write scope file: {0}"
 
 commands:
   unknown-command: "Unknown subcommand: {0}"

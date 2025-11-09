@@ -23,6 +23,7 @@ public class Quill extends JavaPlugin {
     private QuillScriptManager scriptManager;
     private QuillEventBridge eventBridge;
     private FileConfiguration translations;
+    private QuillScopeManager scopeManager;
 
     public boolean editValid = true;
 
@@ -42,8 +43,12 @@ public class Quill extends JavaPlugin {
         File translationsFile = new File(getDataFolder(), "translations.yml");
         translations = YamlConfiguration.loadConfiguration(translationsFile);
 
+        scopeManager = new QuillScopeManager(this, getDataFolder(), getLogger());
+
+        scopeManager.loadAll();
+
         scriptManager = new QuillScriptManager(this, getDataFolder(), getLogger());
-        
+
         QuillCommands commandHandler = new QuillCommands(this, scriptManager);
         getCommand("quill").setExecutor(commandHandler);
         getCommand("quill").setTabCompleter(commandHandler);

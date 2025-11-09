@@ -128,4 +128,17 @@ public class QuillScopeManager {
             return false;
         }
     }
+
+    public Map<String, Scope> loadAll() {
+        Map<String, Scope> scopes = new HashMap<>();
+        for (File file : scopesDir.listFiles()) {
+            if (file.getName().endsWith(".yml")) {
+                Scope scope = loadScope(file.getName());
+                if (scope != null) {
+                    scopes.put(scope.getName(), scope);
+                }
+            }
+        }
+        return scopes;
+    }
 }

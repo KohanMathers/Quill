@@ -33,7 +33,7 @@ public class BuiltInPlayerFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 2 && args.size() != 4) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "teleport()", "2 or 4", "teleport(player, x, y, z) or teleport(player, location)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "teleport()", "2 or 4", "teleport(player, x, y, z) or teleport(player, location)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -58,7 +58,7 @@ public class BuiltInPlayerFuncs {
     public static class GiveFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() < 2 || args.size() > 3) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "give()", "2 or 3", "give(player, item_id) or give(player, item_id, amount) or give(player, item)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "give()", "2 or 3", "give(player, item_id) or give(player, item_id, amount) or give(player, item)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -73,7 +73,7 @@ public class BuiltInPlayerFuncs {
                 } else if (second.isItem()) {
                     item = second.asItem();
                 } else {
-                    throw new RuntimeException(plugin.translate("errors.expected", "string or item", "give()", second.getType()));
+                    throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "string or item", "give()", second.getType()));
                 }
             } else {
                 itemId = args.get(1).asString();
@@ -93,7 +93,7 @@ public class BuiltInPlayerFuncs {
     public static class RemoveItemFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() < 2 || args.size() > 3) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "remove_item()", "2 or 3", "remove_item(player, item_id) or remove_item(player, item_id, amount)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "remove_item()", "2 or 3", "remove_item(player, item_id) or remove_item(player, item_id, amount)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -107,7 +107,7 @@ public class BuiltInPlayerFuncs {
                 if (second.isString()) {
                     itemId = second.asString();
                 } else {
-                    throw new RuntimeException(plugin.translate("errors.expected", "string", "remove_item()", second.getType()));
+                    throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "string", "remove_item()", second.getType()));
                 }
             } else {
                 itemId = args.get(1).asString();
@@ -132,7 +132,7 @@ public class BuiltInPlayerFuncs {
     public static class SetGamemodeFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 2) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "set_gamemode()", "2", "set_gamemode(player, mode)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "set_gamemode()", "2", "set_gamemode(player, mode)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -141,7 +141,7 @@ public class BuiltInPlayerFuncs {
             Set<String> validModes = Set.of("adventure", "creative", "spectator", "survival");
 
             if (!validModes.contains(gamemode.toLowerCase())) {
-                throw new RuntimeException(plugin.translate("errors.expected", "one of ['adventure', 'creative', 'spectator', 'survival']", "set_gamemode()", gamemode));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "one of ['adventure', 'creative', 'spectator', 'survival']", "set_gamemode()", gamemode));
             }
 
             player.setGameMode(GameMode.valueOf(gamemode.toUpperCase()));
@@ -153,7 +153,7 @@ public class BuiltInPlayerFuncs {
     public static class SetHealthFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 2) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "set_health()", "2", "set_health(player, health)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "set_health()", "2", "set_health(player, health)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -161,7 +161,7 @@ public class BuiltInPlayerFuncs {
             double health = args.get(1).asNumber();
 
             if (health < 0 || health > 20) {
-                throw new RuntimeException(plugin.translate("errors.expected", "digit between 0 and 20", "set_health()", args.get(1).asString()));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "digit between 0 and 20", "set_health()", args.get(1).asString()));
             }
 
             player.setHealth(health);
@@ -173,7 +173,7 @@ public class BuiltInPlayerFuncs {
     public static class SetHungerFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 2) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "set_hunger()", "2", "set_hunger(player, hunger)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "set_hunger()", "2", "set_hunger(player, hunger)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -181,7 +181,7 @@ public class BuiltInPlayerFuncs {
             double hunger = args.get(1).asNumber();
 
             if (hunger < 0 || hunger > 20) {
-                throw new RuntimeException(plugin.translate("errors.expected", "digit between 0 and 20", "set_hunger()", args.get(1).asString()));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "digit between 0 and 20", "set_hunger()", args.get(1).asString()));
             }
 
             player.setFoodLevel((int) hunger);
@@ -193,7 +193,7 @@ public class BuiltInPlayerFuncs {
     public static class HealFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "heal()", "heal(player)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "heal()", "heal(player)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -208,7 +208,7 @@ public class BuiltInPlayerFuncs {
     public static class KillFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "kill()", "kill(player)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "kill()", "kill(player)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -224,7 +224,7 @@ public class BuiltInPlayerFuncs {
     public static class SendMessageFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 2) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "sendmessage()", "2", "sendmessage(player, message)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "sendmessage()", "2", "sendmessage(player, message)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -239,7 +239,7 @@ public class BuiltInPlayerFuncs {
     public static class SendTitleFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 6) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "sendtitle()", "6", "sendmessage(player, title, subtitle, fade_in, stay, fade_out)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "sendtitle()", "6", "sendmessage(player, title, subtitle, fade_in, stay, fade_out)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -260,7 +260,7 @@ public class BuiltInPlayerFuncs {
     public static class PlaySoundFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 4) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "playsound()", "4", "playsound(player, sound, volume, pitch)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "playsound()", "4", "playsound(player, sound, volume, pitch)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -269,11 +269,11 @@ public class BuiltInPlayerFuncs {
             double pitch = args.get(3).asNumber();
 
             if (volume < 0) {
-                throw new RuntimeException(plugin.translate("errors.expected", "positive digit volume", "playsound()", String.valueOf(volume)));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "positive digit volume", "playsound()", String.valueOf(volume)));
             }
 
             if (pitch < 0 || pitch > 2) {
-                throw new RuntimeException(plugin.translate("errors.expected", "digit between 0 and 2", "playsound()", String.valueOf(pitch)));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "digit between 0 and 2", "playsound()", String.valueOf(pitch)));
             }
 
             Key soundKey;
@@ -287,7 +287,7 @@ public class BuiltInPlayerFuncs {
                 Sound sound = Sound.sound(soundKey, Sound.Source.MASTER, (float) volume, (float) pitch);
                 player.playSound(sound);
             } catch (IllegalArgumentException e) {
-                throw new RuntimeException(plugin.translate("errors.invalid-sound", soundName));
+                throw new RuntimeException(plugin.translate("quill.error.user.misc.invalid-sound", soundName));
             }
 
             return new BooleanValue(true);
@@ -300,7 +300,7 @@ public class BuiltInPlayerFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 4) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "give_effect()", "4", "give_effect(player, effect, duration, amplifier)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "give_effect()", "4", "give_effect(player, effect, duration, amplifier)"));
             }
 
             Player player = args.get(0).asPlayer();
@@ -314,7 +314,7 @@ public class BuiltInPlayerFuncs {
 
             PotionEffectType effectType = Registry.EFFECT.get(key);
             if (effectType == null) {
-                throw new RuntimeException(plugin.translate("errors.invalid-potion", effectString));
+                throw new RuntimeException(plugin.translate("quill.error.user.misc.invalid-potion", effectString));
             }
 
             player.addPotionEffect(new PotionEffect(effectType, duration, amplifier));
@@ -326,7 +326,7 @@ public class BuiltInPlayerFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 2) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "remove_effect()", "2", "remove_effect(player, effect)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "remove_effect()", "2", "remove_effect(player, effect)"));
             }
 
             Player player = args.get(0).asPlayer();
@@ -338,7 +338,7 @@ public class BuiltInPlayerFuncs {
 
             PotionEffectType effectType = Registry.EFFECT.get(key);
             if (effectType == null) {
-                throw new RuntimeException(plugin.translate("errors.invalid-potion", effectString));
+                throw new RuntimeException("Invalid potion effect: " + effectString);
             }
 
             player.removePotionEffect(effectType);
@@ -349,7 +349,7 @@ public class BuiltInPlayerFuncs {
     public static class ClearEffectsFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "clear_effects()", "clear_effects(player)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "clear_effects()", "clear_effects(player)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -365,7 +365,7 @@ public class BuiltInPlayerFuncs {
     public static class SetFlyingFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 2) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "set_flying()", "2", "set_flying(player, flying)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "set_flying()", "2", "set_flying(player, flying)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -380,7 +380,7 @@ public class BuiltInPlayerFuncs {
     public static class KickFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 2) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "kick()", "2", "kick(player, reason)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "kick()", "2", "kick(player, reason)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -397,7 +397,7 @@ public class BuiltInPlayerFuncs {
     public static class GetHealthFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "get_health()", "get_health(player)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "get_health()", "get_health(player)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -411,7 +411,7 @@ public class BuiltInPlayerFuncs {
     public static class GetHungerFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "get_hunger()", "get_hunger(player)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "get_hunger()", "get_hunger(player)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -425,7 +425,7 @@ public class BuiltInPlayerFuncs {
     public static class GetLocationFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "get_location()", "get_location(player)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "get_location()", "get_location(player)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -439,7 +439,7 @@ public class BuiltInPlayerFuncs {
     public static class GetGamemodeFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "get_gamemode()", "get_gamemode(player)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "get_gamemode()", "get_gamemode(player)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -453,7 +453,7 @@ public class BuiltInPlayerFuncs {
     public static class HasItemFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() < 2 || args.size() > 3) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "has_item()", "2 or 3", "has_item(player, item_id) or has_item(player, item_id, amount)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "has_item()", "2 or 3", "has_item(player, item_id) or has_item(player, item_id, amount)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -466,7 +466,7 @@ public class BuiltInPlayerFuncs {
                 if (second.isString()) {
                     itemId = second.asString();
                 } else {
-                    throw new RuntimeException(plugin.translate("errors.expected", "string", "has_item()", args.get(1).getType()));
+                    throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "string", "has_item()", args.get(1).getType()));
                 }
             } else {
                 itemId = args.get(1).asString();
@@ -486,7 +486,7 @@ public class BuiltInPlayerFuncs {
     public static class GetNameFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "get_name()", "get_name(player)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "get_name()", "get_name(player)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -498,7 +498,7 @@ public class BuiltInPlayerFuncs {
     public static class IsOnlineFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "is_online()", "is_online(player)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "is_online()", "is_online(player)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -510,7 +510,7 @@ public class BuiltInPlayerFuncs {
     public static class IsOpFunction implements QuillInterpreter.BuiltInFunction {
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "is_op()", "is_op(player)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "is_op()", "is_op(player)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -522,7 +522,7 @@ public class BuiltInPlayerFuncs {
     // === Helpers ===
     private static ItemStack createItemStack(String itemId, int amount) {
         if (itemId == null || itemId.isEmpty()) {
-            throw new RuntimeException(plugin.translate("errors.item.empty-item-id"));
+            throw new RuntimeException(plugin.translate("quill.error.user.item.empty-item-id"));
         }
         
         String materialName = itemId;
@@ -538,11 +538,11 @@ public class BuiltInPlayerFuncs {
         try {
             material = Material.valueOf(materialName);
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException(plugin.translate("errors.item.invalid-item-id", itemId));
+            throw new RuntimeException(plugin.translate("quill.error.user.item.invalid-item-id", itemId));
         }
         
         if (amount < 1) {
-            throw new RuntimeException(plugin.translate("errors.item.under-1-item", amount));
+            throw new RuntimeException(plugin.translate("quill.error.user.item.under-1-item", amount));
         }
         if (amount > 64) {
             amount = Math.min(amount, material.getMaxStackSize());

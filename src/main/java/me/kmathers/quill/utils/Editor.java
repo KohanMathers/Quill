@@ -37,7 +37,7 @@ public class Editor {
                     if (matcher.find()) {
                         return matcher.group(1);
                     } else {
-                        plugin.getLogger().log(Level.SEVERE, plugin.translate("errors.editor.no-sessionid", response));
+                        plugin.getLogger().log(Level.SEVERE, plugin.translate("quill.error.runtime.editor.no-sessionid", response));
                         return null;
                     }
                 })
@@ -104,10 +104,10 @@ public class Editor {
             java.nio.file.Files.writeString(filePath, content, java.nio.charset.StandardCharsets.UTF_8);
 
             String result = filePath.toString();
-            plugin.getLogger().info(plugin.translate("editor.wrote-file", result));
+            plugin.getLogger().info(plugin.translate("quill.editor.wrote-file", result));
             resultFuture.complete(result);
         } catch (Exception e) {
-            plugin.getLogger().log(Level.SEVERE, plugin.translate("errors.editor.write-failed", e.getMessage()), e);
+            plugin.getLogger().log(Level.SEVERE, plugin.translate("quill.error.runtime.editor.write-failed", e.getMessage()), e);
             resultFuture.completeExceptionally(e);
         }
     }
@@ -124,7 +124,7 @@ public class Editor {
 
                 return result;
             } catch (Exception e) {
-                plugin.getLogger().log(Level.SEVERE, plugin.translate("errors.editor.read-failed", e.getMessage()), e);
+                plugin.getLogger().log(Level.SEVERE, plugin.translate("quill.error.runtime.editor.read-failed", e.getMessage()), e);
                 throw new RuntimeException(e);
             }
         });

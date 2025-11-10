@@ -1,5 +1,6 @@
 package me.kmathers.quill.parser;
 
+import me.kmathers.quill.Quill;
 import me.kmathers.quill.lexer.QuillLexer.Token;
 import me.kmathers.quill.lexer.QuillLexer.TokenType;
 import me.kmathers.quill.parser.AST.*;
@@ -37,7 +38,7 @@ public class QuillParser {
     private Token consume(TokenType expected) throws ParseException {
         Token token = current();
         if (token.kind != expected) {
-            throw new ParseException("Expected " + expected + " but got " + token.kind + " at line " + token.line);
+            throw new ParseException(Quill.getPlugin(Quill.class).translate("quill.error.runtime.parser.expected", expected, token.kind, token.line));
         }
         position++;
         return token;

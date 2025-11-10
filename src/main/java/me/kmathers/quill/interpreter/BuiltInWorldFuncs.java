@@ -30,7 +30,7 @@ public class BuiltInWorldFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 2 && args.size() != 4) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "set_block()", "2 or 4", "set_block(location, block_id) or set_block(x, y, z, block_id)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "set_block()", "2 or 4", "set_block(location, block_id) or set_block(x, y, z, block_id)"));
             }
 
             Location loc;
@@ -59,7 +59,7 @@ public class BuiltInWorldFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1 && args.size() != 3) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "get_block()", "1 or 3", "get_block(location) or get_block(x, y, z)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "get_block()", "1 or 3", "get_block(location) or get_block(x, y, z)"));
             }
 
             Location loc;
@@ -87,7 +87,7 @@ public class BuiltInWorldFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1 && args.size() != 3) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "break_block()", "1 or 3", "break_block(location) or break_block(x, y, z)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "break_block()", "1 or 3", "break_block(location) or break_block(x, y, z)"));
             }
 
             Location loc;
@@ -122,7 +122,7 @@ public class BuiltInWorldFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 2 && args.size() != 4) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "spawn_entity()", "2 or 4", "spawn_entity(entity_type, location) or set_block(entity_type, x, y, z)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "spawn_entity()", "2 or 4", "spawn_entity(entity_type, location) or set_block(entity_type, x, y, z)"));
             }
 
             Location loc;
@@ -150,7 +150,7 @@ public class BuiltInWorldFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "remove_entity()", "remove_entity(entity)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "remove_entity()", "remove_entity(entity)"));
             }
 
             Entity entity = args.get(0).asEntity();
@@ -165,7 +165,7 @@ public class BuiltInWorldFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (!(args.size() >= 2 && args.size() <= 5)) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "create_explosion()", "between 2 and 5", "create_explosion(location, power)\ncreate_explosion(location, power, fire)\ncreate_explosion(x, y, z, power)\ncreate_explosion(x, y, z, power, fire)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "create_explosion()", "between 2 and 5", "create_explosion(location, power)\ncreate_explosion(location, power, fire)\ncreate_explosion(x, y, z, power)\ncreate_explosion(x, y, z, power, fire)"));
             }
 
             Location loc = null;
@@ -210,7 +210,7 @@ public class BuiltInWorldFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1 && args.size() != 3) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "strike_lightning()", "1 or 3", "strike_lightning(location) or strike_lightning(x, y, z)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "strike_lightning()", "1 or 3", "strike_lightning(location) or strike_lightning(x, y, z)"));
             }
 
             Location loc;
@@ -239,14 +239,14 @@ public class BuiltInWorldFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 2) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "set_time()", "2", "set_time(world, time)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "set_time()", "2", "set_time(world, time)"));
             }
 
             World world = args.get(0).asWorld();
             int time = (int) args.get(1).asNumber();
 
             if(time < 0 || time > 24000) {
-                throw new RuntimeException(plugin.translate("errors.expected", "digit between 0 and 24000", "set_time()", String.valueOf(time)));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "digit between 0 and 24000", "set_time()", String.valueOf(time)));
             }
 
             world.setTime(time);
@@ -259,7 +259,7 @@ public class BuiltInWorldFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "get_time()", "get_time(world)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "get_time()", "get_time(world)"));
             }
 
             World world = args.get(0).asWorld();
@@ -272,7 +272,7 @@ public class BuiltInWorldFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 3) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "set_weather()", "3", "set_weather(world, weather, duration)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "set_weather()", "3", "set_weather(world, weather, duration)"));
             }
 
             World world = args.get(0).asWorld();
@@ -282,7 +282,7 @@ public class BuiltInWorldFuncs {
             Set<String> validWeather = Set.of("clear", "rain", "thunder");
 
             if (!validWeather.contains(weather.toLowerCase())) {
-                throw new RuntimeException(plugin.translate("errors.expected", "one of ['clear', 'rain', 'thunder']", "set_weather()", weather));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "one of ['clear', 'rain', 'thunder']", "set_weather()", weather));
             }
 
             switch (weather.toLowerCase()) {
@@ -311,7 +311,7 @@ public class BuiltInWorldFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "get_weather()", "get_weather(world)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "get_weather()", "get_weather(world)"));
             }
 
             World world = args.get(0).asWorld();
@@ -333,7 +333,7 @@ public class BuiltInWorldFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "get_world()", "get_world(world)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "get_world()", "get_world(world)"));
             }
 
             String worldString = args.get(0).asString();
@@ -348,7 +348,7 @@ public class BuiltInWorldFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "broadcast()", "broadcast(message)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "broadcast()", "broadcast(message)"));
             }
 
             String message = args.get(0).asString();
@@ -372,7 +372,7 @@ public class BuiltInWorldFuncs {
         try {
             return Material.valueOf(matString.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException(plugin.translate("errors.expected", "valid material", "parseMaterial()", matString));
+            throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "valid material", "parseMaterial()", matString));
         }
     }
 
@@ -385,26 +385,26 @@ public class BuiltInWorldFuncs {
         try {
             return EntityType.valueOf(entString.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException(plugin.translate("errors.expected", "valid entity type", "parseEntityType()", entString));
+            throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "valid entity type", "parseEntityType()", entString));
         }
     }
 
     public static World getWorld(ScopeContext scope) {
         ScopeContext.Region region = scope.getRegion();
         if (region == null) {
-            throw new RuntimeException(plugin.translate("errors.world.no-region-defined"));
+            throw new RuntimeException(plugin.translate("quill.error.user.world.no-region-defined"));
         }
                 
         World world = org.bukkit.Bukkit.getWorld(region.getWorldName());
         if (world == null) {
-            throw new RuntimeException(plugin.translate("errors.world.world-not-found", region.getWorldName()));
+            throw new RuntimeException(plugin.translate("quill.error.user.world.world-not-found", region.getWorldName()));
         }
         return world;
     }
 
     private static double validateExplosionPower(double power) {
         if (power < 0 || power > 10) {
-            throw new RuntimeException(plugin.translate("errors.expected", "digit between 0 and 10", "create_explosion()", String.valueOf(power)));
+            throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "digit between 0 and 10", "create_explosion()", String.valueOf(power)));
         }
         return power;
     }

@@ -59,7 +59,7 @@ public class Scope {
 
     public void setBoundaries(List<Double> boundaries){
         if (boundaries.size() != 6) {
-            throw new RuntimeException(plugin.translate("errors.scope.wrong-boundary-list-size"));
+            throw new RuntimeException(plugin.translate("quill.error.user.scope.wrong-boundary-list-size"));
         } else {
             this.boundaries = boundaries;
         }
@@ -79,7 +79,7 @@ public class Scope {
 
         int index = validModes.indexOf(key);
         if (index == -1) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "one of ['x1', 'y1', 'z1', 'x2', 'y2', 'z2']",  boundary));
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "one of ['x1', 'y1', 'z1', 'x2', 'y2', 'z2']",  boundary));
         }
 
         this.boundaries.set(index, coord);
@@ -109,7 +109,7 @@ public class Scope {
         if (this.persistentVariables.containsKey(name)) {
             this.persistentVariables.replace(name, value);
         } else {
-            throw new IllegalStateException(plugin.translate("errors.scope.no-persistent-var", name));
+            throw new IllegalStateException(plugin.translate("quill.error.user.scope.no-persistent-var", name));
         }
     }
 

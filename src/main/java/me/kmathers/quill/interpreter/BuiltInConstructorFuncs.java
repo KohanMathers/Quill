@@ -22,7 +22,7 @@ public class BuiltInConstructorFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 3 && args.size() != 4) {
-                throw new RuntimeException(plugin.translate("error.requires-arguments", "location()", "3 or 4", "location(x, y, z) or location(x, y, z, world)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "location()", "3 or 4", "location(x, y, z) or location(x, y, z, world)"));
             }
             
             double x = args.get(0).asNumber();
@@ -34,16 +34,16 @@ public class BuiltInConstructorFuncs {
                 String worldName = args.get(3).asString();
                 world = Bukkit.getWorld(worldName);
                 if (world == null) {
-                    throw new RuntimeException(plugin.translate("errors.world.world-not-found", worldName));
+                    throw new RuntimeException(plugin.translate("quill.error.user.world.world-not-found", worldName));
                 }
             } else {
                 ScopeContext.Region region = scope.getRegion();
                 if (region == null) {
-                    throw new RuntimeException(plugin.translate("errors.world.no-region-defined"));
+                    throw new RuntimeException(plugin.translate("quill.error.user.world.no-region-defined"));
                 }
                 world = Bukkit.getWorld(region.getWorldName());
                 if (world == null) {
-                    throw new RuntimeException(plugin.translate("errors.world.world-not-found", region.getWorldName()));
+                    throw new RuntimeException(plugin.translate("quill.error.user.world.world-not-found", region.getWorldName()));
                 }
             }
             
@@ -55,7 +55,7 @@ public class BuiltInConstructorFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() < 1 || args.size() > 3) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "item()", "1 to 3", "item(item_id), item(item_id, amount), or item(item_id, amount, metadata)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "item()", "1 to 3", "item(item_id), item(item_id, amount), or item(item_id, amount, metadata)"));
             }
             
             String itemId = args.get(0).asString();
@@ -68,7 +68,7 @@ public class BuiltInConstructorFuncs {
         
         private ItemStack createItemStack(String itemId, int amount) {
             if (itemId == null || itemId.isEmpty()) {
-                throw new RuntimeException(plugin.translate("errors.item.empty-item-id"));
+                throw new RuntimeException(plugin.translate("quill.error.user.item.empty-item-id"));
             }
             
             String materialName = itemId;
@@ -83,11 +83,11 @@ public class BuiltInConstructorFuncs {
             try {
                 material = Material.valueOf(materialName);
             } catch (IllegalArgumentException e) {
-                throw new RuntimeException(plugin.translate("errors.item.invalid-item-id", itemId));
+                throw new RuntimeException(plugin.translate("quill.error.user.item.invalid-item-id", itemId));
             }
             
             if (amount < 1) {
-                throw new RuntimeException(plugin.translate("errors.item.under-1-item", amount));
+                throw new RuntimeException(plugin.translate("quill.error.user.item.under-1-item", amount));
             }
             if (amount > 64) {
                 amount = Math.min(amount, material.getMaxStackSize());

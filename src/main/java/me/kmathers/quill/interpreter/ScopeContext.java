@@ -58,7 +58,7 @@ public class ScopeContext {
      */
     public void define(String name, QuillValue value) {
         if (variables.containsKey(name)) {
-            throw new RuntimeException(plugin.translate("errors.scope.already-defined", name));
+            throw new RuntimeException(plugin.translate("quill.errors.scope.already-defined", name));
         }
         variables.put(name, value);
     }
@@ -100,7 +100,7 @@ public class ScopeContext {
             return parent.get(name);
         }
         
-    throw new RuntimeException(plugin.translate("errors.scope.undefined", name));
+    throw new RuntimeException(plugin.translate("quill.errors.scope.undefined", name));
     }
     
     /**

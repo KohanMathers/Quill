@@ -23,7 +23,7 @@ public class BuiltInScopeFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 2) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "addtoscope()", "2", "addtoscope(player, scope)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "addtoscope()", "2", "addtoscope(player, scope)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -39,7 +39,7 @@ public class BuiltInScopeFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 2) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "removefromscope()", "2", "removefromscope(player, scope)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "removefromscope()", "2", "removefromscope(player, scope)"));
             }
             
             Player player = args.get(0).asPlayer();
@@ -57,7 +57,7 @@ public class BuiltInScopeFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "getplayers()", "getplayers(scope)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "getplayers()", "getplayers(scope)"));
             }
 
             ScopeContext targetScope = args.get(0).asScope().getScope();
@@ -76,7 +76,7 @@ public class BuiltInScopeFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 2) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "in_region()", "2", "in_region(player, scope) or in_region(location, scope)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "in_region()", "2", "in_region(player, scope) or in_region(location, scope)"));
             }
             
 
@@ -87,7 +87,7 @@ public class BuiltInScopeFuncs {
             } else if (args.get(0).isLocation()) {
                 return new BooleanValue(targetScope.isInRegion(args.get(0).asLocation()));
             } else {
-                throw new RuntimeException(plugin.translate("errors.expected", "player or location", "in_region()", args.get(0).getType()));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "player or location", "in_region()", args.get(0).getType()));
             }
         }
     }
@@ -96,7 +96,7 @@ public class BuiltInScopeFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 1) {
-                throw new RuntimeException(plugin.translate("errors.requires-argument", "get_region()", "get_region(scope)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "get_region()", "get_region(scope)"));
             }
             
             ScopeContext targetScope = args.get(0).asScope().getScope();
@@ -121,7 +121,7 @@ public class BuiltInScopeFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 7) {
-                throw new RuntimeException(plugin.translate("errors.requires-arguments", "set_region()", "7", "set_region(scope, x1, y1, z1, x2, y2, z2)"));
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "set_region()", "7", "set_region(scope, x1, y1, z1, x2, y2, z2)"));
             }
             
             ScopeContext targetScope = args.get(0).asScope().getScope();

@@ -81,6 +81,8 @@ public class ExampleClass {
 }
 ```
 
+Also see the [Translation Schema](./TRANS-SCHEMA.md)
+
 #### Testing
 
 - Unit tests are encouraged but not enforced, I will forget to write them myself

@@ -37,7 +37,7 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            sendHelp(sender);
+            sendHelp(sender, null);
             return true;
         }
         
@@ -58,23 +58,23 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
                 createSession(sender, args);
                 return true;
             case "help":
-                sendHelp(sender);
+                sendHelp(sender, args);
                 return true;
             default:
-                sender.sendMessage(Component.text(plugin.translate("commands.unknown-command"), NamedTextColor.RED));
-                sender.sendMessage(Component.text(plugin.translate("commands.unknown-command-hint"), NamedTextColor.YELLOW));
+                sender.sendMessage(Component.text(plugin.translate("quill.commands.global.unknown"), NamedTextColor.RED));
+                sender.sendMessage(Component.text(plugin.translate("quill.commands.global.unknown-hint"), NamedTextColor.YELLOW));
                 return true;
         }
     }
     
     private boolean handleLoad(CommandSender sender, String[] args) {
         if (args.length < 2) {
-            sender.sendMessage(Component.text(plugin.translate("commands.usage.filename", "load"), NamedTextColor.RED));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.usage.filename", "load"), NamedTextColor.RED));
             return true;
         }
         
         if (!sender.hasPermission("quill.script.load")) {
-            sender.sendMessage(Component.text(plugin.translate("commands.no-permission", "load scripts"), NamedTextColor.RED));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "load scripts"), NamedTextColor.RED));
             return true;
         }
         
@@ -86,9 +86,9 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text("Loading script: " + filename, NamedTextColor.YELLOW));
         
         if (scriptManager.loadScript(filename)) {
-            sender.sendMessage(Component.text(plugin.translate("commands.command-success", "loaded script: " + filename), NamedTextColor.GREEN));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.success", "loaded script: " + filename), NamedTextColor.GREEN));
         } else {
-            sender.sendMessage(Component.text(plugin.translate("commands.command-fail", "load script"), NamedTextColor.RED));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.fail", "load script"), NamedTextColor.RED));
         }
         
         return true;
@@ -96,12 +96,12 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
     
     private boolean handleReload(CommandSender sender, String[] args) {
         if (args.length < 2) {
-            sender.sendMessage(Component.text(plugin.translate("commands.usage.filename", "reload"), NamedTextColor.RED));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.usage.filename", "reload"), NamedTextColor.RED));
             return true;
         }
         
         if (!sender.hasPermission("quill.script.reload")) {
-            sender.sendMessage(Component.text(plugin.translate("commands.no-permission", "reload scripts"), NamedTextColor.RED));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "reload scripts"), NamedTextColor.RED));
             return true;
         }
         
@@ -113,9 +113,9 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text("Reloading script: " + filename, NamedTextColor.YELLOW));
         
         if (scriptManager.reloadScript(filename)) {
-            sender.sendMessage(Component.text(plugin.translate("commands.command-success", "reloaded script: " + filename), NamedTextColor.GREEN));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.success", "reloaded script: " + filename), NamedTextColor.GREEN));
         } else {
-            sender.sendMessage(Component.text(plugin.translate("commands.command-fail", "reload script"), NamedTextColor.RED));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.fail", "reload script"), NamedTextColor.RED));
         }
         
         return true;
@@ -123,12 +123,12 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
     
     private boolean handleUnload(CommandSender sender, String[] args) {
         if (args.length < 2) {
-            sender.sendMessage(Component.text(plugin.translate("commands.usage.filename", "unload"), NamedTextColor.RED));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.usage.filename", "unload"), NamedTextColor.RED));
             return true;
         }
         
         if (!sender.hasPermission("quill.script.unload")) {
-            sender.sendMessage(Component.text(plugin.translate("commands.no-permission", "unload scripts"), NamedTextColor.RED));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "unload scripts"), NamedTextColor.RED));
             return true;
         }
         
@@ -138,23 +138,23 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
         }
         
         scriptManager.unloadScript(filename);
-        sender.sendMessage(Component.text(plugin.translate("commands.command-success", "unloaded script: " + filename), NamedTextColor.GREEN));
+        sender.sendMessage(Component.text(plugin.translate("quill.commands.global.success", "unloaded script: " + filename), NamedTextColor.GREEN));
         
         return true;
     }
     
     private boolean handleList(CommandSender sender) {
         if (!sender.hasPermission("quill.script.list")) {
-            sender.sendMessage(Component.text(plugin.translate("commands.no-permission", "list scripts"), NamedTextColor.RED));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "list scripts"), NamedTextColor.RED));
             return true;
         }
         
         String[] scripts = scriptManager.listScripts();
         
-        sender.sendMessage(Component.text("=== " + plugin.translate("commands.available-scripts") + " ===", NamedTextColor.GOLD));
+        sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.scripts.available") + " ===", NamedTextColor.GOLD));
         
         if (scripts.length == 0) {
-            sender.sendMessage(Component.text(plugin.translate("commands.no-scripts"), NamedTextColor.YELLOW));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.scripts.none"), NamedTextColor.YELLOW));
         } else {
             for (String script : scripts) {
                 boolean loaded = scriptManager.getInterpreter(script) != null;
@@ -169,35 +169,53 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
     }
     
     private boolean handleInfo(CommandSender sender) {
-        sender.sendMessage(Component.text("=== " + plugin.translate("commands.info.title") + " ===", NamedTextColor.GOLD));
-        sender.sendMessage(Component.text(plugin.translate("commands.info.version") + ": ", NamedTextColor.YELLOW).append(Component.text(plugin.getPluginMeta().getVersion(), NamedTextColor.WHITE)));
-        sender.sendMessage(Component.text(plugin.translate("commands.info.loaded") + ": ", NamedTextColor.YELLOW).append(Component.text(scriptManager.getAllInterpreters().size(), NamedTextColor.WHITE)));
-        sender.sendMessage(Component.text(plugin.translate("commands.info.directory") + ": ", NamedTextColor.YELLOW).append(Component.text(scriptManager.getScriptsDirectory().getAbsolutePath(), NamedTextColor.WHITE)));
+        sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.info.title") + " ===", NamedTextColor.GOLD));
+        sender.sendMessage(Component.text(plugin.translate("quill.commands.info.version") + ": ", NamedTextColor.YELLOW).append(Component.text(plugin.getPluginMeta().getVersion(), NamedTextColor.WHITE)));
+        sender.sendMessage(Component.text(plugin.translate("quill.commands.info.loaded") + ": ", NamedTextColor.YELLOW).append(Component.text(scriptManager.getAllInterpreters().size(), NamedTextColor.WHITE)));
+        sender.sendMessage(Component.text(plugin.translate("quill.commands.info.directory") + ": ", NamedTextColor.YELLOW).append(Component.text(scriptManager.getScriptsDirectory().getAbsolutePath(), NamedTextColor.WHITE)));
         sender.sendMessage(Component.text("========================", NamedTextColor.GOLD));
         
         return true;
     }
     
-    private void sendHelp(CommandSender sender) {
-        sender.sendMessage(Component.text("=== " + plugin.translate("commands.help.title") + " ===", NamedTextColor.GOLD));
-        sender.sendMessage(Component.text("/quill load <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("commands.help.load"), NamedTextColor.WHITE)));
-        sender.sendMessage(Component.text("/quill reload <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("commands.help.reload"), NamedTextColor.WHITE)));
-        sender.sendMessage(Component.text("/quill unload <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("commands.help.unload"), NamedTextColor.WHITE)));
-        sender.sendMessage(Component.text("/quill edit <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("commands.help.edit"), NamedTextColor.WHITE)));
-        sender.sendMessage(Component.text("/quill list", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("commands.help.list"), NamedTextColor.WHITE)));
-        sender.sendMessage(Component.text("/quill info", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("commands.help.info"), NamedTextColor.WHITE)));
-        sender.sendMessage(Component.text("/quill help", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("commands.help.help"), NamedTextColor.WHITE)));
-        sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
+    private void sendHelp(CommandSender sender, String[] args) {
+        if (args == null || args.length == 0) {
+            sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.help.title") + " ===", NamedTextColor.GOLD));
+            sender.sendMessage(Component.text("/quill load <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.load"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill reload <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.reload"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill unload <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.unload"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill edit <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.edit"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill list", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.list"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill info", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.info"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill scope <subcommand> [args]", NamedTextColor.YELLOW).append(Component.text(" - Manage scopes (use /quill help scope)", NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill help", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.help"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
+        } else if (args.length >= 1) {
+            switch (args[0]) {
+                case "scope":
+                    sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.scope.title") + " ===", NamedTextColor.GOLD));
+                    sender.sendMessage(Component.text("/quill scope create <name> <owner> <x1> <y1> <z1> <x2> <y2> <z2> <whitelist|blacklist>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.create"), NamedTextColor.WHITE)));
+                    sender.sendMessage(Component.text("/quill scope delete <name>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.delete"), NamedTextColor.WHITE)));
+                    sender.sendMessage(Component.text("/quill scope list", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.list"), NamedTextColor.WHITE)));
+                    sender.sendMessage(Component.text("/quill scope info <name>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.info"), NamedTextColor.WHITE)));
+                    sender.sendMessage(Component.text("/quill scope permission <name> <function> <grant|revoke>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.permission"), NamedTextColor.WHITE)));
+                    sender.sendMessage(Component.text("/quill scope persist <name> <variable> <add|remove>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.persist"), NamedTextColor.WHITE)));
+                    sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     private void createSession(CommandSender sender, String[] args) {
         if (args.length < 2) {
-            sender.sendMessage(Component.text(plugin.translate("commands.usage.filename", "edit"), NamedTextColor.RED));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.usage.filename", "edit"), NamedTextColor.RED));
             return;
         }
         
         if (!sender.hasPermission("quill.script.edit")) {
-            sender.sendMessage(Component.text(plugin.translate("commands.no-permission", "edit scripts"), NamedTextColor.RED));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "edit scripts"), NamedTextColor.RED));
             return;
         }
         
@@ -211,24 +229,24 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
                 editor.createSession(fileData).thenAccept(sessionId -> {
                     if (sessionId != null) {
                         String url = plugin.getConfig().getString("editor.url") + sessionId;
-                        sender.sendMessage(Component.text(plugin.translate("commands.session-created") + " ", NamedTextColor.GREEN)
+                        sender.sendMessage(Component.text(plugin.translate("quill.commands.global.session-created") + " ", NamedTextColor.GREEN)
                             .append(Component.text(url, NamedTextColor.GREEN, TextDecoration.UNDERLINED)
                             .clickEvent(ClickEvent.openUrl(url))));
 
                         CompletableFuture<String> editsFuture = editor.waitForEdits(sessionId);
                         editsFuture.thenAccept(data -> {
                             editor.writeFile(finalFilename, data, editsFuture);
-                            sender.sendMessage(Component.text(plugin.translate("commands.saved-script", finalFilename), NamedTextColor.GREEN));
+                            sender.sendMessage(Component.text(plugin.translate("quill.commands.scripts.saved", finalFilename), NamedTextColor.GREEN));
                             editor.deleteSession(sessionId, editsFuture);
                         });
                     } else {
-                        plugin.getLogger().log(Level.SEVERE, plugin.translate("commands.no-sessionid"));
-                        sender.sendMessage(Component.text(plugin.translate("commands.command-fail", "create session"), NamedTextColor.RED));
+                        plugin.getLogger().log(Level.SEVERE, plugin.translate("quill.commands.global.no-sessionid"));
+                        sender.sendMessage(Component.text(plugin.translate("quill.commands.global.fail", "create session"), NamedTextColor.RED));
                     }
                 });
             });
         } else {
-            sender.sendMessage(Component.text(plugin.translate("commands.invalid-url"), NamedTextColor.RED));
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.invalid-url"), NamedTextColor.RED));
         }
     }
 

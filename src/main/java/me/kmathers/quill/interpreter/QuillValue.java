@@ -58,49 +58,49 @@ public abstract class QuillValue {
     
     public double asNumber() {
         if (!isNumber()) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "number", getType()));
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "number", getType()));
         }
         return (double) getValue();
     }
     
     public String asString() {
         if (!isString()) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "string", getType()));
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "string", getType()));
         }
         return (String) getValue();
     }
     
     public boolean asBoolean() {
         if (!isBoolean()) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "boolean", getType()));
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "boolean", getType()));
         }
         return (boolean) getValue();
     }
     
     public Player asPlayer() {
         if (!isPlayer()) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "player", getType()));
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "player", getType()));
         }
         return (Player) getValue();
     }
     
     public Location asLocation() {
         if (!isLocation()) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "location", getType()));
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "location", getType()));
         }
         return (Location) getValue();
     }
     
     public ItemStack asItem() {
         if (!isItem()) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "item", getType()));
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "item", getType()));
         }
         return (ItemStack) getValue();
     }
     
     public ScopeValue asScope() {
         if (!isScope()) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "scope", getType()));
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "scope", getType()));
         }
         return (ScopeValue) this;
     }
@@ -108,28 +108,28 @@ public abstract class QuillValue {
     @SuppressWarnings("unchecked")
     public List<QuillValue> asList() {
         if (!isList()) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "list", getType()));
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "list", getType()));
         }
         return (List<QuillValue>) getValue();
     }
     
     public Entity asEntity() {
         if (!isEntity()) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "entity", getType()));
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "entity", getType()));
         }
         return (Entity) getValue();
     }
     
     public World asWorld() {
         if (!isWorld()) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "world", getType()));
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "world", getType()));
         }
         return (World) getValue();
     }
     
     public RegionValue asRegion() {
         if (!isRegion()) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "region", getType()));
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "region", getType()));
         }
         return (RegionValue) getValue();
     }
@@ -137,14 +137,14 @@ public abstract class QuillValue {
     @SuppressWarnings("unchecked")
     public Map<String, QuillValue> asMap() {
         if (!isMap()) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "map", getType()));
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "map", getType()));
         }
         return (Map<String, QuillValue>) getValue();
     }
     
     public org.bukkit.event.Event asEvent() {
         if (!isEvent()) {
-            throw new RuntimeException(plugin.translate("errors.value.expected", "event", getType()));
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "event", getType()));
         }
         return (org.bukkit.event.Event) getValue();
     }

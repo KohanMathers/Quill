@@ -19,11 +19,13 @@ public class QuillScopeManager {
     private Quill plugin;
     private final File scopesDir;
     private final Logger logger;
+    private Map<String, Scope> scopes;
     
     public QuillScopeManager(Quill plugin, File dataFolder, Logger logger) {
         this.plugin = plugin;
         this.scopesDir = new File(dataFolder, "scopes");
         this.logger = logger;
+        this.scopes = new HashMap<>();
         
         if (!scopesDir.exists()) {
             scopesDir.mkdirs();
@@ -47,7 +49,7 @@ public class QuillScopeManager {
         File scopeFile = new File(scopesDir, filename);
         
         if (!scopeFile.exists()) {
-            logger.severe(plugin.translate("scope-manager.file-not-found", filename));
+            logger.severe(plugin.translate("quill.scope-manager.file.file-not-found", filename));
             return null;
         }
         
@@ -60,17 +62,24 @@ public class QuillScopeManager {
             String modeStr = config.getString("mode", "whitelist");
 
             if (name == null || ownerStr == null || boundaries == null || boundaries.size() != 6) {
-                logger.severe(plugin.translate("scope-manager.invalid-format", filename));
+                logger.severe(plugin.translate("quill.scope-manager.format.invalid-format", filename));
                 return null;
             }
             
-            UUID owner = UUID.fromString(ownerStr);
+            UUID owner;
+            try {
+                owner = UUID.fromString(ownerStr);
+            } catch (IllegalArgumentException e) {
+                logger.severe(plugin.translate("quill.scope-manager.format.invalid-owner-uuid", ownerStr));
+                e.printStackTrace();
+                return null;
+            }
             
             SecurityMode mode;
             try {
                 mode = SecurityMode.valueOf(modeStr.toUpperCase());
             } catch (IllegalArgumentException e) {
-                logger.warning(plugin.translate("scope-manager.invalid-mode", modeStr));
+                logger.warning(plugin.translate("quill.scope-manager.format.invalid-mode", modeStr));
                 mode = SecurityMode.WHITELIST;
             }
             
@@ -82,15 +91,12 @@ public class QuillScopeManager {
             }
             
             Scope scope = createScope(name, owner, boundaries, mode, funcs, persistentVars);
-            logger.info(plugin.translate("scope-manager.loaded-success", name, filename));
+            logger.info(plugin.translate("quill.scope-manager.status.loaded-success", name));
+            scopes.put(scope.getName(), scope);
             return scope;
             
-        } catch (IllegalArgumentException e) {
-            logger.severe(plugin.translate("scope-manager.invalid-uuid", filename));
-            e.printStackTrace();
-            return null;
         } catch (Exception e) {
-            logger.severe(plugin.translate("scope-manager.read-fail", filename));
+            logger.severe(plugin.translate("quill.scope-manager.file.read-fail", filename));
             e.printStackTrace();
             return null;
         }
@@ -119,11 +125,11 @@ public class QuillScopeManager {
             }
             
             config.save(scopeFile);
-            logger.info(plugin.translate("scope-manager.saved-success", scope.getName(), filename));
+            logger.info(plugin.translate("quill.scope-manager.file.saved-success", scope.getName(), filename));
             return true;
             
         } catch (Exception e) {
-            logger.severe(plugin.translate("scope-manager.write-fail", filename));
+            logger.severe(plugin.translate("quill.scope-manager.file.write-fail", filename));
             e.printStackTrace();
             return false;
         }
@@ -143,7 +149,24 @@ public class QuillScopeManager {
                 }
             }
         }
-        logger.info(plugin.translate("scope-manager.loaded", loaded, total));
+        logger.info(plugin.translate("quill.scope-manager.file.loaded", loaded, total));
         return scopes;
+    }
+
+    public boolean deleteScope(String filename) {
+        File scopeFile = new File(scopesDir, filename);
+        
+        if (!scopeFile.exists()) {
+            logger.severe(plugin.translate("quill.scope-manager.file.file-not-found", filename));
+            return false;
+        }
+        
+        try {
+            return scopeFile.delete();
+        } catch (Exception e) {
+            logger.severe(plugin.translate("quill.scope-manager.file.delete-fail", filename));
+            e.printStackTrace();
+            return false;
+        }
     }
 }

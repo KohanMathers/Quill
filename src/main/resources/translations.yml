@@ -87,6 +87,7 @@ quill:
       edit: "Edit a script"
       info: "Show plugin info"
       help: "Show this help"
+      scope: "Manage scopes (use /quill help scope)"
 
     info:
       title: "Quill Plugin Info"
@@ -99,9 +100,61 @@ quill:
       create: "Create a scope"
       delete: "Delete a scope"
       list: "List all loaded scopes"
-      info: "Show info about a scope"
-      permission: "Grant or revoke a scope function"
-      persist: "Add or remove a persistent variable from a scope"
+      created: "Created scope: {0}"
+      deleted: "Deleted scope: {0}"
+
+      info:
+        help-hint: "Show info about a scope"
+        not-found: "Could not find scope: {0}"
+        title: "{0} Info"
+        name: "Name"
+        owner: "Owner"
+        boundaries: "Boundaries"
+        mode: "Security Mode"
+        whitelisted-funcs: "Whitelisted Functions"
+        blacklisted-funcs: "Blacklisted Functions"
+        persistent: "Persistent Variables"
+        funcs-hint: "See list with /quill scope permission list {0}"
+        persistent-hint: "See list with /quill scope persist list {0}"
+
+      permission:
+        help-hint: "Grant or revoke a scope function"
+      
+      persist:
+        help-hint: "Add or remove a persistent variable from scope"
+
+      list:
+        title: "Loaded Scopes"
+
+      grant:
+        success: "Granted permission {0} to {1}"
+        fail:
+          already-inherits: "Scope {0} already inherits function {1}"
+          does-not-inherit: "Scope {0} does not inherit function {1}"
+          scope-not-found: "Scope '{0}' not found"
+          default: "Failed to grant function to scope '{0}'. Check console for errors."
+
+      revoke:
+        success: "Revoked permission {0} from {1}"
+        fail:
+          already-inherits: "Scope {0} already inherits function {1}"
+          does-not-inherit: "Scope {0} does not inherit function {1}"
+          scope-not-found: "Scope '{0}' not found"
+          default: "Failed to revoke function to scope '{0}'. Check console for errors."
+
+      add-persistent:
+        success: "Added persistent variable '{0}' to {1}"
+        fail:
+          already-inherits: "Scope {0} already inherits variable {1}"
+          scope-not-found: "Scope '{0}' not found"
+          default: "Failed to add persistent variable to scope '{0}'. Check console for errors."
+
+      remove-persistent:
+        success: "Removed persistent variable '{0}' from {1}"
+        fail:
+          does-not-inherit: "Scope {0} does not inherit variable {1}"
+          scope-not-found: "Scope '{0}' not found"
+          default: "Failed to remove persistent variable from scope '{0}'. Check console for errors."
 
   error:
     user:

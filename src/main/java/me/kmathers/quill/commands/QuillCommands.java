@@ -204,7 +204,7 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
             sender.sendMessage(Component.text("/quill edit <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.edit"), NamedTextColor.WHITE)));
             sender.sendMessage(Component.text("/quill list", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.list"), NamedTextColor.WHITE)));
             sender.sendMessage(Component.text("/quill info", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.info"), NamedTextColor.WHITE)));
-            sender.sendMessage(Component.text("/quill scope <subcommand> [args]", NamedTextColor.YELLOW).append(Component.text(" - Manage scopes (use /quill help scope)", NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill scope <subcommand> [args]", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.scope"), NamedTextColor.WHITE)));
             sender.sendMessage(Component.text("/quill help", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.help"), NamedTextColor.WHITE)));
             sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
         } else if (args.length >= 2 && args[1].equalsIgnoreCase("scope")) {

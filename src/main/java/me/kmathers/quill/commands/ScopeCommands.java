@@ -47,7 +47,7 @@ public class ScopeCommands {
                         NamedTextColor.GREEN));
                 } else {
                     sender.sendMessage(Component.text(
-                        plugin.translate("quill.commands.scope.create-fail", args[0]),
+                        plugin.translate("quill.commands.global.fail", "create scope: " + args[0]),
                         NamedTextColor.RED));
                 }
             } catch (IllegalArgumentException e) {
@@ -90,7 +90,7 @@ public class ScopeCommands {
                     NamedTextColor.GREEN));
             } else {
                 sender.sendMessage(Component.text(
-                    plugin.translate("quill.commands.scope.delete-fail", args[0]),
+                    plugin.translate("quill.commands.global.fail", "delete scope: " + args[0]),
                     NamedTextColor.RED));
             }
             
@@ -163,7 +163,7 @@ public class ScopeCommands {
             
             if (info.get("name").equals("scope-not-found")) {
                 sender.sendMessage(Component.text(
-                    plugin.translate("quill.commands.scope.info.not-found"),
+                    plugin.translate("quill.commands.scope.info.not-found", args[0]),
                     NamedTextColor.RED));
                 return true;
             }
@@ -211,12 +211,12 @@ public class ScopeCommands {
                     : plugin.translate("quill.commands.scope.info.blacklisted-funcs"),
                 NamedTextColor.YELLOW)
                 .append(Component.text(
-                    plugin.translate("quill.commands.scope.info.funcs-hint"),
+                    plugin.translate("quill.commands.scope.info.funcs-hint", info.get("name")),
                     NamedTextColor.WHITE)));
             sender.sendMessage(Component.text(
                 plugin.translate("quill.commands.scope.info.persistent") + ": ", NamedTextColor.YELLOW)
                 .append(Component.text(
-                    plugin.translate("quill.commands.scope.info.persistent-hint"),
+                    plugin.translate("quill.commands.scope.info.persistent-hint", info.get("name")),
                     NamedTextColor.WHITE)));
             sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
             
@@ -346,7 +346,7 @@ public class ScopeCommands {
             
             if (result.success()) {
                 sender.sendMessage(Component.text(
-                    plugin.translate(translationKey + ".success", scopeName, variable),
+                    plugin.translate(translationKey + ".success", variable, scopeName),
                     NamedTextColor.GREEN));
             } else {
                 String errorKey = result.message().orElse("default");

@@ -167,9 +167,12 @@ public class ScopeCommands {
                     NamedTextColor.RED));
                 return true;
             }
-            
-            boolean isOwner = sender instanceof Player player && 
-                player.getUniqueId().equals(UUID.fromString(info.get("owner").toString()));
+
+            boolean isOwner = false;
+            if (info.get("owner") != null) {
+                isOwner = sender instanceof Player player && 
+                    player.getUniqueId().equals(UUID.fromString(info.get("owner").toString()));
+            }            
             
             if (!sender.isOp() && !sender.hasPermission("quill.scope.info.others") && !isOwner) {
                 sender.sendMessage(Component.text(

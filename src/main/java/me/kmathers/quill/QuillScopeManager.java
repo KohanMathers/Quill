@@ -1,6 +1,7 @@
 package me.kmathers.quill;
 
 import me.kmathers.quill.utils.Scope;
+import me.kmathers.quill.utils.Result.BooleanResult;
 import me.kmathers.quill.utils.SecurityConfig.SecurityMode;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -196,5 +197,79 @@ public class QuillScopeManager {
             info.put("name", "scope-not-found");
         }
         return info;
+    }
+
+    public BooleanResult grantFunc(String scope, String func) {
+        if(scopes.containsKey(scope)) {
+            Scope targetScope = scopes.get(scope);
+            if(targetScope.getSecurityMode().equals(SecurityMode.WHITELIST)) {
+                if(targetScope.hasPermission(func)) {
+                    return BooleanResult.fail("already-inherits");
+                } else {
+                    targetScope.addFunc(func);
+                    return BooleanResult.ok();
+                }
+            } else {
+                if(targetScope.hasPermission(func)) {
+                    targetScope.removeFunc(func);
+                    return BooleanResult.ok();
+                } else {
+                    return BooleanResult.fail("does-not-inherit");
+                }
+            }
+        } else {
+            return BooleanResult.fail("scope-not-found");
+        }
+    }
+
+    public BooleanResult revokeFunc(String scope, String func) {
+        if(scopes.containsKey(scope)) {
+            Scope targetScope = scopes.get(scope);
+            if(targetScope.getSecurityMode().equals(SecurityMode.WHITELIST)) {
+                if(targetScope.hasPermission(func)) {
+                    targetScope.removeFunc(func);
+                    return BooleanResult.ok();
+                } else {
+                    return BooleanResult.fail("does-not-inherit");
+                }
+            } else {
+                if(targetScope.hasPermission(func)) {
+                    return BooleanResult.fail("already-inherits");
+                } else {
+                    targetScope.addFunc(func);
+                    return BooleanResult.ok();
+                }
+            }
+        } else {
+            return BooleanResult.fail("scope-not-found");
+        }
+    }
+
+    public BooleanResult addPersistentVar(String scope, String var) {
+        if(scopes.containsKey(scope)) {
+            Scope targetScope = scopes.get(scope);
+                if(targetScope.hasPersistentVar(var)) {
+                    return BooleanResult.fail("already-inherits");
+                } else {
+                    targetScope.addPersistentVar(var);
+                    return BooleanResult.ok();
+                }
+            } else {
+            return BooleanResult.fail("scope-not-found");
+        }
+    }
+
+    public BooleanResult removePersistentVar(String scope, String var) {
+        if(scopes.containsKey(scope)) {
+            Scope targetScope = scopes.get(scope);
+                if(targetScope.hasPersistentVar(var)) {
+                    targetScope.removePersistentVar(var);
+                    return BooleanResult.ok();
+                } else {
+                    return BooleanResult.fail("does-not-inherit");
+                }
+            } else {
+            return BooleanResult.fail("scope-not-found");
+        }
     }
 }

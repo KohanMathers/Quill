@@ -4,13 +4,11 @@ import me.kmathers.quill.Quill;
 import me.kmathers.quill.QuillScopeManager;
 import me.kmathers.quill.QuillScriptManager;
 import me.kmathers.quill.utils.Editor;
-import me.kmathers.quill.utils.SecurityConfig.SecurityMode;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,28 +17,35 @@ import org.bukkit.command.TabCompleter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
-/**
- * Command handler for Quill plugin.
- */
 public class QuillCommands implements CommandExecutor, TabCompleter {
     private final Quill plugin;
     private final QuillScriptManager scriptManager;
     private final QuillScopeManager scopeManager;
+    private final Editor editor;
+    private final CommandRegistry registry;
+    private final CommandRegistry scopeRegistry;
     
     public QuillCommands(Quill plugin, QuillScriptManager scriptManager, QuillScopeManager scopeManager) {
         this.plugin = plugin;
         this.scriptManager = scriptManager;
         this.scopeManager = scopeManager;
         this.editor = new Editor(plugin);
+        this.registry = new CommandRegistry();
+        this.scopeRegistry = new CommandRegistry();
+        
+        registerCommands();
     }
     
-    private Editor editor;
+    private void registerCommands() {
+        scopeRegistry.register(new ScopeCommands.Create(plugin, scopeManager));
+        scopeRegistry.register(new ScopeCommands.Delete(plugin, scopeManager));
+        scopeRegistry.register(new ScopeCommands.ListScopes(plugin, scopeManager));
+        scopeRegistry.register(new ScopeCommands.Info(plugin, scopeManager));
+        scopeRegistry.register(new ScopeCommands.Permission(plugin, scopeManager));
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -65,6 +70,8 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
             case "edit":
                 createSession(sender, args);
                 return true;
+            case "scope":
+                return handleScope(sender, Arrays.copyOfRange(args, 1, args.length));
             case "help":
                 sendHelp(sender, args);
                 return true;
@@ -198,21 +205,15 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
             sender.sendMessage(Component.text("/quill scope <subcommand> [args]", NamedTextColor.YELLOW).append(Component.text(" - Manage scopes (use /quill help scope)", NamedTextColor.WHITE)));
             sender.sendMessage(Component.text("/quill help", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.help"), NamedTextColor.WHITE)));
             sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
-        } else if (args.length >= 1) {
-            switch (args[0]) {
-                case "scope":
-                    sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.scope.title") + " ===", NamedTextColor.GOLD));
-                    sender.sendMessage(Component.text("/quill scope create <name> <owner> <x1> <y1> <z1> <x2> <y2> <z2> <whitelist|blacklist>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.create"), NamedTextColor.WHITE)));
-                    sender.sendMessage(Component.text("/quill scope delete <name>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.delete"), NamedTextColor.WHITE)));
-                    sender.sendMessage(Component.text("/quill scope list", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.list"), NamedTextColor.WHITE)));
-                    sender.sendMessage(Component.text("/quill scope info <name>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.info"), NamedTextColor.WHITE)));
-                    sender.sendMessage(Component.text("/quill scope permission <name> <function> <grant|revoke>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.permission"), NamedTextColor.WHITE)));
-                    sender.sendMessage(Component.text("/quill scope persist <name> <variable> <add|remove>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.persist"), NamedTextColor.WHITE)));
-                    sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
-                    break;
-                default:
-                    break;
-            }
+        } else if (args.length >= 2 && args[1].equalsIgnoreCase("scope")) {
+            sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.scope.title") + " ===", NamedTextColor.GOLD));
+            sender.sendMessage(Component.text("/quill scope create <name> <owner> <x1> <y1> <z1> <x2> <y2> <z2> <whitelist|blacklist>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.create"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill scope delete <name>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.delete"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill scope list", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.list"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill scope info <name>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.info.help-hint"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill scope permission <grant|revoke> <name> <function>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.permission.help-hint"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill scope persist <name> <variable> <add|remove>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.persist.help-hint"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
         }
     }
 
@@ -231,6 +232,7 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
         if (!filename.endsWith(".ql") && !filename.endsWith(".quill")) {
             filename += ".ql";
         }
+        
         if (plugin.editValid) {
             final String finalFilename = filename;
             editor.readFile(filename).thenAccept(fileData -> {
@@ -258,64 +260,42 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
         }
     }
 
-    private void handleScope(CommandSender sender, String[] args) {
-        switch (args[0]) {
-            case "create":
-                if(scopeManager.createScope(args[1], UUID.fromString(args[2]), List.of(args[3], args[4], args[5], args[6], args[7], args[8]).stream().map(Double::parseDouble).collect(Collectors.toList()), SecurityMode.valueOf(args[9].toUpperCase()), null, null) != null) {
-                    sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.created", args[1]), NamedTextColor.GREEN));
-                } else {
-                    sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.create-fail", args[1]), NamedTextColor.RED));
-                }
-                break;
-            case "delete":
-                if(scopeManager.deleteScope(args[1])) {
-                    sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.deleted", args[1]), NamedTextColor.GREEN));
-                } else {
-                    sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.delete-fail", args[1]), NamedTextColor.RED));
-                }
-                break;
-            case "list":
-                List <String> scopes = scopeManager.listScopes();
-                sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.scope.list.title") + " ===", NamedTextColor.GOLD));
-                for (String name : scopes) {
-                    sender.sendMessage(Component.text(name, NamedTextColor.YELLOW));
-                }
-                sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
-                break;
-            case "info":
-                if (sender.isOp() || sender.hasPermission("quill.scope.info.others")) {
-                    Map<String, Object> info = scopeManager.scopeInfo(args[1]);
-                    if (info.get("name").equals("scope-not-found")) {
-                    sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.info.not-found"), NamedTextColor.RED));
-                    } else {
-                        @SuppressWarnings("unchecked")
-                        List<Double> boundaries = (List<Double>) info.get("boundaries");
-
-                        sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.scope.info.title", info.get("name")) + " ===", NamedTextColor.GOLD));
-                        sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.info.name") + ": ", NamedTextColor.YELLOW).append(Component.text(info.get("name").toString(), NamedTextColor.WHITE)));
-                        sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.info.owner") + ": ", NamedTextColor.YELLOW).append(Component.text(Bukkit.getOfflinePlayer(UUID.fromString(info.get("owner").toString())).getName(), NamedTextColor.WHITE)));
-                        sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.info.boundaries") + ": ", NamedTextColor.YELLOW).append(Component.text(String.format("%s, %s, %s - %s, %s, %s", boundaries.get(0), boundaries.get(1), boundaries.get(2), boundaries.get(3), boundaries.get(4), boundaries.get(5)), NamedTextColor.WHITE)));
-                        sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.info.mode") + ": ", NamedTextColor.YELLOW).append(Component.text(info.get("mode").toString(), NamedTextColor.WHITE)));
-                        sender.sendMessage(Component.text(info.get("mode").equals("whitelist") ? plugin.translate("quill.commands.scope.info.whitelisted-funcs") + ": " : plugin.translate("quill.commands.scope.info.blacklisted-funcs"), NamedTextColor.YELLOW).append(Component.text(plugin.translate("quill.commands.scope.info.funcs-hint"), NamedTextColor.WHITE)));
-                        sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.info.persistent") + ": ", NamedTextColor.YELLOW).append(Component.text(plugin.translate("quill.commands.scope.info.persistent-hint"), NamedTextColor.WHITE)));
-                        sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
-                    }
-                } else {
-                    sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "view this scope's info"), NamedTextColor.RED));
-                }
-                break;
-            default:
-                sender.sendMessage(plugin.translate("quill.commands.global.unknown"));
+    private boolean handleScope(CommandSender sender, String[] args) {
+        if (args.length == 0) {
+            sendHelp(sender, new String[]{"help", "scope"});
+            return true;
         }
+        
+        String subcommand = args[0].toLowerCase();
+        String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
+        
+        return scopeRegistry.getCommand(subcommand)
+            .map(cmd -> {
+                // Check permissions
+                String permission = cmd.getPermission();
+                if (permission != null && !sender.isOp() && !sender.hasPermission(permission)) {
+                    sender.sendMessage(Component.text(
+                        plugin.translate("quill.commands.global.no-permission", cmd.getName()),
+                        NamedTextColor.RED));
+                    return true;
+                }
+                
+                return cmd.execute(sender, subArgs);
+            })
+            .orElseGet(() -> {
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.commands.global.unknown", subcommand),
+                    NamedTextColor.RED));
+                return true;
+            });
     }
-
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
         
         if (args.length == 1) {
-            List<String> subcommands = Arrays.asList("load", "reload", "unload", "edit", "list", "info", "help");
+            List<String> subcommands = Arrays.asList("load", "reload", "unload", "edit", "list", "info", "scope", "help");
             String partial = args[0].toLowerCase();
             
             for (String subcommand : subcommands) {
@@ -326,7 +306,8 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
         } else if (args.length == 2) {
             String subcommand = args[0].toLowerCase();
             
-            if (subcommand.equals("load") || subcommand.equals("reload") || subcommand.equals("unload") || subcommand.equals("edit")) {
+            if (subcommand.equals("load") || subcommand.equals("reload") || 
+                subcommand.equals("unload") || subcommand.equals("edit")) {
                 String[] scripts = scriptManager.listScripts();
                 String partial = args[1].toLowerCase();
                 
@@ -335,7 +316,21 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
                         completions.add(script);
                     }
                 }
+            } else if (subcommand.equals("scope")) {
+                String partial = args[1].toLowerCase();
+                for (String scopeCmd : scopeRegistry.getCommandNames()) {
+                    if (scopeCmd.startsWith(partial)) {
+                        completions.add(scopeCmd);
+                    }
+                }
             }
+        } else if (args.length >= 3 && args[0].equalsIgnoreCase("scope")) {
+            String scopeSubcommand = args[1].toLowerCase();
+            String[] subArgs = Arrays.copyOfRange(args, 2, args.length);
+            
+            scopeRegistry.getCommand(scopeSubcommand).ifPresent(cmd -> 
+                completions.addAll(cmd.getTabCompletions(sender, subArgs))
+            );
         }
         
         return completions;

@@ -41,7 +41,7 @@ public class QuillScriptManager {
         File scriptFile = new File(scriptsDir, filename);
         
         if (!scriptFile.exists()) {
-            logger.severe(plugin.translate("script-manager.file-not-found", filename));
+            logger.severe(plugin.translate("quill.script-manager.file.file-not-found", filename));
             return false;
         }
         
@@ -49,7 +49,7 @@ public class QuillScriptManager {
             String sourceCode = Files.readString(scriptFile.toPath());
             return executeScript(filename, sourceCode);
         } catch (IOException e) {
-            logger.severe(plugin.translate("script-manager.read-fail", filename));
+            logger.severe(plugin.translate("quill.script-manager.file.read-fail", filename));
             e.printStackTrace();
             return false;
         }
@@ -63,12 +63,12 @@ public class QuillScriptManager {
             QuillLexer lexer = new QuillLexer(sourceCode);
             var tokens = lexer.tokenize();
             
-            logger.info(plugin.translate("script-manager.tokenized-count", name, tokens.size()));
+            logger.info(plugin.translate("quill.script-manager.status.tokenized-count", name, tokens.size()));
             
             QuillParser parser = new QuillParser(tokens);
             Program ast = parser.parse();
             
-            logger.info(plugin.translate("script-manager.parsed-count", name, ast.statements.size()));
+            logger.info(plugin.translate("quill.script-manager.status.parsed-count", name, ast.statements.size()));
             
             ScopeContext.Region defaultRegion = new ScopeContext.Region(
                 -1000000, -64, -1000000,
@@ -82,17 +82,17 @@ public class QuillScriptManager {
             
             activeScripts.put(name, interpreter);
             
-            logger.info(plugin.translate("script-manager.execute-success", name));
+            logger.info(plugin.translate("quill.script-manager.status.execute-success", name));
             return true;
             
         } catch (QuillLexer.LexerException e) {
-            logger.severe(plugin.translate("script-manager.lexer-error", name, e.getMessage()));
+            logger.severe(plugin.translate("quill.script-manager.error.lexer-error", name, e.getMessage()));
             return false;
         } catch (QuillParser.ParseException e) {
-            logger.severe(plugin.translate("script-manager.parser-error", name, e.getMessage()));
+            logger.severe(plugin.translate("quill.script-manager.error.parser-error", name, e.getMessage()));
             return false;
         } catch (Exception e) {
-            logger.severe(plugin.translate("script-manager.runtime-error", name, e.getMessage()));
+            logger.severe(plugin.translate("quill.script-manager.error.runtime-error", name, e.getMessage()));
             e.printStackTrace();
             return false;
         }
@@ -111,7 +111,7 @@ public class QuillScriptManager {
      */
     public void unloadScript(String name) {
         activeScripts.remove(name);
-        logger.info(plugin.translate("script-manager.unloaded", name));
+        logger.info(plugin.translate("quill.script-manager.status.unloaded", name));
     }
     
     /**
@@ -133,7 +133,7 @@ public class QuillScriptManager {
      */
     public void unloadAll() {
         activeScripts.clear();
-        logger.info(plugin.translate("script-manager.unloaded-all"));
+        logger.info(plugin.translate("quill.script-manager.status.unloaded-all"));
     }
     
     /**

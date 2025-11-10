@@ -206,9 +206,9 @@ public class ScopeCommands {
                 plugin.translate("quill.commands.scope.info.mode") + ": ", NamedTextColor.YELLOW)
                 .append(Component.text(info.get("mode").toString(), NamedTextColor.WHITE)));
             sender.sendMessage(Component.text(
-                info.get("mode").equals("whitelist") 
+                info.get("mode").toLowerCase().equals("whitelist") 
                     ? plugin.translate("quill.commands.scope.info.whitelisted-funcs") + ": "
-                    : plugin.translate("quill.commands.scope.info.blacklisted-funcs"),
+                    : plugin.translate("quill.commands.scope.info.blacklisted-funcs") + ": ",
                 NamedTextColor.YELLOW)
                 .append(Component.text(
                     plugin.translate("quill.commands.scope.info.funcs-hint", info.get("name")),

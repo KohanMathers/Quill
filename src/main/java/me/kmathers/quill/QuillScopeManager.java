@@ -180,7 +180,7 @@ public class QuillScopeManager {
     }
 
     public boolean deleteScope(String filename) {
-        File scopeFile = new File(scopesDir, filename);
+        File scopeFile = new File(scopesDir, filename + ".yml");
         
         if (!scopeFile.exists()) {
             logger.severe(plugin.translate("quill.scope-manager.file.file-not-found", filename));

@@ -196,7 +196,7 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
     }
     
     private void sendHelp(CommandSender sender, String[] args) {
-        if (args == null || args.length == 0) {
+        if (args == null || args.length < 2) {
             sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.help.title") + " ===", NamedTextColor.GOLD));
             sender.sendMessage(Component.text("/quill load <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.load"), NamedTextColor.WHITE)));
             sender.sendMessage(Component.text("/quill reload <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.reload"), NamedTextColor.WHITE)));

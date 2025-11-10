@@ -191,7 +191,7 @@ public class BuiltInUtilFuncs {
                 throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "log()", "log(message)"));
             }
 
-            Bukkit.getLogger().info("(" + scope.getName() + ") " + args.get(0).toString());
+            Bukkit.getLogger().info("[Quill] (" + scope.getName() + ") " + args.get(0).toString());
 
             return new BooleanValue(true);
         }

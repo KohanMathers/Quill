@@ -46,6 +46,10 @@ public class SecurityConfig {
     }
 
     public boolean hasPermission(String func) {
+        if (this.funcs == null) {
+            this.funcs = new List.empty();
+        }
+
         boolean inList = getFuncs().contains(func);
         return (getMode() == SecurityMode.WHITELIST) ? inList : !inList;
     }

@@ -45,7 +45,11 @@ public class Quill extends JavaPlugin {
 
         scopeManager = new QuillScopeManager(this, getDataFolder(), getLogger());
 
-        scopeManager.loadAll();
+        try {
+            scopeManager.loadAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         scriptManager = new QuillScriptManager(this, getDataFolder(), getLogger());
 

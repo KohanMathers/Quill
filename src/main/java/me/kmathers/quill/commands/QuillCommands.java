@@ -25,6 +25,7 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
     private final QuillScriptManager scriptManager;
     private final QuillScopeManager scopeManager;
     private final Editor editor;
+    @SuppressWarnings("unused")
     private final CommandRegistry registry;
     private final CommandRegistry scopeRegistry;
     
@@ -45,6 +46,7 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
         scopeRegistry.register(new ScopeCommands.ListScopes(plugin, scopeManager));
         scopeRegistry.register(new ScopeCommands.Info(plugin, scopeManager));
         scopeRegistry.register(new ScopeCommands.Permission(plugin, scopeManager));
+        scopeRegistry.register(new ScopeCommands.Persistent(plugin, scopeManager));
     }
 
     @Override

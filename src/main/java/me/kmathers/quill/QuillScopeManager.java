@@ -91,7 +91,10 @@ public class QuillScopeManager {
             
             Map<String, Object> persistentVars = new HashMap<>();
             if (config.contains("persistent")) {
-                persistentVars = config.getConfigurationSection("persistent").getValues(false);
+                var section = config.getConfigurationSection("persistent");
+                if (section != null) {
+                    persistentVars = section.getValues(false);
+                }
             }
             
             Scope scope = createScope(name, owner, boundaries, mode, funcs, persistentVars);

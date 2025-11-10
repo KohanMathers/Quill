@@ -32,6 +32,9 @@ permissions:
   quill.script.edit:
     description: Edit Quill scripts
     default: true
+  quill.scope.info.others:
+    description: View the info of other's Quill scopes
+    default: op
   quill.admin:
     description: Full Quill administrative access
     default: op

@@ -49,7 +49,7 @@ public class Quill extends JavaPlugin {
 
         scriptManager = new QuillScriptManager(this, getDataFolder(), getLogger());
 
-        QuillCommands commandHandler = new QuillCommands(this, scriptManager);
+        QuillCommands commandHandler = new QuillCommands(this, scriptManager, scopeManager);
         getCommand("quill").setExecutor(commandHandler);
         getCommand("quill").setTabCompleter(commandHandler);
         

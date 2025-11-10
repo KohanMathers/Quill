@@ -1,13 +1,16 @@
 package me.kmathers.quill.commands;
 
 import me.kmathers.quill.Quill;
+import me.kmathers.quill.QuillScopeManager;
 import me.kmathers.quill.QuillScriptManager;
 import me.kmathers.quill.utils.Editor;
+import me.kmathers.quill.utils.SecurityConfig.SecurityMode;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,8 +19,11 @@ import org.bukkit.command.TabCompleter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
  * Command handler for Quill plugin.
@@ -25,10 +31,12 @@ import java.util.logging.Level;
 public class QuillCommands implements CommandExecutor, TabCompleter {
     private final Quill plugin;
     private final QuillScriptManager scriptManager;
+    private final QuillScopeManager scopeManager;
     
-    public QuillCommands(Quill plugin, QuillScriptManager scriptManager) {
+    public QuillCommands(Quill plugin, QuillScriptManager scriptManager, QuillScopeManager scopeManager) {
         this.plugin = plugin;
         this.scriptManager = scriptManager;
+        this.scopeManager = scopeManager;
         this.editor = new Editor(plugin);
     }
     
@@ -249,6 +257,58 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
             sender.sendMessage(Component.text(plugin.translate("quill.commands.global.invalid-url"), NamedTextColor.RED));
         }
     }
+
+    private void handleScope(CommandSender sender, String[] args) {
+        switch (args[0]) {
+            case "create":
+                if(scopeManager.createScope(args[1], UUID.fromString(args[2]), List.of(args[3], args[4], args[5], args[6], args[7], args[8]).stream().map(Double::parseDouble).collect(Collectors.toList()), SecurityMode.valueOf(args[9].toUpperCase()), null, null) != null) {
+                    sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.created", args[1]), NamedTextColor.GREEN));
+                } else {
+                    sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.create-fail", args[1]), NamedTextColor.RED));
+                }
+                break;
+            case "delete":
+                if(scopeManager.deleteScope(args[1])) {
+                    sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.deleted", args[1]), NamedTextColor.GREEN));
+                } else {
+                    sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.delete-fail", args[1]), NamedTextColor.RED));
+                }
+                break;
+            case "list":
+                List <String> scopes = scopeManager.listScopes();
+                sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.scope.list.title") + " ===", NamedTextColor.GOLD));
+                for (String name : scopes) {
+                    sender.sendMessage(Component.text(name, NamedTextColor.YELLOW));
+                }
+                sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
+                break;
+            case "info":
+                if (sender.isOp() || sender.hasPermission("quill.scope.info.others")) {
+                    Map<String, Object> info = scopeManager.scopeInfo(args[1]);
+                    if (info.get("name").equals("scope-not-found")) {
+                    sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.info.not-found"), NamedTextColor.RED));
+                    } else {
+                        @SuppressWarnings("unchecked")
+                        List<Double> boundaries = (List<Double>) info.get("boundaries");
+
+                        sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.scope.info.title", info.get("name")) + " ===", NamedTextColor.GOLD));
+                        sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.info.name") + ": ", NamedTextColor.YELLOW).append(Component.text(info.get("name").toString(), NamedTextColor.WHITE)));
+                        sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.info.owner") + ": ", NamedTextColor.YELLOW).append(Component.text(Bukkit.getOfflinePlayer(UUID.fromString(info.get("owner").toString())).getName(), NamedTextColor.WHITE)));
+                        sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.info.boundaries") + ": ", NamedTextColor.YELLOW).append(Component.text(String.format("%s, %s, %s - %s, %s, %s", boundaries.get(0), boundaries.get(1), boundaries.get(2), boundaries.get(3), boundaries.get(4), boundaries.get(5)), NamedTextColor.WHITE)));
+                        sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.info.mode") + ": ", NamedTextColor.YELLOW).append(Component.text(info.get("mode").toString(), NamedTextColor.WHITE)));
+                        sender.sendMessage(Component.text(info.get("mode").equals("whitelist") ? plugin.translate("quill.commands.scope.info.whitelisted-funcs") + ": " : plugin.translate("quill.commands.scope.info.blacklisted-funcs"), NamedTextColor.YELLOW).append(Component.text(plugin.translate("quill.commands.scope.info.funcs-hint"), NamedTextColor.WHITE)));
+                        sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.info.persistent") + ": ", NamedTextColor.YELLOW).append(Component.text(plugin.translate("quill.commands.scope.info.persistent-hint"), NamedTextColor.WHITE)));
+                        sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
+                    }
+                } else {
+                    sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "view this scope's info"), NamedTextColor.RED));
+                }
+                break;
+            default:
+                sender.sendMessage(plugin.translate("quill.commands.global.unknown"));
+        }
+    }
+
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {

@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -162,11 +163,38 @@ public class QuillScopeManager {
         }
         
         try {
+            if (scopes.containsKey(filename)) {
+                scopes.remove(filename);
+            }
             return scopeFile.delete();
         } catch (Exception e) {
             logger.severe(plugin.translate("quill.scope-manager.file.delete-fail", filename));
             e.printStackTrace();
             return false;
         }
+    }
+
+    public List<String> listScopes() {
+        List<String> loaded = new ArrayList<>();
+        for (Map.Entry<String, Scope> scope : scopes.entrySet()) {
+            loaded.add(scope.getValue().getName());
+        }
+        return loaded;
+    }
+
+    public Map<String, Object> scopeInfo(String scope) {
+        Map<String, Object> info = new HashMap<>();
+        if(scopes.containsKey(scope)) {
+            Scope targetScope = scopes.get(scope);
+            info.put("name", targetScope.getName());
+            info.put("owner", targetScope.getOwner());
+            info.put("boundaries", targetScope.getBoundaries());
+            info.put("mode", targetScope.getSecurityMode());
+            info.put("funcs", targetScope.getFuncs());
+            info.put("persistent", targetScope.getPersistentVars());
+        } else {
+            info.put("name", "scope-not-found");
+        }
+        return info;
     }
 }

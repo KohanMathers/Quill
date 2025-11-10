@@ -98,7 +98,7 @@ quill:
       title: "Scope Commands"
       create: "Create a scope"
       delete: "Delete a scope"
-      list: "List all scopes"
+      list: "List all loaded scopes"
       info: "Show info about a scope"
       permission: "Grant or revoke a scope function"
       persist: "Add or remove a persistent variable from a scope"

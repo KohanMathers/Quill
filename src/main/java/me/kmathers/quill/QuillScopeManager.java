@@ -41,6 +41,8 @@ public class QuillScopeManager {
         Scope scope = new Scope(name, owner, boundaries, mode);
         scope.setFuncs(funcs);
         scope.setPersistentVars(persistentVars);
+        scopes.put(name, scope);
+        saveScope(scope, name + ".yml");
         return scope;
     }
 
@@ -207,11 +209,13 @@ public class QuillScopeManager {
                     return BooleanResult.fail("already-inherits");
                 } else {
                     targetScope.addFunc(func);
+                    saveScope(targetScope, targetScope.getName() + ".yml");
                     return BooleanResult.ok();
                 }
             } else {
                 if(targetScope.hasPermission(func)) {
                     targetScope.removeFunc(func);
+                    saveScope(targetScope, targetScope.getName() + ".yml");
                     return BooleanResult.ok();
                 } else {
                     return BooleanResult.fail("does-not-inherit");
@@ -228,6 +232,7 @@ public class QuillScopeManager {
             if(targetScope.getSecurityMode().equals(SecurityMode.WHITELIST)) {
                 if(targetScope.hasPermission(func)) {
                     targetScope.removeFunc(func);
+                    saveScope(targetScope, targetScope.getName() + ".yml");
                     return BooleanResult.ok();
                 } else {
                     return BooleanResult.fail("does-not-inherit");
@@ -237,6 +242,7 @@ public class QuillScopeManager {
                     return BooleanResult.fail("already-inherits");
                 } else {
                     targetScope.addFunc(func);
+                    saveScope(targetScope, targetScope.getName() + ".yml");
                     return BooleanResult.ok();
                 }
             }
@@ -252,6 +258,7 @@ public class QuillScopeManager {
                     return BooleanResult.fail("already-inherits");
                 } else {
                     targetScope.addPersistentVar(var);
+                    saveScope(targetScope, targetScope.getName() + ".yml");
                     return BooleanResult.ok();
                 }
             } else {
@@ -264,6 +271,7 @@ public class QuillScopeManager {
             Scope targetScope = scopes.get(scope);
                 if(targetScope.hasPersistentVar(var)) {
                     targetScope.removePersistentVar(var);
+                    saveScope(targetScope, targetScope.getName() + ".yml");
                     return BooleanResult.ok();
                 } else {
                     return BooleanResult.fail("does-not-inherit");

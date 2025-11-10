@@ -59,7 +59,7 @@ public class Quill extends JavaPlugin {
         
         autoLoadScripts();
 
-        getLogger().info(translate("system.enabled"));
+        getLogger().info(translate("quill.system.state.enabled"));
     }
     
     @Override
@@ -74,7 +74,7 @@ public class Quill extends JavaPlugin {
             // Event handlers are automatically unregistered when plugin disables
         }
         
-        getLogger().info(translate("system.disabled"));
+        getLogger().info(translate("quill.system.state.disabled"));
     }
     
     /**
@@ -89,19 +89,19 @@ public class Quill extends JavaPlugin {
             return;
         }
         
-        getLogger().info(translate("system.autoload.autoload", scripts.length));
+        getLogger().info(translate("quill.system.autoload.autoload", scripts.length));
         
         int loaded = 0;
         for (String script : scripts) {
-            getLogger().info(translate("system.autoload.loading", script));
+            getLogger().info(translate("quill.system.autoload.loading", script));
             if (scriptManager.loadScript(script)) {
                 loaded++;
             } else {
-                getLogger().warning(translate("system.autoload.fail", script));
+                getLogger().warning(translate("quill.system.autoload.fail", script));
             }
         }
         
-        getLogger().info(translate("system.autoload.success", loaded, scripts.length));
+        getLogger().info(translate("quill.system.autoload.success", loaded, scripts.length));
         
         if (loaded > 0) {
             eventBridge = new QuillEventBridge(scriptManager, this);
@@ -123,10 +123,10 @@ public class Quill extends JavaPlugin {
     private void validateConfig() {
         int version = getConfig().getInt("config-version", 0);
         if (version < 1) {
-            getLogger().warning(translate("system.config.lower-version"));
+            getLogger().warning(translate("quill.system.config.lower-version"));
             mergeConfig();
         } else if (version > 1) {
-            getLogger().warning(translate("system.config.higher-version"));
+            getLogger().warning(translate("quill.system.config.higher-version"));
 
             File configFile = new File(getDataFolder(), "config.yml");
             File backupFile = new File(getDataFolder(), "config_broken_backup.yml");
@@ -136,15 +136,15 @@ public class Quill extends JavaPlugin {
                     backupFile.delete();
                 }
                 if (configFile.renameTo(backupFile)) {
-                    getLogger().warning(translate("system.config.usermod-backup"));
+                    getLogger().warning(translate("quill.system.config.usermod-backup"));
                 } else {
-                    getLogger().warning(translate("system.config.usermod-fail"));
+                    getLogger().warning(translate("quill.system.config.usermod-fail"));
                 }
             }
 
             saveResource("config.yml", true);
             reloadConfig();
-            getLogger().warning(translate("system.config.config-restore"));
+            getLogger().warning(translate("quill.system.config.config-restore"));
         }
 
         int transVersion = getConfig().getInt("translation-version", 0);
@@ -154,8 +154,8 @@ public class Quill extends JavaPlugin {
 
         String url = getConfig().getString("editor.url", "");
         if (!(url.startsWith("https://") || url.startsWith("http://"))) {
-            getLogger().warning(translate("system.config.invalid-url"));
-            getLogger().warning(translate("system.command-unavailable", "/quill edit"));
+            getLogger().warning(translate("quill.system.config.invalid-url"));
+            getLogger().warning(translate("quill.system.command-unavailable", "/quill edit"));
             editValid = false;
         }
     }
@@ -178,7 +178,7 @@ public class Quill extends JavaPlugin {
             }
             
             if (!translationsFile.renameTo(oldTranslationsFile)) {
-                getLogger().warning(translate("system.translations-rename-fail"));
+                getLogger().warning(translate("quill.system.translations-rename-fail"));
                 return;
             }
             
@@ -223,13 +223,13 @@ public class Quill extends JavaPlugin {
             }
             
             if (!configFile.renameTo(oldConfigFile)) {
-                getLogger().warning(translate("system.config-rename-fail"));
+                getLogger().warning(translate("quill.system.config-rename-fail"));
                 return;
             }
             
             saveResource("config.yml", true);
             if (!configFile.renameTo(tempConfigFile)) {
-                getLogger().warning(translate("system.config-temp-fail"));
+                getLogger().warning(translate("quill.system.config-temp-fail"));
                 oldConfigFile.renameTo(configFile);
                 return;
             }

@@ -38,6 +38,21 @@ public class QuillScopeManager {
      * Creates a new scope in memory
      */
     public Scope createScope(String name, UUID owner, List<Double> boundaries, SecurityMode mode, List<String> funcs, Map<String, Object> persistentVars) {
+        if(boundaries.get(0) > boundaries.get(3)) {
+            double temp = boundaries.get(0);
+            boundaries.set(0, boundaries.get(3));
+            boundaries.set(3, temp);
+        }
+        if(boundaries.get(1) > boundaries.get(4)) {
+            double temp = boundaries.get(1);
+            boundaries.set(1, boundaries.get(4));
+            boundaries.set(4, temp);
+        }
+        if(boundaries.get(2) > boundaries.get(5)) {
+            double temp = boundaries.get(2);
+            boundaries.set(2, boundaries.get(5));
+            boundaries.set(5, temp);
+        }
         Scope scope = new Scope(name, owner, boundaries, mode);
         scope.setFuncs(funcs);
         scope.setPersistentVars(persistentVars);

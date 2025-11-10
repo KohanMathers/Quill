@@ -142,22 +142,26 @@ public class QuillScopeManager {
         }
     }
 
-    public Map<String, Scope> loadAll() {
+    public Map<String, Scope> loadAll() throws Exception {
         int loaded = 0;
         int total = 0;
         Map<String, Scope> scopes = new HashMap<>();
-        for (File file : scopesDir.listFiles()) {
-            if (file.getName().endsWith(".yml")) {
-                total++;
-                Scope scope = loadScope(file.getName());
-                if (scope != null) {
-                    scopes.put(scope.getName(), scope);
-                    loaded++;
+        if (scopesDir.listFiles() != null) {
+            for (File file : scopesDir.listFiles()) {
+                if (file.getName().endsWith(".yml")) {
+                    total++;
+                    Scope scope = loadScope(file.getName());
+                    if (scope != null) {
+                        scopes.put(scope.getName(), scope);
+                        loaded++;
+                    }
                 }
             }
+            logger.info(plugin.translate("quill.scope-manager.file.loaded", loaded, total));
+            return scopes;
+        } else {
+            throw new Exception(plugin.translate("quill.scope-manager.file.read-fail"));
         }
-        logger.info(plugin.translate("quill.scope-manager.file.loaded", loaded, total));
-        return scopes;
     }
 
     public boolean deleteScope(String filename) {

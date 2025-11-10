@@ -330,7 +330,7 @@ public class ScopeCommands {
                     result = scopeManager.addPersistentVar(scopeName, variable);
                     translationKey = "quill.commands.scope.add-persistent";
                     break;
-                case "revoke":
+                case "remove":
                     result = scopeManager.removePersistentVar(scopeName, variable);
                     translationKey = "quill.commands.scope.remove-persistent";
                     break;

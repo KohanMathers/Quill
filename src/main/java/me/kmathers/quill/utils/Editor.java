@@ -76,7 +76,22 @@ public class Editor {
                 });
     }
 
-    public void deleteSession(String sessionId, CompletableFuture<String> resultFuture) {
+    public void writeFile(String name, String content) {
+        try {
+            java.nio.file.Path dataFolder = plugin.getDataFolder().toPath();
+            java.nio.file.Path scriptsDir = dataFolder.resolve("scripts");
+            java.nio.file.Path filePath = scriptsDir.resolve(name);
+            
+            java.nio.file.Files.writeString(filePath, content, java.nio.charset.StandardCharsets.UTF_8);
+            
+            plugin.getLogger().info(plugin.translate("quill.editor.wrote-file", filePath.toString()));
+        } catch (Exception e) {
+            plugin.getLogger().log(Level.SEVERE, 
+                plugin.translate("quill.error.runtime.editor.write-failed", e.getMessage()), e);
+        }
+    }
+
+    public void deleteSession(String sessionId) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(ENDPOINT + sessionId))
                 .DELETE()
@@ -84,32 +99,13 @@ public class Editor {
         
         CLIENT.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenAccept(response -> {
-                    if (response.body() != null && !(response.body().isEmpty())) {
-                        resultFuture.complete(response.body());
-                    }
+                    plugin.getLogger().info("Session " + sessionId + " deleted");
                 })
                 .exceptionally(ex -> {
-                    resultFuture.completeExceptionally(ex);
+                    plugin.getLogger().log(Level.WARNING, 
+                        "Failed to delete session " + sessionId, ex);
                     return null;
                 });
-    }
-
-    public void writeFile(String name, String content, CompletableFuture<String> resultFuture) {
-        try {
-            java.nio.file.Path dataFolder = plugin.getDataFolder().toPath();
-            java.nio.file.Path scriptsDir = dataFolder.resolve("scripts");
-
-            java.nio.file.Path filePath = scriptsDir.resolve(name);
-
-            java.nio.file.Files.writeString(filePath, content, java.nio.charset.StandardCharsets.UTF_8);
-
-            String result = filePath.toString();
-            plugin.getLogger().info(plugin.translate("quill.editor.wrote-file", result));
-            resultFuture.complete(result);
-        } catch (Exception e) {
-            plugin.getLogger().log(Level.SEVERE, plugin.translate("quill.error.runtime.editor.write-failed", e.getMessage()), e);
-            resultFuture.completeExceptionally(e);
-        }
     }
 
     public CompletableFuture<String> readFile(String name) {

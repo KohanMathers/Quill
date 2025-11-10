@@ -245,12 +245,14 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
                             .append(Component.text(url, NamedTextColor.GREEN, TextDecoration.UNDERLINED)
                             .clickEvent(ClickEvent.openUrl(url))));
 
-                        CompletableFuture<String> editsFuture = editor.waitForEdits(sessionId);
-                        editsFuture.thenAccept(data -> {
-                            editor.writeFile(finalFilename, data, editsFuture);
-                            sender.sendMessage(Component.text(plugin.translate("quill.commands.scripts.saved", finalFilename), NamedTextColor.GREEN));
-                            editor.deleteSession(sessionId, editsFuture);
-                        });
+                    CompletableFuture<String> editsFuture = editor.waitForEdits(sessionId);
+                    editsFuture.thenAccept(data -> {
+                        editor.writeFile(finalFilename, data);
+                        sender.sendMessage(Component.text(
+                            plugin.translate("quill.commands.scripts.saved", finalFilename), 
+                            NamedTextColor.GREEN));
+                        editor.deleteSession(sessionId);
+                    });
                     } else {
                         plugin.getLogger().log(Level.SEVERE, plugin.translate("quill.commands.global.no-sessionid"));
                         sender.sendMessage(Component.text(plugin.translate("quill.commands.global.fail", "create session"), NamedTextColor.RED));

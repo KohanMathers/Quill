@@ -47,7 +47,7 @@ public class SecurityConfig {
 
     public boolean hasPermission(String func) {
         if (this.funcs == null) {
-            this.funcs = new List.empty();
+            this.funcs = new ArrayList<>();
         }
 
         boolean inList = getFuncs().contains(func);

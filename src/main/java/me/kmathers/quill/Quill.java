@@ -51,7 +51,7 @@ public class Quill extends JavaPlugin {
             e.printStackTrace();
         }
 
-        scriptManager = new QuillScriptManager(this, getDataFolder(), getLogger());
+        scriptManager = new QuillScriptManager(this, getDataFolder(), getLogger(), scopeManager);
 
         QuillCommands commandHandler = new QuillCommands(this, scriptManager, scopeManager);
         getCommand("quill").setExecutor(commandHandler);
@@ -81,7 +81,7 @@ public class Quill extends JavaPlugin {
      * Auto-load all scripts in the scripts folder.
      */
     private void autoLoadScripts() {
-        String[] scripts = scriptManager.listScripts();
+        String[] scripts = scriptManager.listAllScripts();
         
         if (scripts.length == 0) {
             getLogger().info(translate("autoload.no-scripts"));

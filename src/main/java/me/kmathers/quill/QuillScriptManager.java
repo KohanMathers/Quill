@@ -10,7 +10,9 @@ import org.bukkit.Bukkit;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -22,12 +24,14 @@ public class QuillScriptManager {
     private final File scriptsDir;
     private final Logger logger;
     private final Map<String, QuillInterpreter> activeScripts;
-    
-    public QuillScriptManager(Quill plugin, File dataFolder, Logger logger) {
+    private final QuillScopeManager scopeManager;
+
+    public QuillScriptManager(Quill plugin, File dataFolder, Logger logger, QuillScopeManager scopeManager) {
         this.plugin = plugin;
         this.scriptsDir = new File(dataFolder, "scripts");
         this.logger = logger;
         this.activeScripts = new HashMap<>();
+        this.scopeManager = scopeManager;
         
         if (!scriptsDir.exists()) {
             scriptsDir.mkdirs();
@@ -39,26 +43,33 @@ public class QuillScriptManager {
      */
     public boolean loadScript(String filename) {
         File scriptFile = new File(scriptsDir, filename);
-        
+
         if (!scriptFile.exists()) {
             logger.severe(plugin.translate("quill.script-manager.file.file-not-found", filename));
             return false;
         }
-        
+
         try {
             String sourceCode = Files.readString(scriptFile.toPath());
-            return executeScript(filename, sourceCode);
+
+            String scope = "global";
+            File parent = scriptFile.getParentFile();
+            if (!parent.equals(scriptsDir)) {
+                scope = parent.getName();
+            }
+
+            return executeScript(filename, sourceCode, scope);
         } catch (IOException e) {
             logger.severe(plugin.translate("quill.script-manager.file.read-fail", filename));
             e.printStackTrace();
             return false;
         }
     }
-    
+
     /**
      * Execute a script from source code.
      */
-    public boolean executeScript(String name, String sourceCode) {
+    public boolean executeScript(String name, String sourceCode, String scopeName) {
         try {
             QuillLexer lexer = new QuillLexer(sourceCode);
             var tokens = lexer.tokenize();
@@ -70,15 +81,30 @@ public class QuillScriptManager {
             
             logger.info(plugin.translate("quill.script-manager.status.parsed-count", name, ast.statements.size()));
             
-            ScopeContext.Region defaultRegion = new ScopeContext.Region(
-                -1000000, -64, -1000000,
-                1000000, 320, 1000000,
-                Bukkit.getWorlds().get(0).getName()
-            );
-            ScopeContext globalScope = new ScopeContext("global", defaultRegion);
-            
-            QuillInterpreter interpreter = new QuillInterpreter(globalScope);
-            interpreter.execute(ast);
+            QuillInterpreter interpreter;
+
+            if(scopeName.equals("global")) {
+                ScopeContext.Region defaultRegion = new ScopeContext.Region(
+                    -1000000, -64, -1000000,
+                    1000000, 320, 1000000,
+                    Bukkit.getWorlds().get(0).getName()
+                );
+                ScopeContext globalScope = new ScopeContext("global", defaultRegion);
+                
+                interpreter = new QuillInterpreter(globalScope, scopeManager);
+                interpreter.execute(ast);
+            } else {
+                List<Double> boundaries = (scopeManager.getScope(scopeName) != null ? scopeManager.getScope(scopeName).getBoundaries() : null);
+                if (boundaries != null) {
+                    ScopeContext.Region targetRegion = new ScopeContext.Region(boundaries.get(0), boundaries.get(1), boundaries.get(2), boundaries.get(3), boundaries.get(4), boundaries.get(5), Bukkit.getWorlds().get(0).getName());
+                    ScopeContext targetScope = new ScopeContext(scopeName, targetRegion);
+                    interpreter = new QuillInterpreter(targetScope, scopeManager);
+                    interpreter.execute(ast);
+                } else {
+                    logger.warning("quill.script-manager.file.invalid-boundaries");
+                    return false;
+                }
+            }
             
             activeScripts.put(name, interpreter);
             
@@ -146,16 +172,27 @@ public class QuillScriptManager {
     /**
      * List all available script files.
      */
-    public String[] listScripts() {
-        File[] files = scriptsDir.listFiles((dir, name) -> name.endsWith(".ql") || name.endsWith(".quill"));
-        if (files == null) {
-            return new String[0];
+    public String[] listAllScripts() {
+        List<String> results = new ArrayList<>();
+        collectScriptsRecursive(scriptsDir, results, "");
+        return results.toArray(new String[0]);
+    }
+
+    private void collectScriptsRecursive(File dir, List<String> results, String relativePath) {
+        File[] files = dir.listFiles();
+        if (files == null) return;
+
+        for (File f : files) {
+            if (f.isDirectory()) {
+                collectScriptsRecursive(f, results,
+                    relativePath.isEmpty() ? f.getName() : relativePath + "/" + f.getName()
+                );
+            } else if (f.getName().endsWith(".ql") || f.getName().endsWith(".quill")) {
+                String path = relativePath.isEmpty()
+                    ? f.getName()
+                    : relativePath + "/" + f.getName();
+                results.add(path);
+            }
         }
-        
-        String[] names = new String[files.length];
-        for (int i = 0; i < files.length; i++) {
-            names[i] = files[i].getName();
-        }
-        return names;
     }
 }

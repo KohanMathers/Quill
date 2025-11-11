@@ -1,7 +1,9 @@
 package me.kmathers.quill.interpreter;
 
 import me.kmathers.quill.parser.AST.*;
+import me.kmathers.quill.utils.Scope;
 import me.kmathers.quill.Quill;
+import me.kmathers.quill.QuillScopeManager;
 import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.ClearEffectsFunction;
 import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetGamemodeFunction;
 import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetHealthFunction;
@@ -86,6 +88,7 @@ public class QuillInterpreter {
     private ScopeContext currentScope;
     private Map<String, BuiltInFunction> builtIns;
     private Map<String, List<EventHandler>> eventHandlers;
+    private Scope permissionScope;
     
     private static class ReturnSignal extends RuntimeException {
         final QuillValue value;
@@ -97,11 +100,12 @@ public class QuillInterpreter {
     
     private static Quill plugin = Quill.getPlugin(Quill.class);
 
-    public QuillInterpreter(ScopeContext globalScope) {
+    public QuillInterpreter(ScopeContext globalScope, QuillScopeManager scopeManager) {
         this.globalScope = globalScope;
         this.currentScope = globalScope;
         this.builtIns = new HashMap<>();
-        this.eventHandlers = new HashMap<>(); // Now stores lists
+        this.eventHandlers = new HashMap<>();
+        this.permissionScope = scopeManager.getScope(globalScope.getName());
         registerBuiltIns();
     }
     
@@ -146,7 +150,20 @@ public class QuillInterpreter {
         } else if (node instanceof AssignmentExpression) {
             return evaluateAssignmentExpression((AssignmentExpression) node);
         } else if (node instanceof CallExpression) {
-            return evaluateCallExpression((CallExpression) node);
+            CallExpression call = (CallExpression) node;
+            
+            String functionName = null;
+            if (call.callee instanceof Identifier) {
+                functionName = ((Identifier) call.callee).name;
+            }
+            
+            if (permissionScope != null && !(permissionScope.getName().equals("global"))) {
+                if (functionName != null && !permissionScope.hasPermission(functionName)) {
+                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.missing-permission", permissionScope.getName(), functionName));
+                }
+            }
+            
+            return evaluateCallExpression(call);
         }
         
         // Statements

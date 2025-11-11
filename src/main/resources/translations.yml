@@ -129,30 +129,29 @@ quill:
       grant:
         success: "Granted permission {0} to {1}"
         fail:
-          already-inherits: "Scope {0} already inherits function {1}"
-          does-not-inherit: "Scope {0} does not inherit function {1}"
+          already-granted: "Scope {0} has already been granted function '{1}'"
           scope-not-found: "Scope '{0}' not found"
           default: "Failed to grant function to scope '{0}'. Check console for errors."
 
       revoke:
         success: "Revoked permission {0} from {1}"
         fail:
-          already-inherits: "Scope {0} already inherits function {1}"
-          does-not-inherit: "Scope {0} does not inherit function {1}"
+          not-granted: "Scope '{0}' has not been granted function '{1}'"
+          already-revoked: "Scope '{0}' has already had function '{1}' revoked"
           scope-not-found: "Scope '{0}' not found"
           default: "Failed to revoke function to scope '{0}'. Check console for errors."
 
       add-persistent:
         success: "Added persistent variable '{0}' to {1}"
         fail:
-          already-inherits: "Scope {0} already inherits variable {1}"
+          already-exists: "Scope {0} already has persistent variable {1}"
           scope-not-found: "Scope '{0}' not found"
           default: "Failed to add persistent variable to scope '{0}'. Check console for errors."
 
       remove-persistent:
         success: "Removed persistent variable '{0}' from {1}"
         fail:
-          does-not-inherit: "Scope {0} does not inherit variable {1}"
+          does-not-exist: "Scope {0} does not have persistent variable {1}"
           scope-not-found: "Scope '{0}' not found"
           default: "Failed to remove persistent variable from scope '{0}'. Check console for errors."
 
@@ -190,6 +189,7 @@ quill:
         cannot-assign: "Cannot assign to property of {0}"
         invalid-assignee: "Invalid assignment target"
         not-func: "Not a function: {0}"
+        missing-permission: "Scope '{0}' does not have permission to call function '{1}'; refusing to evaluate!"
 
       parser:
         expected: "Expected {0} but got {1} at line {2}"

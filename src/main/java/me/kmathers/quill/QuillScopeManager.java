@@ -34,9 +34,6 @@ public class QuillScopeManager {
         }
     }
     
-    /**
-     * Creates a new scope in memory
-     */
     public Scope createScope(String name, UUID owner, List<Double> boundaries, SecurityMode mode, List<String> funcs, Map<String, Object> persistentVars) {
         if(boundaries.get(0) > boundaries.get(3)) {
             double temp = boundaries.get(0);
@@ -53,6 +50,7 @@ public class QuillScopeManager {
             boundaries.set(2, boundaries.get(5));
             boundaries.set(5, temp);
         }
+        
         Scope scope = new Scope(name, owner, boundaries, mode);
         scope.setFuncs(funcs);
         scope.setPersistentVars(persistentVars);
@@ -112,9 +110,12 @@ public class QuillScopeManager {
                 }
             }
             
-            Scope scope = createScope(name, owner, boundaries, mode, funcs, persistentVars);
-            logger.info(plugin.translate("quill.scope-manager.status.loaded-success", name));
+            Scope scope = new Scope(name, owner, boundaries, mode);
+            scope.setFuncs(funcs);
+            scope.setPersistentVars(persistentVars);
             scopes.put(scope.getName(), scope);
+            
+            logger.info(plugin.translate("quill.scope-manager.status.loaded-success", name));
             return scope;
             
         } catch (Exception e) {
@@ -160,14 +161,12 @@ public class QuillScopeManager {
     public Map<String, Scope> loadAll() throws Exception {
         int loaded = 0;
         int total = 0;
-        Map<String, Scope> scopes = new HashMap<>();
         if (scopesDir.listFiles() != null) {
             for (File file : scopesDir.listFiles()) {
                 if (file.getName().endsWith(".yml")) {
                     total++;
                     Scope scope = loadScope(file.getName());
                     if (scope != null) {
-                        scopes.put(scope.getName(), scope);
                         loaded++;
                     }
                 }
@@ -228,19 +227,19 @@ public class QuillScopeManager {
             Scope targetScope = scopes.get(scope);
             if(targetScope.getSecurityMode().equals(SecurityMode.WHITELIST)) {
                 if(targetScope.hasPermission(func)) {
-                    return BooleanResult.fail("already-inherits");
+                    return BooleanResult.fail("already-granted");
                 } else {
                     targetScope.addFunc(func);
                     saveScope(targetScope, targetScope.getName() + ".yml");
                     return BooleanResult.ok();
                 }
             } else {
-                if(targetScope.hasPermission(func)) {
+                if(!targetScope.hasPermission(func)) {
                     targetScope.removeFunc(func);
                     saveScope(targetScope, targetScope.getName() + ".yml");
                     return BooleanResult.ok();
                 } else {
-                    return BooleanResult.fail("does-not-inherit");
+                    return BooleanResult.fail("already-granted");
                 }
             }
         } else {
@@ -257,15 +256,15 @@ public class QuillScopeManager {
                     saveScope(targetScope, targetScope.getName() + ".yml");
                     return BooleanResult.ok();
                 } else {
-                    return BooleanResult.fail("does-not-inherit");
+                    return BooleanResult.fail("not-granted");
                 }
             } else {
                 if(targetScope.hasPermission(func)) {
-                    return BooleanResult.fail("already-inherits");
-                } else {
                     targetScope.addFunc(func);
                     saveScope(targetScope, targetScope.getName() + ".yml");
                     return BooleanResult.ok();
+                } else {
+                    return BooleanResult.fail("already-revoked");
                 }
             }
         } else {
@@ -276,14 +275,14 @@ public class QuillScopeManager {
     public BooleanResult addPersistentVar(String scope, String var) {
         if(scopes.containsKey(scope)) {
             Scope targetScope = scopes.get(scope);
-                if(targetScope.hasPersistentVar(var)) {
-                    return BooleanResult.fail("already-inherits");
-                } else {
-                    targetScope.addPersistentVar(var);
-                    saveScope(targetScope, targetScope.getName() + ".yml");
-                    return BooleanResult.ok();
-                }
+            if(targetScope.hasPersistentVar(var)) {
+                return BooleanResult.fail("already-exists");
             } else {
+                targetScope.addPersistentVar(var);
+                saveScope(targetScope, targetScope.getName() + ".yml");
+                return BooleanResult.ok();
+            }
+        } else {
             return BooleanResult.fail("scope-not-found");
         }
     }
@@ -291,15 +290,23 @@ public class QuillScopeManager {
     public BooleanResult removePersistentVar(String scope, String var) {
         if(scopes.containsKey(scope)) {
             Scope targetScope = scopes.get(scope);
-                if(targetScope.hasPersistentVar(var)) {
-                    targetScope.removePersistentVar(var);
-                    saveScope(targetScope, targetScope.getName() + ".yml");
-                    return BooleanResult.ok();
-                } else {
-                    return BooleanResult.fail("does-not-inherit");
-                }
+            if(targetScope.hasPersistentVar(var)) {
+                targetScope.removePersistentVar(var);
+                saveScope(targetScope, targetScope.getName() + ".yml");
+                return BooleanResult.ok();
             } else {
+                return BooleanResult.fail("does-not-exist");
+            }
+        } else {
             return BooleanResult.fail("scope-not-found");
+        }
+    }
+
+    public Scope getScope(String scope) {
+        if (scopes.containsKey(scope)) {
+            return scopes.get(scope);
+        } else {
+            return null;
         }
     }
 }

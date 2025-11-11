@@ -118,7 +118,7 @@ View scope info:
 - [x] Bukkit plugin integration
 - [x] In-game editor
 - [ ] Persistence layer
-- [ ] Permission system
+- [x] Permission system
 
 ## Contributing
 

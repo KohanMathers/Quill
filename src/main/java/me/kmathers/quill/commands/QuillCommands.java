@@ -166,7 +166,7 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
             return true;
         }
         
-        String[] scripts = scriptManager.listScripts();
+        String[] scripts = scriptManager.listAllScripts();
         
         sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.scripts.available") + " ===", NamedTextColor.GOLD));
         
@@ -312,7 +312,7 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
             
             if (subcommand.equals("load") || subcommand.equals("reload") || 
                 subcommand.equals("unload") || subcommand.equals("edit")) {
-                String[] scripts = scriptManager.listScripts();
+                String[] scripts = scriptManager.listAllScripts();
                 String partial = args[1].toLowerCase();
                 
                 for (String script : scripts) {

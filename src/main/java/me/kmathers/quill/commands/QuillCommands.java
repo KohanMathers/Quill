@@ -13,10 +13,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
@@ -90,14 +93,34 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
             return true;
         }
         
-        if (!sender.hasPermission("quill.script.load")) {
-            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "load scripts"), NamedTextColor.RED));
-            return true;
-        }
-        
         String filename = args[1];
         if (!filename.endsWith(".ql") && !filename.endsWith(".quill")) {
             filename += ".ql";
+        }
+        
+        boolean isGlobalScript = !filename.contains("/") && !filename.contains(File.separator);
+        
+        if (isGlobalScript) {
+            if (!sender.isOp() && !sender.hasPermission("quill.script.load.global")) {
+                sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "load global scripts"), NamedTextColor.RED));
+                return true;
+            }
+        } else {
+            String scopeName = filename.substring(0, filename.indexOf('/'));
+            
+            boolean hasPermission = sender.isOp() || sender.hasPermission("quill.script.load.global") || sender.hasPermission("quill.script.load.scope");
+            
+            if (sender instanceof Player player) {
+                var scope = scopeManager.getScope(scopeName);
+                if (scope != null && scope.getOwner().equals(player.getUniqueId())) {
+                    hasPermission = true;
+                }
+            }
+            
+            if (!hasPermission) {
+                sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "load scripts in scope: " + scopeName), NamedTextColor.RED));
+                return true;
+            }
         }
         
         sender.sendMessage(Component.text("Loading script: " + filename, NamedTextColor.YELLOW));
@@ -117,16 +140,36 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
             return true;
         }
         
-        if (!sender.hasPermission("quill.script.reload")) {
-            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "reload scripts"), NamedTextColor.RED));
-            return true;
-        }
-        
         String filename = args[1];
         if (!filename.endsWith(".ql") && !filename.endsWith(".quill")) {
             filename += ".ql";
         }
+
+        boolean isGlobalScript = !filename.contains("/") && !filename.contains(File.separator);
         
+        if (isGlobalScript) {
+            if (!sender.isOp() && !sender.hasPermission("quill.script.reload.global")) {
+                sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "reload global scripts"), NamedTextColor.RED));
+                return true;
+            }
+        } else {
+            String scopeName = filename.substring(0, filename.indexOf('/'));
+            
+            boolean hasPermission = sender.isOp() || sender.hasPermission("quill.script.reload.global") || sender.hasPermission("quill.script.reload.scope");
+            
+            if (sender instanceof Player player) {
+                var scope = scopeManager.getScope(scopeName);
+                if (scope != null && scope.getOwner().equals(player.getUniqueId())) {
+                    hasPermission = true;
+                }
+            }
+            
+            if (!hasPermission) {
+                sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "reload scripts in scope: " + scopeName), NamedTextColor.RED));
+                return true;
+            }
+        }
+
         sender.sendMessage(Component.text("Reloading script: " + filename, NamedTextColor.YELLOW));
         
         if (scriptManager.reloadScript(filename)) {
@@ -144,16 +187,36 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
             return true;
         }
         
-        if (!sender.hasPermission("quill.script.unload")) {
-            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "unload scripts"), NamedTextColor.RED));
-            return true;
-        }
-        
         String filename = args[1];
         if (!filename.endsWith(".ql") && !filename.endsWith(".quill")) {
             filename += ".ql";
         }
+
+        boolean isGlobalScript = !filename.contains("/") && !filename.contains(File.separator);
         
+        if (isGlobalScript) {
+            if (!sender.isOp() && !sender.hasPermission("quill.script.unload.global")) {
+                sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "unload global scripts"), NamedTextColor.RED));
+                return true;
+            }
+        } else {
+            String scopeName = filename.substring(0, filename.indexOf('/'));
+            
+            boolean hasPermission = sender.isOp() || sender.hasPermission("quill.script.lunoad.global") || sender.hasPermission("quill.script.unload.scope");
+            
+            if (sender instanceof Player player) {
+                var scope = scopeManager.getScope(scopeName);
+                if (scope != null && scope.getOwner().equals(player.getUniqueId())) {
+                    hasPermission = true;
+                }
+            }
+            
+            if (!hasPermission) {
+                sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "unload scripts in scope: " + scopeName), NamedTextColor.RED));
+                return true;
+            }
+        }
+
         scriptManager.unloadScript(filename);
         sender.sendMessage(Component.text(plugin.translate("quill.commands.global.success", "unloaded script: " + filename), NamedTextColor.GREEN));
         
@@ -161,19 +224,46 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
     }
     
     private boolean handleList(CommandSender sender) {
-        if (!sender.hasPermission("quill.script.list")) {
+        if (!sender.isOp() && !sender.hasPermission("quill.script.list") && !sender.hasPermission("quill.script.list.all")) {
             sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "list scripts"), NamedTextColor.RED));
             return true;
         }
         
-        String[] scripts = scriptManager.listAllScripts();
+        String[] allScripts = scriptManager.listAllScripts();
+        List<String> visibleScripts = new ArrayList<>();
+        
+        boolean canSeeAll = sender.isOp() || sender.hasPermission("quill.script.list.all");
+        
+        if (canSeeAll) {
+            visibleScripts.addAll(Arrays.asList(allScripts));
+        } else {
+            UUID senderUUID = null;
+            if (sender instanceof Player player) {
+                senderUUID = player.getUniqueId();
+            }
+            
+            for (String script : allScripts) {
+                boolean isGlobalScript = !script.contains("/") && !script.contains(File.separator);
+                
+                if (isGlobalScript) {
+                    visibleScripts.add(script);
+                } else {
+                    String scopeName = script.substring(0, script.indexOf('/'));
+                    var scope = scopeManager.getScope(scopeName);
+                    
+                    if (scope != null && senderUUID != null && scope.getOwner().equals(senderUUID)) {
+                        visibleScripts.add(script);
+                    }
+                }
+            }
+        }
         
         sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.scripts.available") + " ===", NamedTextColor.GOLD));
         
-        if (scripts.length == 0) {
+        if (visibleScripts.isEmpty()) {
             sender.sendMessage(Component.text(plugin.translate("quill.commands.scripts.none"), NamedTextColor.YELLOW));
         } else {
-            for (String script : scripts) {
+            for (String script : visibleScripts) {
                 boolean loaded = scriptManager.getInterpreter(script) != null;
                 Component status = loaded ? Component.text("[LOADED]", NamedTextColor.GREEN) : Component.text("[UNLOADED]", NamedTextColor.GRAY);
                 sender.sendMessage(status.append(Component.text(" " + script, NamedTextColor.WHITE)));
@@ -186,6 +276,11 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
     }
     
     private boolean handleInfo(CommandSender sender) {
+        if (!sender.isOp() && !sender.hasPermission("quill.info")) {
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "see plugin info"), NamedTextColor.RED));
+            return true;
+        }
+
         sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.info.title") + " ===", NamedTextColor.GOLD));
         sender.sendMessage(Component.text(plugin.translate("quill.commands.info.version") + ": ", NamedTextColor.YELLOW).append(Component.text(plugin.getPluginMeta().getVersion(), NamedTextColor.WHITE)));
         sender.sendMessage(Component.text(plugin.translate("quill.commands.info.loaded") + ": ", NamedTextColor.YELLOW).append(Component.text(scriptManager.getAllInterpreters().size(), NamedTextColor.WHITE)));
@@ -196,6 +291,11 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
     }
     
     private void sendHelp(CommandSender sender, String[] args) {
+        if (!sender.isOp() && !sender.hasPermission("quill.help")) {
+            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "see plugin help"), NamedTextColor.RED));
+            return;
+        }
+
         if (args == null || args.length < 2) {
             sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.help.title") + " ===", NamedTextColor.GOLD));
             sender.sendMessage(Component.text("/quill load <filename>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.help.load"), NamedTextColor.WHITE)));
@@ -225,16 +325,36 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
             return;
         }
         
-        if (!sender.hasPermission("quill.script.edit")) {
-            sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "edit scripts"), NamedTextColor.RED));
-            return;
-        }
-        
         String filename = args[1];
         if (!filename.endsWith(".ql") && !filename.endsWith(".quill")) {
             filename += ".ql";
         }
+
+        boolean isGlobalScript = !filename.contains("/") && !filename.contains(File.separator);
         
+        if (isGlobalScript) {
+            if (!sender.isOp() && !sender.hasPermission("quill.script.edit.global")) {
+                sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "edit global scripts"), NamedTextColor.RED));
+                return;
+            }
+        } else {
+            String scopeName = filename.substring(0, filename.indexOf('/'));
+            
+            boolean hasPermission = sender.isOp() || sender.hasPermission("quill.script.edit.global") || sender.hasPermission("quill.script.edit.scope");
+            
+            if (sender instanceof Player player) {
+                var scope = scopeManager.getScope(scopeName);
+                if (scope != null && scope.getOwner().equals(player.getUniqueId())) {
+                    hasPermission = true;
+                }
+            }
+            
+            if (!hasPermission) {
+                sender.sendMessage(Component.text(plugin.translate("quill.commands.edit.no-permission", "edit scripts in scope: " + scopeName), NamedTextColor.RED));
+                return;
+            }
+        }
+
         if (plugin.editValid) {
             final String finalFilename = filename;
             editor.readFile(filename).thenAccept(fileData -> {
@@ -275,13 +395,22 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
         
         return scopeRegistry.getCommand(subcommand)
             .map(cmd -> {
-                // Check permissions
-                String permission = cmd.getPermission();
-                if (permission != null && !sender.isOp() && !sender.hasPermission(permission)) {
-                    sender.sendMessage(Component.text(
-                        plugin.translate("quill.commands.global.no-permission", cmd.getName()),
-                        NamedTextColor.RED));
-                    return true;
+                List<String> permissions = cmd.getPermissions();
+                if (!permissions.isEmpty() && !sender.isOp()) {
+                    boolean hasPermission = false;
+                    for (String permission : permissions) {
+                        if (sender.hasPermission(permission)) {
+                            hasPermission = true;
+                            break;
+                        }
+                    }
+                    
+                    if (!hasPermission) {
+                        sender.sendMessage(Component.text(
+                            plugin.translate("quill.commands.global.no-permission", cmd.getName()),
+                            NamedTextColor.RED));
+                        return true;
+                    }
                 }
                 
                 return cmd.execute(sender, subArgs);

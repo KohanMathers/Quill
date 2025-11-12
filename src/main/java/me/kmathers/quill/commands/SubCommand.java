@@ -16,6 +16,11 @@ public interface SubCommand {
         return null;
     }
     
+    default List<String> getPermissions() {
+        String single = getPermission();
+        return single != null ? List.of(single) : List.of();
+    }
+    
     default String getHelpText() {
         return "No help available";
     }

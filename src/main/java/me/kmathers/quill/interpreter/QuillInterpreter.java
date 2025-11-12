@@ -769,7 +769,7 @@ public class QuillInterpreter {
                 }
             } catch (Exception e) {
                 // Log error but continue with other handlers
-                System.err.println("Error in event handler " + eventName + ": " + e.getMessage());
+                plugin.getLogger().severe("Error in event handler " + eventName + ": " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 currentScope = previousScope;

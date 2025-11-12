@@ -63,8 +63,8 @@ public class ScopeCommands {
         }
         
         @Override
-        public String getPermission() {
-            return "quill.scope.create";
+        public List<String> getPermissions() {
+            return List.of("quill.scope.create");
         }
     }
     
@@ -84,13 +84,32 @@ public class ScopeCommands {
                 return true;
             }
             
-            if (scopeManager.deleteScope(args[0])) {
+            String scopeName = args[0];
+            var scope = scopeManager.getScope(scopeName);
+            
+            if (scope == null) {
                 sender.sendMessage(Component.text(
-                    plugin.translate("quill.commands.scope.deleted", args[0]),
+                    plugin.translate("quill.commands.scope.info.not-found", scopeName),
+                    NamedTextColor.RED));
+                return true;
+            }
+            
+            if (!sender.isOp() && !sender.hasPermission("quill.scope.delete.any")) {
+                if (!(sender instanceof Player player) || !scope.getOwner().equals(player.getUniqueId())) {
+                    sender.sendMessage(Component.text(
+                        plugin.translate("quill.commands.global.no-permission", "delete this scope"),
+                        NamedTextColor.RED));
+                    return true;
+                }
+            }
+            
+            if (scopeManager.deleteScope(scopeName)) {
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.commands.scope.deleted", scopeName),
                     NamedTextColor.GREEN));
             } else {
                 sender.sendMessage(Component.text(
-                    plugin.translate("quill.commands.global.fail", "delete scope: " + args[0]),
+                    plugin.translate("quill.commands.global.fail", "delete scope: " + scopeName),
                     NamedTextColor.RED));
             }
             
@@ -103,8 +122,8 @@ public class ScopeCommands {
         }
         
         @Override
-        public String getPermission() {
-            return "quill.scope.delete";
+        public List<String> getPermissions() {
+            return List.of();
         }
     }
     
@@ -119,13 +138,40 @@ public class ScopeCommands {
         
         @Override
         public boolean execute(CommandSender sender, String[] args) {
-            List<String> scopes = scopeManager.listScopes();
+            List<String> allScopes = scopeManager.listScopes();
+            List<String> visibleScopes = new ArrayList<>();
+            
+            boolean canSeeAll = sender.isOp() || sender.hasPermission("quill.scope.list.all");
+            
+            if (canSeeAll) {
+                visibleScopes.addAll(allScopes);
+            } else {
+                UUID senderUUID = null;
+                if (sender instanceof Player player) {
+                    senderUUID = player.getUniqueId();
+                }
+                
+                for (String scopeName : allScopes) {
+                    var scope = scopeManager.getScope(scopeName);
+                    
+                    if (scope != null && senderUUID != null && scope.getOwner().equals(senderUUID)) {
+                        visibleScopes.add(scopeName);
+                    }
+                }
+            }
+            
             sender.sendMessage(Component.text(
                 "=== " + plugin.translate("quill.commands.scope.list.title") + " ===",
                 NamedTextColor.GOLD));
             
-            for (String name : scopes) {
-                sender.sendMessage(Component.text(name, NamedTextColor.YELLOW));
+            if (visibleScopes.isEmpty()) {
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.commands.scope.list.none"),
+                    NamedTextColor.YELLOW));
+            } else {
+                for (String name : visibleScopes) {
+                    sender.sendMessage(Component.text(name, NamedTextColor.YELLOW));
+                }
             }
             
             sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
@@ -138,8 +184,8 @@ public class ScopeCommands {
         }
         
         @Override
-        public String getPermission() {
-            return "quill.scope.list";
+        public List<String> getPermissions() {
+            return List.of("quill.scope.list");
         }
     }
     
@@ -159,22 +205,24 @@ public class ScopeCommands {
                 return true;
             }
             
-            Map<String, Object> info = scopeManager.scopeInfo(args[0]);
+            String scopeName = args[0];
+            Map<String, Object> info = scopeManager.scopeInfo(scopeName);
             
             if (info.get("name").equals("scope-not-found")) {
                 sender.sendMessage(Component.text(
-                    plugin.translate("quill.commands.scope.info.not-found", args[0]),
+                    plugin.translate("quill.commands.scope.info.not-found", scopeName),
                     NamedTextColor.RED));
                 return true;
             }
-
-            boolean isOwner = false;
-            if (info.get("owner") != null) {
-                isOwner = sender instanceof Player player && 
-                    player.getUniqueId().equals(UUID.fromString(info.get("owner").toString()));
-            }            
             
-            if (!sender.isOp() && !sender.hasPermission("quill.scope.info.others") && !isOwner) {
+            boolean isOwner = false;
+            if (info.get("owner") != null && sender instanceof Player player) {
+                isOwner = player.getUniqueId().equals(UUID.fromString(info.get("owner").toString()));
+            }
+            
+            boolean canViewAny = sender.isOp() || sender.hasPermission("quill.scope.info.any");
+            
+            if (!canViewAny && !isOwner) {
                 sender.sendMessage(Component.text(
                     plugin.translate("quill.commands.global.no-permission", "view this scope's info"),
                     NamedTextColor.RED));
@@ -198,7 +246,7 @@ public class ScopeCommands {
             sender.sendMessage(Component.text(
                 plugin.translate("quill.commands.scope.info.boundaries") + ": ", NamedTextColor.YELLOW)
                 .append(Component.text(
-                    String.format("%s, %s, %s - %s, %s, %s", 
+                    String.format("%.1f, %.1f, %.1f - %.1f, %.1f, %.1f", 
                         boundaries.get(0), boundaries.get(1), boundaries.get(2),
                         boundaries.get(3), boundaries.get(4), boundaries.get(5)),
                     NamedTextColor.WHITE)));
@@ -227,6 +275,11 @@ public class ScopeCommands {
         public String getName() {
             return "info";
         }
+        
+        @Override
+        public List<String> getPermissions() {
+            return List.of("quill.scope.info");
+        }
     }
     
     public static class Permission implements SubCommand {
@@ -250,6 +303,24 @@ public class ScopeCommands {
             String action = args[0].toLowerCase();
             String scopeName = args[1];
             String function = args[2];
+            
+            var scope = scopeManager.getScope(scopeName);
+            
+            if (scope == null) {
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.commands.scope.info.not-found", scopeName),
+                    NamedTextColor.RED));
+                return true;
+            }
+            
+            if (!sender.isOp() && !sender.hasPermission("quill.scope.permission")) {
+                if (!(sender instanceof Player player) || !scope.getOwner().equals(player.getUniqueId())) {
+                    sender.sendMessage(Component.text(
+                        plugin.translate("quill.commands.global.no-permission", "modify this scope's permissions"),
+                        NamedTextColor.RED));
+                    return true;
+                }
+            }
             
             BooleanResult result;
             String translationKey;
@@ -290,8 +361,8 @@ public class ScopeCommands {
         }
         
         @Override
-        public String getPermission() {
-            return "quill.scope.permission";
+        public List<String> getPermissions() {
+            return List.of();
         }
         
         @Override
@@ -324,6 +395,24 @@ public class ScopeCommands {
             String action = args[0].toLowerCase();
             String scopeName = args[1];
             String variable = args[2];
+            
+            var scope = scopeManager.getScope(scopeName);
+            
+            if (scope == null) {
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.commands.scope.info.not-found", scopeName),
+                    NamedTextColor.RED));
+                return true;
+            }
+            
+            if (!sender.isOp() && !sender.hasPermission("quill.scope.persist.any")) {
+                if (!(sender instanceof Player player) || !scope.getOwner().equals(player.getUniqueId())) {
+                    sender.sendMessage(Component.text(
+                        plugin.translate("quill.commands.global.no-permission", "modify this scope's persistent variables"),
+                        NamedTextColor.RED));
+                    return true;
+                }
+            }
             
             BooleanResult result;
             String translationKey;
@@ -364,8 +453,8 @@ public class ScopeCommands {
         }
         
         @Override
-        public String getPermission() {
-            return "quill.scope.persist";
+        public List<String> getPermissions() {
+            return List.of("quill.scope.persist");
         }
         
         @Override

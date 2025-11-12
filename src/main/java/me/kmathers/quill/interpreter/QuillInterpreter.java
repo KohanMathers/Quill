@@ -488,13 +488,22 @@ public class QuillInterpreter {
     }
     
     // === Assignment ===
-    
     private QuillValue evaluateAssignmentExpression(AssignmentExpression node) {
         QuillValue value = evaluate(node.value);
         
         if (node.target instanceof Identifier) {
             String name = ((Identifier) node.target).name;
             currentScope.set(name, value);
+            
+            if (permissionScope != null && permissionScope.getPersistentVars().containsKey(name)) {
+                Object javaValue = convertQuillValueToObject(value);
+                permissionScope.setPersistentVar(name, javaValue);
+                Quill.getPlugin(Quill.class).getScopeManager().saveScope(
+                    permissionScope, 
+                    permissionScope.getName() + ".yml"
+                );
+            }
+            
             return value;
         } else if (node.target instanceof MemberExpression) {
             MemberExpression member = (MemberExpression) node.target;
@@ -582,8 +591,28 @@ public class QuillInterpreter {
     // === Statements ===
     
     private QuillValue evaluateVariableDeclaration(VariableDeclaration node) {
+        if (permissionScope != null && permissionScope.getPersistentVars().containsKey(node.name)) {
+            Object storedValue = permissionScope.getPersistentVars().get(node.name);
+            
+            if (storedValue != null) {
+                QuillValue persistedValue = convertObjectToQuillValue(storedValue);
+                currentScope.define(node.name, persistedValue);
+                return NullValue.INSTANCE;
+            }
+        }
+        
         QuillValue value = evaluate(node.value);
         currentScope.define(node.name, value);
+        
+        if (permissionScope != null && permissionScope.getPersistentVars().containsKey(node.name)) {
+            Object javaValue = convertQuillValueToObject(value);
+            permissionScope.setPersistentVar(node.name, javaValue);
+            Quill.getPlugin(Quill.class).getScopeManager().saveScope(
+                permissionScope, 
+                permissionScope.getName() + ".yml"
+            );
+        }
+        
         return NullValue.INSTANCE;
     }
     
@@ -865,5 +894,63 @@ public class QuillInterpreter {
     
     public interface BuiltInFunction {
         QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter);
+    }
+
+    private QuillValue convertObjectToQuillValue(Object obj) {
+        if (obj == null) {
+            return NullValue.INSTANCE;
+        } else if (obj instanceof Number) {
+            return new NumberValue(((Number) obj).doubleValue());
+        } else if (obj instanceof String) {
+            return new StringValue((String) obj);
+        } else if (obj instanceof Boolean) {
+            return new BooleanValue((Boolean) obj);
+        } else if (obj instanceof List) {
+            List<?> list = (List<?>) obj;
+            List<QuillValue> elements = new ArrayList<>();
+            for (Object item : list) {
+                elements.add(convertObjectToQuillValue(item));
+            }
+            return new ListValue(elements);
+        } else if (obj instanceof Map) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> map = (Map<String, Object>) obj;
+            Map<String, QuillValue> converted = new HashMap<>();
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                converted.put(entry.getKey(), convertObjectToQuillValue(entry.getValue()));
+            }
+            return new MapValue(converted);
+        }
+        
+        // For complex types we can't serialize, return null
+        return NullValue.INSTANCE;
+    }
+
+    private Object convertQuillValueToObject(QuillValue value) {
+        if (value.isNull()) {
+            return null;
+        } else if (value.isNumber()) {
+            return value.asNumber();
+        } else if (value.isString()) {
+            return value.asString();
+        } else if (value.isBoolean()) {
+            return value.asBoolean();
+        } else if (value.isList()) {
+            List<Object> list = new ArrayList<>();
+            for (QuillValue item : value.asList()) {
+                list.add(convertQuillValueToObject(item));
+            }
+            return list;
+        } else if (value.isMap()) {
+            Map<String, Object> map = new HashMap<>();
+            for (Map.Entry<String, QuillValue> entry : value.asMap().entrySet()) {
+                map.put(entry.getKey(), convertQuillValueToObject(entry.getValue()));
+            }
+            return map;
+        }
+        
+        // Complex types like Player, Location, etc. can't be persisted
+        plugin.getLogger().warning(plugin.translate("quill.error.runtime.interpreter.cannot-persist", value.getType()));
+        return null;
     }
 }

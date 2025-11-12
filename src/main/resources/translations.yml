@@ -190,6 +190,7 @@ quill:
         invalid-assignee: "Invalid assignment target"
         not-func: "Not a function: {0}"
         missing-permission: "Scope '{0}' does not have permission to call function '{1}'; refusing to evaluate!"
+        cannot-persist: "Cannot persist variable: {0}"
 
       parser:
         expected: "Expected {0} but got {1} at line {2}"

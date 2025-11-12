@@ -6,7 +6,7 @@
 
     <groupId>me.kmathers.quill</groupId>
     <artifactId>Quill</artifactId>
-    <version>0.1.2-ALPHA</version>
+    <version>0.2.0-BETA</version>
     <packaging>jar</packaging>
 
     <properties>

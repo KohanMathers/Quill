@@ -433,4 +433,8 @@ public class Quill extends JavaPlugin {
         }
         return msg;
     }
+
+    public QuillScopeManager getScopeManager() {
+        return this.scopeManager;
+    }
 }

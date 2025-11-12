@@ -108,7 +108,7 @@ View scope info:
 
 ## Development Status
 
-⚠️ **Alpha** - Quill is in early development. Expect breaking changes.
+⚠️ **Beta** - Quill is in early development. Expect breaking changes.
 
 **Current Status:**
 - [x] Language specification
@@ -117,7 +117,7 @@ View scope info:
 - [x] Interpreter
 - [x] Bukkit plugin integration
 - [x] In-game editor
-- [ ] Persistence layer
+- [x] Persistence layer
 - [x] Permission system
 
 ## Contributing

@@ -163,6 +163,13 @@ quill:
           scope-not-found: "Scope '{0}' not found"
           default: "Failed to remove persistent variable from scope '{0}'. Check console for errors."
 
+      mode:
+        success: "Set security mode {0} on {1}"
+        fail:
+          already-set: "Scope '{0}' already uses security mode '{1}'"
+          no-mode: "Invalid security mode: {0}"
+          default: "Failed to set security mode on scope '{0}'. Check console for errors."
+
   error:
     user:
       world:

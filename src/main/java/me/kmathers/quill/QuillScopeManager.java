@@ -332,6 +332,21 @@ public class QuillScopeManager {
         }
     }
 
+    public BooleanResult setMode(String scope, String mode) {
+        if(scopes.containsKey(scope)) {
+            Scope targetScope = scopes.get(scope);
+            if (targetScope.getSecurityMode() == SecurityMode.valueOf(mode.toUpperCase())) {
+                return BooleanResult.fail("already-set");
+            } else {
+                targetScope.setSecurityMode(SecurityMode.valueOf(mode.toUpperCase()));
+                saveScope(targetScope, targetScope.getName() + ".yml");
+                return BooleanResult.ok();
+            }
+        } else {
+            return BooleanResult.fail("scope-not-found");
+        }
+    }
+
     public Scope getScope(String scope) {
         if (scopes.containsKey(scope)) {
             return scopes.get(scope);

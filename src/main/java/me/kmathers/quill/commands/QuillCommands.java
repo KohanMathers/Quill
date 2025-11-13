@@ -53,6 +53,7 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
         scopeRegistry.register(new ScopeCommands.Info(plugin, scopeManager));
         scopeRegistry.register(new ScopeCommands.Permission(plugin, scopeManager));
         scopeRegistry.register(new ScopeCommands.Persistent(plugin, scopeManager));
+        scopeRegistry.register(new ScopeCommands.Mode(plugin, scopeManager));
     }
 
     @Override

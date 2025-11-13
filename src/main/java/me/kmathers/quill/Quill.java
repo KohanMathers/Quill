@@ -2,6 +2,7 @@ package me.kmathers.quill;
 
 import me.kmathers.quill.commands.QuillCommands;
 import me.kmathers.quill.events.QuillEventBridge;
+import me.kmathers.quill.events.QuillInternalListeners;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -24,6 +26,7 @@ public class Quill extends JavaPlugin {
     private QuillEventBridge eventBridge;
     private FileConfiguration translations;
     private QuillScopeManager scopeManager;
+    private List<UUID> flying = new ArrayList<>();
 
     public boolean editValid = true;
 
@@ -39,6 +42,8 @@ public class Quill extends JavaPlugin {
         }
 
         validateConfig();
+
+        getServer().getPluginManager().registerEvents(new QuillInternalListeners(this), this);
 
         File translationsFile = new File(getDataFolder(), "translations.yml");
         translations = YamlConfiguration.loadConfiguration(translationsFile);
@@ -436,5 +441,9 @@ public class Quill extends JavaPlugin {
 
     public QuillScopeManager getScopeManager() {
         return this.scopeManager;
+    }
+
+    public List<UUID> getFlying() {
+        return flying;
     }
 }

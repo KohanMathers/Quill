@@ -374,7 +374,21 @@ public class BuiltInPlayerFuncs {
             Player player = args.get(0).asPlayer();
             boolean flying = args.get(1).asBoolean();
 
-            player.setFlying(flying);
+            if  (flying) {
+                if(!(plugin.getFlying().contains(player.getUniqueId()))) {
+                    plugin.getFlying().add(player.getUniqueId());
+                }
+
+                player.setAllowFlight(true);
+                player.setFlying(true);
+            } else {
+                if(plugin.getFlying().contains(player.getUniqueId())) {
+                    plugin.getFlying().remove(player.getUniqueId());
+                }
+
+                player.setFlying(false);
+                player.setAllowFlight(false);
+            }
 
             return new BooleanValue(true);
         }

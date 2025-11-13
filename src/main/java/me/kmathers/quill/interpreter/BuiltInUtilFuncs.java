@@ -191,7 +191,14 @@ public class BuiltInUtilFuncs {
                 throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "log()", "log(message)"));
             }
 
-            Bukkit.getLogger().info("[Quill] (" + scope.getName() + ") " + args.get(0).toString());
+            String scopeName = scope.getName();
+            ScopeContext current = scope;
+            while ("anonymous".equals(scopeName) && current.getParent() != null) {
+                current = current.getParent();
+                scopeName = current.getName();
+            }
+
+            Bukkit.getLogger().info("[Quill] (" + scopeName + ") " + args.get(0).toString());
 
             return new BooleanValue(true);
         }

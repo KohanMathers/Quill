@@ -13,7 +13,7 @@
 ~~13. Scopes sometimes appear as `anonymous` in `log`~~
 ~~14. `quill.commands.scope.list` appears wrong in `/ql help scope`~~
 ~~15. Empty scripts cause relay to immediately delete session~~
-16. SUGGESTION: Make BlockInteract event filterable by hand
+~~16. SUGGESTION: Make BlockInteract event filterable by hand~~
 17. `trigger_event` does not accept braced data
 
 

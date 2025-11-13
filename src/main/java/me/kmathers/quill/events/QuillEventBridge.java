@@ -20,6 +20,7 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.TimeSkipEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.Plugin;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
@@ -258,8 +259,15 @@ public class QuillEventBridge implements Listener {
         blockData.put("type", new StringValue(event.getClickedBlock().getType().name().toLowerCase()));
         blockData.put("location", new LocationValue(event.getClickedBlock().getLocation()));
         context.put("block", new MapValue(blockData));
-        context.put("event", new EventValue(event));
         
+        if (event.getHand() == EquipmentSlot.HAND) {
+            context.put("hand", new StringValue("hand"));
+        } else {
+            context.put("hand", new StringValue("off_hand"));
+        }
+
+        context.put("event", new EventValue(event));
+
         triggerForAllScripts("BlockInteract", context);
     }
     

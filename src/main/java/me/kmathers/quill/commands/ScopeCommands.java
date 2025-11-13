@@ -7,6 +7,7 @@ import me.kmathers.quill.utils.SecurityConfig.SecurityMode;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -39,7 +40,21 @@ public class ScopeCommands {
                     .collect(Collectors.toList());
                 
                 SecurityMode mode = SecurityMode.valueOf(args[8].toUpperCase());
-                UUID owner = UUID.fromString(args[1]);
+                
+                UUID owner;
+                try {
+                    owner = UUID.fromString(args[1]);
+                } catch (IllegalArgumentException e) {
+                    OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
+                    if (player.hasPlayedBefore() || player.isOnline()) {
+                        owner = player.getUniqueId();
+                    } else {
+                        sender.sendMessage(Component.text(
+                            plugin.translate("quill.error.scope.no-player", args[1]),
+                            NamedTextColor.RED));
+                        return true;
+                    }
+                }
                 
                 if (scopeManager.createScope(args[0], owner, boundaries, mode, null, null) != null) {
                     sender.sendMessage(Component.text(

@@ -9,7 +9,7 @@
 ~~9. If no persistent vars, throws an NPE when trying to create a persistent var~~
 ~~10. Granting a function displays `Granted permission scope to function`~~
 ~~11. SUGGESTION: add `/quill scope mode <name> <mode>`~~
-12. `quill.script-manager.file.invalid-boundaries` does not exist
+~~12. `quill.script-manager.file.invalid-boundaries` does not exist~~
 13. Scopes sometimes appear as `anonymous` in `log`
 14. `quill.commands.scope.list` appears wrong in `/ql help scope`
 15. Empty scripts cause relay to immediately delete session

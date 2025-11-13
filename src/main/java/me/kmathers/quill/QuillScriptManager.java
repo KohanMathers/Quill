@@ -101,7 +101,7 @@ public class QuillScriptManager {
                     interpreter = new QuillInterpreter(targetScope, scopeManager);
                     interpreter.execute(ast);
                 } else {
-                    logger.warning("quill.script-manager.file.invalid-boundaries");
+                    logger.warning(plugin.translate("quill.script-manager.file.invalid-boundaries", scopeName, name));
                     return false;
                 }
             }

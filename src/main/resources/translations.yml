@@ -37,6 +37,7 @@ quill:
     file:
       file-not-found: "Script file not found: {0}"
       read-fail: "Failed to read script file: {0}"
+      invalid-boundaries: "Invalid boundaries in scope '{0}'; refusing to run script '{1}'!"
 
     error:
       lexer-error: "Lexer error in {0}: {1}"

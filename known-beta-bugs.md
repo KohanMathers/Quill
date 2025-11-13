@@ -5,7 +5,7 @@
 ~~5. `fly` function does not work if the player is not allowed to fly~~
 ~~6. `broadcast` does not broadcast~~
 ~~7. `/ql scope permission list` and `/ql scope persist list` don't exist~~
-8. `quill.commands.scope.none` does not exist
+~~8. `quill.commands.scope.list.none` does not exist~~
 ~~9. If no persistent vars, throws an NPE when trying to create a persistent var~~
 10. Granting a function displays `Granted permission scope to function`
 11. SUGGESTION: add `/quill scope mode <name> <mode>`

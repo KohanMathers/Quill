@@ -129,8 +129,10 @@ quill:
         list:
           title: "{0}'s Persistent Variables"
           no-funcs: "{0} has no persistent variables."
+
       list:
         title: "Loaded Scopes"
+        none: "No scopes available"
 
       grant:
         success: "Granted permission {0} to {1}"

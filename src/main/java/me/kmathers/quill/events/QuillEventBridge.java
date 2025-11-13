@@ -4,6 +4,7 @@ import me.kmathers.quill.QuillScriptManager;
 import me.kmathers.quill.interpreter.QuillInterpreter;
 import me.kmathers.quill.interpreter.QuillValue;
 import me.kmathers.quill.interpreter.QuillValue.*;
+import me.kmathers.quill.utils.Scope;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -33,7 +34,6 @@ import java.util.Map;
 
 /**
  * Bridges Minecraft events to Quill event handlers.
- * Triggers events for ALL loaded scripts.
  */
 public class QuillEventBridge implements Listener {
     private final QuillScriptManager scriptManager;
@@ -44,10 +44,38 @@ public class QuillEventBridge implements Listener {
         this.plugin = plugin;
     }
     
-    private void triggerForAllScripts(String eventName, Map<String, QuillValue> context) {
-        for (QuillInterpreter interpreter : scriptManager.getAllInterpreters().values()) {
-            interpreter.triggerEvent(eventName, context);
+    public void triggerForAllScripts(String eventName, Map<String, QuillValue> context, Scope scope) {
+        if (scope == null) {
+            for (Map.Entry<String, QuillInterpreter> entry : scriptManager.getAllInterpreters().entrySet()) {
+                try {
+                    if (entry.getValue().getScopeName().equals("global")) {
+                        entry.getValue().triggerEvent(eventName, context);
+                    }
+                } catch (Exception e) {
+                    plugin.getLogger().severe("Error triggering event " + eventName + 
+                        " in script " + entry.getKey() + ": " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            String scopeName = scope.getName();
+            
+            for (Map.Entry<String, QuillInterpreter> entry : scriptManager.getAllInterpreters().entrySet()) {
+                try {
+                    if (entry.getValue().belongsToScope(scopeName)) {
+                        entry.getValue().triggerEvent(eventName, context);
+                    }
+                } catch (Exception e) {
+                    plugin.getLogger().severe("Error triggering event " + eventName + 
+                        " in scope " + scopeName + " for script " + entry.getKey() + ": " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
         }
+    }
+    
+    public void triggerForAllScripts(String eventName, Map<String, QuillValue> context) {
+        triggerForAllScripts(eventName, context, null);
     }
     
     // === Player Events ===
@@ -56,14 +84,14 @@ public class QuillEventBridge implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Map<String, QuillValue> context = new HashMap<>();
         context.put("player", new PlayerValue(event.getPlayer()));
-        triggerForAllScripts("PlayerJoin", context);
+        triggerForAllScripts("PlayerJoin", context, null);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Map<String, QuillValue> context = new HashMap<>();
         context.put("player", new PlayerValue(event.getPlayer()));
-        triggerForAllScripts("PlayerQuit", context);
+        triggerForAllScripts("PlayerQuit", context, null);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -77,7 +105,7 @@ public class QuillEventBridge implements Listener {
         context.put("chat", new MapValue(chatData));
         
         Bukkit.getScheduler().runTask(plugin, () -> {
-            triggerForAllScripts("PlayerChat", context);
+            triggerForAllScripts("PlayerChat", context, null);
         });
     }
     
@@ -86,7 +114,7 @@ public class QuillEventBridge implements Listener {
         if (event.getFrom().getBlockX() == event.getTo().getBlockX() &&
             event.getFrom().getBlockY() == event.getTo().getBlockY() &&
             event.getFrom().getBlockZ() == event.getTo().getBlockZ()) {
-            return; // Only trigger on actual movement
+            return;
         }
         
         Map<String, QuillValue> context = new HashMap<>();
@@ -98,7 +126,7 @@ public class QuillEventBridge implements Listener {
         context.put("move", new MapValue(moveData));
         context.put("event", new EventValue(event));
         
-        triggerForAllScripts("PlayerMove", context);
+        triggerForAllScripts("PlayerMove", context, null);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -126,7 +154,7 @@ public class QuillEventBridge implements Listener {
         context.put("damage", new MapValue(damageData));
         context.put("event", new EventValue(event));
         
-        triggerForAllScripts("PlayerDamage", context);
+        triggerForAllScripts("PlayerDamage", context, null);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -142,14 +170,14 @@ public class QuillEventBridge implements Listener {
             new StringValue("unknown"));
         context.put("death", new MapValue(deathData));
         
-        triggerForAllScripts("PlayerDeath", context);
+        triggerForAllScripts("PlayerDeath", context, null);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Map<String, QuillValue> context = new HashMap<>();
         context.put("player", new PlayerValue(event.getPlayer()));
-        triggerForAllScripts("PlayerRespawn", context);
+        triggerForAllScripts("PlayerRespawn", context, null);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -165,7 +193,7 @@ public class QuillEventBridge implements Listener {
         context.put("interact", new MapValue(interactData));
         context.put("event", new EventValue(event));
         
-        triggerForAllScripts("PlayerInteract", context);
+        triggerForAllScripts("PlayerInteract", context, null);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -174,7 +202,7 @@ public class QuillEventBridge implements Listener {
         context.put("player", new PlayerValue(event.getPlayer()));
         context.put("item", new ItemValue(event.getItemDrop().getItemStack()));
         context.put("event", new EventValue(event));
-        triggerForAllScripts("PlayerDropItem", context);
+        triggerForAllScripts("PlayerDropItem", context, null);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -184,7 +212,7 @@ public class QuillEventBridge implements Listener {
             context.put("player", new PlayerValue(player));
             context.put("item", new ItemValue(event.getItem().getItemStack()));
             context.put("event", new EventValue(event));
-            triggerForAllScripts("PlayerPickupItem", context);
+            triggerForAllScripts("PlayerPickupItem", context, null);
         }    
     }
     
@@ -199,7 +227,7 @@ public class QuillEventBridge implements Listener {
         context.put("teleport", new MapValue(teleportData));
         context.put("event", new EventValue(event));
         
-        triggerForAllScripts("PlayerTeleport", context);
+        triggerForAllScripts("PlayerTeleport", context, null);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -213,7 +241,7 @@ public class QuillEventBridge implements Listener {
         context.put("gamemode", new MapValue(gamemodeData));
         context.put("event", new EventValue(event));
         
-        triggerForAllScripts("PlayerGameModeChange", context);
+        triggerForAllScripts("PlayerGameModeChange", context, null);
     }
     
     // === Block Events ===
@@ -229,7 +257,7 @@ public class QuillEventBridge implements Listener {
         context.put("block", new MapValue(blockData));
         context.put("event", new EventValue(event));
         
-        triggerForAllScripts("BlockBreak", context);
+        triggerForAllScripts("BlockBreak", context, null);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -243,7 +271,7 @@ public class QuillEventBridge implements Listener {
         context.put("block", new MapValue(blockData));
         context.put("event", new EventValue(event));
         
-        triggerForAllScripts("BlockPlace", context);
+        triggerForAllScripts("BlockPlace", context, null);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -268,7 +296,7 @@ public class QuillEventBridge implements Listener {
 
         context.put("event", new EventValue(event));
 
-        triggerForAllScripts("BlockInteract", context);
+        triggerForAllScripts("BlockInteract", context, null);
     }
     
     // === Entity Events ===
@@ -283,7 +311,7 @@ public class QuillEventBridge implements Listener {
         entityData.put("location", new LocationValue(event.getLocation()));
         context.put("entity", new MapValue(entityData));
         
-        triggerForAllScripts("EntitySpawn", context);
+        triggerForAllScripts("EntitySpawn", context, null);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -296,13 +324,13 @@ public class QuillEventBridge implements Listener {
             new PlayerValue(event.getEntity().getKiller()) : NullValue.INSTANCE);
         context.put("entity", new MapValue(entityData));
         
-        triggerForAllScripts("EntityDeath", context);
+        triggerForAllScripts("EntityDeath", context, null);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof org.bukkit.entity.Player) {
-            return; // Handled by PlayerDamage
+            return;
         }
         
         Map<String, QuillValue> context = new HashMap<>();
@@ -321,7 +349,7 @@ public class QuillEventBridge implements Listener {
         context.put("damage", new MapValue(damageData));
         context.put("event", new EventValue(event));
         
-        triggerForAllScripts("EntityDamage", context);
+        triggerForAllScripts("EntityDamage", context, null);
     }
     
     // === World Events ===
@@ -336,7 +364,7 @@ public class QuillEventBridge implements Listener {
         timeData.put("new", new NumberValue(event.getWorld().getTime()));
         context.put("time", new MapValue(timeData));
         
-        triggerForAllScripts("TimeChange", context);
+        triggerForAllScripts("TimeChange", context, null);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -349,6 +377,6 @@ public class QuillEventBridge implements Listener {
         weatherData.put("new", new StringValue(newWeather));
         context.put("weather", new MapValue(weatherData));
         
-        triggerForAllScripts("WeatherChange", context);
+        triggerForAllScripts("WeatherChange", context, null);
     }
 }

@@ -50,13 +50,15 @@ public class Quill extends JavaPlugin {
 
         scopeManager = new QuillScopeManager(this, getDataFolder(), getLogger());
 
+        scriptManager = new QuillScriptManager(this, getDataFolder(), getLogger(), scopeManager);
+
+        eventBridge = new QuillEventBridge(scriptManager, this);
+
         try {
             scopeManager.loadAll();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        scriptManager = new QuillScriptManager(this, getDataFolder(), getLogger(), scopeManager);
 
         QuillCommands commandHandler = new QuillCommands(this, scriptManager, scopeManager);
         getCommand("quill").setExecutor(commandHandler);
@@ -109,7 +111,6 @@ public class Quill extends JavaPlugin {
         getLogger().info(translate("quill.system.autoload.success", loaded, scripts.length));
         
         if (loaded > 0) {
-            eventBridge = new QuillEventBridge(scriptManager, this);
             getServer().getPluginManager().registerEvents(eventBridge, this);
         }
     }
@@ -445,5 +446,9 @@ public class Quill extends JavaPlugin {
 
     public List<UUID> getFlying() {
         return flying;
+    }
+
+    public QuillEventBridge getEventBridge() {
+        return eventBridge;
     }
 }

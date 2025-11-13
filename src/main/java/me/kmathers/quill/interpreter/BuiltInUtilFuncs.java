@@ -4,7 +4,9 @@ import me.kmathers.quill.Quill;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -13,11 +15,17 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+
 import me.kmathers.quill.interpreter.QuillValue.BooleanValue;
 import me.kmathers.quill.interpreter.QuillValue.NumberValue;
 import me.kmathers.quill.interpreter.QuillValue.PlayerValue;
 import me.kmathers.quill.interpreter.QuillValue.StringValue;
 import me.kmathers.quill.interpreter.QuillValue.ListValue;
+import me.kmathers.quill.interpreter.QuillValue.MapValue;
 
 /**
  * Built-in utility functions for Quill.
@@ -212,9 +220,44 @@ public class BuiltInUtilFuncs {
             }
             
             String eventName = args.get(0).asString();
-            QuillValue data = args.get(1);
+            QuillValue dataValue = args.get(1);
             
-            Bukkit.getLogger().info("Custom event triggered: " + eventName + " with data: " + data.toString());
+            Bukkit.getLogger().info("Custom event in scope '" + scope.getName() + "' triggered: " + eventName);
+            
+            try {
+                Map<String, QuillValue> context = new HashMap<>();
+                
+                if (dataValue.isString()) {
+                    // Parse JSON string into a map
+                    JsonObject jsonData = JsonParser.parseString(dataValue.asString()).getAsJsonObject();
+                    for (String key : jsonData.keySet()) {
+                        JsonElement value = jsonData.get(key);
+                        context.put(key, jsonElementToQuillValue(value));
+                        Bukkit.getLogger().info("  " + key + ": " + value.toString());
+                    }
+                } else if (dataValue.isMap()) {
+                    // Direct map conversion
+                    context.putAll(dataValue.asMap());
+                    for (Map.Entry<String, QuillValue> entry : context.entrySet()) {
+                        Bukkit.getLogger().info("  " + entry.getKey() + ": " + entry.getValue().toString());
+                    }
+                } else {
+                    throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "map or JSON string", "trigger_custom()", dataValue.getType()));
+                }
+                
+                // Get the permission scope to pass to event bridge
+                me.kmathers.quill.utils.Scope permScope = null;
+                if (!scope.getName().equals("global")) {
+                    permScope = plugin.getScopeManager().getScope(scope.getName());
+                }
+                
+                // Trigger the event with the context and scope
+                plugin.getEventBridge().triggerForAllScripts(eventName, context, permScope);
+                
+            } catch (Exception e) {
+                Bukkit.getLogger().warning("Failed to process custom event data: " + e.getMessage());
+                throw new RuntimeException("Failed to trigger custom event: " + e.getMessage());
+            }
             
             return new BooleanValue(true);
         }
@@ -482,5 +525,80 @@ public class BuiltInUtilFuncs {
             int index = random.nextInt(list.size());
             return list.get(index);
         }
+    }
+
+    private static JsonObject convertMapToJson(Map<String, QuillValue> map) {
+        JsonObject json = new JsonObject();
+        
+        for (Map.Entry<String, QuillValue> entry : map.entrySet()) {
+            String key = entry.getKey();
+            QuillValue value = entry.getValue();
+            
+            json.add(key, quillValueToJson(value));
+        }
+        
+        return json;
+    }
+    
+    private static JsonElement quillValueToJson(QuillValue value) {
+        if (value.isNull()) {
+            return com.google.gson.JsonNull.INSTANCE;
+        } else if (value.isNumber()) {
+            return new com.google.gson.JsonPrimitive(value.asNumber());
+        } else if (value.isString()) {
+            return new com.google.gson.JsonPrimitive(value.asString());
+        } else if (value.isBoolean()) {
+            return new com.google.gson.JsonPrimitive(value.asBoolean());
+        } else if (value.isList()) {
+            com.google.gson.JsonArray array = new com.google.gson.JsonArray();
+            for (QuillValue item : value.asList()) {
+                array.add(quillValueToJson(item));
+            }
+            return array;
+        } else if (value.isMap()) {
+            return convertMapToJson(value.asMap());
+        } else if (value.isLocation()) {
+            Location loc = value.asLocation();
+            JsonObject locJson = new JsonObject();
+            locJson.addProperty("x", loc.getX());
+            locJson.addProperty("y", loc.getY());
+            locJson.addProperty("z", loc.getZ());
+            locJson.addProperty("world", loc.getWorld().getName());
+            return locJson;
+        } else if (value.isPlayer()) {
+            return new JsonPrimitive(value.asPlayer().getName());
+        } else {
+            return new JsonPrimitive(value.toString());
+        }
+    }
+
+    private static QuillValue jsonElementToQuillValue(JsonElement element) {
+        if (element.isJsonNull()) {
+            return QuillValue.NullValue.INSTANCE;
+        } else if (element.isJsonPrimitive()) {
+            JsonPrimitive primitive = element.getAsJsonPrimitive();
+            if (primitive.isNumber()) {
+                return new NumberValue(primitive.getAsDouble());
+            } else if (primitive.isBoolean()) {
+                return new BooleanValue(primitive.getAsBoolean());
+            } else if (primitive.isString()) {
+                return new StringValue(primitive.getAsString());
+            }
+        } else if (element.isJsonArray()) {
+            com.google.gson.JsonArray array = element.getAsJsonArray();
+            List<QuillValue> list = new ArrayList<>();
+            for (JsonElement item : array) {
+                list.add(jsonElementToQuillValue(item));
+            }
+            return new ListValue(list);
+        } else if (element.isJsonObject()) {
+            JsonObject obj = element.getAsJsonObject();
+            Map<String, QuillValue> map = new HashMap<>();
+            for (String key : obj.keySet()) {
+                map.put(key, jsonElementToQuillValue(obj.get(key)));
+            }
+            return new MapValue(map);
+        }
+        return QuillValue.NullValue.INSTANCE;
     }
 }

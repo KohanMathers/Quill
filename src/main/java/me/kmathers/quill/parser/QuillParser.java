@@ -408,7 +408,10 @@ public class QuillParser {
                 
             case OpenBracket:
                 return parseListLiteral();
-                
+
+            case OpenBrace:
+                return parseMapLiteral();
+
             case New:
                 return parseNewExpression();
                 
@@ -453,6 +456,38 @@ public class QuillParser {
         return new ScopeCreation(args, newToken.line, newToken.column);
     }
     
+    private MapLiteral parseMapLiteral() throws ParseException {
+        Token openBrace = consume(TokenType.OpenBrace);
+        List<MapLiteral.MapEntry> entries = new ArrayList<>();
+        
+        if (!check(TokenType.CloseBrace)) {
+            do {
+                if (check(TokenType.Comma)) {
+                    position++;
+                }
+                
+                String key;
+                if (check(TokenType.Identifier)) {
+                    key = current().value;
+                    position++;
+                } else if (check(TokenType.StringLiteral)) {
+                    key = current().value;
+                    position++;
+                } else {
+                    throw new ParseException(Quill.getPlugin(Quill.class).translate("quill.error.runtime.parser.expected", "identifier or string as map key", current().kind, current().line));
+                }
+                
+                consume(TokenType.Colon);
+                ASTNode value = parseExpression();
+                entries.add(new MapLiteral.MapEntry(key, value));
+                
+            } while (check(TokenType.Comma));
+        }
+        
+        consume(TokenType.CloseBrace);
+        return new MapLiteral(entries, openBrace.line, openBrace.column);
+    }
+
     // === Exception Class ===
     
     public static class ParseException extends Exception {

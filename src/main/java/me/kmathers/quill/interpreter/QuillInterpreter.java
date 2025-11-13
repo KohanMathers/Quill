@@ -1,5 +1,6 @@
 package me.kmathers.quill.interpreter;
 
+import me.kmathers.quill.parser.AST;
 import me.kmathers.quill.parser.AST.*;
 import me.kmathers.quill.parser.QuillParser;
 import me.kmathers.quill.utils.Scope;
@@ -137,6 +138,8 @@ public class QuillInterpreter {
             return NullValue.INSTANCE;
         } else if (node instanceof ListLiteral) {
             return evaluateListLiteral((ListLiteral) node);
+        } else if (node instanceof MapLiteral) {
+            return evaluateMapLiteral((MapLiteral) node);
         }
         
         // Identifiers and member access
@@ -334,6 +337,18 @@ public class QuillInterpreter {
             elements.add(evaluate(element));
         }
         return new ListValue(elements);
+    }
+    
+    private QuillValue evaluateMapLiteral(MapLiteral node) {
+        AST.MapLiteral mapLiteral = (AST.MapLiteral) node;
+        Map<String, QuillValue> map = new HashMap<>();
+        
+        for (AST.MapLiteral.MapEntry entry : mapLiteral.entries) {
+            QuillValue value = evaluate(entry.value);
+            map.put(entry.key, value);
+        }
+        
+        return new MapValue(map);
     }
     
     // === Identifier and Member Access ===
@@ -966,5 +981,17 @@ public class QuillInterpreter {
         // Complex types like Player, Location, etc. can't be persisted
         plugin.getLogger().warning(plugin.translate("quill.error.runtime.interpreter.cannot-persist", value.getType()));
         return null;
+    }
+
+    public String getScopeName() {
+        return globalScope.getName();
+    }
+
+    public boolean belongsToScope(String scopeName) {
+        return globalScope.getName().equals(scopeName);
+    }
+
+    public ScopeContext getGlobalScope() {
+        return globalScope;
     }
 }

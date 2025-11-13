@@ -390,7 +390,7 @@ public class ScopeCommands {
             if (result != null) {
                 if (result.success()) {
                     sender.sendMessage(Component.text(
-                        plugin.translate(translationKey + ".success", scopeName, function),
+                        plugin.translate(translationKey + ".success", function, scopeName),
                         NamedTextColor.GREEN));
                 } else {
                     String errorKey = result.message().orElse("default");

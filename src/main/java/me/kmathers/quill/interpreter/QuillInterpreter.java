@@ -1,6 +1,7 @@
 package me.kmathers.quill.interpreter;
 
 import me.kmathers.quill.parser.AST.*;
+import me.kmathers.quill.parser.QuillParser;
 import me.kmathers.quill.utils.Scope;
 import me.kmathers.quill.Quill;
 import me.kmathers.quill.QuillScopeManager;
@@ -74,6 +75,9 @@ import me.kmathers.quill.interpreter.BuiltInWorldFuncs.SetWeatherFunction;
 import me.kmathers.quill.interpreter.BuiltInWorldFuncs.SpawnEntityFunction;
 import me.kmathers.quill.interpreter.BuiltInWorldFuncs.StrikeLightningFunction;
 import me.kmathers.quill.interpreter.QuillValue.*;
+import me.kmathers.quill.lexer.QuillLexer;
+import me.kmathers.quill.lexer.QuillLexer.Token;
+
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -213,94 +217,104 @@ public class QuillInterpreter {
             String expression = result.substring(start + 1, end);
             QuillValue value;
             
-            if (expression.contains(".")) {
-                String[] parts = expression.split("\\.", 2);
-                String objectName = parts[0];
-                String propertyName = parts[1];
+            try {
+                // Parse and evaluate the expression as Quill code
+                QuillLexer lexer = new QuillLexer(expression);
+                List<Token> tokens = lexer.tokenize();
+                QuillParser parser = new QuillParser(tokens);
+                ASTNode expr = parser.parseExpression();
                 
-                try {
-                    QuillValue object = currentScope.get(objectName);
+                value = evaluate(expr);
+            } catch (Exception e) {
+                if (expression.contains(".")) {
+                    String[] parts = expression.split("\\.", 2);
+                    String objectName = parts[0];
+                    String propertyName = parts[1];
                     
-                    String[] allParts = expression.split("\\.");
-                    QuillValue current = currentScope.get(allParts[0]);
-                    
-                    for (int i = 1; i < allParts.length; i++) {
-                        String prop = allParts[i];
+                    try {
+                        QuillValue object = currentScope.get(objectName);
                         
-                        if (current.isScope()) {
-                            ScopeContext scope = current.asScope().getScope();
-                            if (prop.equals("players")) {
-                                List<QuillValue> players = scope.getPlayers().stream()
-                                    .map(PlayerValue::new)
-                                    .collect(java.util.stream.Collectors.toList());
-                                current = new ListValue(players);
-                            } else if (prop.equals("region")) {
-                                ScopeContext.Region region = scope.getRegion();
-                                if (region == null) {
-                                    current = NullValue.INSTANCE;
+                        String[] allParts = expression.split("\\.");
+                        QuillValue current = currentScope.get(allParts[0]);
+                        
+                        for (int i = 1; i < allParts.length; i++) {
+                            String prop = allParts[i];
+                            
+                            if (current.isScope()) {
+                                ScopeContext scope = current.asScope().getScope();
+                                if (prop.equals("players")) {
+                                    List<QuillValue> players = scope.getPlayers().stream()
+                                        .map(PlayerValue::new)
+                                        .collect(java.util.stream.Collectors.toList());
+                                    current = new ListValue(players);
+                                } else if (prop.equals("region")) {
+                                    ScopeContext.Region region = scope.getRegion();
+                                    if (region == null) {
+                                        current = NullValue.INSTANCE;
+                                    } else {
+                                        current = new RegionValue(
+                                            region.getX1(), region.getY1(), region.getZ1(),
+                                            region.getX2(), region.getY2(), region.getZ2()
+                                        );
+                                    }
                                 } else {
-                                    current = new RegionValue(
-                                        region.getX1(), region.getY1(), region.getZ1(),
-                                        region.getX2(), region.getY2(), region.getZ2()
-                                    );
+                                    current = scope.get(prop);
                                 }
+                            } else if (current.isPlayer()) {
+                                Player player = current.asPlayer();
+                                switch (prop) {
+                                    case "name": current = new StringValue(player.getName()); break;
+                                    case "health": current = new NumberValue(player.getHealth()); break;
+                                    case "hunger": current = new NumberValue(player.getFoodLevel()); break;
+                                    case "location": current = new LocationValue(player.getLocation()); break;
+                                    case "gamemode": current = new StringValue(player.getGameMode().name().toLowerCase()); break;
+                                    case "flying": current = new BooleanValue(player.isFlying()); break;
+                                    case "online": current = new BooleanValue(player.isOnline()); break;
+                                    default:
+                                        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "player", prop));
+                                }
+                            } else if (current.isLocation()) {
+                                org.bukkit.Location loc = current.asLocation();
+                                switch (prop) {
+                                    case "x": current = new NumberValue(loc.getX()); break;
+                                    case "y": current = new NumberValue(loc.getY()); break;
+                                    case "z": current = new NumberValue(loc.getZ()); break;
+                                    case "world": current = new WorldValue(loc.getWorld()); break;
+                                    default:
+                                        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "location", prop));
+                                }
+                            } else if (current.isItem()) {
+                                org.bukkit.inventory.ItemStack item = current.asItem();
+                                switch (prop) {
+                                    case "type": current = new StringValue(item.getType().name().toLowerCase()); break;
+                                    case "amount": current = new NumberValue(item.getAmount()); break;
+                                    default:
+                                        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "item", prop));
+                                }
+                            } else if (current.isEntity()) {
+                                org.bukkit.entity.Entity entity = current.asEntity();
+                                switch (prop) {
+                                    case "type": current = new StringValue(entity.getType().name().toLowerCase()); break;
+                                    case "location": current = new LocationValue(entity.getLocation()); break;
+                                    case "alive": current = new BooleanValue(!entity.isDead()); break;
+                                    default:
+                                        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "entity", prop));
+                                }
+                            } else if (current.isMap()) {
+                                MapValue mapValue = (MapValue) current;
+                                current = mapValue.get(prop);
                             } else {
-                                current = scope.get(prop);
+                                throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.cannot-prop", prop, current.getType()));
                             }
-                        } else if (current.isPlayer()) {
-                            Player player = current.asPlayer();
-                            switch (prop) {
-                                case "name": current = new StringValue(player.getName()); break;
-                                case "health": current = new NumberValue(player.getHealth()); break;
-                                case "hunger": current = new NumberValue(player.getFoodLevel()); break;
-                                case "location": current = new LocationValue(player.getLocation()); break;
-                                case "gamemode": current = new StringValue(player.getGameMode().name().toLowerCase()); break;
-                                case "flying": current = new BooleanValue(player.isFlying()); break;
-                                case "online": current = new BooleanValue(player.isOnline()); break;
-                                default:
-                                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "player", prop));
-                            }
-                        } else if (current.isLocation()) {
-                            org.bukkit.Location loc = current.asLocation();
-                            switch (prop) {
-                                case "x": current = new NumberValue(loc.getX()); break;
-                                case "y": current = new NumberValue(loc.getY()); break;
-                                case "z": current = new NumberValue(loc.getZ()); break;
-                                case "world": current = new WorldValue(loc.getWorld()); break;
-                                default:
-                                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "location", prop));
-                            }
-                        } else if (current.isItem()) {
-                            org.bukkit.inventory.ItemStack item = current.asItem();
-                            switch (prop) {
-                                case "type": current = new StringValue(item.getType().name().toLowerCase()); break;
-                                case "amount": current = new NumberValue(item.getAmount()); break;
-                                default:
-                                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "item", prop));
-                            }
-                        } else if (current.isEntity()) {
-                            org.bukkit.entity.Entity entity = current.asEntity();
-                            switch (prop) {
-                                case "type": current = new StringValue(entity.getType().name().toLowerCase()); break;
-                                case "location": current = new LocationValue(entity.getLocation()); break;
-                                case "alive": current = new BooleanValue(!entity.isDead()); break;
-                                default:
-                                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "entity", prop));
-                            }
-                        } else if (current.isMap()) {
-                            MapValue mapValue = (MapValue) current;
-                            current = mapValue.get(prop);
-                        } else {
-                            throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.cannot-prop", prop, current.getType()));
                         }
+                        
+                        value = current;
+                    } catch (RuntimeException ex) {
+                        value = currentScope.get(expression);
                     }
-                    
-                    value = current;
-                } catch (RuntimeException e) {
+                } else {
                     value = currentScope.get(expression);
                 }
-            } else {
-                value = currentScope.get(expression);
             }
             
             String replacement = value.toString();

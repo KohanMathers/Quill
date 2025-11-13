@@ -233,7 +233,7 @@ public class QuillParser {
     
     // === Expression Parsing ===
     
-    private ASTNode parseExpression() throws ParseException {
+    public ASTNode parseExpression() throws ParseException {
         return parseAssignment();
     }
     

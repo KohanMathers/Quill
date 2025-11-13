@@ -84,7 +84,6 @@ quill:
       load: "Load a script"
       reload: "Reload a script"
       unload: "Unload a script"
-      list: "List all scripts"
       edit: "Edit a script"
       info: "Show plugin info"
       help: "Show this help"
@@ -132,6 +131,7 @@ quill:
           no-funcs: "{0} has no persistent variables."
 
       list:
+        help-hint: "List all scripts"
         title: "Loaded Scopes"
         none: "No scopes available"
 

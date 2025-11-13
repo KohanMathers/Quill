@@ -375,6 +375,9 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
             }
 
             editor.readFile(filename).thenAccept(fileData -> {
+                if (fileData.isEmpty()) {
+                    fileData = "let x = 123";
+                }
                 editor.createSession(fileData).thenAccept(sessionId -> {
                     if (sessionId != null) {
                         String url = plugin.getConfig().getString("editor.url") + sessionId;

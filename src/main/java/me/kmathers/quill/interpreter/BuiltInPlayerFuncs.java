@@ -100,7 +100,6 @@ public class BuiltInPlayerFuncs {
             int amount = 1;
             String itemId = null;
             Material itemMaterial = null;
-            ItemStack item = null;
 
             if (args.size() == 2) {
                 QuillValue second = args.get(1);
@@ -115,13 +114,17 @@ public class BuiltInPlayerFuncs {
             }
 
             itemMaterial = Material.matchMaterial(itemId);
-            item = createItemStack(itemId, amount);
-
-            if(player.getInventory().contains(itemMaterial)) {
-                player.getInventory().remove(item);
-            } else {
+            if (itemMaterial == null) {
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.invalid-material", itemId));
+            }
+            
+            ItemStack itemToRemove = new ItemStack(itemMaterial, amount);
+            
+            if (!player.getInventory().containsAtLeast(itemToRemove, amount)) {
                 return new NumberValue(0);
             }
+            
+            player.getInventory().removeItem(itemToRemove);
             
             return new NumberValue(amount);
         }

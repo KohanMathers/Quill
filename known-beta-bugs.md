@@ -1,7 +1,7 @@
 ~~1. `/ql edit` while no file throws NFE~~
 ~~2. Cannot create scope using player username~~
 ~~3. String interpolation throws undefined variable error for functions~~
-4. If player has less or more than amount needed but over 0 of an item, `remove_item` returns the amount it intends to remove, and does not remove any
+~~4. If player has less or more than amount needed but over 0 of an item, `remove_item` returns the amount it intends to remove, and does not remove any~~
 5. `fly` function does not work if the player is not allowed to fly
 6. `broadcast` does not broadcast
 7. `/ql scope permission list` and `/ql scope persist list` don't exist

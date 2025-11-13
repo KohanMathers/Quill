@@ -34,6 +34,10 @@ public class ScopeCommands {
                 return true;
             }
             
+            if (scopeManager.getScope(args[0]) != null) {
+                sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.already-exists", args[0]), NamedTextColor.RED));
+            }
+
             try {
                 List<Double> boundaries = Arrays.stream(args, 2, 8)
                     .map(Double::parseDouble)
@@ -308,16 +312,19 @@ public class ScopeCommands {
         
         @Override
         public boolean execute(CommandSender sender, String[] args) {
-            if (args.length < 3) {
+            if (args.length < 2) {
                 sender.sendMessage(Component.text(
                     "Usage: /quill scope permission <grant|revoke> <name> <function>",
+                    NamedTextColor.RED));
+                sender.sendMessage(Component.text(
+                    "/quill scope permission <list> <name>",
                     NamedTextColor.RED));
                 return true;
             }
             
             String action = args[0].toLowerCase();
             String scopeName = args[1];
-            String function = args[2];
+            String function = args.length > 2 ? args[2] : null;
             
             var scope = scopeManager.getScope(scopeName);
             
@@ -342,12 +349,36 @@ public class ScopeCommands {
             
             switch (action) {
                 case "grant":
+                    if (function == null) {
+                    sender.sendMessage(Component.text("Usage: /quill scope permission grant <name> <function>", NamedTextColor.RED));
+                    }
                     result = scopeManager.grantFunc(scopeName, function);
                     translationKey = "quill.commands.scope.grant";
                     break;
                 case "revoke":
+                    if (function == null) {
+                    sender.sendMessage(Component.text("Usage: /quill scope permission revoke <name> <function>", NamedTextColor.RED));
+                    }
                     result = scopeManager.revokeFunc(scopeName, function);
                     translationKey = "quill.commands.scope.revoke";
+                    break;
+                case "list":
+                    List<String> funcs = scopeManager.getFuncs(scopeName);
+                    if (funcs != null) {
+                        if (!(funcs.isEmpty())) {
+                            sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.scope.permission.list.title", scopeName, scopeManager.getScope(scopeName).getSecurityMode().equals(SecurityMode.WHITELIST) ? "Whitelisted" : "Blacklisted") + " ===", NamedTextColor.GOLD));
+                            for (String func : funcs) {
+                                sender.sendMessage(Component.text(func, NamedTextColor.YELLOW));
+                            }
+                            sender.sendMessage(Component.text("==============================", NamedTextColor.GOLD));
+                        } else {
+                            sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.permission.list.no-funcs", scopeName, scopeManager.getScope(scopeName).getSecurityMode().equals(SecurityMode.WHITELIST) ? "whitelisted" : "blacklisted"), NamedTextColor.YELLOW));
+                        }
+                    } else {
+                        sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.info.not-found", scopeName), NamedTextColor.RED));
+                    }
+                    result = null;
+                    translationKey = null;
                     break;
                 default:
                     sender.sendMessage(Component.text(
@@ -356,15 +387,17 @@ public class ScopeCommands {
                     return true;
             }
             
-            if (result.success()) {
-                sender.sendMessage(Component.text(
-                    plugin.translate(translationKey + ".success", scopeName, function),
-                    NamedTextColor.GREEN));
-            } else {
-                String errorKey = result.message().orElse("default");
-                sender.sendMessage(Component.text(
-                    plugin.translate(translationKey + ".fail." + errorKey, scopeName, function),
-                    NamedTextColor.RED));
+            if (result != null) {
+                if (result.success()) {
+                    sender.sendMessage(Component.text(
+                        plugin.translate(translationKey + ".success", scopeName, function),
+                        NamedTextColor.GREEN));
+                } else {
+                    String errorKey = result.message().orElse("default");
+                    sender.sendMessage(Component.text(
+                        plugin.translate(translationKey + ".fail." + errorKey, scopeName, function),
+                        NamedTextColor.RED));
+                }
             }
             
             return true;
@@ -400,16 +433,17 @@ public class ScopeCommands {
         
         @Override
         public boolean execute(CommandSender sender, String[] args) {
-            if (args.length < 3) {
+            if (args.length < 2) {
                 sender.sendMessage(Component.text(
                     "Usage: /quill scope persist <add|remove> <name> <variable>",
                     NamedTextColor.RED));
+                sender.sendMessage(Component.text("/quill scope persist list <name>"));
                 return true;
             }
             
             String action = args[0].toLowerCase();
             String scopeName = args[1];
-            String variable = args[2];
+            String variable = args.length > 2 ? args[2] : null;
             
             var scope = scopeManager.getScope(scopeName);
             
@@ -434,12 +468,36 @@ public class ScopeCommands {
             
             switch (action) {
                 case "add":
+                    if (variable == null) {
+                        sender.sendMessage(Component.text("Usage: /quill scope persist add <name> <variable>", NamedTextColor.RED)); 
+                    }
                     result = scopeManager.addPersistentVar(scopeName, variable);
                     translationKey = "quill.commands.scope.add-persistent";
                     break;
                 case "remove":
+                    if (variable == null) {
+                        sender.sendMessage(Component.text("Usage: /quill scope persist remove <name> <variable>", NamedTextColor.RED)); 
+                    }
                     result = scopeManager.removePersistentVar(scopeName, variable);
                     translationKey = "quill.commands.scope.remove-persistent";
+                    break;
+                case "list":
+                    List<String> vars = scopeManager.getPersistentVars(scopeName);
+                    if (vars != null) {
+                        if (!(vars.isEmpty())) {
+                            sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.scope.persist.list.title", scopeName) + " ===", NamedTextColor.GOLD));
+                            for (String var : vars) {
+                                sender.sendMessage(Component.text(var, NamedTextColor.YELLOW));
+                            }
+                            sender.sendMessage(Component.text("==============================", NamedTextColor.GOLD));
+                        } else {
+                            sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.persist.list.no-vars", scopeName), NamedTextColor.YELLOW));
+                        }
+                    } else {
+                        sender.sendMessage(Component.text(plugin.translate("quill.commands.scope.info.not-found", scopeName), NamedTextColor.RED));
+                    }
+                    result = null;
+                    translationKey = null;
                     break;
                 default:
                     sender.sendMessage(Component.text(
@@ -448,15 +506,17 @@ public class ScopeCommands {
                     return true;
             }
             
-            if (result.success()) {
-                sender.sendMessage(Component.text(
-                    plugin.translate(translationKey + ".success", variable, scopeName),
-                    NamedTextColor.GREEN));
-            } else {
-                String errorKey = result.message().orElse("default");
-                sender.sendMessage(Component.text(
-                    plugin.translate(translationKey + ".fail." + errorKey, scopeName, variable),
-                    NamedTextColor.RED));
+            if (result != null) {
+                if (result.success()) {
+                    sender.sendMessage(Component.text(
+                        plugin.translate(translationKey + ".success", variable, scopeName),
+                        NamedTextColor.GREEN));
+                } else {
+                    String errorKey = result.message().orElse("default");
+                    sender.sendMessage(Component.text(
+                        plugin.translate(translationKey + ".fail." + errorKey, scopeName, variable),
+                        NamedTextColor.RED));
+                }
             }
             
             return true;

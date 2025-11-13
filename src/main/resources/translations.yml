@@ -102,6 +102,7 @@ quill:
       list: "List all loaded scopes"
       created: "Created scope: {0}"
       deleted: "Deleted scope: {0}"
+      already-exists: "Scope {0} already exists"
 
       info:
         help-hint: "Show info about a scope"
@@ -119,10 +120,15 @@ quill:
 
       permission:
         help-hint: "Grant or revoke a scope function"
+        list:
+          title: "{0}'s {1} Functions"
+          no-funcs: "{0} has no {1} functions."
 
       persist:
         help-hint: "Add or remove a persistent variable from scope"
-
+        list:
+          title: "{0}'s Persistent Variables"
+          no-funcs: "{0} has no persistent variables."
       list:
         title: "Loaded Scopes"
 

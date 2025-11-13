@@ -20,7 +20,9 @@ commands:
       /quill scope list
       /quill scope info <name>
       /quill scope permission <grant|revoke> <name> <function>
+      /quill scope permission list <name>
       /quill scope persist <add|remove> <name> <variable>
+      /quill scope persist list <name>
 
     aliases: [ql]
     permission: quill.command

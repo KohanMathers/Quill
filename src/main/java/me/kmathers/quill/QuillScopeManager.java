@@ -52,8 +52,8 @@ public class QuillScopeManager {
         }
         
         Scope scope = new Scope(name, owner, boundaries, mode);
-        scope.setFuncs(funcs);
-        scope.setPersistentVars(persistentVars);
+        scope.setFuncs(funcs != null ? funcs : new ArrayList<>());
+        scope.setPersistentVars(persistentVars != null ? persistentVars : new HashMap<>());
         scopes.put(name, scope);
         saveScope(scope, name + ".yml");
         return scope;
@@ -101,6 +101,9 @@ public class QuillScopeManager {
             }
             
             List<String> funcs = config.getStringList("funcs");
+            if (funcs == null) {
+                funcs = new ArrayList<>();
+            }
             
             Map<String, Object> persistentVars = new HashMap<>();
             if (config.contains("persistent")) {
@@ -138,13 +141,21 @@ public class QuillScopeManager {
             config.set("owner", scope.getOwner().toString());
             config.set("boundaries", scope.getBoundaries());
             config.set("mode", scope.getSecurityMode().toString().toLowerCase());
-            config.set("funcs", scope.getFuncs());
+            
+            List<String> funcs = scope.getFuncs();
+            config.set("funcs", funcs != null ? funcs : new ArrayList<>());
             
             Map<String, Object> persistentVars = scope.getPersistentVars();
-            if (persistentVars != null && !persistentVars.isEmpty()) {
+            if (persistentVars == null) {
+                persistentVars = new HashMap<>();
+            }
+            
+            if (!persistentVars.isEmpty()) {
                 for (Map.Entry<String, Object> entry : persistentVars.entrySet()) {
                     config.set("persistent." + entry.getKey(), entry.getValue());
                 }
+            } else {
+                config.set("persistent", new HashMap<>());
             }
             
             config.save(scopeFile);
@@ -269,6 +280,25 @@ public class QuillScopeManager {
             }
         } else {
             return BooleanResult.fail("scope-not-found");
+        }
+    }
+
+    public List<String> getFuncs(String scope) {
+        if(scopes.containsKey(scope)) {
+            Scope targetScope = scopes.get(scope);
+            return targetScope.getFuncs();
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<String> getPersistentVars(String scope) {
+        if(scopes.containsKey(scope)) {
+            Scope targetScope = scopes.get(scope);
+            Map<String, Object> vars = targetScope.getPersistentVars();
+            return vars != null ? vars.keySet().stream().toList() : new ArrayList<>();
+        } else {
+            return new ArrayList<>();
         }
     }
 

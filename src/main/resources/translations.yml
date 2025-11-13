@@ -119,7 +119,7 @@ quill:
 
       permission:
         help-hint: "Grant or revoke a scope function"
-      
+
       persist:
         help-hint: "Add or remove a persistent variable from scope"
 
@@ -199,6 +199,7 @@ quill:
         no-sessionid: "sessionId not found in response: {0}"
         write-failed: "Failed to write file: {0}"
         read-failed: "Failed to read file: {0}"
+        create-fail: "Failed to create file: {0}"
 
     developer:
       arguments:

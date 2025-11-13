@@ -16,6 +16,9 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -357,6 +360,19 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
 
         if (plugin.editValid) {
             final String finalFilename = filename;
+            Path scriptsDir = plugin.getDataFolder().toPath().resolve("scripts");
+            Path filePath = scriptsDir.resolve(finalFilename);
+
+            try {
+                Files.createDirectories(filePath.getParent());
+                if (!Files.exists(filePath)) {
+                    Files.createFile(filePath);
+                }
+            } catch (IOException e) {
+                sender.sendMessage(Component.text(plugin.translate("quill.error.editor.create-fail", e.getMessage()), NamedTextColor.RED));
+                return;
+            }
+
             editor.readFile(filename).thenAccept(fileData -> {
                 editor.createSession(fileData).thenAccept(sessionId -> {
                     if (sessionId != null) {

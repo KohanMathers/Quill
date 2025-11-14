@@ -1,6 +1,7 @@
 package me.kmathers.quill.interpreter;
 
 import me.kmathers.quill.Quill;
+import me.kmathers.quill.events.QuillEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -228,7 +229,6 @@ public class BuiltInUtilFuncs {
                 Map<String, QuillValue> context = new HashMap<>();
                 
                 if (dataValue.isString()) {
-                    // Parse JSON string into a map
                     JsonObject jsonData = JsonParser.parseString(dataValue.asString()).getAsJsonObject();
                     for (String key : jsonData.keySet()) {
                         JsonElement value = jsonData.get(key);
@@ -236,7 +236,6 @@ public class BuiltInUtilFuncs {
                         Bukkit.getLogger().info("  " + key + ": " + value.toString());
                     }
                 } else if (dataValue.isMap()) {
-                    // Direct map conversion
                     context.putAll(dataValue.asMap());
                     for (Map.Entry<String, QuillValue> entry : context.entrySet()) {
                         Bukkit.getLogger().info("  " + entry.getKey() + ": " + entry.getValue().toString());
@@ -245,14 +244,12 @@ public class BuiltInUtilFuncs {
                     throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "map or JSON string", "trigger_custom()", dataValue.getType()));
                 }
                 
-                // Get the permission scope to pass to event bridge
                 me.kmathers.quill.utils.Scope permScope = null;
                 if (!scope.getName().equals("global")) {
                     permScope = plugin.getScopeManager().getScope(scope.getName());
                 }
                 
-                // Trigger the event with the context and scope
-                plugin.getEventBridge().triggerForAllScripts(eventName, context, permScope);
+                Bukkit.getPluginManager().callEvent(new QuillEvent(eventName, context, permScope));
                 
             } catch (Exception e) {
                 Bukkit.getLogger().warning("Failed to process custom event data: " + e.getMessage());

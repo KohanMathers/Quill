@@ -994,4 +994,8 @@ public class QuillInterpreter {
     public ScopeContext getGlobalScope() {
         return globalScope;
     }
+
+    public Set<String> getRegisteredEvents() {
+        return eventHandlers.keySet();
+    }
 }

@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class QuillScriptManager {
     private final Logger logger;
     private final Map<String, QuillInterpreter> activeScripts;
     private final QuillScopeManager scopeManager;
+    private final Map<String, Map<String, List<QuillInterpreter>>> scopeEventHandlers = new HashMap<>();
 
     public QuillScriptManager(Quill plugin, File dataFolder, Logger logger, QuillScopeManager scopeManager) {
         this.plugin = plugin;
@@ -106,6 +108,10 @@ public class QuillScriptManager {
                 }
             }
             
+            for (String eventName : interpreter.getRegisteredEvents()) {
+                registerEventHandler(scopeName, eventName, interpreter);
+            }
+
             activeScripts.put(name, interpreter);
             
             logger.info(plugin.translate("quill.script-manager.status.execute-success", name));
@@ -136,7 +142,10 @@ public class QuillScriptManager {
      * Unload a script.
      */
     public void unloadScript(String name) {
-        activeScripts.remove(name);
+        QuillInterpreter interpreter = activeScripts.remove(name);
+        if (interpreter != null) {
+            unregisterInterpreter(interpreter);
+        }
         logger.info(plugin.translate("quill.script-manager.status.unloaded", name));
     }
     
@@ -194,5 +203,30 @@ public class QuillScriptManager {
                 results.add(path);
             }
         }
+    }
+
+    public void registerEventHandler(String scopeName, String eventName, QuillInterpreter interpreter) {
+        scopeEventHandlers
+            .computeIfAbsent(scopeName, k -> new HashMap<>())
+            .computeIfAbsent(eventName, k -> new ArrayList<>())
+            .add(interpreter);
+    }
+
+    public void unregisterInterpreter(QuillInterpreter interpreter) {
+        for (Map<String, List<QuillInterpreter>> scopeHandlers : scopeEventHandlers.values()) {
+            for (List<QuillInterpreter> interpreters : scopeHandlers.values()) {
+                interpreters.remove(interpreter);
+            }
+        }
+    }
+
+    public List<QuillInterpreter> getHandlersForScopeAndEvent(String scopeName, String eventName) {
+        return scopeEventHandlers
+            .getOrDefault(scopeName, Collections.emptyMap())
+            .getOrDefault(eventName, Collections.emptyList());
+    }
+
+    public void clearEventHandlers() {
+        scopeEventHandlers.clear();
     }
 }

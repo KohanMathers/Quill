@@ -25,6 +25,7 @@ import me.kmathers.quill.interpreter.QuillValue.BooleanValue;
 import me.kmathers.quill.interpreter.QuillValue.NumberValue;
 import me.kmathers.quill.interpreter.QuillValue.PlayerValue;
 import me.kmathers.quill.interpreter.QuillValue.StringValue;
+import me.kmathers.quill.utils.Scope;
 import me.kmathers.quill.interpreter.QuillValue.ListValue;
 import me.kmathers.quill.interpreter.QuillValue.MapValue;
 
@@ -227,29 +228,32 @@ public class BuiltInUtilFuncs {
             
             try {
                 Map<String, QuillValue> context = new HashMap<>();
-                
+                Map<String, QuillValue> eventData = new HashMap<>();
+
                 if (dataValue.isString()) {
                     JsonObject jsonData = JsonParser.parseString(dataValue.asString()).getAsJsonObject();
                     for (String key : jsonData.keySet()) {
                         JsonElement value = jsonData.get(key);
-                        context.put(key, jsonElementToQuillValue(value));
-                        Bukkit.getLogger().info("  " + key + ": " + value.toString());
+                        eventData.put(key, jsonElementToQuillValue(value));
                     }
                 } else if (dataValue.isMap()) {
-                    context.putAll(dataValue.asMap());
-                    for (Map.Entry<String, QuillValue> entry : context.entrySet()) {
-                        Bukkit.getLogger().info("  " + entry.getKey() + ": " + entry.getValue().toString());
-                    }
+                    eventData.putAll(dataValue.asMap());
                 } else {
                     throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "map or JSON string", "trigger_custom()", dataValue.getType()));
                 }
                 
-                me.kmathers.quill.utils.Scope permScope = null;
+                context.put("event", new MapValue(eventData));
+
+                Scope permScope = null;
                 if (!scope.getName().equals("global")) {
                     permScope = plugin.getScopeManager().getScope(scope.getName());
                 }
                 
-                Bukkit.getPluginManager().callEvent(new QuillEvent(eventName, context, permScope));
+                final Scope finalPermScope = permScope;
+                final Map<String, QuillValue> finalContext = context;
+                Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+                    Bukkit.getPluginManager().callEvent(new QuillEvent(eventName, finalContext, finalPermScope));
+                });
                 
             } catch (Exception e) {
                 Bukkit.getLogger().warning("Failed to process custom event data: " + e.getMessage());

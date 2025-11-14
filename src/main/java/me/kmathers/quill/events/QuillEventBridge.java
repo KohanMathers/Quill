@@ -50,14 +50,18 @@ public class QuillEventBridge implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Map<String, QuillValue> context = new HashMap<>();
         context.put("player", new PlayerValue(event.getPlayer()));
-        Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerJoin", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerJoin", context, null));
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Map<String, QuillValue> context = new HashMap<>();
         context.put("player", new PlayerValue(event.getPlayer()));
-        Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerQuit", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerQuit", context, null));
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -70,7 +74,7 @@ public class QuillEventBridge implements Listener {
         chatData.put("message", new StringValue(plainMessage));
         context.put("chat", new MapValue(chatData));
         
-        Bukkit.getScheduler().runTask(plugin, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerChat", context, null));
         });
     }
@@ -92,7 +96,9 @@ public class QuillEventBridge implements Listener {
         context.put("move", new MapValue(moveData));
         context.put("event", new EventValue(event));
         
-        Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerMove", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerMove", context, null));
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -120,7 +126,9 @@ public class QuillEventBridge implements Listener {
         context.put("damage", new MapValue(damageData));
         context.put("event", new EventValue(event));
         
-        Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerDamage", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerDamage", context, null));
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -136,14 +144,18 @@ public class QuillEventBridge implements Listener {
             new StringValue("unknown"));
         context.put("death", new MapValue(deathData));
         
-        Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerDeath", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerDeath", context, null));
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Map<String, QuillValue> context = new HashMap<>();
         context.put("player", new PlayerValue(event.getPlayer()));
-        Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerRespawn", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerRespawn", context, null));
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -159,7 +171,9 @@ public class QuillEventBridge implements Listener {
         context.put("interact", new MapValue(interactData));
         context.put("event", new EventValue(event));
         
-        Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerInteract", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerInteract", context, null));
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -168,7 +182,10 @@ public class QuillEventBridge implements Listener {
         context.put("player", new PlayerValue(event.getPlayer()));
         context.put("item", new ItemValue(event.getItemDrop().getItemStack()));
         context.put("event", new EventValue(event));
-        Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerDropItem", context, null));
+
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerDropItem", context, null));
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -178,7 +195,10 @@ public class QuillEventBridge implements Listener {
             context.put("player", new PlayerValue(player));
             context.put("item", new ItemValue(event.getItem().getItemStack()));
             context.put("event", new EventValue(event));
-            Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerPickupItem", context, null));
+
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+                Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerPickupItem", context, null));
+            });
         }    
     }
     
@@ -193,7 +213,9 @@ public class QuillEventBridge implements Listener {
         context.put("teleport", new MapValue(teleportData));
         context.put("event", new EventValue(event));
         
-        Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerTeleport", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerTeleport", context, null));
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -207,7 +229,9 @@ public class QuillEventBridge implements Listener {
         context.put("gamemode", new MapValue(gamemodeData));
         context.put("event", new EventValue(event));
         
-        Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerGamemodeChange", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("PlayerGamemodeChange", context, null));
+        });
     }
     
     // === Block Events ===
@@ -223,7 +247,9 @@ public class QuillEventBridge implements Listener {
         context.put("block", new MapValue(blockData));
         context.put("event", new EventValue(event));
         
-        Bukkit.getPluginManager().callEvent(new QuillEvent("BlockBreak", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("BlockBreak", context, null));
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -237,7 +263,9 @@ public class QuillEventBridge implements Listener {
         context.put("block", new MapValue(blockData));
         context.put("event", new EventValue(event));
         
-        Bukkit.getPluginManager().callEvent(new QuillEvent("BlockPlace", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("BlockPlace", context, null));
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -262,7 +290,9 @@ public class QuillEventBridge implements Listener {
 
         context.put("event", new EventValue(event));
 
-        Bukkit.getPluginManager().callEvent(new QuillEvent("BlockInteract", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("BlockInteract", context, null));
+        });
     }
     
     // === Entity Events ===
@@ -277,7 +307,9 @@ public class QuillEventBridge implements Listener {
         entityData.put("location", new LocationValue(event.getLocation()));
         context.put("entity", new MapValue(entityData));
         
-        Bukkit.getPluginManager().callEvent(new QuillEvent("EntitySpawn", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("EntitySpawn", context, null));
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -290,7 +322,9 @@ public class QuillEventBridge implements Listener {
             new PlayerValue(event.getEntity().getKiller()) : NullValue.INSTANCE);
         context.put("entity", new MapValue(entityData));
         
-        Bukkit.getPluginManager().callEvent(new QuillEvent("EntityDeath", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("EntityDeath", context, null));
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -315,7 +349,9 @@ public class QuillEventBridge implements Listener {
         context.put("damage", new MapValue(damageData));
         context.put("event", new EventValue(event));
         
-        Bukkit.getPluginManager().callEvent(new QuillEvent("EntityDamage", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("EntityDamage", context, null));
+        });
     }
     
     // === World Events ===
@@ -330,7 +366,9 @@ public class QuillEventBridge implements Listener {
         timeData.put("new", new NumberValue(event.getWorld().getTime()));
         context.put("time", new MapValue(timeData));
         
-        Bukkit.getPluginManager().callEvent(new QuillEvent("TimeChange", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("TimeChange", context, null));
+        });
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -343,7 +381,9 @@ public class QuillEventBridge implements Listener {
         weatherData.put("new", new StringValue(newWeather));
         context.put("weather", new MapValue(weatherData));
         
-        Bukkit.getPluginManager().callEvent(new QuillEvent("WeatherChange", context, null));
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("WeatherChange", context, null));
+        });
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

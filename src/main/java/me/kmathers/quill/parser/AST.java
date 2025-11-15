@@ -109,6 +109,17 @@ public class AST {
         }
     }
     
+    public static class IndexExpression extends ASTNode {
+        public ASTNode object;
+        public ASTNode index;
+        
+        public IndexExpression(ASTNode object, ASTNode index, int line, int column) {
+            super(line, column);
+            this.object = object;
+            this.index = index;
+        }
+    }
+    
     // === Expressions ===
     
     public static class BinaryExpression extends ASTNode {

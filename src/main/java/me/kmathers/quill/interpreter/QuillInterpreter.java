@@ -147,6 +147,8 @@ public class QuillInterpreter {
             return evaluateIdentifier((Identifier) node);
         } else if (node instanceof MemberExpression) {
             return evaluateMemberExpression((MemberExpression) node);
+        } else if (node instanceof IndexExpression) {
+            return evaluateIndexExpression((IndexExpression) node);
         }
         
         // Expressions
@@ -441,6 +443,25 @@ public class QuillInterpreter {
         throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.cannot-prop", node.property, object.getType()));
     }
     
+    private QuillValue evaluateIndexExpression(IndexExpression node) {
+        QuillValue object = evaluate(node.object);
+        QuillValue index = evaluate(node.index);
+        
+        if (object.isMap()) {
+            String key = index.asString();
+            return object.asMap().getOrDefault(key, NullValue.INSTANCE);
+        } else if (object.isList()) {
+            int idx = (int) index.asNumber();
+            List<QuillValue> list = object.asList();
+            if (idx < 0 || idx >= list.size()) {
+                throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.index-out-of-bounds", idx, list.size()));
+            }
+            return list.get(idx);
+        }
+        
+        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.cannot-index", object.getType()));
+    }
+
     // === Binary Expressions ===
     
     private QuillValue evaluateBinaryExpression(BinaryExpression node) {
@@ -551,8 +572,29 @@ public class QuillInterpreter {
             }
             
             throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.cannot-assign", object.getType()));
+        } else if (node.target instanceof IndexExpression) {
+            IndexExpression indexExpr = (IndexExpression) node.target;
+            QuillValue object = evaluate(indexExpr.object);
+            QuillValue index = evaluate(indexExpr.index);
+            
+            if (object.isMap()) {
+                String key = index.asString();
+                MapValue mapValue = (MapValue) object;
+                mapValue.put(key, value);
+                return value;
+            } else if (object.isList()) {
+                int idx = (int) index.asNumber();
+                List<QuillValue> list = object.asList();
+                if (idx < 0 || idx >= list.size()) {
+                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.index-out-of-bounds", idx, list.size()));
+                }
+                list.set(idx, value);
+                return value;
+            }
+            
+            throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.cannot-index", object.getType()));
         }
-        
+                
         throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.invalid-assignee"));
     }
     

@@ -348,6 +348,12 @@ public class QuillParser {
                 position++;
                 Token property = consume(TokenType.Identifier);
                 expr = new MemberExpression(expr, property.value, dot.line, dot.column);
+            } else if (check(TokenType.OpenBracket)) {
+                Token openBracket = current();
+                position++;
+                ASTNode index = parseExpression();
+                consume(TokenType.CloseBracket);
+                expr = new IndexExpression(expr, index, openBracket.line, openBracket.column);
             } else if (check(TokenType.OpenParen)) {
                 Token openParen = current();
                 position++;

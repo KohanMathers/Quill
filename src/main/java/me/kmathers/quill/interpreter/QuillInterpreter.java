@@ -720,21 +720,16 @@ public class QuillInterpreter {
         }
         
         try {
-            boolean firstIteration = true;
             for (QuillValue item : items) {
-                ScopeContext previousScope = null;
-                if (isSubscopeIteration) {
-                    previousScope = currentScope;
-                    currentScope = new ScopeContext(subscope);
-                }
+                ScopeContext iterationScope = isSubscopeIteration 
+                    ? new ScopeContext(subscope)
+                    : new ScopeContext(currentScope);
+                
+                ScopeContext previousScope = currentScope;
+                currentScope = iterationScope;
                 
                 try {
-                    if (firstIteration) {
-                        currentScope.define(node.variable, item);
-                        firstIteration = false;
-                    } else {
-                        currentScope.set(node.variable, item);
-                    }
+                    currentScope.define(node.variable, item);
                     
                     try {
                         for (ASTNode statement : node.body) {
@@ -744,9 +739,7 @@ public class QuillInterpreter {
                         continue;
                     }
                 } finally {
-                    if (isSubscopeIteration) {
-                        currentScope = previousScope;
-                    }
+                    currentScope = previousScope;
                 }
             }
         } catch (BreakSignal b) {

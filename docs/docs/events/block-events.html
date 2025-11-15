@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Block Events — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html' class='active'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Events</span><span class='separator'>/</span><span class='current'>Block Events</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Block Events</h1>
+                    <h1 id="block-events">Block Events</h1>
+<h2 id="overview">Overview</h2>
+<p>Block events are triggered by block-related actions in Minecraft. These events allow your scripts to control block breaking, placement, and interaction, enabling you to create protected regions, custom mining mechanics, and interactive blocks.</p>
+<p>All block events provide access to the <code>player</code> who triggered the event, the <code>block</code> that was affected, and the underlying Bukkit <code>event</code> object. Most block events can be cancelled using the <code>cancel()</code> function.</p>
+<p><strong>Basic event structure:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(EventName) {
+    // player - the player who triggered the event
+    // block - the block involved
+    // event - the Bukkit event object
+    // Use cancel(event) to prevent the action
+}
+</code></pre></div>
+
+<h2 id="blockbreak">BlockBreak</h2>
+<p>Triggered when a player breaks a block.</p>
+<h3 id="event-context">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player who broke the block<br />
+- <code>block</code> - The block that was broken (Block object)<br />
+- <code>event</code> - The Bukkit BlockBreakEvent object</p>
+<p><strong>Block properties:</strong><br />
+- <code>block.location</code> - Location of the block (Location)<br />
+- Access block type with <code>get_block(block.location)</code></p>
+<p><strong>Cancellable:</strong> Yes</p>
+<h3 id="example">Example</h3>
+<p><strong>Prevent breaking specific blocks:</strong></p>
+<div class="highlight"><pre><span></span><code>let protected_blocks = [&quot;diamond_ore&quot;, &quot;emerald_ore&quot;, &quot;ancient_debris&quot;]
+
+OnEvent(BlockBreak) {
+    let blockType = get_block(block.location)
+
+    if contains(protected_blocks, blockType) {
+        cancel(event)
+        sendmessage(player, &quot;You cannot break this block!&quot;)
+    }
+}
+</code></pre></div>
+
+<p><strong>Region-based protection:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">protected_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">protected_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">is_op</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;This area is protected!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Custom drops:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(BlockBreak) {
+    let blockType = get_block(block.location)
+
+    if blockType == &quot;DIAMOND_ORE&quot; {
+        // Give bonus diamonds
+        give(player, &quot;diamond&quot;, 2)
+        sendmessage(player, &quot;Bonus diamond!&quot;)
+    } else if blockType == &quot;COAL_ORE&quot; {
+        // 50% chance for double drops
+        if random(0, 1) &gt; 0.5 {
+            give(player, &quot;coal&quot;, 1)
+            sendmessage(player, &quot;Double coal drop!&quot;)
+        }
+    }
+}
+</code></pre></div>
+
+<p><strong>Track blocks broken:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">blocks_broken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">blocks_broken</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">blocks_broken</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">blocks_broken</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blocks_broken</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Achievement</span><span class="w"> </span><span class="k">every</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="n">blocks</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">blocks_broken</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; has broken &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">blocks_broken</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; blocks!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Mine only with correct tool:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(BlockBreak) {
+    let blockType = get_block(block.location)
+
+    // Check if player has pickaxe for ores
+    if contains(blockType, &quot;ORE&quot;) {
+        if !has_item(player, &quot;diamond_pickaxe&quot;) &amp;&amp; !has_item(player, &quot;iron_pickaxe&quot;) {
+            cancel(event)
+            sendmessage(player, &quot;You need a pickaxe to mine this!&quot;)
+        }
+    }
+}
+</code></pre></div>
+
+<p><strong>Prevent breaking blocks below certain Y level:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">BlockBreak</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">let</span><span class="w"> </span><span class="nv">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">block</span>.<span class="nv">location</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">loc</span>.<span class="nv">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">cancel</span><span class="ss">(</span><span class="nv">event</span><span class="ss">)</span>
+<span class="w">        </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;You cannot mine below Y=60 in this area!&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<h2 id="blockplace">BlockPlace</h2>
+<p>Triggered when a player places a block.</p>
+<h3 id="event-context_1">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player who placed the block<br />
+- <code>block</code> - The block that was placed (Block object)<br />
+- <code>event</code> - The Bukkit BlockPlaceEvent object</p>
+<p><strong>Block properties:</strong><br />
+- <code>block.location</code> - Location of the block (Location)<br />
+- Access block type with <code>get_block(block.location)</code></p>
+<p><strong>Cancellable:</strong> Yes</p>
+<h3 id="example_1">Example</h3>
+<p><strong>Prevent placing in protected zones:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">no_build_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockPlace</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">no_build_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">is_op</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You cannot build here!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Restrict certain block types:</strong></p>
+<div class="highlight"><pre><span></span><code>let banned_blocks = [&quot;tnt&quot;, &quot;lava&quot;, &quot;obsidian&quot;]
+
+OnEvent(BlockPlace) {
+    let blockType = get_block(block.location)
+
+    if contains(banned_blocks, blockType) {
+        cancel(event)
+        sendmessage(player, &quot;You cannot place this block!&quot;)
+    }
+}
+</code></pre></div>
+
+<p><strong>Build height limit:</strong></p>
+<div class="highlight"><pre><span></span><code>let max_build_height = 120
+
+OnEvent(BlockPlace) {
+    let loc = block.location
+
+    if loc.y &gt; max_build_height {
+        cancel(event)
+        sendmessage(player, &quot;Build height limit: Y=&quot; + max_build_height)
+    }
+}
+</code></pre></div>
+
+<p><strong>Track blocks placed:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">blocks_placed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockPlace</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">blockType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_block</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">location</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">blocks_placed</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">blocks_placed</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">blocks_placed</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">blockType</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">blocks_placed</span><span class="o">[</span><span class="n">name</span><span class="o">][</span><span class="n">blockType</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">blocks_placed</span><span class="o">[</span><span class="n">name</span><span class="o">][</span><span class="n">blockType</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blocks_placed</span><span class="o">[</span><span class="n">name</span><span class="o">][</span><span class="n">blockType</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Auto-replace blocks:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(BlockPlace) {
+    let blockType = get_block(block.location)
+    let loc = block.location
+
+    // Replace dirt with grass blocks automatically
+    if blockType == &quot;DIRT&quot; {
+        set_block(loc, &quot;grass_block&quot;)
+        sendmessage(player, &quot;Dirt upgraded to grass!&quot;)
+    }
+}
+</code></pre></div>
+
+<p><strong>Building contests with block limits:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">player_block_counts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+<span class="n">let</span><span class="w"> </span><span class="n">max_blocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockPlace</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">player_block_counts</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">player_block_counts</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">player_block_counts</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">max_blocks</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Block limit reached: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">max_blocks</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">player_block_counts</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_block_counts</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">remaining</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max_blocks</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">player_block_counts</span><span class="o">[</span><span class="n">name</span><span class="o">]</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Blocks remaining: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">remaining</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Create special effects on placement:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(BlockPlace) {
+    let blockType = get_block(block.location)
+    let loc = block.location
+
+    if blockType == &quot;DIAMOND_BLOCK&quot; {
+        // Create particles and sound effect
+        playsound(player, &quot;block.note_block.chime&quot;, 1.0, 2.0)
+        broadcast(get_name(player) + &quot; placed a diamond block!&quot;)
+    }
+}
+</code></pre></div>
+
+<h2 id="blockinteract">BlockInteract</h2>
+<p>Triggered when a player interacts with a block (right-clicks).</p>
+<h3 id="event-context_2">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player who interacted<br />
+- <code>block</code> - The block that was interacted with (Block object)<br />
+- <code>event</code> - The Bukkit PlayerInteractEvent object<br />
+- <code>action</code> - The type of interaction (string)</p>
+<p><strong>Block properties:</strong><br />
+- <code>block.location</code> - Location of the block (Location)<br />
+- Access block type with <code>get_block(block.location)</code></p>
+<p><strong>Cancellable:</strong> Yes</p>
+<p><strong>Action types:</strong><br />
+- <code>"RIGHT_CLICK_BLOCK"</code> - Right-clicked a block<br />
+- <code>"LEFT_CLICK_BLOCK"</code> - Left-clicked a block</p>
+<p><strong>Note:</strong> This is the same as PlayerInteract event but specifically for block interactions.</p>
+<h3 id="example_2">Example</h3>
+<p><strong>Custom button behavior:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(BlockInteract) {
+    if action == &quot;RIGHT_CLICK_BLOCK&quot; {
+        let blockType = get_block(block.location)
+
+        if contains(blockType, &quot;BUTTON&quot;) {
+            let loc = block.location
+
+            // Check if it&#39;s the special teleport button
+            if loc.x == 0 &amp;&amp; loc.y == 64 &amp;&amp; loc.z == 0 {
+                teleport(player, 100, 100, 100)
+                sendmessage(player, &quot;Teleported!&quot;)
+            }
+        }
+    }
+}
+</code></pre></div>
+
+<p><strong>Interactive signs:</strong></p>
+<div class="highlight"><pre><span></span><code>let sign_locations = {}
+sign_locations[&quot;shop&quot;] = location(10, 64, 10)
+sign_locations[&quot;arena&quot;] = location(20, 64, 20)
+
+OnEvent(BlockInteract) {
+    if action == &quot;RIGHT_CLICK_BLOCK&quot; {
+        let blockType = get_block(block.location)
+
+        if contains(blockType, &quot;SIGN&quot;) {
+            let loc = block.location
+
+            // Check if it&#39;s a shop sign
+            let shopLoc = sign_locations[&quot;shop&quot;]
+            if loc.x == shopLoc.x &amp;&amp; loc.y == shopLoc.y &amp;&amp; loc.z == shopLoc.z {
+                sendmessage(player, &quot;Opening shop...&quot;)
+                trigger_custom(&quot;open_shop&quot;, {player: player})
+            }
+
+            // Check if it&#39;s an arena sign
+            let arenaLoc = sign_locations[&quot;arena&quot;]
+            if loc.x == arenaLoc.x &amp;&amp; loc.y == arenaLoc.y &amp;&amp; loc.z == arenaLoc.z {
+                sendmessage(player, &quot;Joining arena...&quot;)
+                trigger_custom(&quot;join_arena&quot;, {player: player})
+            }
+        }
+    }
+}
+</code></pre></div>
+
+<p><strong>Prevent chest access:</strong></p>
+<div class="highlight"><pre><span></span><code>let locked_chests = [
+    location(50, 64, 50),
+    location(51, 64, 50)
+]
+
+OnEvent(BlockInteract) {
+    if action == &quot;RIGHT_CLICK_BLOCK&quot; {
+        let blockType = get_block(block.location)
+
+        if blockType == &quot;CHEST&quot; {
+            let loc = block.location
+
+            for chestLoc in locked_chests {
+                if loc.x == chestLoc.x &amp;&amp; loc.y == chestLoc.y &amp;&amp; loc.z == chestLoc.z {
+                    if !is_op(player) {
+                        cancel(event)
+                        sendmessage(player, &quot;This chest is locked!&quot;)
+                        return
+                    }
+                }
+            }
+        }
+    }
+}
+</code></pre></div>
+
+<p><strong>Door access control:</strong></p>
+<div class="highlight"><pre><span></span><code>let authorized_players = [&quot;Steve&quot;, &quot;Alex&quot;]
+
+OnEvent(BlockInteract) {
+    if action == &quot;RIGHT_CLICK_BLOCK&quot; {
+        let blockType = get_block(block.location)
+
+        if contains(blockType, &quot;DOOR&quot;) {
+            let name = get_name(player)
+
+            if !contains(authorized_players, name) {
+                cancel(event)
+                sendmessage(player, &quot;You don&#39;t have access to this door!&quot;)
+            }
+        }
+    }
+}
+</code></pre></div>
+
+<p><strong>Interaction cooldown:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">last_interact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockInteract</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">action</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;RIGHT_CLICK_BLOCK&quot;</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">currentTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_time</span><span class="p">(</span><span class="n">player</span><span class="p">.</span><span class="n">world</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">last_interact</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">let</span><span class="w"> </span><span class="n">lastTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">last_interact</span><span class="o">[</span><span class="n">name</span><span class="o">]</span>
+
+<span class="w">            </span><span class="o">//</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">second</span><span class="w"> </span><span class="n">cooldown</span><span class="w"> </span><span class="p">(</span><span class="mi">20</span><span class="w"> </span><span class="n">ticks</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">currentTime</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastTime</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="w">                </span><span class="k">return</span>
+<span class="w">            </span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="n">last_interact</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentTime</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="event-properties-reference">Event Properties Reference</h2>
+<h3 id="block-object">Block Object</h3>
+<p>All block events provide a <code>block</code> object with these properties:</p>
+<p><strong>block.location</strong> (Location)<br />
+- <code>block.location.x</code> - X coordinate (number)<br />
+- <code>block.location.y</code> - Y coordinate (number)<br />
+- <code>block.location.z</code> - Z coordinate (number)<br />
+- <code>block.location.world</code> - World (World object)</p>
+<p><strong>Getting block type:</strong></p>
+<div class="highlight"><pre><span></span><code>let blockType = get_block(block.location)
+// Returns string like &quot;DIAMOND_ORE&quot;, &quot;STONE&quot;, &quot;CHEST&quot;, etc.
+</code></pre></div>
+
+<h3 id="player-object">Player Object</h3>
+<p>The <code>player</code> who triggered the event has these properties:</p>
+<p><strong>Basic properties:</strong><br />
+- <code>player.name</code> - Player's username (string)<br />
+- <code>player.location</code> - Current location (Location)<br />
+- <code>player.health</code> - Current health (number, 0-20)<br />
+- <code>player.gamemode</code> - Current gamemode (string)</p>
+<p><strong>Check player properties:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(BlockBreak) {
+    if get_gamemode(player) == &quot;creative&quot; {
+        // Different behavior in creative mode
+    }
+}
+</code></pre></div>
+
+<h3 id="event-object">Event Object</h3>
+<p>The <code>event</code> object can be used with <code>cancel()</code>:</p>
+<div class="highlight"><pre><span></span><code>OnEvent(BlockBreak) {
+    cancel(event)  // Prevent block from breaking
+}
+
+OnEvent(BlockPlace) {
+    cancel(event)  // Prevent block from being placed
+}
+</code></pre></div>
+
+<h2 id="common-patterns">Common Patterns</h2>
+<h3 id="block-protection">Block Protection</h3>
+<p>Protect specific areas or block types from modification:</p>
+<p><strong>Basic region protection:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">protected_area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">120</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">protected_area</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">is_op</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Protected area!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockPlace</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">protected_area</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">is_op</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Protected area!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Per-player protection:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">player_claims</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">func</span><span class="w"> </span><span class="n">hasClaim</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">player_claims</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">claim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_claims</span><span class="o">[</span><span class="n">name</span><span class="o">]</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">claim</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">false</span>
+<span class="err">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">block</span><span class="p">.</span><span class="n">location</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="k">Check</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">anyone</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="n">claimed</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">location</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">playerName</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">player_claims</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">claim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_claims</span><span class="o">[</span><span class="n">playerName</span><span class="o">]</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span><span class="w"> </span><span class="n">claim</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="o">//</span><span class="w"> </span><span class="k">Only</span><span class="w"> </span><span class="n">owner</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="k">break</span><span class="w"> </span><span class="n">blocks</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">playerName</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="w">                </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;This area belongs to &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">playerName</span><span class="p">)</span>
+<span class="w">                </span><span class="k">return</span>
+<span class="w">            </span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Material-based protection:</strong></p>
+<div class="highlight"><pre><span></span><code>let indestructible_blocks = [
+    &quot;BEDROCK&quot;,
+    &quot;BARRIER&quot;,
+    &quot;COMMAND_BLOCK&quot;,
+    &quot;STRUCTURE_BLOCK&quot;
+]
+
+OnEvent(BlockBreak) {
+    let blockType = get_block(block.location)
+
+    if contains(indestructible_blocks, blockType) {
+        cancel(event)
+        sendmessage(player, &quot;This block cannot be broken!&quot;)
+    }
+}
+</code></pre></div>
+
+<h3 id="tracking-block-changes">Tracking Block Changes</h3>
+<p>Monitor and log block modifications:</p>
+<p><strong>Comprehensive block logging:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">block_history</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">logBlockChange</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">blockType</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">entry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">player</span><span class="p">:</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">),</span>
+<span class="w">        </span><span class="n">block</span><span class="p">:</span><span class="w"> </span><span class="n">blockType</span><span class="p">,</span>
+<span class="w">        </span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="n">location</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+<span class="w">        </span><span class="n">y</span><span class="p">:</span><span class="w"> </span><span class="n">location</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+<span class="w">        </span><span class="n">z</span><span class="p">:</span><span class="w"> </span><span class="n">location</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
+<span class="w">        </span><span class="n">action</span><span class="p">:</span><span class="w"> </span><span class="n">action</span><span class="p">,</span>
+<span class="w">        </span><span class="n">time</span><span class="p">:</span><span class="w"> </span><span class="n">get_time</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">world</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">append</span><span class="p">(</span><span class="n">block_history</span><span class="p">,</span><span class="w"> </span><span class="n">entry</span><span class="p">)</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Keep</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="n">last</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="n">entries</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">block_history</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">remove</span><span class="p">(</span><span class="n">block_history</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">blockType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_block</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+<span class="w">    </span><span class="n">logBlockChange</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">blockType</span><span class="p">,</span><span class="w"> </span><span class="n">block</span><span class="o">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;break&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockPlace</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">blockType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_block</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+<span class="w">    </span><span class="n">logBlockChange</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">blockType</span><span class="p">,</span><span class="w"> </span><span class="n">block</span><span class="o">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;place&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Material-specific tracking:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">ores_mined</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">blockType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_block</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">location</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">blockType</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;ORE&quot;</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">ores_mined</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">ores_mined</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">ores_mined</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">blockType</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">ores_mined</span><span class="o">[</span><span class="n">name</span><span class="o">][</span><span class="n">blockType</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="n">ores_mined</span><span class="o">[</span><span class="n">name</span><span class="o">][</span><span class="n">blockType</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ores_mined</span><span class="o">[</span><span class="n">name</span><span class="o">][</span><span class="n">blockType</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">        </span><span class="nf">log</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; mined &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">blockType</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; (total: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ores_mined</span><span class="o">[</span><span class="n">name</span><span class="o">][</span><span class="n">blockType</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot;)&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Rollback system:</strong></p>
+<div class="highlight"><pre><span></span><code>let recent_breaks = []
+let max_history = 100
+
+OnEvent(BlockBreak) {
+    let blockType = get_block(block.location)
+    let loc = block.location
+
+    let record = {
+        player: get_name(player),
+        block: blockType,
+        x: loc.x,
+        y: loc.y,
+        z: loc.z,
+        time: get_time(player.world)
+    }
+
+    append(recent_breaks, record)
+
+    if len(recent_breaks) &gt; max_history {
+        remove(recent_breaks, 0)
+    }
+}
+
+// Custom event to restore blocks
+OnEvent(custom_rollback) {
+    let targetPlayer = event.player_name
+    let count = 0
+
+    for record in recent_breaks {
+        if record.player == targetPlayer {
+            set_block(record.x, record.y, record.z, record.block)
+            count = count + 1
+        }
+    }
+
+    broadcast(&quot;Rolled back &quot; + count + &quot; blocks for &quot; + targetPlayer)
+}
+</code></pre></div>
+
+<h3 id="custom-break-behavior">Custom Break Behavior</h3>
+<p>Implement special mechanics when blocks are broken:</p>
+<p><strong>Vein miner:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">func</span><span class="w"> </span><span class="n">breakVein</span><span class="p">(</span><span class="n">startLoc</span><span class="p">,</span><span class="w"> </span><span class="n">blockType</span><span class="p">,</span><span class="w"> </span><span class="n">maxBlocks</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">toCheck</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">startLoc</span><span class="o">]</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">checked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">[]</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">broken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">toCheck</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">broken</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">maxBlocks</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">toCheck</span><span class="o">[</span><span class="n">0</span><span class="o">]</span>
+<span class="w">        </span><span class="n">remove</span><span class="p">(</span><span class="n">toCheck</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="k">Check</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">already</span><span class="w"> </span><span class="n">processed</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">alreadyChecked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">checkedLoc</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">checked</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">checkedLoc</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">checkedLoc</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">checkedLoc</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="n">alreadyChecked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span>
+<span class="w">                </span><span class="k">break</span>
+<span class="w">            </span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">alreadyChecked</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="k">continue</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="n">append</span><span class="p">(</span><span class="n">checked</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">)</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="k">Check</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="n">block</span><span class="w"> </span><span class="n">type</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">get_block</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">blockType</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">break_block</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
+<span class="w">            </span><span class="n">broken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">broken</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">            </span><span class="o">//</span><span class="w"> </span><span class="k">Add</span><span class="w"> </span><span class="n">adjacent</span><span class="w"> </span><span class="n">blocks</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">check</span>
+<span class="w">            </span><span class="n">append</span><span class="p">(</span><span class="n">toCheck</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="n">loc</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">z</span><span class="p">))</span>
+<span class="w">            </span><span class="n">append</span><span class="p">(</span><span class="n">toCheck</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="n">loc</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">z</span><span class="p">))</span>
+<span class="w">            </span><span class="n">append</span><span class="p">(</span><span class="n">toCheck</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="n">loc</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">z</span><span class="p">))</span>
+<span class="w">            </span><span class="n">append</span><span class="p">(</span><span class="n">toCheck</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="n">loc</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">z</span><span class="p">))</span>
+<span class="w">            </span><span class="n">append</span><span class="p">(</span><span class="n">toCheck</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="n">loc</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
+<span class="w">            </span><span class="n">append</span><span class="p">(</span><span class="n">toCheck</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="n">loc</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">broken</span>
+<span class="err">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">blockType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_block</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">location</span><span class="p">)</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="k">Only</span><span class="w"> </span><span class="n">vein</span><span class="w"> </span><span class="n">mine</span><span class="w"> </span><span class="n">ores</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">blockType</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;ORE&quot;</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="k">Check</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">sneaking</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">vein</span><span class="w"> </span><span class="n">mine</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">sneaking</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">let</span><span class="w"> </span><span class="n">broken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">breakVein</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">blockType</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Vein mined &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">broken</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; blocks!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Fortune enchantment multiplier:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">blockType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_block</span><span class="p">(</span><span class="nx">block</span><span class="p">.</span><span class="nx">location</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c1">// Apply bonus drops based on block type</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">blockType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;DIAMOND_ORE&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">bonus</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">floor</span><span class="p">(</span><span class="nx">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w">  </span><span class="c1">// 0-2 extra diamonds</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">bonus</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">give</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">bonus</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Fortune bonus: +&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">bonus</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; diamonds!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">blockType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;COAL_ORE&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">bonus</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">floor</span><span class="p">(</span><span class="nx">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">))</span><span class="w">  </span><span class="c1">// 0-3 extra coal</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">bonus</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">give</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;coal&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">bonus</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Blast mining:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(BlockBreak) {
+    let blockType = get_block(block.location)
+
+    // If player breaks TNT while sneaking, create safe explosion
+    if blockType == &quot;TNT&quot; {
+        if player.sneaking {
+            cancel(event)
+
+            let loc = block.location
+
+            // Break blocks in 3x3 area
+            for x in range(-1, 2) {
+                for y in range(-1, 2) {
+                    for z in range(-1, 2) {
+                        let checkLoc = location(loc.x + x, loc.y + y, loc.z + z)
+                        let checkType = get_block(checkLoc)
+
+                        if checkType != &quot;AIR&quot; {
+                            break_block(checkLoc)
+                        }
+                    }
+                }
+            }
+
+            sendmessage(player, &quot;Blast mined 3x3 area!&quot;)
+            playsound(player, &quot;entity.generic.explode&quot;, 1.0, 1.0)
+        }
+    }
+}
+</code></pre></div>
+
+<p><strong>Auto-replant crops:</strong></p>
+<div class="highlight"><pre><span></span><code>let auto_replant = [&quot;WHEAT&quot;, &quot;CARROTS&quot;, &quot;POTATOES&quot;, &quot;BEETROOTS&quot;]
+
+OnEvent(BlockBreak) {
+    let blockType = get_block(block.location)
+
+    if contains(auto_replant, blockType) {
+        // Replant immediately
+        let loc = block.location
+
+        // Convert crop name to seed name
+        let seedType = blockType
+        if blockType == &quot;WHEAT&quot; {
+            seedType = &quot;WHEAT&quot;
+        } else if blockType == &quot;CARROTS&quot; {
+            seedType = &quot;CARROTS&quot;
+        } else if blockType == &quot;POTATOES&quot; {
+            seedType = &quot;POTATOES&quot;
+        } else if blockType == &quot;BEETROOTS&quot; {
+            seedType = &quot;BEETROOTS&quot;
+        }
+
+        // Wait one tick then replant
+        set_block(loc, seedType)
+        sendmessage(player, &quot;Auto-replanted!&quot;)
+    }
+}
+</code></pre></div>
+
+<p><strong>Excavator tool:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(BlockBreak) {
+    let blockType = get_block(block.location)
+
+    // Only for dirt/sand/gravel
+    if blockType == &quot;DIRT&quot; || blockType == &quot;SAND&quot; || blockType == &quot;GRAVEL&quot; {
+        // Check if player has special pickaxe
+        if has_item(player, &quot;diamond_pickaxe&quot;) {
+            let loc = block.location
+
+            // Break 3x3 column below
+            for y in range(1, 4) {
+                for x in range(-1, 2) {
+                    for z in range(-1, 2) {
+                        let checkLoc = location(loc.x + x, loc.y - y, loc.z + z)
+                        let checkType = get_block(checkLoc)
+
+                        if checkType == blockType {
+                            break_block(checkLoc)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+</code></pre></div>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#blockbreak'>BlockBreak</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#blockplace'>BlockPlace</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#blockinteract'>BlockInteract</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#event-properties-reference'>Event Properties Reference</a></li><li style='margin-left:20px'><a href='#block-object'>Block Object</a></li><li style='margin-left:20px'><a href='#player-object'>Player Object</a></li><li style='margin-left:20px'><a href='#event-object'>Event Object</a></li><li style='margin-left:0px'><a href='#common-patterns'>Common Patterns</a></li><li style='margin-left:20px'><a href='#block-protection'>Block Protection</a></li><li style='margin-left:20px'><a href='#tracking-block-changes'>Tracking Block Changes</a></li><li style='margin-left:20px'><a href='#custom-break-behavior'>Custom Break Behavior</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

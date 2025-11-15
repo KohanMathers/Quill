@@ -5,16 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
-    <title>Language — Syntax — Quill</title>
+    <title>Syntax — Quill</title>
     <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
 </head>
 
 <body>
-    <!-- Animated Background Particles -->
     <div class="particles" id="particles"></div>
 
     <div class="layout">
-        <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>
@@ -25,7 +23,7 @@
                 <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
             </div>
             <nav class="sidebar-nav">
-                <ul><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>concepts</span><ul><li><a href='/docs/concepts/events.html'>Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/welcome-system.html'>Welcome System</a></li></ul></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/control-flow.html'>Control Flow</a></li><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/syntax.html' class='active'>Syntax</a></li></ul></li><li class='folder'><span class='folder-name'>tutorial</span><ul><li><a href='/docs/tutorial/first-script.html'>First Script</a></li></ul></li></ul>
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html' class='active'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
             </nav>
             <div class="sidebar-footer">
                 <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
@@ -38,9 +36,7 @@
             </div>
         </aside>
 
-        <!-- Main Content Area -->
         <main class="content">
-            <!-- Hero Section (only on index) -->
             <header class="hero hide-hero">
                 <img class="hero-logo"
                     src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
@@ -53,153 +49,815 @@
                 </div>
             </header>
 
-            <!-- Breadcrumb Navigation -->
             <nav class="breadcrumbs" aria-label="Breadcrumb">
                 <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Language</span><span class='separator'>/</span><span class='current'>Syntax</span>
             </nav>
 
-            <!-- Documentation Content -->
             <div class="doc-layout">
                 <article class="doc-content">
-                    <h1 class="page-title">Language — Syntax</h1>
-                    <h1 id="language-syntax">Language — Syntax</h1>
-<p>This page covers the core Quill syntax you need to write scripts: comments, variables, types, operators, control flow, and functions. It is a concise reference derived from the language specification.</p>
-<h2 id="comments">Comments</h2>
-<div class="highlight"><pre><span></span><code><span class="c1">// Single-line comment</span>
-<span class="o">/*</span><span class="w"> </span><span class="n">Multi</span><span class="o">-</span><span class="n">line</span>
-<span class="w">   </span><span class="n">comment</span><span class="w"> </span><span class="o">*/</span>
-</code></pre></div>
-
-<p>Use comments to explain intent or temporarily disable code.</p>
-<h2 id="variables">Variables</h2>
-<p>Declare variables with <code>let</code> (dynamically typed):</p>
-<div class="highlight"><pre><span></span><code>let count = 0;
-let name = &quot;Player&quot;;
-</code></pre></div>
-
-<p>Root-level <code>let</code> variables are global to the scope. Assigning to properties of a <code>Scope</code> creates subscope-local variables.</p>
-<h2 id="data-types">Data types</h2>
-<p>Primitives<br />
-- Number: <code>42</code>, <code>3.14</code>, <code>-7</code><br />
-- String: <code>"hello"</code>, <code>'world'</code><br />
-- Boolean: <code>true</code>, <code>false</code><br />
-- Null: <code>null</code></p>
-<p>Complex<br />
-- Player — a reference to an online player<br />
-- Location — <code>location(x, y, z)</code><br />
-- Item — <code>item("minecraft:diamond_sword", amount, metadata)</code><br />
-- Scope — <code>new Scope(x1, y1, z1, x2, y2, z2)</code><br />
-- List — <code>[1, 2, "a"]</code><br />
-- Entity — game entity reference</p>
-<p>Use <code>type_of(value)</code> to inspect types at runtime.</p>
-<h2 id="operators">Operators</h2>
-<p>Arithmetic</p>
-<div class="highlight"><pre><span></span><code>+  -  *  /  %
-</code></pre></div>
-
-<p>Comparison</p>
-<div class="highlight"><pre><span></span><code>==  !=  &gt;  &lt;  &gt;=  &lt;=
-</code></pre></div>
-
-<p>Logical</p>
-<div class="highlight"><pre><span></span><code>&amp;&amp;  ||  !
-</code></pre></div>
-
-<p>String</p>
-<div class="highlight"><pre><span></span><code>&quot;a&quot; + &quot;b&quot;        // concatenation
-&quot;Hello {name}&quot;    // interpolation using { }
-</code></pre></div>
-
-<h2 id="control-flow">Control flow</h2>
-<p>If statements</p>
-<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="nv">condition</span><span class="w"> </span>{
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">code</span>
-}<span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">other</span><span class="w"> </span>{
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">code</span>
-}<span class="w"> </span><span class="k">else</span><span class="w"> </span>{
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">code</span>
-}
-</code></pre></div>
-
-<p>For loops</p>
-<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="nv">item</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">list</span><span class="w"> </span>{
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">iterate</span><span class="w"> </span><span class="nv">list</span>
-}
-
-<span class="k">for</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">range</span><span class="ss">(</span><span class="mi">0</span>,<span class="w"> </span><span class="mi">10</span><span class="ss">)</span><span class="w"> </span>{
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">iterate</span><span class="w"> </span><span class="nv">numeric</span><span class="w"> </span><span class="nv">range</span>
-}
-
-<span class="k">for</span><span class="w"> </span><span class="nv">p</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">subscope</span>.<span class="nv">players</span><span class="w"> </span>{
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">enters</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">subscope</span><span class="w"> </span><span class="nv">context</span>
-}
-</code></pre></div>
-
-<p>While loops</p>
-<div class="highlight"><pre><span></span><code><span class="k">while</span><span class="w"> </span><span class="nv">condition</span><span class="w"> </span>{
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">code</span>
-}
-</code></pre></div>
-
-<p>Loop control<br />
-- <code>break</code> — exit loop<br />
-- <code>continue</code> — next iteration</p>
-<h2 id="functions">Functions</h2>
-<p>Define functions with <code>func</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="k">func</span><span class="w"> </span><span class="n">hello</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Hi!&quot;</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<p>Call functions like <code>result = add(1, 2)</code> or <code>hello(player)</code>.</p>
-<h2 id="scope-basics-short">Scope basics (short)</h2>
-<p>Create subscopes with <code>new Scope(x1, y1, z1, x2, y2, z2)</code>. Scopes provide:<br />
-- <code>scope.players</code> — list of players in that scope<br />
-- <code>in_region(player, scope)</code> — check membership</p>
-<p>Context rules<br />
-- Root-level variables are always accessible.<br />
-- Subscope-local variables are only available when executing within that subscope's context (for example, when iterating <code>subscope.players</code>).</p>
-<h2 id="quick-examples">Quick examples</h2>
-<p>Variables and interpolation</p>
-<div class="highlight"><pre><span></span><code>let greeting = &quot;Welcome&quot;
-sendmessage(player, &quot;{greeting}, {player.name}!&quot;)
-</code></pre></div>
-
-<p>Simple function and loop</p>
-<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">give_starter</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;minecraft:bread&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
-<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Starter kit given.&quot;</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="k">for</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">get_online_players</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">give_starter</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<h2 id="related-topics">Related topics</h2>
-<ul>
-<li>Scopes and regions: <code>../concepts/scopes.html</code></li>
-<li>Events: <code>../concepts/events.html</code></li>
-<li>Full language specification: <code>../../SPEC.md</code></li>
-</ul>
+                    <h1 class="page-title">Syntax</h1>
+                    <h1 id="syntax">Syntax</h1>
+<h2 id="overview">Overview</h2>
+<p>Quill's syntax is designed to be clean, readable, and familiar to anyone who has used JavaScript, Python, or similar languages. This guide covers all the syntactic elements of the Quill language.</p>
+<p><strong>Key principles:</strong><br />
+- <strong>Whitespace-agnostic</strong> - Indentation is for readability, not syntax<br />
+- <strong>Newline-terminated</strong> - Statements end at newlines (semicolons optional)<br />
+- <strong>C-style operators</strong> - Uses familiar <code>+</code>, <code>-</code>, <code>==</code>, <code>&amp;&amp;</code>, etc.<br />
+- <strong>Curly-brace blocks</strong> - Code blocks use <code>{ }</code> like JavaScript/Java</p>
 <hr />
-<p>This page is a concise reference — for the full details and examples see the complete language specification (<code>SPEC.md</code>) and the API pages in <code>docs/api/</code>.</p>
+<h2 id="comments">Comments</h2>
+<p>Comments are text that Quill ignores. Use them to explain your code, leave notes, or temporarily disable code.</p>
+<h3 id="single-line-comments">Single-Line Comments</h3>
+<p>Single-line comments start with <code>//</code> and continue to the end of the line:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// This is a single-line comment</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="w">  </span><span class="c1">// Comments can also go at the end of lines</span>
 
-                    <!-- Last Modified -->
+<span class="c1">// You can use multiple single-line comments</span>
+<span class="c1">// to create multi-line explanations</span>
+<span class="c1">// like this</span>
+</code></pre></div>
+
+<h3 id="multi-line-comments">Multi-Line Comments</h3>
+<p>Multi-line comments start with <code>/*</code> and end with <code>*/</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/*</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">multi</span><span class="o">-</span><span class="n">line</span><span class="w"> </span><span class="n">comment</span><span class="w"> </span><span class="o">*/</span>
+
+<span class="o">/*</span><span class="w"> </span>
+<span class="w">   </span><span class="n">You</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">span</span><span class="w"> </span><span class="n">multiple</span><span class="w"> </span><span class="nb">lines</span>
+<span class="w">   </span><span class="n">to</span><span class="w"> </span><span class="nb">write</span><span class="w"> </span><span class="n">longer</span><span class="w"> </span><span class="n">explanations</span>
+<span class="w">   </span><span class="nb">or</span><span class="w"> </span><span class="n">documentation</span>
+<span class="o">*/</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="w">  </span><span class="o">/*</span><span class="w"> </span><span class="n">Inline</span><span class="w"> </span><span class="n">comments</span><span class="w"> </span><span class="n">work</span><span class="w"> </span><span class="n">too</span><span class="w"> </span><span class="o">*/</span>
+</code></pre></div>
+
+<p><strong>Nesting is not supported:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">/*</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">comment</span><span class="w"> </span><span class="o">/*</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">NOT</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">nested</span><span class="w"> </span><span class="n">comment</span><span class="w"> </span><span class="o">*/</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">breaks</span><span class="w"> </span><span class="o">*/</span>
+</code></pre></div>
+
+<p><strong>Use cases:</strong><br />
+- Single-line for quick notes: <code>// TODO: Optimize this</code><br />
+- Multi-line for documentation blocks or commenting out large sections</p>
+<hr />
+<h2 id="variables">Variables</h2>
+<p>Variables store data that can be used and modified throughout your script.</p>
+<h3 id="variable-declaration">Variable Declaration</h3>
+<p>Use <code>let</code> to declare a new variable:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">player_count</span><span class="w">        </span><span class="c1">// Declared but undefined (value is null)</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">score</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="w">           </span><span class="c1">// Declared and initialized</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Steve&quot;</span><span class="w">      </span><span class="c1">// Can be any data type</span>
+</code></pre></div>
+
+<p><strong>Rules:</strong><br />
+- Variable names must start with a letter or underscore<br />
+- Can contain letters, numbers, and underscores<br />
+- Cannot use reserved keywords (<code>let</code>, <code>if</code>, <code>func</code>, etc.)<br />
+- Case-sensitive (<code>score</code> ≠ <code>Score</code>)</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Valid names</span>
+<span class="n">let</span><span class="w"> </span><span class="n">player</span>
+<span class="n">let</span><span class="w"> </span><span class="n">_internal</span>
+<span class="n">let</span><span class="w"> </span><span class="n">player1</span>
+<span class="n">let</span><span class="w"> </span><span class="n">player_score</span>
+<span class="n">let</span><span class="w"> </span><span class="n">__private</span>
+
+<span class="c1">// Invalid names</span>
+<span class="n">let</span><span class="w"> </span><span class="mi">1</span><span class="n">player</span><span class="w">      </span><span class="c1">// Cannot start with number</span>
+<span class="n">let</span><span class="w"> </span><span class="n">player</span><span class="o">-</span><span class="n">name</span><span class="w">  </span><span class="c1">// Cannot use hyphens</span>
+<span class="n">let</span><span class="w"> </span><span class="k">if</span><span class="w">           </span><span class="c1">// Cannot use keywords</span>
+</code></pre></div>
+
+<h3 id="constants">Constants</h3>
+<p>Use <code>const</code> to declare values that should never change:</p>
+<div class="highlight"><pre><span></span><code><span class="k">const</span><span class="w"> </span><span class="n">MAX_PLAYERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="k">const</span><span class="w"> </span><span class="n">SPAWN_X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="k">const</span><span class="w"> </span><span class="n">SPAWN_Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">64</span>
+<span class="k">const</span><span class="w"> </span><span class="n">SPAWN_Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</code></pre></div>
+
+<p><strong>Constants must be initialized when declared:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">const</span><span class="w"> </span><span class="n">MAX_PLAYERS</span><span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Error</span><span class="p">:</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">have</span><span class="w"> </span><span class="n">value</span>
+<span class="k">const</span><span class="w"> </span><span class="n">MAX_PLAYERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="n">Correct</span>
+</code></pre></div>
+
+<p><strong>Constants cannot be reassigned:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">const</span><span class="w"> </span><span class="n">MAX_PLAYERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">MAX_PLAYERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="w">         </span><span class="o">//</span><span class="w"> </span><span class="n">Error</span><span class="p">:</span><span class="w"> </span><span class="n">cannot</span><span class="w"> </span><span class="n">reassign</span><span class="w"> </span><span class="k">const</span>
+</code></pre></div>
+
+<p><strong>Use constants for:</strong><br />
+- Configuration values that don't change<br />
+- Magic numbers that need names<br />
+- Values computed once and reused</p>
+<h3 id="variable-assignment">Variable Assignment</h3>
+<p>After declaration, assign new values with <code>=</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0</span><span class="w">     </span><span class="c1">// Initial value</span>
+<span class="n">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">10</span><span class="w">        </span><span class="c1">// Reassignment</span>
+<span class="n">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mh">5</span><span class="w"> </span><span class="c1">// Using current value</span>
+</code></pre></div>
+
+<p><strong>Compound assignment (not supported):</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// These do NOT work in Quill</span>
+<span class="n">score</span><span class="w"> </span><span class="o">+</span><span class="p">=</span><span class="w"> </span><span class="mi">5</span><span class="w">    </span><span class="c1">// Error</span>
+<span class="n">score</span><span class="o">++</span><span class="w">       </span><span class="c1">// Error</span>
+
+<span class="c1">// Instead, write:</span>
+<span class="n">score</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span>
+<span class="n">score</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+</code></pre></div>
+
+<p><strong>Multiple variables:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Declare</span><span class="w"> </span><span class="n">multiple</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="n">separately</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="n">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="n">let</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Multiple</span><span class="w"> </span><span class="n">declaration</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="p">(</span><span class="ow">not</span><span class="w"> </span><span class="n">supported</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Error</span>
+</code></pre></div>
+
+<h3 id="scope-rules">Scope Rules</h3>
+<p>Variables have <strong>lexical scope</strong> - they're accessible where they're declared and in nested blocks:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">global_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;I&#39;m global&quot;</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">my_function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">function_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;I&#39;m in the function&quot;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="bp">true</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">block_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;I&#39;m in the block&quot;</span>
+
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="n">global_var</span><span class="p">)</span><span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="err">✓</span><span class="w"> </span><span class="n">Accessible</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="n">function_var</span><span class="p">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="err">✓</span><span class="w"> </span><span class="n">Accessible</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="n">block_var</span><span class="p">)</span><span class="w">     </span><span class="o">//</span><span class="w"> </span><span class="err">✓</span><span class="w"> </span><span class="n">Accessible</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="n">global_var</span><span class="p">)</span><span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="err">✓</span><span class="w"> </span><span class="n">Accessible</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="n">function_var</span><span class="p">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="err">✓</span><span class="w"> </span><span class="n">Accessible</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="n">block_var</span><span class="p">)</span><span class="w">     </span><span class="o">//</span><span class="w"> </span><span class="err">✗</span><span class="w"> </span><span class="n">Error</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span>
+<span class="p">}</span>
+
+<span class="nb">log</span><span class="p">(</span><span class="n">global_var</span><span class="p">)</span><span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="err">✓</span><span class="w"> </span><span class="n">Accessible</span>
+<span class="nb">log</span><span class="p">(</span><span class="n">function_var</span><span class="p">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="err">✗</span><span class="w"> </span><span class="n">Error</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span>
+</code></pre></div>
+
+<p><strong>Variable shadowing:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">test</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Different</span><span class="w"> </span><span class="n">variable</span><span class="p">,</span><span class="w"> </span><span class="n">shadows</span><span class="w"> </span><span class="n">outer</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">      </span><span class="o">//</span><span class="w"> </span><span class="n">Prints</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span>
+<span class="p">}</span>
+
+<span class="nb">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">          </span><span class="o">//</span><span class="w"> </span><span class="n">Prints</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span>
+</code></pre></div>
+
+<p><strong>Redeclaration is not allowed:</strong></p>
+<div class="highlight"><pre><span></span><code>let x = 10
+let x = 20  // Error: x already defined
+</code></pre></div>
+
+<hr />
+<h2 id="data-types-overview">Data Types Overview</h2>
+<p>Quill supports several data types. See <a href="data-types.md">Data Types</a> for full details.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">num</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">42</span><span class="w">                    </span><span class="c1">// Number</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">str</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="w">               </span><span class="c1">// String</span>
+<span class="kd">let</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">true</span><span class="w">                 </span><span class="c1">// Boolean</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">nothing</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">null</span><span class="w">              </span><span class="c1">// Null</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">list</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span><span class="w">           </span><span class="c1">// List</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">map</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nx">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Steve&quot;</span><span class="p">}</span><span class="w">      </span><span class="c1">// Map</span>
+
+<span class="c1">// Minecraft types</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_player</span><span class="p">(</span><span class="s">&quot;Steve&quot;</span><span class="p">)</span><span class="w">         </span><span class="c1">// Player</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">loc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">            </span><span class="c1">// Location</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">item</span><span class="p">(</span><span class="s">&quot;diamond_sword&quot;</span><span class="p">)</span><span class="w">         </span><span class="c1">// Item</span>
+</code></pre></div>
+
+<hr />
+<h2 id="operators">Operators</h2>
+<h3 id="arithmetic-operators">Arithmetic Operators</h3>
+<p>Perform mathematical operations:</p>
+<div class="highlight"><pre><span></span><code>let a = 10
+let b = 3
+
+let sum = a + b          // 13 (addition)
+let diff = a - b         // 7  (subtraction)
+let product = a * b      // 30 (multiplication)
+let quotient = a / b     // 3.333... (division)
+let remainder = a % b    // 1  (modulo)
+</code></pre></div>
+
+<p><strong>Operator precedence (highest to lowest):</strong><br />
+1. Parentheses <code>( )</code><br />
+2. Multiplication, Division, Modulo: <code>*</code> <code>/</code> <code>%</code><br />
+3. Addition, Subtraction: <code>+</code> <code>-</code></p>
+<div class="highlight"><pre><span></span><code>let result = 2 + 3 <span class="gs">* 4      // 14 (not 20)</span>
+<span class="gs">let result = (2 + 3) *</span> 4    // 20 (parentheses first)
+</code></pre></div>
+
+<p><strong>Negative numbers:</strong></p>
+<div class="highlight"><pre><span></span><code>let neg = -5
+let result = 10 + -5    // 5
+let result = 10 - -5    // 15
+</code></pre></div>
+
+<h3 id="comparison-operators">Comparison Operators</h3>
+<p>Compare values and return true or false:</p>
+<div class="highlight"><pre><span></span><code>let a = 10
+let b = 20
+
+a == b    // false (equal to)
+a != b    // true  (not equal to)
+a &gt; b     // false (greater than)
+a &lt; b     // true  (less than)
+a &gt;= b    // false (greater than or equal to)
+a &lt;= b    // true  (less than or equal to)
+</code></pre></div>
+
+<p><strong>Type matters in equality:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="mf">10</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">10</span><span class="w">     </span><span class="o">//</span><span class="w"> </span><span class="n">true</span>
+<span class="mf">10</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">10.0</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="n">true</span><span class="w"> </span><span class="p">(</span><span class="n">same</span><span class="w"> </span><span class="n">number</span><span class="p">)</span>
+<span class="mf">10</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;10&quot;</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="n">false</span><span class="w"> </span><span class="p">(</span><span class="n">number</span><span class="w"> </span><span class="n">vs</span><span class="w"> </span><span class="n">string</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Comparing strings:</strong></p>
+<div class="highlight"><pre><span></span><code>&quot;apple&quot; == &quot;apple&quot;   // true
+&quot;apple&quot; == &quot;Apple&quot;   // false (case-sensitive)
+</code></pre></div>
+
+<h3 id="logical-operators">Logical Operators</h3>
+<p>Combine boolean expressions:</p>
+<div class="highlight"><pre><span></span><code>let x = 10
+let y = 20
+
+// AND - both must be true
+x &gt; 5 &amp;&amp; y &gt; 15     // true
+x &gt; 5 &amp;&amp; y &gt; 25     // false
+
+// OR - at least one must be true
+x &gt; 5 || y &gt; 25     // true
+x &lt; 5 || y &gt; 25     // false
+
+// NOT - inverts the value
+!(x &gt; 5)            // false
+!(x &lt; 5)            // true
+</code></pre></div>
+
+<p><strong>Short-circuit evaluation:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// If first condition is false, second is never checked</span>
+<span class="n">false</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">expensive_function</span><span class="p">()</span><span class="w">  </span><span class="c1">// expensive_function() NOT called</span>
+
+<span class="c1">// If first condition is true, second is never checked</span>
+<span class="n">true</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">expensive_function</span><span class="p">()</span><span class="w">   </span><span class="c1">// expensive_function() NOT called</span>
+</code></pre></div>
+
+<p><strong>Logical operator precedence:</strong><br />
+1. NOT <code>!</code><br />
+2. AND <code>&amp;&amp;</code><br />
+3. OR <code>||</code></p>
+<div class="highlight"><pre><span></span><code><span class="nv">true</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nv">false</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nv">false</span><span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">true</span><span class="w"> </span><span class="ss">(</span><span class="nv">AND</span><span class="w"> </span><span class="nv">first</span>,<span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="nv">OR</span><span class="ss">)</span>
+<span class="ss">(</span><span class="nv">true</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nv">false</span><span class="ss">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nv">false</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="nv">false</span><span class="w"> </span><span class="ss">(</span><span class="nv">OR</span><span class="w"> </span><span class="nv">first</span>,<span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="nv">AND</span><span class="ss">)</span>
+</code></pre></div>
+
+<h3 id="string-concatenation">String Concatenation</h3>
+<p>Use <code>+</code> to join strings:</p>
+<div class="highlight"><pre><span></span><code>let first = &quot;Hello&quot;
+let last = &quot;World&quot;
+let greeting = first + &quot; &quot; + last  // &quot;Hello World&quot;
+</code></pre></div>
+
+<p><strong>Automatic conversion:</strong></p>
+<div class="highlight"><pre><span></span><code>let text = &quot;Score: &quot; + 100        // &quot;Score: 100&quot;
+let text = &quot;Player &quot; + 1          // &quot;Player 1&quot;
+let text = &quot;Active: &quot; + true      // &quot;Active: true&quot;
+</code></pre></div>
+
+<p><strong>String interpolation is better:</strong></p>
+<div class="highlight"><pre><span></span><code>let score = 100
+let text = &quot;Score: {score}&quot;       // Preferred method
+</code></pre></div>
+
+<p>See <a href="string-interpolation.md">String Interpolation</a> for more details.</p>
+<hr />
+<h2 id="control-flow">Control Flow</h2>
+<p>Control flow statements determine which code runs and when.</p>
+<h3 id="if-statements">If Statements</h3>
+<p>Execute code conditionally:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="nv">condition</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Code</span><span class="w"> </span><span class="nv">runs</span><span class="w"> </span><span class="nv">only</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">condition</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">true</span>
+}
+</code></pre></div>
+
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mh">10</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="s">&quot;Server is crowded!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">spawn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">100</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Perfect score!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Truthy and falsy values:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span>{<span class="w"> </span>}<span class="w">          </span><span class="o">//</span><span class="w"> </span><span class="nv">false</span>
+<span class="k">if</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span>{<span class="w"> </span>}<span class="w">          </span><span class="o">//</span><span class="w"> </span><span class="nv">true</span>
+<span class="k">if</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span>{<span class="w"> </span>}<span class="w">         </span><span class="o">//</span><span class="w"> </span><span class="nv">false</span><span class="w"> </span><span class="ss">(</span><span class="nv">empty</span><span class="w"> </span><span class="nv">string</span><span class="ss">)</span>
+<span class="k">if</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="w"> </span>{<span class="w"> </span>}<span class="w">     </span><span class="o">//</span><span class="w"> </span><span class="nv">true</span>
+<span class="k">if</span><span class="w"> </span><span class="nv">null</span><span class="w"> </span>{<span class="w"> </span>}<span class="w">       </span><span class="o">//</span><span class="w"> </span><span class="nv">false</span>
+<span class="k">if</span><span class="w"> </span>[]<span class="w"> </span>{<span class="w"> </span>}<span class="w">         </span><span class="o">//</span><span class="w"> </span><span class="nv">false</span><span class="w"> </span><span class="ss">(</span><span class="nv">empty</span><span class="w"> </span><span class="nv">list</span><span class="ss">)</span>
+<span class="k">if</span><span class="w"> </span>[<span class="mi">1</span>]<span class="w"> </span>{<span class="w"> </span>}<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="nv">true</span>
+</code></pre></div>
+
+<h3 id="if-else-statements">If-Else Statements</h3>
+<p>Execute different code based on condition:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="nv">condition</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Runs</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">condition</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">true</span>
+}<span class="w"> </span><span class="k">else</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Runs</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">condition</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">false</span>
+}
+</code></pre></div>
+
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code>if score &gt; 100 {
+    sendmessage(player, &quot;High score!&quot;)
+} else {
+    sendmessage(player, &quot;Keep trying!&quot;)
+}
+
+if get_gamemode(player) == &quot;survival&quot; {
+    give(player, &quot;apple&quot;)
+} else {
+    sendmessage(player, &quot;Only survival players get apples&quot;)
+}
+</code></pre></div>
+
+<h3 id="else-if-chains">Else-If Chains</h3>
+<p>Test multiple conditions:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="nv">condition1</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Runs</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">condition1</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">true</span>
+}<span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">condition2</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Runs</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">condition1</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">false</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">condition2</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">true</span>
+}<span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">condition3</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Runs</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">condition1</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">condition2</span><span class="w"> </span><span class="nv">are</span><span class="w"> </span><span class="nv">false</span>,<span class="w"> </span><span class="nv">condition3</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">true</span>
+}<span class="w"> </span><span class="k">else</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Runs</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">all</span><span class="w"> </span><span class="nv">conditions</span><span class="w"> </span><span class="nv">are</span><span class="w"> </span><span class="nv">false</span>
+}
+</code></pre></div>
+
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="nv">score</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">90</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;Grade: A&quot;</span><span class="ss">)</span>
+}<span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">score</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">80</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;Grade: B&quot;</span><span class="ss">)</span>
+}<span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">score</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">70</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;Grade: C&quot;</span><span class="ss">)</span>
+}<span class="w"> </span><span class="k">else</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;Grade: F&quot;</span><span class="ss">)</span>
+}
+</code></pre></div>
+
+<p><strong>First matching condition wins:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">15</span>
+
+<span class="k">if</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Greater than 10&quot;</span><span class="ss">)</span><span class="w">     </span><span class="o">//</span><span class="w"> </span><span class="nv">This</span><span class="w"> </span><span class="nv">runs</span>
+}<span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Greater than 5&quot;</span><span class="ss">)</span><span class="w">      </span><span class="o">//</span><span class="w"> </span><span class="nv">This</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">skipped</span>
+}
+</code></pre></div>
+
+<h3 id="while-loops">While Loops</h3>
+<p>Repeat code while a condition is true:</p>
+<div class="highlight"><pre><span></span><code><span class="k">while</span><span class="w"> </span><span class="nv">condition</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Code</span><span class="w"> </span><span class="nv">runs</span><span class="w"> </span><span class="nv">repeatedly</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nv">condition</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">true</span>
+}
+</code></pre></div>
+
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">let</span><span class="w"> </span><span class="nv">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="k">while</span><span class="w"> </span><span class="nv">count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Count: {count}&quot;</span><span class="ss">)</span>
+<span class="w">    </span><span class="nv">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+}
+<span class="o">//</span><span class="w"> </span><span class="nv">Prints</span>:<span class="w"> </span><span class="mi">0</span>,<span class="w"> </span><span class="mi">1</span>,<span class="w"> </span><span class="mi">2</span>,<span class="w"> </span><span class="mi">3</span>,<span class="w"> </span><span class="mi">4</span>
+
+<span class="nv">let</span><span class="w"> </span><span class="nv">health</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span>
+<span class="k">while</span><span class="w"> </span><span class="nv">health</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">health</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">health</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Health: {health}&quot;</span><span class="ss">)</span>
+}
+</code></pre></div>
+
+<p><strong>Infinite loops (avoid!):</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">while</span><span class="w"> </span><span class="nv">true</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">This</span><span class="w"> </span><span class="nv">never</span><span class="w"> </span><span class="nv">stops</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">will</span><span class="w"> </span><span class="nv">freeze</span><span class="w"> </span><span class="nv">your</span><span class="w"> </span><span class="nv">server</span><span class="o">!</span>
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Forever&quot;</span><span class="ss">)</span>
+}
+</code></pre></div>
+
+<p><strong>Always ensure the condition eventually becomes false:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Bad - count never changes</span>
+<span class="n">let</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="k">while</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="n">count</span><span class="p">)</span><span class="w">  </span><span class="c1">// Infinite loop!</span>
+<span class="p">}</span>
+
+<span class="c1">// Good - count increases</span>
+<span class="n">let</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="k">while</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+<span class="w">    </span><span class="n">count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// Eventually reaches 10</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="for-loops">For Loops</h3>
+<p>Iterate over lists:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Code</span><span class="w"> </span><span class="n">runs</span><span class="w"> </span><span class="n">once</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">list</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code>let players = get_online_players()
+for player in players {
+    heal(player)
+}
+
+let items = [&quot;sword&quot;, &quot;bow&quot;, &quot;arrow&quot;]
+for item in items {
+    log(&quot;Item: {item}&quot;)
+}
+
+// Range of numbers
+for i in range(0, 5) {
+    log(&quot;Number: {i}&quot;)  // 0, 1, 2, 3, 4
+}
+</code></pre></div>
+
+<p><strong>Iterating over scope players:</strong></p>
+<div class="highlight"><pre><span></span><code>for p in my_scope.players {
+    sendmessage(p, &quot;Hello from the scope!&quot;)
+}
+</code></pre></div>
+
+<p><strong>Nested loops:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">range</span><span class="ss">(</span><span class="mi">0</span>,<span class="w"> </span><span class="mi">3</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">range</span><span class="ss">(</span><span class="mi">0</span>,<span class="w"> </span><span class="mi">3</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Position: {x}, {y}&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+<span class="o">//</span><span class="w"> </span><span class="nv">Prints</span><span class="w"> </span><span class="nv">all</span><span class="w"> </span><span class="nv">combinations</span>:<span class="w"> </span><span class="ss">(</span><span class="mi">0</span>,<span class="mi">0</span><span class="ss">)</span>,<span class="w"> </span><span class="ss">(</span><span class="mi">0</span>,<span class="mi">1</span><span class="ss">)</span>,<span class="w"> </span><span class="ss">(</span><span class="mi">0</span>,<span class="mi">2</span><span class="ss">)</span>,<span class="w"> </span><span class="ss">(</span><span class="mi">1</span>,<span class="mi">0</span><span class="ss">)</span>,<span class="w"> </span>...
+</code></pre></div>
+
+<h3 id="break-and-continue">Break and Continue</h3>
+<p>Control loop execution:</p>
+<p><strong>Break</strong> - Exit the loop immediately:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">range</span><span class="ss">(</span><span class="mi">0</span>,<span class="w"> </span><span class="mi">10</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span>{
+<span class="w">        </span><span class="k">break</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="nv">Stop</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="k">loop</span><span class="w"> </span><span class="nv">when</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">    </span>}
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="nv">i</span><span class="ss">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="nv">Prints</span>:<span class="w"> </span><span class="mi">0</span>,<span class="w"> </span><span class="mi">1</span>,<span class="w"> </span><span class="mi">2</span>,<span class="w"> </span><span class="mi">3</span>,<span class="w"> </span><span class="mi">4</span>
+}
+</code></pre></div>
+
+<p><strong>Continue</strong> - Skip to the next iteration:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">range</span><span class="ss">(</span><span class="mi">0</span>,<span class="w"> </span><span class="mi">10</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span>{
+<span class="w">        </span><span class="k">continue</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="nv">Skip</span><span class="w"> </span><span class="nv">even</span><span class="w"> </span><span class="nv">numbers</span>
+<span class="w">    </span>}
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="nv">i</span><span class="ss">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="nv">Prints</span>:<span class="w"> </span><span class="mi">1</span>,<span class="w"> </span><span class="mi">3</span>,<span class="w"> </span><span class="mi">5</span>,<span class="w"> </span><span class="mi">7</span>,<span class="w"> </span><span class="mi">9</span>
+}
+</code></pre></div>
+
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Find first player with low health</span>
+<span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">get_online_players</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">get_health</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">        </span><span class="k">break</span><span class="w">  </span><span class="c1">// Stop after healing first low-health player</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Heal all players except spectators</span>
+<span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">get_online_players</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">get_gamemode</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;spectator&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">continue</span><span class="w">  </span><span class="c1">// Skip spectators</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Break/continue only affect innermost loop:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">range</span><span class="ss">(</span><span class="mi">0</span>,<span class="w"> </span><span class="mi">3</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">range</span><span class="ss">(</span><span class="mi">0</span>,<span class="w"> </span><span class="mi">3</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span>{
+<span class="w">            </span><span class="k">break</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="nv">Only</span><span class="w"> </span><span class="nv">breaks</span><span class="w"> </span><span class="nv">inner</span><span class="w"> </span><span class="k">loop</span>
+<span class="w">        </span>}
+<span class="w">        </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;{x}, {y}&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<hr />
+<h2 id="expressions">Expressions</h2>
+<p>Expressions are code that produces a value.</p>
+<h3 id="binary-expressions">Binary Expressions</h3>
+<p>Expressions with two operands and an operator:</p>
+<div class="highlight"><pre><span></span><code><span class="mf">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">5</span><span class="w">          </span><span class="o">//</span><span class="w"> </span><span class="n">Arithmetic</span>
+<span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">10</span><span class="w">          </span><span class="o">//</span><span class="w"> </span><span class="n">Comparison</span>
+<span class="n">x</span><span class="w"> </span><span class="err">&amp;&amp;</span><span class="w"> </span><span class="n">y</span><span class="w">          </span><span class="o">//</span><span class="w"> </span><span class="nb">Log</span><span class="n">ical</span>
+<span class="s">&quot;Hello&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">concatenation</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Can</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">nested</span>
+<span class="p">(</span><span class="mf">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">5</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">2</span><span class="w">           </span><span class="o">//</span><span class="w"> </span><span class="mf">30</span>
+<span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="err">&amp;&amp;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">20</span><span class="w">       </span><span class="o">//</span><span class="w"> </span><span class="n">Compound</span><span class="w"> </span><span class="n">condition</span>
+</code></pre></div>
+
+<h3 id="unary-expressions">Unary Expressions</h3>
+<p>Expressions with one operand and an operator:</p>
+<div class="highlight"><pre><span></span><code><span class="o">-</span><span class="mi">10</span><span class="w">             </span><span class="o">//</span><span class="w"> </span><span class="n">Negation</span>
+<span class="sx">!true           // Logical NOT</span>
+<span class="o">-</span><span class="p">(</span><span class="mi">5</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Negate</span><span class="w"> </span><span class="n">result</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Examples</span>
+<span class="n">let</span><span class="w"> </span><span class="s">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">let</span><span class="w"> </span><span class="s">neg_x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">-</span><span class="n">x</span><span class="w">              </span><span class="o">//</span><span class="w"> </span><span class="o">-</span><span class="mi">10</span>
+<span class="n">let</span><span class="w"> </span><span class="s">opposite</span><span class="w"> </span><span class="p">=</span><span class="w"> </span>!<span class="n">is_active</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="n">Invert</span><span class="w"> </span><span class="n">boolean</span>
+</code></pre></div>
+
+<h3 id="parentheses">Parentheses</h3>
+<p>Use parentheses to:<br />
+1. <strong>Control precedence:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="mf">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">4</span><span class="w">       </span><span class="o">//</span><span class="w"> </span><span class="mf">14</span><span class="w"> </span><span class="p">(</span><span class="n">multiplication</span><span class="w"> </span><span class="n">first</span><span class="p">)</span>
+<span class="p">(</span><span class="mf">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">3</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">4</span><span class="w">     </span><span class="o">//</span><span class="w"> </span><span class="mf">20</span><span class="w"> </span><span class="p">(</span><span class="n">addition</span><span class="w"> </span><span class="n">first</span><span class="p">)</span>
+</code></pre></div>
+
+<ol start="2">
+<li><strong>Group logical conditions:</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="ss">(</span><span class="nv">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">20</span><span class="ss">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span>...
+}
+</code></pre></div>
+
+<ol start="3">
+<li><strong>Improve readability:</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1">// Less clear</span>
+<span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c1">// More clear</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="statements-vs-expressions">Statements vs Expressions</h2>
+<p>Understanding the difference helps write better code.</p>
+<p><strong>Expressions</strong> produce values:</p>
+<div class="highlight"><pre><span></span><code><span class="mf">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">5</span><span class="w">                    </span><span class="o">//</span><span class="w"> </span><span class="n">Produces</span><span class="p">:</span><span class="w"> </span><span class="mf">15</span>
+<span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">10</span><span class="w">                    </span><span class="o">//</span><span class="w"> </span><span class="n">Produces</span><span class="p">:</span><span class="w"> </span><span class="n">true</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">false</span>
+<span class="kr">get</span><span class="n">_health</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Produces</span><span class="p">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">number</span>
+</code></pre></div>
+
+<p><strong>Statements</strong> perform actions:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w">               </span><span class="o">//</span><span class="w"> </span><span class="n">Declares</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="p">(</span><span class="n">no</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="n">produced</span><span class="p">)</span>
+<span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">            </span><span class="o">//</span><span class="w"> </span><span class="n">Executes</span><span class="w"> </span><span class="n">conditionally</span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">Loops</span>
+</code></pre></div>
+
+<p><strong>Expression statements</strong> - Expressions used as statements:</p>
+<div class="highlight"><pre><span></span><code>heal(player)             // Function call used as statement
+player_count + 1         // Valid but useless (result discarded)
+</code></pre></div>
+
+<p><strong>Expressions can be used in statements:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">10</span><span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Expression</span><span class="w"> </span><span class="n">assigned</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">variable</span>
+<span class="k">if</span><span class="w"> </span><span class="n">get_health</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="n">Expression</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">condition</span>
+</code></pre></div>
+
+<p><strong>Statements cannot be used as expressions:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">true</span><span class="w"> </span>{<span class="w"> </span><span class="mi">10</span><span class="w"> </span>}<span class="w">           </span><span class="o">//</span><span class="w"> </span><span class="nv">Error</span>:<span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">expression</span>
+<span class="nv">let</span><span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nv">false</span><span class="w"> </span>{<span class="w"> </span><span class="mi">0</span><span class="w"> </span>}<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="nv">Error</span>:<span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">expression</span>
+</code></pre></div>
+
+<hr />
+<h2 id="semicolons">Semicolons</h2>
+<p>Semicolons are <strong>optional</strong> in Quill. Statements are terminated by newlines.</p>
+<p><strong>Both are valid:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Without semicolons (recommended)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">20</span>
+<span class="n">let</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span>
+
+<span class="c1">// With semicolons</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="n">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="n">let</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+</code></pre></div>
+
+<p><strong>Multiple statements on one line require semicolons:</strong></p>
+<div class="highlight"><pre><span></span><code>let x = 10; let y = 20; let z = 30  // Multiple statements
+</code></pre></div>
+
+<p><strong>However, this style is discouraged:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Bad - hard to read</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;x wins&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c1">// Good - each statement on its own line</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">20</span>
+<span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;x wins&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Semicolons are never harmful:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// If you&#39;re used to languages that require semicolons,</span>
+<span class="c1">// feel free to keep using them</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="nb">log</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</code></pre></div>
+
+<hr />
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="1-use-meaningful-names">1. Use Meaningful Names</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Bad</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">let</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_player</span><span class="p">(</span><span class="s">&quot;Steve&quot;</span><span class="p">)</span>
+
+<span class="c1">// Good</span>
+<span class="n">let</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">let</span><span class="w"> </span><span class="n">target_player</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_player</span><span class="p">(</span><span class="s">&quot;Steve&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="2-consistent-naming-convention">2. Consistent Naming Convention</h3>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Use</span><span class="w"> </span><span class="n">snake_case</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">functions</span>
+<span class="n">let</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="k">func</span><span class="w"> </span><span class="n">heal_all_players</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Use</span><span class="w"> </span><span class="n">UPPER_SNAKE_CASE</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">constants</span>
+<span class="k">const</span><span class="w"> </span><span class="n">MAX_PLAYERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="k">const</span><span class="w"> </span><span class="n">SPAWN_LOCATION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="3-use-constants-for-magic-numbers">3. Use Constants for Magic Numbers</h3>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Bad</span>
+<span class="k">if</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Good</span>
+<span class="k">const</span><span class="w"> </span><span class="n">HIGH_SCORE_THRESHOLD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span>
+<span class="k">const</span><span class="w"> </span><span class="n">REWARD_AMOUNT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">HIGH_SCORE_THRESHOLD</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">REWARD_AMOUNT</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="4-keep-conditions-simple">4. Keep Conditions Simple</h3>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Bad</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">hard</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">read</span>
+<span class="k">if</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">game_active</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">is_paused</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">has_permission</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Good</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">extract</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">variables</span>
+<span class="n">let</span><span class="w"> </span><span class="n">has_enough_players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">let</span><span class="w"> </span><span class="n">can_start_game</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">game_active</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">is_paused</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">has_permission</span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">has_enough_players</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">can_start_game</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<h3 id="5-use-early-returns">5. Use Early Returns</h3>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Bad</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">nested</span><span class="w"> </span><span class="n">conditions</span>
+<span class="k">func</span><span class="w"> </span><span class="n">process_player</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">is_online</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">get_gamemode</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;survival&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">get_health</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Good</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">early</span><span class="w"> </span><span class="n">returns</span>
+<span class="k">func</span><span class="w"> </span><span class="n">process_player</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">is_online</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">get_gamemode</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">&quot;survival&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">get_health</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="6-comment-why-not-what">6. Comment Why, Not What</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Bad - obvious from code</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// Add 1 to x</span>
+
+<span class="c1">// Good - explains reasoning</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// Offset by 1 for array indexing</span>
+
+<span class="c1">// Bad</span>
+<span class="k">if</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// Check if score is greater than 100</span>
+<span class="w">    </span><span class="n">give_reward</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Good</span>
+<span class="k">if</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// Veteran players deserve extra rewards</span>
+<span class="w">    </span><span class="n">give_reward</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="7-consistent-formatting">7. Consistent Formatting</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Good - consistent spacing</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">20</span>
+<span class="n">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span>
+
+<span class="c1">// Bad - inconsistent spacing</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="p">=</span><span class="mi">10</span>
+<span class="n">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">20</span>
+<span class="n">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">=</span><span class="n">x</span><span class="o">+</span><span class="n">y</span>
+</code></pre></div>
+
+<h3 id="8-use-whitespace-for-readability">8. Use Whitespace for Readability</h3>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Good</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">logical</span><span class="w"> </span><span class="n">grouping</span>
+<span class="k">const</span><span class="w"> </span><span class="n">MAX_PLAYERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="k">const</span><span class="w"> </span><span class="n">MAX_SCORE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">current_players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="n">let</span><span class="w"> </span><span class="n">current_score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">start_game</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="o">...</span>
+<span class="p">}</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">end_game</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="o">...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="9-limit-line-length">9. Limit Line Length</h3>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Bad</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">too</span><span class="w"> </span><span class="n">long</span>
+<span class="k">if</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">game_active</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">is_paused</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">has_permission</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">is_weekend</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">temperature</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Good</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">break</span><span class="w"> </span><span class="n">into</span><span class="w"> </span><span class="n">multiple</span><span class="w"> </span><span class="n">lines</span>
+<span class="k">if</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>
+<span class="w">   </span><span class="n">game_active</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>
+<span class="w">   </span><span class="o">!</span><span class="n">is_paused</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>
+<span class="w">   </span><span class="n">has_permission</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="o">...</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Better</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">extract</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">variables</span>
+<span class="n">let</span><span class="w"> </span><span class="n">has_enough_players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">let</span><span class="w"> </span><span class="n">game_is_ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">game_active</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">is_paused</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">has_permission</span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">has_enough_players</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">game_is_ready</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="o">...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="10-avoid-deep-nesting">10. Avoid Deep Nesting</h3>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Bad</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="n">deep</span>
+<span class="k">func</span><span class="w"> </span><span class="n">process</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">do_something</span><span class="p">()</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Good</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">early</span><span class="w"> </span><span class="n">returns</span>
+<span class="k">func</span><span class="w"> </span><span class="n">process</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">a</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">b</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">c</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">d</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">do_something</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div>
+
                     <div class="page-meta">
-                        <span class="last-modified">Last updated: November 07, 2025</span>
+                        <span class="last-modified">Last updated: November 15, 2025</span>
                     </div>
                 </article>
 
-                <!-- Table of Contents -->
-                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#comments'>Comments</a></li><li style='margin-left:0px'><a href='#variables'>Variables</a></li><li style='margin-left:0px'><a href='#data-types'>Data types</a></li><li style='margin-left:0px'><a href='#operators'>Operators</a></li><li style='margin-left:0px'><a href='#control-flow'>Control flow</a></li><li style='margin-left:0px'><a href='#functions'>Functions</a></li><li style='margin-left:0px'><a href='#scope-basics-short'>Scope basics (short)</a></li><li style='margin-left:0px'><a href='#quick-examples'>Quick examples</a></li><li style='margin-left:0px'><a href='#related-topics'>Related topics</a></li></ul></nav>
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#comments'>Comments</a></li><li style='margin-left:20px'><a href='#single-line-comments'>Single-Line Comments</a></li><li style='margin-left:20px'><a href='#multi-line-comments'>Multi-Line Comments</a></li><li style='margin-left:0px'><a href='#variables'>Variables</a></li><li style='margin-left:20px'><a href='#variable-declaration'>Variable Declaration</a></li><li style='margin-left:20px'><a href='#constants'>Constants</a></li><li style='margin-left:20px'><a href='#variable-assignment'>Variable Assignment</a></li><li style='margin-left:20px'><a href='#scope-rules'>Scope Rules</a></li><li style='margin-left:0px'><a href='#data-types-overview'>Data Types Overview</a></li><li style='margin-left:0px'><a href='#operators'>Operators</a></li><li style='margin-left:20px'><a href='#arithmetic-operators'>Arithmetic Operators</a></li><li style='margin-left:20px'><a href='#comparison-operators'>Comparison Operators</a></li><li style='margin-left:20px'><a href='#logical-operators'>Logical Operators</a></li><li style='margin-left:20px'><a href='#string-concatenation'>String Concatenation</a></li><li style='margin-left:0px'><a href='#control-flow'>Control Flow</a></li><li style='margin-left:20px'><a href='#if-statements'>If Statements</a></li><li style='margin-left:20px'><a href='#if-else-statements'>If-Else Statements</a></li><li style='margin-left:20px'><a href='#else-if-chains'>Else-If Chains</a></li><li style='margin-left:20px'><a href='#while-loops'>While Loops</a></li><li style='margin-left:20px'><a href='#for-loops'>For Loops</a></li><li style='margin-left:20px'><a href='#break-and-continue'>Break and Continue</a></li><li style='margin-left:0px'><a href='#expressions'>Expressions</a></li><li style='margin-left:20px'><a href='#binary-expressions'>Binary Expressions</a></li><li style='margin-left:20px'><a href='#unary-expressions'>Unary Expressions</a></li><li style='margin-left:20px'><a href='#parentheses'>Parentheses</a></li><li style='margin-left:0px'><a href='#statements-vs-expressions'>Statements vs Expressions</a></li><li style='margin-left:0px'><a href='#semicolons'>Semicolons</a></li><li style='margin-left:0px'><a href='#best-practices'>Best Practices</a></li><li style='margin-left:20px'><a href='#1.-use-meaningful-names'>1. Use Meaningful Names</a></li><li style='margin-left:20px'><a href='#2.-consistent-naming-convention'>2. Consistent Naming Convention</a></li><li style='margin-left:20px'><a href='#3.-use-constants-for-magic-numbers'>3. Use Constants for Magic Numbers</a></li><li style='margin-left:20px'><a href='#4.-keep-conditions-simple'>4. Keep Conditions Simple</a></li><li style='margin-left:20px'><a href='#5.-use-early-returns'>5. Use Early Returns</a></li><li style='margin-left:20px'><a href='#6.-comment-why,-not-what'>6. Comment Why, Not What</a></li><li style='margin-left:20px'><a href='#7.-consistent-formatting'>7. Consistent Formatting</a></li><li style='margin-left:20px'><a href='#8.-use-whitespace-for-readability'>8. Use Whitespace for Readability</a></li><li style='margin-left:20px'><a href='#9.-limit-line-length'>9. Limit Line Length</a></li><li style='margin-left:20px'><a href='#10.-avoid-deep-nesting'>10. Avoid Deep Nesting</a></li></ul></nav>
             </div>
 
-            <!-- Footer -->
             <footer class="doc-footer">
                 <div class="footer-content">
                     <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
@@ -215,9 +873,7 @@ sendmessage(player, &quot;{greeting}, {player.name}!&quot;)
         </main>
     </div>
 
-    <!-- Smooth scroll and particle animation -->
     <script>
-        // Generate floating particles
         function createParticles() {
             const particles = document.getElementById('particles');
             const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
@@ -238,7 +894,6 @@ sendmessage(player, &quot;{greeting}, {player.name}!&quot;)
         document.addEventListener('DOMContentLoaded', function () {
             createParticles();
 
-            // Smooth scroll for TOC links
             document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -249,7 +904,6 @@ sendmessage(player, &quot;{greeting}, {player.name}!&quot;)
                 });
             });
 
-            // Highlight current section in TOC
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
                     const id = entry.target.getAttribute('id');

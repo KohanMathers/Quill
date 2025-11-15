@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>World Events — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html' class='active'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Events</span><span class='separator'>/</span><span class='current'>World Events</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">World Events</h1>
+                    <h1 id="world-events">World Events</h1>
+<h2 id="overview">Overview</h2>
+<p>World events are triggered by changes to the game world itself, such as time progression and weather changes. These events allow you to create dynamic gameplay that responds to the day/night cycle, implement weather-dependent mechanics, and trigger timed events.</p>
+<p>World events provide access to the <code>world</code> object and relevant context about what changed. Many world events can be cancelled using the <code>cancel()</code> function.</p>
+<p><strong>Basic event structure:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">EventName</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">world</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">world</span><span class="w"> </span><span class="n">where</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="n">occurred</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">Bukkit</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="n">object</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Additional</span><span class="w"> </span><span class="n">context</span><span class="o">-</span><span class="n">specific</span><span class="w"> </span><span class="n">variables</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="timechange">TimeChange</h2>
+<p>Triggered when the time changes in a world.</p>
+<h3 id="event-context">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>world</code> - The world where time changed (World object)<br />
+- <code>event</code> - The Bukkit TimeSkipEvent object<br />
+- <code>time</code> - The new time value (number, 0-24000)</p>
+<p><strong>Cancellable:</strong> Yes</p>
+<p><strong>Time values:</strong><br />
+- <code>0</code> - Dawn (6:00 AM)<br />
+- <code>6000</code> - Noon (12:00 PM)<br />
+- <code>12000</code> - Dusk (6:00 PM)<br />
+- <code>18000</code> - Midnight (12:00 AM)</p>
+<p><strong>Note:</strong> Time changes naturally every tick. This event typically fires for significant time skips (sleeping, commands).</p>
+<h3 id="example">Example</h3>
+<p><strong>Prevent time skipping:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">TimeChange</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Prevent</span><span class="w"> </span><span class="nv">players</span><span class="w"> </span><span class="nv">from</span><span class="w"> </span><span class="nv">skipping</span><span class="w"> </span><span class="nv">night</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">12000</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">cancel</span><span class="ss">(</span><span class="nv">event</span><span class="ss">)</span>
+<span class="w">        </span><span class="nv">broadcast</span><span class="ss">(</span><span class="s2">&quot;Time skipping is disabled!&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<p><strong>Announce time changes:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">TimeChange</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">time</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">broadcast</span><span class="ss">(</span><span class="s2">&quot;Dawn breaks! A new day begins.&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}<span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">time</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">6000</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">broadcast</span><span class="ss">(</span><span class="s2">&quot;The sun is high in the sky.&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}<span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">time</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">12000</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">broadcast</span><span class="ss">(</span><span class="s2">&quot;Dusk falls. Beware the night!&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}<span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">time</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">18000</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">broadcast</span><span class="ss">(</span><span class="s2">&quot;Midnight. Monsters lurk in the darkness.&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<p><strong>Time-based rewards:</strong></p>
+<div class="highlight"><pre><span></span><code>let last_dawn_time = 0
+
+OnEvent(TimeChange) {
+    let current_time = get_time(world)
+
+    // Check if it&#39;s dawn (time near 0)
+    if current_time &lt; 1000 &amp;&amp; last_dawn_time &gt; 12000 {
+        broadcast(&quot;Survived the night! Everyone receives a reward.&quot;)
+
+        let players = get_online_players()
+        for player in players {
+            give(player, &quot;emerald&quot;, 1)
+            sendmessage(player, &quot;Daily survival reward!&quot;)
+        }
+    }
+
+    last_dawn_time = current_time
+}
+</code></pre></div>
+
+<p><strong>Lock time to specific period:</strong></p>
+<div class="highlight"><pre><span></span><code>let locked_time = 6000  // Noon
+
+OnEvent(TimeChange) {
+    if time != locked_time {
+        cancel(event)
+        set_time(world, locked_time)
+    }
+}
+</code></pre></div>
+
+<p><strong>Time-based mob spawning:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(TimeChange) {
+    let current_time = get_time(world)
+
+    // During night, spawn extra mobs
+    if current_time &gt; 13000 &amp;&amp; current_time &lt; 23000 {
+        // Night time - trigger enhanced spawning
+        trigger_custom(&quot;night_spawning&quot;, {
+            world: world,
+            time: current_time
+        })
+    }
+}
+</code></pre></div>
+
+<p><strong>Shop schedule:</strong></p>
+<div class="highlight"><pre><span></span><code>let shop_open = false
+
+OnEvent(TimeChange) {
+    let current_time = get_time(world)
+
+    // Shop open during day (1000-12000)
+    if current_time &gt;= 1000 &amp;&amp; current_time &lt;= 12000 {
+        if !shop_open {
+            shop_open = true
+            broadcast(&quot;The shop is now OPEN!&quot;)
+        }
+    } else {
+        if shop_open {
+            shop_open = false
+            broadcast(&quot;The shop is now CLOSED!&quot;)
+        }
+    }
+}
+</code></pre></div>
+
+<h2 id="weatherchange">WeatherChange</h2>
+<p>Triggered when the weather changes in a world.</p>
+<h3 id="event-context_1">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>world</code> - The world where weather changed (World object)<br />
+- <code>event</code> - The Bukkit WeatherChangeEvent object<br />
+- <code>weather</code> - The new weather type (string)<br />
+- <code>to_weather</code> - Whether changing to rain/thunder (boolean)</p>
+<p><strong>Cancellable:</strong> Yes</p>
+<p><strong>Weather types:</strong><br />
+- <code>"clear"</code> - No rain or thunder<br />
+- <code>"rain"</code> - Raining<br />
+- <code>"thunder"</code> - Thunderstorm (rain + lightning)</p>
+<h3 id="example_1">Example</h3>
+<p><strong>Prevent weather changes:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(WeatherChange) {
+    // Keep weather always clear
+    if to_weather {
+        cancel(event)
+    }
+}
+</code></pre></div>
+
+<p><strong>Announce weather changes:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(WeatherChange) {
+    let new_weather = get_weather(world)
+
+    if new_weather == &quot;rain&quot; {
+        broadcast(&quot;It&#39;s starting to rain!&quot;)
+    } else if new_weather == &quot;thunder&quot; {
+        broadcast(&quot;A storm approaches! Seek shelter!&quot;)
+    } else if new_weather == &quot;clear&quot; {
+        broadcast(&quot;The weather is clearing up.&quot;)
+    }
+}
+</code></pre></div>
+
+<p><strong>Weather-based events:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(WeatherChange) {
+    let new_weather = get_weather(world)
+
+    if new_weather == &quot;thunder&quot; {
+        broadcast(&quot;Thunderstorm! Bonus XP for fighting in the rain!&quot;)
+
+        trigger_custom(&quot;storm_bonus_active&quot;, {
+            world: world,
+            multiplier: 1.5
+        })
+    } else if new_weather == &quot;clear&quot; {
+        trigger_custom(&quot;storm_bonus_inactive&quot;, {
+            world: world
+        })
+    }
+}
+</code></pre></div>
+
+<p><strong>Weather-dependent mob behavior:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(WeatherChange) {
+    let new_weather = get_weather(world)
+
+    if new_weather == &quot;thunder&quot; {
+        // During storms, spawn special mobs
+        let players = get_online_players()
+
+        for player in players {
+            let loc = get_location(player)
+
+            // 10% chance to spawn charged creeper nearby
+            if random(0, 1) &lt; 0.1 {
+                spawn_entity(&quot;CREEPER&quot;, loc.x + 10, loc.y, loc.z + 10)
+            }
+        }
+    }
+}
+</code></pre></div>
+
+<p><strong>Force specific weather duration:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(WeatherChange) {
+    if to_weather {
+        // Only allow short storms (2 minutes)
+        set_weather(world, &quot;rain&quot;, 2400)
+    }
+}
+</code></pre></div>
+
+<p><strong>Regional weather:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">weather_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">WeatherChange</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">new_weather</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_weather</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_online_players</span><span class="p">()</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">weather_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">new_weather</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;rain&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Protected zone - no rain effects!&quot;</span><span class="p">)</span>
+<span class="w">                </span><span class="c1">// Note: Actual weather is global, but can modify effects</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Weather-based buffs:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">storm_buffs_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">WeatherChange</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">new_weather</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_weather</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_online_players</span><span class="p">()</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">new_weather</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;thunder&quot;</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Give</span><span class="w"> </span><span class="ow">all</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="n">storm</span><span class="w"> </span><span class="n">buffs</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">give_effect</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;speed&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1000000</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="n">give_effect</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;strength&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1000000</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="w">            </span><span class="n">storm_buffs_active</span><span class="o">[</span><span class="n">get_name(player)</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Storm empowerment activated!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">new_weather</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;clear&quot;</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Remove</span><span class="w"> </span><span class="n">storm</span><span class="w"> </span><span class="n">buffs</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">storm_buffs_active</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="n">remove_effect</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;speed&quot;</span><span class="p">)</span>
+<span class="w">                </span><span class="n">remove_effect</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;strength&quot;</span><span class="p">)</span>
+
+<span class="w">                </span><span class="n">storm_buffs_active</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span>
+<span class="w">                </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Storm empowerment ended.&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="event-properties-reference">Event Properties Reference</h2>
+<h3 id="world-object">World Object</h3>
+<p>World events provide a <code>world</code> object with these functions:</p>
+<p><strong>Getting world properties:</strong></p>
+<div class="highlight"><pre><span></span><code>let current_time = get_time(world)
+let current_weather = get_weather(world)
+</code></pre></div>
+
+<p><strong>Setting world properties:</strong></p>
+<div class="highlight"><pre><span></span><code>set_time(world, 6000)  // Set to noon
+set_weather(world, &quot;clear&quot;, 6000)  // Clear for 5 minutes
+</code></pre></div>
+
+<p><strong>World time values:</strong><br />
+- <code>0-1000</code> - Dawn<br />
+- <code>1000-6000</code> - Morning<br />
+- <code>6000-12000</code> - Day<br />
+- <code>12000-13000</code> - Dusk<br />
+- <code>13000-18000</code> - Night<br />
+- <code>18000-24000</code> - Late night</p>
+<p><strong>Weather values:</strong><br />
+- <code>"clear"</code> - No precipitation<br />
+- <code>"rain"</code> - Rain (snow in cold biomes)<br />
+- <code>"thunder"</code> - Thunderstorm with lightning</p>
+<h3 id="event-properties">Event Properties</h3>
+<p><strong>TimeChange:</strong><br />
+- <code>time</code> - The new time value (number)<br />
+- Can be cancelled to prevent time change</p>
+<p><strong>WeatherChange:</strong><br />
+- <code>weather</code> - The new weather state (string)<br />
+- <code>to_weather</code> - Boolean indicating if changing to rain/storm<br />
+- Can be cancelled to prevent weather change</p>
+<h2 id="common-patterns">Common Patterns</h2>
+<h3 id="time-based-events">Time-Based Events</h3>
+<p>Trigger events at specific times of day:</p>
+<p><strong>Daily events:</strong></p>
+<div class="highlight"><pre><span></span><code>let last_check_time = 0
+let event_triggered = false
+
+OnEvent(TimeChange) {
+    let current_time = get_time(world)
+
+    // Noon event (6000 ticks)
+    if current_time &gt;= 6000 &amp;&amp; current_time &lt; 7000 &amp;&amp; !event_triggered {
+        broadcast(&quot;Daily event starting!&quot;)
+
+        trigger_custom(&quot;daily_noon_event&quot;, {
+            world: world
+        })
+
+        event_triggered = true
+    }
+
+    // Reset trigger at midnight
+    if current_time &gt;= 18000 &amp;&amp; event_triggered {
+        event_triggered = false
+    }
+}
+</code></pre></div>
+
+<p><strong>Night survival challenge:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">night_survivors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+<span class="n">let</span><span class="w"> </span><span class="n">night_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">TimeChange</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="k">current_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_time</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Night</span><span class="w"> </span><span class="n">starts</span><span class="w"> </span><span class="p">(</span><span class="mi">13000</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">current_time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">13000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">current_time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">14000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="err">!</span><span class="n">night_active</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">night_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="ss">&quot;Night survival challenge begins!&quot;</span><span class="p">)</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Track</span><span class="w"> </span><span class="ow">all</span><span class="w"> </span><span class="n">online</span><span class="w"> </span><span class="n">players</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_online_players</span><span class="p">()</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">night_survivors</span><span class="o">[</span><span class="n">get_name(player)</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Night</span><span class="w"> </span><span class="n">ends</span><span class="w"> </span><span class="p">(</span><span class="mi">23000</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">current_time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">23000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">night_active</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">night_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="ss">&quot;Night survival challenge complete!&quot;</span><span class="p">)</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Reward</span><span class="w"> </span><span class="n">survivors</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">playerName</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">night_survivors</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">night_survivors</span><span class="o">[</span><span class="n">playerName</span><span class="o">]</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="n">let</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_player</span><span class="p">(</span><span class="n">playerName</span><span class="p">)</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">                    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Night survival reward!&quot;</span><span class="p">)</span>
+<span class="w">                </span><span class="err">}</span>
+<span class="w">            </span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="n">night_survivors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Remove</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="n">who</span><span class="w"> </span><span class="n">die</span><span class="w"> </span><span class="n">during</span><span class="w"> </span><span class="n">night</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDeath</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">night_active</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">night_survivors</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">night_survivors</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; failed the night survival challenge!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Hourly announcements:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span> <span class="n">hour_markers</span> = [<span class="mi">0</span>, <span class="mi">2000</span>, <span class="mi">4000</span>, <span class="mi">6000</span>, <span class="mi">8000</span>, <span class="mi">10000</span>, <span class="mi">12000</span>, <span class="mi">14000</span>, <span class="mi">16000</span>, <span class="mi">18000</span>, <span class="mi">20000</span>, <span class="mi">22000</span>]
+<span class="k">let</span> <span class="n">last_hour</span> = -<span class="mi">1</span>
+
+<span class="n">OnEvent</span>(<span class="n">TimeChange</span>) {
+    <span class="k">let</span> <span class="n">current_time</span> = <span class="n">get_time</span>(<span class="n">world</span>)
+
+    <span class="k">for</span> <span class="nb">hour</span> <span class="nb">in</span> <span class="n">hour_markers</span> {
+        <span class="k">if</span> <span class="n">current_time</span> &gt;= <span class="nb">hour</span> &amp;&amp; <span class="n">current_time</span> &lt; <span class="nb">hour</span> + <span class="mi">100</span> {
+            <span class="k">let</span> <span class="n">hour_index</span> = <span class="nb">hour</span> / <span class="mi">2000</span>
+
+            <span class="k">if</span> <span class="n">last_hour</span> != <span class="n">hour_index</span> {
+                <span class="n">broadcast</span>(<span class="s">&quot;Hour &quot;</span> + <span class="n">hour_index</span> + <span class="s">&quot; - Time: &quot;</span> + <span class="n">current_time</span>)
+                <span class="n">last_hour</span> = <span class="n">hour_index</span>
+                <span class="nb">break</span>
+            }
+        }
+    }
+}
+</code></pre></div>
+
+<p><strong>Vampire hours:</strong></p>
+<div class="highlight"><pre><span></span><code>let vampires = [&quot;Steve&quot;, &quot;Alex&quot;]
+
+OnEvent(TimeChange) {
+    let current_time = get_time(world)
+    let is_night = current_time &gt; 13000 &amp;&amp; current_time &lt; 23000
+
+    for vampireName in vampires {
+        let vampire = get_player(vampireName)
+
+        if vampire != null {
+            if is_night {
+                // Night buffs
+                give_effect(vampire, &quot;speed&quot;, 1000000, 1)
+                give_effect(vampire, &quot;strength&quot;, 1000000, 1)
+            } else {
+                // Day debuffs
+                remove_effect(vampire, &quot;speed&quot;)
+                remove_effect(vampire, &quot;strength&quot;)
+                give_effect(vampire, &quot;weakness&quot;, 1000000, 0)
+            }
+        }
+    }
+}
+</code></pre></div>
+
+<h3 id="weather-control">Weather Control</h3>
+<p>Manage weather patterns and effects:</p>
+<p><strong>Weather cycle system:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">weather_cycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&quot;clear&quot;, &quot;rain&quot;, &quot;thunder&quot;, &quot;clear&quot;</span><span class="o">]</span>
+<span class="n">let</span><span class="w"> </span><span class="n">current_cycle_index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="n">let</span><span class="w"> </span><span class="n">cycle_duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12000</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">minutes</span>
+<span class="n">let</span><span class="w"> </span><span class="n">cycle_timer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">ServerTick</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">cycle_timer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cycle_timer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">cycle_timer</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">cycle_duration</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">cycle_timer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="n">current_cycle_index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">current_cycle_index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">weather_cycle</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">next_weather</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">weather_cycle</span><span class="o">[</span><span class="n">current_cycle_index</span><span class="o">]</span>
+<span class="w">        </span><span class="n">set_weather</span><span class="p">(</span><span class="n">world</span><span class="p">,</span><span class="w"> </span><span class="n">next_weather</span><span class="p">,</span><span class="w"> </span><span class="n">cycle_duration</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="ss">&quot;Weather changing to: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">next_weather</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">WeatherChange</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Cancel</span><span class="w"> </span><span class="k">natural</span><span class="w"> </span><span class="n">weather</span><span class="w"> </span><span class="n">changes</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">weather_cycle</span><span class="p">,</span><span class="w"> </span><span class="n">weather</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Storm tracking:</strong></p>
+<div class="highlight"><pre><span></span><code>let storm_start_time = 0
+let in_storm = false
+
+OnEvent(WeatherChange) {
+    let new_weather = get_weather(world)
+
+    if new_weather == &quot;thunder&quot; &amp;&amp; !in_storm {
+        in_storm = true
+        storm_start_time = get_time(world)
+
+        broadcast(&quot;Storm began at time: &quot; + storm_start_time)
+    } else if new_weather == &quot;clear&quot; &amp;&amp; in_storm {
+        in_storm = false
+        let duration = get_time(world) - storm_start_time
+
+        broadcast(&quot;Storm lasted: &quot; + duration + &quot; ticks&quot;)
+    }
+}
+</code></pre></div>
+
+<p><strong>Weather-dependent crop growth:</strong></p>
+<div class="highlight"><pre><span></span><code>let rain_boost_active = false
+
+OnEvent(WeatherChange) {
+    let new_weather = get_weather(world)
+
+    if new_weather == &quot;rain&quot; {
+        rain_boost_active = true
+        broadcast(&quot;Crops grow faster in the rain!&quot;)
+
+        trigger_custom(&quot;rain_growth_boost&quot;, {
+            multiplier: 2.0
+        })
+    } else {
+        rain_boost_active = false
+    }
+}
+</code></pre></div>
+
+<p><strong>Lightning strike events:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">lightning_targets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">WeatherChange</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">new_weather</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_weather</span><span class="p">(</span><span class="nx">world</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">new_weather</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;thunder&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s">&quot;Thunderstorm! Lightning may strike!&quot;</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c1">// Mark special locations for lightning</span>
+<span class="w">        </span><span class="nx">lightning_targets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="nx">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span>
+<span class="w">            </span><span class="nx">location</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">),</span>
+<span class="w">            </span><span class="nx">location</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">50</span><span class="p">)</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Periodic lightning during storms</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">lightning_timer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">ServerTick</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">current_weather</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_weather</span><span class="p">(</span><span class="nx">world</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">current_weather</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;thunder&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">lightning_timer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">lightning_timer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">lightning_timer</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// Every 5 seconds</span>
+<span class="w">            </span><span class="nx">lightning_timer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">len</span><span class="p">(</span><span class="nx">lightning_targets</span><span class="p">)</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="nx">target</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">random_choice</span><span class="p">(</span><span class="nx">lightning_targets</span><span class="p">)</span>
+<span class="w">                </span><span class="nx">strike_lightning</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">lightning_timer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="daynight-cycles">Day/Night Cycles</h3>
+<p>Create gameplay that responds to the day/night cycle:</p>
+<p><strong>Safe day, dangerous night:</strong></p>
+<div class="highlight"><pre><span></span><code>let night_mode = false
+
+OnEvent(TimeChange) {
+    let current_time = get_time(world)
+
+    if current_time &gt;= 13000 &amp;&amp; !night_mode {
+        night_mode = true
+        broadcast(&quot;Night falls! Danger increases!&quot;)
+
+        // Apply night changes
+        trigger_custom(&quot;night_mode_start&quot;, {})
+    } else if current_time &lt; 13000 &amp;&amp; current_time &gt; 0 &amp;&amp; night_mode {
+        night_mode = false
+        broadcast(&quot;Dawn breaks! You are safe.&quot;)
+
+        // Remove night changes
+        trigger_custom(&quot;night_mode_end&quot;, {})
+    }
+}
+
+OnEvent(night_mode_start) {
+    let players = get_online_players()
+
+    for player in players {
+        sendmessage(player, &quot;Night dangers active!&quot;)
+    }
+}
+
+OnEvent(night_mode_end) {
+    let players = get_online_players()
+
+    for player in players {
+        sendmessage(player, &quot;Day safety restored!&quot;)
+        heal(player)
+    }
+}
+</code></pre></div>
+
+<p><strong>Time-locked zones:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">always_day_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">TimeChange</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">current_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_time</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c1">// Keep time at noon in specific zone</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_online_players</span><span class="p">()</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">always_day_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Visual effect only - actual time is global</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You are in an eternal day zone&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Circadian rhythm system:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">player_energy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">TimeChange</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="k">current_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_time</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_online_players</span><span class="p">()</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">player_energy</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">player_energy</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">During</span><span class="w"> </span><span class="nf">day</span><span class="p">,</span><span class="w"> </span><span class="k">restore</span><span class="w"> </span><span class="n">energy</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">current_time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">current_time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">12000</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">player_energy</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_energy</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">player_energy</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="n">player_energy</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span>
+<span class="w">            </span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">During</span><span class="w"> </span><span class="n">night</span><span class="p">,</span><span class="w"> </span><span class="n">drain</span><span class="w"> </span><span class="n">energy</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">current_time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">13000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">current_time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">23000</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">player_energy</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_energy</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">player_energy</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="n">player_energy</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">                </span><span class="n">give_effect</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;slowness&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">                </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;You are exhausted! Rest soon.&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Day/night economy:</strong></p>
+<div class="highlight"><pre><span></span><code>let shop_prices = {}
+shop_prices[&quot;day&quot;] = {diamond: 10, emerald: 5}
+shop_prices[&quot;night&quot;] = {diamond: 15, emerald: 8}
+
+let current_price_set = &quot;day&quot;
+
+OnEvent(TimeChange) {
+    let current_time = get_time(world)
+
+    if current_time &gt;= 13000 &amp;&amp; current_price_set == &quot;day&quot; {
+        current_price_set = &quot;night&quot;
+        broadcast(&quot;Night prices in effect! Goods cost more.&quot;)
+    } else if current_time &lt; 13000 &amp;&amp; current_price_set == &quot;night&quot; {
+        current_price_set = &quot;day&quot;
+        broadcast(&quot;Day prices restored!&quot;)
+    }
+}
+</code></pre></div>
+
+<p><strong>Solar/lunar power:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(TimeChange) {
+    let current_time = get_time(world)
+    let players = get_online_players()
+
+    for player in players {
+        // Solar warriors strong during day
+        if has_item(player, &quot;golden_sword&quot;) {
+            if current_time &gt;= 0 &amp;&amp; current_time &lt; 12000 {
+                give_effect(player, &quot;strength&quot;, 1000000, 1)
+            } else {
+                remove_effect(player, &quot;strength&quot;)
+            }
+        }
+
+        // Lunar mages strong at night
+        if has_item(player, &quot;stick&quot;) {  // Magic staff
+            if current_time &gt;= 13000 &amp;&amp; current_time &lt; 23000 {
+                give_effect(player, &quot;speed&quot;, 1000000, 1)
+            } else {
+                remove_effect(player, &quot;speed&quot;)
+            }
+        }
+    }
+}
+</code></pre></div>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#timechange'>TimeChange</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#weatherchange'>WeatherChange</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#event-properties-reference'>Event Properties Reference</a></li><li style='margin-left:20px'><a href='#world-object'>World Object</a></li><li style='margin-left:20px'><a href='#event-properties'>Event Properties</a></li><li style='margin-left:0px'><a href='#common-patterns'>Common Patterns</a></li><li style='margin-left:20px'><a href='#time-based-events'>Time-Based Events</a></li><li style='margin-left:20px'><a href='#weather-control'>Weather Control</a></li><li style='margin-left:20px'><a href='#day/night-cycles'>Day/Night Cycles</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Security and Permissions — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html' class='active'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Advanced</span><span class='separator'>/</span><span class='current'>Security</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Security and Permissions</h1>
+                    <h1 id="security-and-permissions">Security and Permissions</h1>
+<h2 id="overview">Overview</h2>
+<p>Quill's security system prevents scripts from executing dangerous or unauthorized functions. Every scope (except the global scope) operates under a security mode that controls which built-in functions scripts can call. This prevents malicious or poorly written scripts from griefing servers, stealing items, or disrupting gameplay.</p>
+<p>Security is enforced at the interpreter level - when a script tries to call a function, Quill checks if the scope has permission to use that function. If permission is denied, the script throws a runtime error and execution stops.</p>
+<p><strong>Key Concepts:</strong><br />
+- <strong>Security Modes</strong>: Whitelist or Blacklist approach to permissions<br />
+- <strong>Function Permissions</strong>: Individual functions can be granted or revoked<br />
+- <strong>Scope-Level Security</strong>: Each scope has its own independent permission set<br />
+- <strong>Global Scope Exception</strong>: Global scope scripts have unrestricted access to all functions</p>
+<p><strong>Why Security Matters:</strong><br />
+- Prevents untrusted scripts from causing damage<br />
+- Allows safe delegation of scripting to non-administrators<br />
+- Enables region-specific automation without full server access<br />
+- Protects against accidental destruction or griefing</p>
+<h2 id="security-modes">Security Modes</h2>
+<p>Every scope operates in one of two security modes: Whitelist or Blacklist. The mode determines the default permission level and how the function list is interpreted.</p>
+<h3 id="whitelist-mode">Whitelist Mode</h3>
+<p><strong>Concept:</strong> Deny everything by default, explicitly allow specific functions.</p>
+<p>In Whitelist mode, a scope can <strong>only</strong> call functions that are explicitly listed in its permission list. Any function not in the list will be denied, even if it's a harmless function like <code>log()</code>.</p>
+<p><strong>When to Use:</strong><br />
+- Untrusted script authors<br />
+- Public or community-managed scopes<br />
+- High-security environments<br />
+- Scripts that only need a few specific functions</p>
+<p><strong>Behavior:</strong></p>
+<div class="highlight"><pre><span></span><code>Function in list → ALLOWED
+Function not in list → DENIED
+</code></pre></div>
+
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create scope in whitelist mode</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>myScope<span class="w"> </span>Player123<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>whitelist
+
+<span class="c1"># Grant specific functions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>sendmessage
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>teleport
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>give
+
+<span class="c1"># myScope can now ONLY use: sendmessage, teleport, give</span>
+<span class="c1"># All other functions are blocked</span>
+</code></pre></div>
+
+<p><strong>Whitelist Script Behavior:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Scope: myScope (whitelist mode)</span>
+<span class="c1">// Permissions: [sendmessage, teleport]</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Welcome!&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// ✓ ALLOWED</span>
+<span class="w">    </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">       </span><span class="c1">// ✓ ALLOWED</span>
+<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w">       </span><span class="c1">// ✗ DENIED - not in list</span>
+<span class="w">    </span><span class="n">set_block</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;stone&quot;</span><span class="p">)</span><span class="w">     </span><span class="c1">// ✗ DENIED - not in list</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Advantages:</strong><br />
+- Maximum security - explicit allow only<br />
+- Clear permission boundaries<br />
+- Safe for untrusted users<br />
+- Easy to audit (small permission list)</p>
+<p><strong>Disadvantages:</strong><br />
+- Requires explicit grant for every function needed<br />
+- Can be tedious for complex scripts<br />
+- Need to update permissions when adding features<br />
+- Scripts may break if permissions not granted</p>
+<h3 id="blacklist-mode">Blacklist Mode</h3>
+<p><strong>Concept:</strong> Allow everything by default, explicitly deny specific functions.</p>
+<p>In Blacklist mode, a scope can call <strong>all</strong> functions except those explicitly listed in its permission list. Any function not in the list is allowed.</p>
+<p><strong>When to Use:</strong><br />
+- Trusted script authors<br />
+- Internal/administrative scopes<br />
+- Development and testing<br />
+- Scripts that need broad access with specific restrictions</p>
+<p><strong>Behavior:</strong></p>
+<div class="highlight"><pre><span></span><code>Function in list → DENIED
+Function not in list → ALLOWED
+</code></pre></div>
+
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create scope in blacklist mode</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>myScope<span class="w"> </span>Player123<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>blacklist
+
+<span class="c1"># Revoke dangerous functions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>myScope<span class="w"> </span>create_explosion
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>myScope<span class="w"> </span>strike_lightning
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>myScope<span class="w"> </span><span class="nb">kill</span>
+
+<span class="c1"># myScope can use ALL functions EXCEPT: create_explosion, strike_lightning, kill</span>
+</code></pre></div>
+
+<p><strong>Blacklist Script Behavior:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Scope: myScope (blacklist mode)</span>
+<span class="c1">// Blacklisted: [create_explosion, kill]</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Welcome!&quot;</span><span class="p">)</span><span class="w">      </span><span class="c1">// ✓ ALLOWED - not blacklisted</span>
+<span class="w">    </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">           </span><span class="c1">// ✓ ALLOWED - not blacklisted</span>
+<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w">           </span><span class="c1">// ✓ ALLOWED - not blacklisted</span>
+<span class="w">    </span><span class="n">create_explosion</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">true</span><span class="p">)</span><span class="w">  </span><span class="c1">// ✗ DENIED - in blacklist</span>
+<span class="w">    </span><span class="n">kill</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w">                         </span><span class="c1">// ✗ DENIED - in blacklist</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Advantages:</strong><br />
+- Convenient for trusted scripts<br />
+- No need to grant every function<br />
+- New functions work automatically<br />
+- Minimal configuration</p>
+<p><strong>Disadvantages:</strong><br />
+- Less secure by default<br />
+- Easy to forget to blacklist dangerous functions<br />
+- Requires trust in script authors<br />
+- Harder to audit (large implicit allow)</p>
+<h3 id="choosing-a-mode">Choosing a Mode</h3>
+<p><strong>Use Whitelist Mode When:</strong><br />
+- Script authors are not fully trusted<br />
+- Scope is accessible to multiple players<br />
+- Script performs sensitive operations<br />
+- You want explicit control over every function<br />
+- Security is more important than convenience<br />
+- Scope owner is not server admin/op</p>
+<p><strong>Use Blacklist Mode When:</strong><br />
+- Script author is trusted (server admin, staff)<br />
+- Script needs broad functionality<br />
+- You want to restrict only specific dangerous functions<br />
+- Convenience is more important than maximum security<br />
+- Scope is for personal/administrative use<br />
+- You trust the scope owner</p>
+<p><strong>Security Comparison:</strong></p>
+<div class="highlight"><pre><span></span><code>Whitelist:  🔒🔒🔒🔒🔒 Maximum Security
+Blacklist:  🔒🔒🔒   Moderate Security
+Global:     🔒      No Security (unrestricted)
+</code></pre></div>
+
+<p><strong>Default Recommendation:</strong><br />
+- <strong>Public/Community Scopes</strong>: Whitelist<br />
+- <strong>Personal Scopes</strong>: Blacklist<br />
+- <strong>Admin Scopes</strong>: Blacklist or Global<br />
+- <strong>Testing Scopes</strong>: Blacklist or Global<br />
+- <strong>Production Scopes</strong>: Whitelist</p>
+<p><strong>Changing Modes:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Change from whitelist to blacklist</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>mode<span class="w"> </span>myScope<span class="w"> </span>blacklist
+
+<span class="c1"># Change from blacklist to whitelist</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>mode<span class="w"> </span>myScope<span class="w"> </span>whitelist
+</code></pre></div>
+
+<p><strong>Mode Change Behavior:</strong><br />
+- Function list is preserved when changing modes<br />
+- Meaning of list is inverted:<br />
+  - Whitelist→Blacklist: Allowed functions become denied functions<br />
+  - Blacklist→Whitelist: Denied functions become allowed functions<br />
+- Consider clearing and rebuilding permission list after mode change</p>
+<h2 id="function-permissions">Function Permissions</h2>
+<p>Function permissions control which Quill built-in functions a scope can execute. Permissions are managed per-scope using the <code>/quill scope permission</code> command.</p>
+<p><strong>Available Functions to Restrict:</strong></p>
+<p><strong>Player Functions:</strong><br />
+- <code>teleport</code> - Teleport players<br />
+- <code>give</code> - Give items to players<br />
+- <code>remove_item</code> - Remove items from inventory<br />
+- <code>set_gamemode</code> - Change player gamemode<br />
+- <code>set_health</code> - Modify player health<br />
+- <code>set_hunger</code> - Modify player hunger<br />
+- <code>heal</code> - Heal player to full health<br />
+- <code>kill</code> - Kill player<br />
+- <code>sendmessage</code> - Send chat messages<br />
+- <code>sendtitle</code> - Send title/subtitle<br />
+- <code>playsound</code> - Play sounds<br />
+- <code>give_effect</code> - Apply potion effects<br />
+- <code>remove_effect</code> - Remove potion effects<br />
+- <code>clear_effects</code> - Clear all effects<br />
+- <code>set_flying</code> - Enable/disable flight<br />
+- <code>kick</code> - Kick player from server<br />
+- <code>get_health</code>, <code>get_hunger</code>, <code>get_location</code>, <code>get_gamemode</code> - Get player properties<br />
+- <code>has_item</code> - Check inventory<br />
+- <code>get_name</code>, <code>is_online</code>, <code>is_op</code> - Get player info</p>
+<p><strong>World Functions:</strong><br />
+- <code>set_block</code> - Place blocks<br />
+- <code>get_block</code> - Check block type<br />
+- <code>break_block</code> - Break blocks<br />
+- <code>spawn_entity</code> - Spawn entities<br />
+- <code>remove_entity</code> - Remove entities<br />
+- <code>create_explosion</code> - Create explosions<br />
+- <code>strike_lightning</code> - Summon lightning<br />
+- <code>set_time</code> - Change world time<br />
+- <code>get_time</code> - Get world time<br />
+- <code>set_weather</code> - Change weather<br />
+- <code>get_weather</code> - Get weather<br />
+- <code>get_world</code> - Get world object<br />
+- <code>broadcast</code> - Broadcast to all players in scope</p>
+<p><strong>Scope Functions:</strong><br />
+- <code>addtoscope</code> - Add player to scope<br />
+- <code>removefromscope</code> - Remove player from scope<br />
+- <code>getplayers</code> - Get scope players<br />
+- <code>in_region</code> - Check region bounds<br />
+- <code>get_region</code> - Get region data<br />
+- <code>set_region</code> - Modify region</p>
+<p><strong>Utility Functions:</strong><br />
+- <code>cancel</code> - Cancel events<br />
+- <code>wait</code> - Delay execution<br />
+- <code>random</code>, <code>round</code>, <code>floor</code>, <code>ceil</code>, <code>abs</code>, <code>sqrt</code>, <code>pow</code> - Math functions<br />
+- <code>distance</code> - Calculate distance<br />
+- <code>log</code> - Console logging<br />
+- <code>trigger_custom</code> - Trigger custom events<br />
+- <code>get_player</code> - Get player by name<br />
+- <code>get_online_players</code> - Get all online players<br />
+- <code>len</code>, <code>append</code>, <code>remove</code>, <code>contains</code> - List operations<br />
+- <code>split</code>, <code>join</code> - String operations<br />
+- <code>to_string</code>, <code>to_number</code>, <code>to_boolean</code>, <code>type_of</code> - Type conversion<br />
+- <code>range</code> - Generate number ranges<br />
+- <code>random_choice</code> - Random selection</p>
+<p><strong>Constructor Functions:</strong><br />
+- <code>location</code> - Create locations<br />
+- <code>item</code> - Create items</p>
+<h3 id="granting-permissions">Granting Permissions</h3>
+<p>Grant permission for a scope to use a specific function.</p>
+<p><strong>Command:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>&lt;scope_name&gt;<span class="w"> </span>&lt;function_name&gt;
+</code></pre></div>
+
+<p><strong>Behavior by Mode:</strong></p>
+<p><strong>Whitelist Mode:</strong><br />
+- Adds function to allowed list<br />
+- Function becomes usable<br />
+- Other functions remain blocked</p>
+<p><strong>Blacklist Mode:</strong><br />
+- Removes function from denied list<br />
+- Function becomes usable (if it was blocked)<br />
+- Has no effect if function wasn't blacklisted</p>
+<p><strong>Examples:</strong></p>
+<p><strong>Whitelist Mode:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start: myScope can use nothing (whitelist mode)</span>
+
+<span class="c1"># Grant sendmessage</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>sendmessage
+<span class="c1"># myScope can now use: sendmessage</span>
+
+<span class="c1"># Grant teleport</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>teleport
+<span class="c1"># myScope can now use: sendmessage, teleport</span>
+
+<span class="c1"># Grant give</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>give
+<span class="c1"># myScope can now use: sendmessage, teleport, give</span>
+</code></pre></div>
+
+<p><strong>Blacklist Mode:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start: myScope can use everything (blacklist mode)</span>
+<span class="c1"># Blacklisted: create_explosion</span>
+
+<span class="c1"># Grant create_explosion (remove from blacklist)</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>create_explosion
+<span class="c1"># myScope can now use: everything (no blacklist)</span>
+</code></pre></div>
+
+<p><strong>Permission Required:</strong><br />
+- <code>quill.scope.permission</code> - Can modify any scope permissions<br />
+- Scope owner - Can modify own scope permissions</p>
+<p><strong>Success Messages:</strong></p>
+<div class="highlight"><pre><span></span><code>✓ Granted permission &lt;function&gt; to &lt;scope&gt;
+</code></pre></div>
+
+<p><strong>Error Messages:</strong></p>
+<div class="highlight"><pre><span></span><code>✗ Scope &#39;&lt;scope&gt;&#39; has already been granted function &#39;&lt;function&gt;&#39;
+✗ Scope &#39;&lt;scope&gt;&#39; not found
+✗ You don&#39;t have permission to modify this scope&#39;s permissions
+</code></pre></div>
+
+<p><strong>Bulk Granting Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Grant multiple player functions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>sendmessage
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>teleport
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>give
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>heal
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>get_health
+</code></pre></div>
+
+<p><strong>Script Usage After Grant:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Before grant: ✗ Error</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Welcome!&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// ✗ missing permission</span>
+<span class="p">}</span>
+
+<span class="c1">// After grant: ✓ Works</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Welcome!&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// ✓ allowed</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="revoking-permissions">Revoking Permissions</h3>
+<p>Revoke permission for a scope to use a specific function.</p>
+<p><strong>Command:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>&lt;scope_name&gt;<span class="w"> </span>&lt;function_name&gt;
+</code></pre></div>
+
+<p><strong>Behavior by Mode:</strong></p>
+<p><strong>Whitelist Mode:</strong><br />
+- Removes function from allowed list<br />
+- Function becomes blocked<br />
+- Other functions remain as-is</p>
+<p><strong>Blacklist Mode:</strong><br />
+- Adds function to denied list<br />
+- Function becomes blocked<br />
+- Other functions remain allowed</p>
+<p><strong>Examples:</strong></p>
+<p><strong>Whitelist Mode:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start: myScope allowed functions: [sendmessage, teleport, give]</span>
+
+<span class="c1"># Revoke give</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>myScope<span class="w"> </span>give
+<span class="c1"># myScope allowed functions: [sendmessage, teleport]</span>
+<span class="c1"># give is now blocked</span>
+
+<span class="c1"># Revoke teleport</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>myScope<span class="w"> </span>teleport
+<span class="c1"># myScope allowed functions: [sendmessage]</span>
+<span class="c1"># teleport and give are now blocked</span>
+</code></pre></div>
+
+<p><strong>Blacklist Mode:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start: myScope can use everything (blacklist mode)</span>
+<span class="c1"># Blacklisted: []</span>
+
+<span class="c1"># Revoke create_explosion</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>myScope<span class="w"> </span>create_explosion
+<span class="c1"># Blacklisted: [create_explosion]</span>
+<span class="c1"># create_explosion is now blocked</span>
+
+<span class="c1"># Revoke kill</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>myScope<span class="w"> </span><span class="nb">kill</span>
+<span class="c1"># Blacklisted: [create_explosion, kill]</span>
+<span class="c1"># Both functions are now blocked</span>
+</code></pre></div>
+
+<p><strong>Permission Required:</strong><br />
+- <code>quill.scope.permission</code> - Can modify any scope permissions<br />
+- Scope owner - Can modify own scope permissions</p>
+<p><strong>Success Messages:</strong></p>
+<div class="highlight"><pre><span></span><code>✓ Revoked permission &lt;function&gt; from &lt;scope&gt;
+</code></pre></div>
+
+<p><strong>Error Messages:</strong></p>
+<div class="highlight"><pre><span></span><code>✗ Scope &#39;&lt;scope&gt;&#39; has not been granted function &#39;&lt;function&gt;&#39;  (whitelist mode)
+✗ Scope &#39;&lt;scope&gt;&#39; has already had function &#39;&lt;function&gt;&#39; revoked  (blacklist mode)
+✗ Scope &#39;&lt;scope&gt;&#39; not found
+✗ You don&#39;t have permission to modify this scope&#39;s permissions
+</code></pre></div>
+
+<p><strong>Script Behavior After Revoke:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Before revoke: ✓ Works</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w">  </span><span class="c1">// ✓ allowed</span>
+<span class="p">}</span>
+
+<span class="c1">// After revoke: ✗ Error</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w">  </span><span class="c1">// ✗ missing permission</span>
+<span class="w">    </span><span class="c1">// Runtime error: Scope &#39;myScope&#39; does not have permission to call function &#39;give&#39;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="listing-permissions">Listing Permissions</h3>
+<p>View all granted/revoked permissions for a scope.</p>
+<p><strong>Command:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>&lt;scope_name&gt;
+</code></pre></div>
+
+<p><strong>Output Format:</strong></p>
+<p><strong>Whitelist Mode:</strong></p>
+<div class="highlight"><pre><span></span><code>=== myScope&#39;s Whitelisted Functions ===
+sendmessage
+teleport
+give
+heal
+==============================
+</code></pre></div>
+
+<p><strong>Blacklist Mode:</strong></p>
+<div class="highlight"><pre><span></span><code>=== myScope&#39;s Blacklisted Functions ===
+create_explosion
+kill
+strike_lightning
+==============================
+</code></pre></div>
+
+<p><strong>Empty List:</strong></p>
+<p><strong>Whitelist Mode:</strong></p>
+<div class="highlight"><pre><span></span><code>myScope has no whitelisted functions.
+(Scope cannot use any functions)
+</code></pre></div>
+
+<p><strong>Blacklist Mode:</strong></p>
+<div class="highlight"><pre><span></span><code>myScope has no blacklisted functions.
+(Scope can use all functions)
+</code></pre></div>
+
+<p><strong>Permission Required:</strong><br />
+- <code>quill.scope.info</code> - Can list own scope permissions<br />
+- <code>quill.scope.info.any</code> - Can list any scope permissions<br />
+- Scope owner - Can list own scope permissions</p>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># List permissions for your scope</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>myScope
+
+<span class="c1"># List permissions for another scope (requires permission)</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>adminScope
+</code></pre></div>
+
+<p><strong>Use Cases:</strong><br />
+- Audit scope permissions<br />
+- Verify security configuration<br />
+- Troubleshoot permission errors<br />
+- Document scope capabilities<br />
+- Compare scope permission sets</p>
+<h2 id="permission-management-commands">Permission Management Commands</h2>
+<h3 id="via-commands">Via Commands</h3>
+<p>All scope permissions are managed through the <code>/quill scope permission</code> command system.</p>
+<p><strong>Command Summary:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Grant permission (add to whitelist OR remove from blacklist)</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>&lt;scope&gt;<span class="w"> </span>&lt;<span class="k">function</span>&gt;
+
+<span class="c1"># Revoke permission (remove from whitelist OR add to blacklist)</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>&lt;scope&gt;<span class="w"> </span>&lt;<span class="k">function</span>&gt;
+
+<span class="c1"># List permissions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>&lt;scope&gt;
+
+<span class="c1"># View scope info (includes permission mode)</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>info<span class="w"> </span>&lt;scope&gt;
+
+<span class="c1"># Change security mode</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>mode<span class="w"> </span>&lt;scope&gt;<span class="w"> </span>&lt;whitelist<span class="p">|</span>blacklist&gt;
+</code></pre></div>
+
+<p><strong>Permission Structure:</strong></p>
+<div class="highlight"><pre><span></span><code>quill.scope.permission    - Modify any scope&#39;s permissions
+quill.scope.permission.*  - (Not used, covered by above)
+quill.scope.info          - View own scope info
+quill.scope.info.any      - View any scope info
+</code></pre></div>
+
+<p><strong>Workflow Examples:</strong></p>
+<p><strong>Setup Whitelist Scope:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Create scope in whitelist mode</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>playerScope<span class="w"> </span>Player123<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>whitelist
+
+<span class="c1"># 2. Grant needed functions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>playerScope<span class="w"> </span>sendmessage
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>playerScope<span class="w"> </span>teleport
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>playerScope<span class="w"> </span>log
+
+<span class="c1"># 3. Verify permissions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>playerScope
+
+<span class="c1"># 4. Load script</span>
+/quill<span class="w"> </span>load<span class="w"> </span>playerScope/script.ql
+</code></pre></div>
+
+<p><strong>Setup Blacklist Scope:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Create scope in blacklist mode</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>adminScope<span class="w"> </span>Admin456<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>blacklist
+
+<span class="c1"># 2. Revoke dangerous functions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>adminScope<span class="w"> </span>create_explosion
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>adminScope<span class="w"> </span><span class="nb">kill</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>adminScope<span class="w"> </span>kick
+
+<span class="c1"># 3. Verify permissions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>adminScope
+
+<span class="c1"># 4. Load script</span>
+/quill<span class="w"> </span>load<span class="w"> </span>adminScope/automation.ql
+</code></pre></div>
+
+<p><strong>Modify Existing Scope:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check current permissions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>info<span class="w"> </span>myScope
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>myScope
+
+<span class="c1"># Add new permissions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>spawn_entity
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>remove_entity
+
+<span class="c1"># Remove permissions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>myScope<span class="w"> </span><span class="nb">kill</span>
+
+<span class="c1"># Verify changes</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>myScope
+</code></pre></div>
+
+<p><strong>Change Security Mode:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check current mode</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>info<span class="w"> </span>myScope
+
+<span class="c1"># Change from whitelist to blacklist</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>mode<span class="w"> </span>myScope<span class="w"> </span>blacklist
+
+<span class="c1"># Clear old permissions (optional but recommended)</span>
+<span class="c1"># In blacklist mode, old whitelist becomes blacklist</span>
+<span class="c1"># May want to start fresh</span>
+
+<span class="c1"># Add new blacklist entries</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>myScope<span class="w"> </span>create_explosion
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>myScope<span class="w"> </span>strike_lightning
+
+<span class="c1"># Verify</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>myScope
+</code></pre></div>
+
+<p><strong>Tab Completion:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Command completion</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>&lt;TAB&gt;
+<span class="w">    </span>grant<span class="w"> </span>revoke<span class="w"> </span>list
+
+<span class="c1"># Scope name completion</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>&lt;TAB&gt;
+<span class="w">    </span>myScope<span class="w"> </span>adminScope<span class="w"> </span>playerScope
+
+<span class="c1"># Function name completion (shows all Quill functions)</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>&lt;TAB&gt;
+<span class="w">    </span>sendmessage<span class="w"> </span>teleport<span class="w"> </span>give<span class="w"> </span>heal<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>...
+</code></pre></div>
+
+<p><strong>Batch Permission Management:</strong></p>
+<p>Since Quill doesn't have a batch command, use command blocks or scripts:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Example: Setup new player scope</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>newScope<span class="w"> </span>Player789<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>whitelist
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>newScope<span class="w"> </span>sendmessage
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>newScope<span class="w"> </span>log
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>newScope<span class="w"> </span>get_player
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>newScope<span class="w"> </span>teleport
+</code></pre></div>
+
+<h3 id="via-configuration">Via Configuration</h3>
+<p>Scope permissions are stored in YAML files in the <code>plugins/Quill/scopes/</code> directory. You can edit these files directly, but must reload the scope afterwards.</p>
+<p><strong>Scope File Location:</strong></p>
+<div class="highlight"><pre><span></span><code>plugins/
+  Quill/
+    scopes/
+      myScope.yml
+      adminScope.yml
+      playerScope.yml
+</code></pre></div>
+
+<p><strong>Scope File Format:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myScope</span>
+<span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span>
+<span class="nt">boundaries</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60.0</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100.0</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80.0</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100.0</span>
+<span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">whitelist</span>
+<span class="nt">funcs</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sendmessage</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">teleport</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">give</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">heal</span>
+<span class="nt">persistent</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+</code></pre></div>
+
+<p><strong>Configuration Fields:</strong></p>
+<p><strong><code>name</code></strong>: Scope identifier (string)</p>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myScope</span>
+</code></pre></div>
+
+<p><strong><code>owner</code></strong>: Player UUID (string)</p>
+<div class="highlight"><pre><span></span><code><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span>
+</code></pre></div>
+
+<p><strong><code>boundaries</code></strong>: Region coordinates (list of 6 numbers: x1, y1, z1, x2, y2, z2)</p>
+<div class="highlight"><pre><span></span><code><span class="nt">boundaries</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-50.0</span><span class="w">   </span><span class="c1"># x1</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60.0</span><span class="w">    </span><span class="c1"># y1</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-50.0</span><span class="w">   </span><span class="c1"># z1</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50.0</span><span class="w">    </span><span class="c1"># x2</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80.0</span><span class="w">    </span><span class="c1"># y2</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50.0</span><span class="w">    </span><span class="c1"># z2</span>
+</code></pre></div>
+
+<p><strong><code>mode</code></strong>: Security mode (string: "whitelist" or "blacklist")</p>
+<div class="highlight"><pre><span></span><code><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">whitelist</span>
+</code></pre></div>
+
+<p><strong><code>funcs</code></strong>: Permission list (list of function names)</p>
+<p>Whitelist mode - allowed functions:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">whitelist</span>
+<span class="nt">funcs</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sendmessage</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">teleport</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">give</span>
+</code></pre></div>
+
+<p>Blacklist mode - denied functions:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blacklist</span>
+<span class="nt">funcs</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">create_explosion</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kill</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">strike_lightning</span>
+</code></pre></div>
+
+<p><strong><code>persistent</code></strong>: Persistent variables (map, covered in persistence docs)</p>
+<div class="highlight"><pre><span></span><code><span class="nt">persistent</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">playerCount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">  </span><span class="nt">isActive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+
+<p><strong>Editing Configuration:</strong></p>
+<p><strong>1. Stop server or unload scope:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>unload<span class="w"> </span>myScope/script.ql
+</code></pre></div>
+
+<p><strong>2. Edit file:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># plugins/Quill/scopes/myScope.yml</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myScope</span>
+<span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span>
+<span class="nt">boundaries</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">60.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">100.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">80.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">100.0</span><span class="p p-Indicator">]</span>
+<span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">whitelist</span>
+<span class="nt">funcs</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sendmessage</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">teleport</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">give</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">heal</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">log</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">get_player</span><span class="w">  </span><span class="c1"># Added</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">get_health</span><span class="w">  </span><span class="c1"># Added</span>
+<span class="nt">persistent</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+</code></pre></div>
+
+<p><strong>3. Reload scope (restart server or reload plugin)</strong></p>
+<p><strong>4. Verify changes:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>scope<span class="w"> </span>info<span class="w"> </span>myScope
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>myScope
+</code></pre></div>
+
+<p><strong>5. Reload scripts:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>load<span class="w"> </span>myScope/script.ql
+</code></pre></div>
+
+<p><strong>Manual Configuration Examples:</strong></p>
+<p><strong>Minimal Whitelist Scope:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minimal</span>
+<span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span>
+<span class="nt">boundaries</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">60.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">100.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">80.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">100.0</span><span class="p p-Indicator">]</span>
+<span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">whitelist</span>
+<span class="nt">funcs</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">log</span>
+<span class="nt">persistent</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+</code></pre></div>
+
+<p><strong>Restricted Blacklist Scope:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restricted</span>
+<span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span>
+<span class="nt">boundaries</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">60.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">100.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">80.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">100.0</span><span class="p p-Indicator">]</span>
+<span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blacklist</span>
+<span class="nt">funcs</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">create_explosion</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">strike_lightning</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kill</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kick</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">set_gamemode</span>
+<span class="nt">persistent</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+</code></pre></div>
+
+<p><strong>Fully Permissive Blacklist Scope:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">permissive</span>
+<span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span>
+<span class="nt">boundaries</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">60.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">100.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">80.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">100.0</span><span class="p p-Indicator">]</span>
+<span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blacklist</span>
+<span class="nt">funcs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w">  </span><span class="c1"># Empty = nothing blacklisted = all allowed</span>
+<span class="nt">persistent</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+</code></pre></div>
+
+<p><strong>Configuration Warnings:</strong><br />
+- Invalid YAML syntax will cause scope load failure<br />
+- Invalid function names are ignored (no error)<br />
+- Invalid mode defaults to whitelist<br />
+- Invalid UUID causes scope load failure<br />
+- Boundary list must have exactly 6 numbers<br />
+- File changes require server restart or plugin reload<br />
+- Always backup configuration before editing</p>
+<p><strong>Configuration Validation:</strong></p>
+<p>After editing, check logs for errors:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="n">Successfully</span><span class="w"> </span><span class="n">loaded</span><span class="w"> </span><span class="k">scope</span><span class="err">:</span><span class="w"> </span><span class="n">myScope</span>
+</code></pre></div>
+
+<p>Or error messages:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="k">Scope</span><span class="w"> </span><span class="n">myScope</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="n">invalid</span><span class="w"> </span><span class="nf">format</span>
+<span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="k">Scope</span><span class="w"> </span><span class="n">owner</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="s1">&#39;...&#39;</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">invalid</span>
+<span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="k">Scope</span><span class="w"> </span><span class="n">security</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="n">invalid</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">invalid</span>
+</code></pre></div>
+
+<h2 id="security-best-practices">Security Best Practices</h2>
+<h3 id="default-deny">Default Deny</h3>
+<p><strong>Principle:</strong> Start with minimum permissions and add only what's needed.</p>
+<p><strong>Why It Matters:</strong><br />
+- Prevents accidental damage from untested scripts<br />
+- Limits blast radius of bugs or exploits<br />
+- Easier to grant than revoke permissions<br />
+- Users expect restricted access by default</p>
+<p><strong>Implementation:</strong></p>
+<p><strong>Use Whitelist Mode by Default:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Always create new scopes in whitelist mode</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>newScope<span class="w"> </span>Player123<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>whitelist
+</code></pre></div>
+
+<p><strong>Start with Zero Permissions:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Don&#39;t grant anything initially</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>newScope
+<span class="c1"># Output: newScope has no whitelisted functions.</span>
+</code></pre></div>
+
+<p><strong>Add Permissions Incrementally:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test script, identify needed function, grant permission, repeat</span>
+/quill<span class="w"> </span>load<span class="w"> </span>newScope/test.ql
+<span class="c1"># Error: Scope &#39;newScope&#39; does not have permission to call function &#39;sendmessage&#39;</span>
+
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>newScope<span class="w"> </span>sendmessage
+/quill<span class="w"> </span>reload<span class="w"> </span>newScope/test.ql
+<span class="c1"># Error: Scope &#39;newScope&#39; does not have permission to call function &#39;teleport&#39;</span>
+
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>newScope<span class="w"> </span>teleport
+/quill<span class="w"> </span>reload<span class="w"> </span>newScope/test.ql
+<span class="c1"># Success!</span>
+</code></pre></div>
+
+<p><strong>Script Development Workflow:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="mf">1.</span><span class="w"> </span><span class="n">Write</span><span class="w"> </span><span class="n">script</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">global</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="p">(</span><span class="n">unrestricted</span><span class="p">)</span>
+<span class="mf">2.</span><span class="w"> </span><span class="n">Test</span><span class="w"> </span><span class="n">functionality</span>
+<span class="mf">3.</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">whitelist</span><span class="w"> </span><span class="n">scope</span>
+<span class="mf">4.</span><span class="w"> </span><span class="n">Move</span><span class="w"> </span><span class="n">script</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">directory</span>
+<span class="mf">5.</span><span class="w"> </span><span class="n">Load</span><span class="w"> </span><span class="n">script</span><span class="p">,</span><span class="w"> </span><span class="n">note</span><span class="w"> </span><span class="n">permission</span><span class="w"> </span><span class="n">errors</span>
+<span class="mf">6.</span><span class="w"> </span><span class="n">Grant</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="n">permissions</span>
+<span class="mf">7.</span><span class="w"> </span><span class="n">Reload</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">verify</span>
+<span class="mf">8.</span><span class="w"> </span><span class="n">Document</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="n">permissions</span>
+</code></pre></div>
+
+<p><strong>Permission Documentation:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Script: welcome.ql</span>
+<span class="c1">// Required Permissions:</span>
+<span class="c1">// - sendmessage</span>
+<span class="c1">// - teleport</span>
+<span class="c1">// - give</span>
+<span class="c1">// - playsound</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Welcome!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bread&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+<span class="w">    </span><span class="n">playsound</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;entity.experience_orb.pickup&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="principle-of-least-privilege">Principle of Least Privilege</h3>
+<p><strong>Principle:</strong> Grant only the minimum permissions needed for functionality.</p>
+<p><strong>Why It Matters:</strong><br />
+- Reduces attack surface<br />
+- Limits damage from compromised scripts<br />
+- Prevents accidental misuse<br />
+- Easier security audits<br />
+- Clear separation of concerns</p>
+<p><strong>Examples:</strong></p>
+<p><strong>Bad - Over-Permissioned:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Greeting script only needs sendmessage</span>
+<span class="c1"># But granted everything &quot;just in case&quot;</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>greetScope<span class="w"> </span>Player<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>blacklist
+<span class="c1"># Result: Can use ALL functions including create_explosion, kill, etc.</span>
+</code></pre></div>
+
+<p><strong>Good - Minimal Permissions:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Greeting script only granted what it uses</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>greetScope<span class="w"> </span>Player<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>whitelist
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>greetScope<span class="w"> </span>sendmessage
+<span class="c1"># Result: Can ONLY use sendmessage</span>
+</code></pre></div>
+
+<p><strong>Permission Analysis:</strong></p>
+<p><strong>Review Script Functionality:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Teleport checkpoint system</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">chat</span><span class="p">.</span><span class="n">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;!checkpoint1&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Teleported to checkpoint 1&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Required permissions: teleport, sendmessage</span>
+<span class="c1">// NOT needed: give, kill, create_explosion, etc.</span>
+</code></pre></div>
+
+<p><strong>Grant Exact Requirements:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>checkpointScope<span class="w"> </span>teleport
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>checkpointScope<span class="w"> </span>sendmessage
+</code></pre></div>
+
+<p><strong>Avoid "Convenience" Permissions:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># DON&#39;T grant unneeded permissions &quot;in case we need them later&quot;</span>
+<span class="c1"># ✗ Bad</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>create_explosion<span class="w">  </span><span class="c1"># &quot;might use later&quot;</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span><span class="nb">kill</span><span class="w">              </span><span class="c1"># &quot;could be useful&quot;</span>
+
+<span class="c1"># ✓ Good - grant only when actually needed</span>
+<span class="c1"># Add permissions when functionality is added to script</span>
+</code></pre></div>
+
+<p><strong>Separate Scopes for Different Functions:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Instead of one scope with all permissions</span>
+<span class="c1"># Create multiple scopes with specific permission sets</span>
+
+<span class="c1"># Greeting scope - only messaging</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>greetScope<span class="w"> </span>Player<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>whitelist
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>greetScope<span class="w"> </span>sendmessage
+
+<span class="c1"># Admin scope - broader permissions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>adminScope<span class="w"> </span>Admin<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>blacklist
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>adminScope<span class="w"> </span>create_explosion
+
+<span class="c1"># Each scope has appropriate permissions for its purpose</span>
+</code></pre></div>
+
+<h3 id="regular-audits">Regular Audits</h3>
+<p><strong>Principle:</strong> Periodically review scope permissions to ensure they remain appropriate.</p>
+<p><strong>Why It Matters:</strong><br />
+- Permissions accumulate over time<br />
+- Scripts change, old permissions may no longer be needed<br />
+- Security requirements evolve<br />
+- Detect unauthorized permission changes<br />
+- Identify over-privileged scopes</p>
+<p><strong>Audit Schedule:</strong><br />
+- <strong>Monthly</strong>: Review all scopes<br />
+- <strong>After script updates</strong>: Check if new/removed permissions needed<br />
+- <strong>After security incidents</strong>: Full audit<br />
+- <strong>Before major updates</strong>: Verify configurations</p>
+<p><strong>Audit Checklist:</strong></p>
+<p><strong>1. List All Scopes:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>scope<span class="w"> </span>list
+</code></pre></div>
+
+<p><strong>2. Review Each Scope:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>scope<span class="w"> </span>info<span class="w"> </span>scopeName
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>scopeName
+</code></pre></div>
+
+<p><strong>3. Verify Permissions Match Script:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check what script actually uses</span>
+/quill<span class="w"> </span>list<span class="w">  </span><span class="c1"># See loaded scripts</span>
+<span class="c1"># Review script source code</span>
+<span class="c1"># Compare with granted permissions</span>
+</code></pre></div>
+
+<p><strong>4. Check for Over-Privileged Scopes:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Look for blacklist scopes with empty blacklist</span>
+<span class="c1"># Look for whitelist scopes with too many functions</span>
+<span class="c1"># Verify no scope has unnecessary dangerous permissions</span>
+</code></pre></div>
+
+<p><strong>5. Validate Ownership:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>scope<span class="w"> </span>info<span class="w"> </span>scopeName
+<span class="c1"># Verify owner is still appropriate</span>
+<span class="c1"># Check if owner is still active player/admin</span>
+</code></pre></div>
+
+<p><strong>6. Document Findings:</strong></p>
+<div class="highlight"><pre><span></span><code>Audit Date: 2025-01-15
+Scopes Reviewed: 12
+Issues Found:
+<span class="k">-</span> playerScope1: Has &#39;kill&#39; permission, not used by script
+<span class="k">-</span> adminScope2: Blacklist mode with empty blacklist (full access)
+<span class="k">-</span> oldScope3: Owner no longer plays, consider deletion
+Actions Taken:
+<span class="k">-</span> Revoked &#39;kill&#39; from playerScope1
+<span class="k">-</span> Added create_explosion, strike_lightning to adminScope2 blacklist
+<span class="k">-</span> Deleted oldScope3
+</code></pre></div>
+
+<p><strong>Audit Script Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">audit</span><span class="o">.</span><span class="n">ql</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">global</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">audit</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">scopes</span>
+<span class="n">let</span><span class="w"> </span><span class="n">scopes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;playerScope&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;adminScope&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;greetScope&quot;</span><span class="p">]</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">auditScope</span><span class="p">(</span><span class="n">scopeName</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;=== Auditing {scopeName} ===&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">would</span><span class="w"> </span><span class="n">need</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">introspection</span><span class="w"> </span><span class="n">functions</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Not</span><span class="w"> </span><span class="n">currently</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">Quill</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">But</span><span class="w"> </span><span class="n">demonstrates</span><span class="w"> </span><span class="n">concept</span>
+
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scope_info</span><span class="p">(</span><span class="n">scopeName</span><span class="p">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Hypothetical</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">perms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scope_permissions</span><span class="p">(</span><span class="n">scopeName</span><span class="p">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Hypothetical</span>
+
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Mode: {info.mode}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Permissions: {len(perms)}&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Flag</span><span class="w"> </span><span class="n">suspicious</span><span class="w"> </span><span class="n">configurations</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">info</span><span class="o">.</span><span class="n">mode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;blacklist&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">perms</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;WARNING: Blacklist scope with no blacklist!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">info</span><span class="o">.</span><span class="n">mode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;whitelist&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">perms</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;WARNING: Whitelist scope with many permissions!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">for</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">scopes</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">auditScope</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Red Flags During Audit:</strong><br />
+- Blacklist scope with empty blacklist (all functions allowed)<br />
+- Whitelist scope with &gt;15-20 permissions (probably over-permissioned)<br />
+- Scope with dangerous permissions (create_explosion, kill) without clear need<br />
+- Scope owned by inactive/banned player<br />
+- Multiple scopes with identical permission sets (consolidate?)<br />
+- Permissions granted but never used by scripts</p>
+<p><strong>Audit Tools:</strong></p>
+<p><strong>Manual Review:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check each scope</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>list
+/quill<span class="w"> </span>scope<span class="w"> </span>info<span class="w"> </span>scope1
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>scope1
+<span class="c1"># Repeat for all scopes</span>
+</code></pre></div>
+
+<p><strong>Log Analysis:</strong></p>
+<div class="highlight"><pre><span></span><code>#<span class="w"> </span><span class="nv">Check</span><span class="w"> </span><span class="nv">server</span><span class="w"> </span><span class="nv">logs</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">permission</span><span class="w"> </span><span class="nv">errors</span>
+<span class="nv">grep</span><span class="w"> </span><span class="s2">&quot;does not have permission&quot;</span><span class="w"> </span><span class="nv">logs</span><span class="o">/</span><span class="nv">latest</span>.<span class="nv">log</span>
+
+#<span class="w"> </span><span class="nv">Indicates</span><span class="w"> </span><span class="nv">either</span>:
+#<span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">Script</span><span class="w"> </span><span class="nv">needs</span><span class="w"> </span><span class="nv">permission</span><span class="w"> </span><span class="nv">granted</span>
+#<span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">Script</span><span class="w"> </span><span class="nv">trying</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">use</span><span class="w"> </span><span class="nv">unauthorized</span><span class="w"> </span><span class="nv">function</span><span class="w"> </span><span class="ss">(</span><span class="nv">security</span><span class="w"> </span><span class="nv">violation</span><span class="ss">)</span>
+</code></pre></div>
+
+<p><strong>Configuration Backup:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Before changes, backup scope configs</span>
+cp<span class="w"> </span>-r<span class="w"> </span>plugins/Quill/scopes/<span class="w"> </span>plugins/Quill/scopes_backup_2025-01-15/
+</code></pre></div>
+
+<h2 id="common-permission-sets">Common Permission Sets</h2>
+<p>Pre-configured permission sets for common use cases.</p>
+<h3 id="basic-automation">Basic Automation</h3>
+<p><strong>Use Case:</strong> Simple automation scripts that respond to events with messages and basic actions.</p>
+<p><strong>Security Level:</strong> Low risk</p>
+<p><strong>Recommended Mode:</strong> Whitelist</p>
+<p><strong>Permissions:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>sendmessage
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>log
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>get_player
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>get_online_players
+</code></pre></div>
+
+<p><strong>What This Allows:</strong><br />
+- Send messages to players<br />
+- Log to console<br />
+- Get player objects for identification<br />
+- List online players</p>
+<p><strong>What This Prevents:</strong><br />
+- World modification (blocks, explosions)<br />
+- Player manipulation (teleport, kill, items)<br />
+- Server disruption (kick, weather, time)</p>
+<p><strong>Example Scripts:</strong></p>
+<p><strong>Welcome Messages:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerJoin) {
+    sendmessage(player, &quot;Welcome to the server!&quot;)
+    log(&quot;Player joined: {player.name}&quot;)
+}
+</code></pre></div>
+
+<p><strong>Chat Commands:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerChat) {
+    if chat.message == &quot;!help&quot; {
+        sendmessage(player, &quot;Available commands:&quot;)
+        sendmessage(player, &quot;!help - Show this message&quot;)
+        sendmessage(player, &quot;!info - Server information&quot;)
+    }
+
+    if chat.message == &quot;!info&quot; {
+        let players = get_online_players()
+        sendmessage(player, &quot;Players online: {len(players)}&quot;)
+    }
+}
+</code></pre></div>
+
+<p><strong>Player Tracker:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerJoin) {
+    let players = get_online_players()
+    log(&quot;Player count: {len(players)}&quot;)
+
+    for p in players {
+        if p.name != player.name {
+            sendmessage(p, &quot;{player.name} joined the server&quot;)
+        }
+    }
+}
+</code></pre></div>
+
+<p><strong>Setup:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create scope</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>welcomeScope<span class="w"> </span>Player123<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>whitelist
+
+<span class="c1"># Grant permissions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>welcomeScope<span class="w"> </span>sendmessage
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>welcomeScope<span class="w"> </span>log
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>welcomeScope<span class="w"> </span>get_player
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>welcomeScope<span class="w"> </span>get_online_players
+
+<span class="c1"># Verify</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>welcomeScope
+
+<span class="c1"># Load script</span>
+/quill<span class="w"> </span>load<span class="w"> </span>welcomeScope/welcome.ql
+</code></pre></div>
+
+<h3 id="minigame-scope">Minigame Scope</h3>
+<p><strong>Use Case:</strong> Minigames and events that need player interaction and limited world modification.</p>
+<p><strong>Security Level:</strong> Medium risk</p>
+<p><strong>Recommended Mode:</strong> Whitelist</p>
+<p><strong>Permissions:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Communication</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>sendmessage
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>sendtitle
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>playsound
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>broadcast
+
+<span class="c1"># Player Management</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>teleport
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>get_location
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>get_health
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>get_gamemode
+
+<span class="c1"># Items &amp; Effects</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>give
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>remove_item
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>has_item
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>give_effect
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>clear_effects
+
+<span class="c1"># Health &amp; Hunger</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>set_health
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>heal
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>set_hunger
+
+<span class="c1"># Scope Management</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>addtoscope
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>removefromscope
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>getplayers
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>in_region
+
+<span class="c1"># Utilities</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>log
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>random
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>distance
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span>cancel
+</code></pre></div>
+
+<p><strong>What This Allows:</strong><br />
+- Full player interaction (messages, sounds, titles)<br />
+- Player manipulation (teleport, health, effects)<br />
+- Item management (give, remove, check)<br />
+- Scope/region management<br />
+- Event cancellation<br />
+- Basic world queries (no modification)</p>
+<p><strong>What This Prevents:</strong><br />
+- Block placement/breaking<br />
+- Entity spawning/removal<br />
+- Explosions and lightning<br />
+- World time/weather changes<br />
+- Killing or kicking players<br />
+- Gamemode changes</p>
+<p><strong>Example Scripts:</strong></p>
+<p><strong>PvP Arena:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">arenaScope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">60</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">80</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">activePlayers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">chat</span><span class="p">.</span><span class="n">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;!join&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arenaScope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Enter the arena first!&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">addtoscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arenaScope</span><span class="p">)</span>
+<span class="w">        </span><span class="n">append</span><span class="p">(</span><span class="n">activePlayers</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">        </span><span class="n">clear_effects</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">        </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond_sword&quot;</span><span class="p">,</span><span class="w"> </span><span class="mh">1</span><span class="p">)</span>
+<span class="w">        </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;golden_apple&quot;</span><span class="p">,</span><span class="w"> </span><span class="mh">5</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s">&quot;§a{player.name} joined the arena!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendtitle</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;§cPvP Arena&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;§7Fight to survive!&quot;</span><span class="p">,</span><span class="w"> </span><span class="mh">10</span><span class="p">,</span><span class="w"> </span><span class="mh">70</span><span class="p">,</span><span class="w"> </span><span class="mh">20</span><span class="p">)</span>
+<span class="w">        </span><span class="n">playsound</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;entity.player.levelup&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">chat</span><span class="p">.</span><span class="n">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;!leave&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">removefromscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arenaScope</span><span class="p">)</span>
+<span class="w">        </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">65</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Left the arena&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">contains</span><span class="p">(</span><span class="n">activePlayers</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s">&quot;§c{player.name} was eliminated!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">removefromscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arenaScope</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">remaining</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">getplayers</span><span class="p">(</span><span class="n">arenaScope</span><span class="p">))</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s">&quot;§e{remaining} players remaining&quot;</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">remaining</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">1</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">let</span><span class="w"> </span><span class="n">winner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getplayers</span><span class="p">(</span><span class="n">arenaScope</span><span class="p">)[</span><span class="mh">0</span><span class="p">]</span>
+<span class="w">            </span><span class="n">broadcast</span><span class="p">(</span><span class="s">&quot;§6{winner.name} wins the arena!&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">give</span><span class="p">(</span><span class="n">winner</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="mh">10</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Parkour Course:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">checkpoints</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span>
+<span class="n">    location(0, 65, 0),</span>
+<span class="n">    location(10, 67, 5),</span>
+<span class="n">    location(20, 70, 10),</span>
+<span class="n">    location(30, 75, 15)</span>
+<span class="o">]</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">playerProgress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">name</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">playerProgress</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">playerProgress</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">nextIdx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">playerProgress</span><span class="o">[</span><span class="n">name</span><span class="o">]</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">nextIdx</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">checkpoints</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="k">checkpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">checkpoints</span><span class="o">[</span><span class="n">nextIdx</span><span class="o">]</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">distance</span><span class="p">(</span><span class="n">player</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="k">checkpoint</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">playerProgress</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nextIdx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">            </span><span class="n">sendtitle</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;§aCheckpoint!&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;§7{nextIdx + 1}/{len(checkpoints)}&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
+<span class="w">            </span><span class="n">playsound</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;entity.experience_orb.pickup&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.5</span><span class="p">)</span>
+<span class="w">            </span><span class="n">give_effect</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;speed&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">playerProgress</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">checkpoints</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="n">sendtitle</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;§6Complete!&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;§7Parkour finished!&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+<span class="w">                </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+<span class="w">                </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">                </span><span class="n">playerProgress</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Setup:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create minigame scope</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>gameScope<span class="w"> </span>Admin<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>whitelist
+
+<span class="c1"># Grant all permissions (run all commands above)</span>
+<span class="c1"># Or use this condensed format:</span>
+<span class="k">for</span><span class="w"> </span>func<span class="w"> </span><span class="k">in</span><span class="w"> </span>sendmessage<span class="w"> </span>sendtitle<span class="w"> </span>playsound<span class="w"> </span>broadcast<span class="w"> </span>teleport<span class="w"> </span>get_location<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>get_health<span class="w"> </span>get_gamemode<span class="w"> </span>give<span class="w"> </span>remove_item<span class="w"> </span>has_item<span class="w"> </span>give_effect<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>clear_effects<span class="w"> </span>set_health<span class="w"> </span>heal<span class="w"> </span>set_hunger<span class="w"> </span>addtoscope<span class="w"> </span>removefromscope<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>getplayers<span class="w"> </span>in_region<span class="w"> </span>log<span class="w"> </span>random<span class="w"> </span>distance<span class="w"> </span>cancel<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>gameScope<span class="w"> </span><span class="nv">$func</span>
+<span class="k">done</span>
+
+<span class="c1"># Verify</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>gameScope
+
+<span class="c1"># Load script</span>
+/quill<span class="w"> </span>load<span class="w"> </span>gameScope/arena.ql
+</code></pre></div>
+
+<h3 id="administrative-scope">Administrative Scope</h3>
+<p><strong>Use Case:</strong> Administrative automation with broad permissions but safety restrictions.</p>
+<p><strong>Security Level:</strong> High risk</p>
+<p><strong>Recommended Mode:</strong> Blacklist</p>
+<p><strong>Blacklisted Functions:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Prevent only the most destructive operations</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>adminScope<span class="w"> </span>create_explosion
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>adminScope<span class="w"> </span>strike_lightning
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>adminScope<span class="w"> </span><span class="nb">kill</span>
+</code></pre></div>
+
+<p><strong>What This Allows:</strong><br />
+- Everything except explosions, lightning, and direct killing<br />
+- Full block manipulation<br />
+- Entity spawning/removal<br />
+- World time/weather control<br />
+- Player teleportation and items<br />
+- All messaging and effects</p>
+<p><strong>What This Prevents:</strong><br />
+- Creating explosions<br />
+- Striking lightning<br />
+- Directly killing players<br />
+- (Players can still die from other causes)</p>
+<p><strong>Example Scripts:</strong></p>
+<p><strong>Auto-Moderation:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">bannedWords</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&quot;grief&quot;, &quot;hack&quot;, &quot;cheat&quot;</span><span class="o">]</span>
+<span class="n">let</span><span class="w"> </span><span class="n">warnings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chat</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">toLowerCase</span><span class="p">()</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">word</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">bannedWords</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">word</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+<span class="w">            </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">name</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">warnings</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="n">warnings</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="err">}</span>
+
+<span class="w">            </span><span class="n">warnings</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">warnings</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;§cWarning: Inappropriate language&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Player {name} warned for language ({warnings[name]} warnings)&quot;</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">warnings</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="n">kick</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Excessive warnings for inappropriate language&quot;</span><span class="p">)</span>
+<span class="w">                </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Player {name} kicked for excessive warnings&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="err">}</span>
+
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>World Management:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerChat) {
+    if chat.message == &quot;!day&quot; {
+        if is_op(player) {
+            let world = get_world(&quot;world&quot;)
+            set_time(world, 1000)
+            broadcast(&quot;§eTime set to day&quot;)
+        }
+    }
+
+    if chat.message == &quot;!night&quot; {
+        if is_op(player) {
+            let world = get_world(&quot;world&quot;)
+            set_time(world, 13000)
+            broadcast(&quot;§eTime set to night&quot;)
+        }
+    }
+
+    if chat.message == &quot;!clear&quot; {
+        if is_op(player) {
+            let world = get_world(&quot;world&quot;)
+            set_weather(world, &quot;clear&quot;, 6000)
+            broadcast(&quot;§eWeather cleared&quot;)
+        }
+    }
+}
+</code></pre></div>
+
+<p><strong>Region Protection:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">protectedZones</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">60</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">80</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">),</span>
+<span class="w">    </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">60</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">150</span><span class="p">,</span><span class="w"> </span><span class="mh">80</span><span class="p">,</span><span class="w"> </span><span class="mh">150</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">zone</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">protectedZones</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">is_op</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">                </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;§cProtected zone!&quot;</span><span class="p">)</span>
+<span class="w">                </span><span class="k">return</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockPlace</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">zone</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">protectedZones</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">is_op</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">                </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;§cProtected zone!&quot;</span><span class="p">)</span>
+<span class="w">                </span><span class="k">return</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Setup:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create administrative scope in blacklist mode</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>adminScope<span class="w"> </span>AdminPlayer<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>blacklist
+
+<span class="c1"># Blacklist only dangerous functions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>adminScope<span class="w"> </span>create_explosion
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>adminScope<span class="w"> </span>strike_lightning
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>adminScope<span class="w"> </span><span class="nb">kill</span>
+
+<span class="c1"># Verify (should show only 3 blacklisted functions)</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>adminScope
+
+<span class="c1"># Load scripts</span>
+/quill<span class="w"> </span>load<span class="w"> </span>adminScope/moderation.ql
+/quill<span class="w"> </span>load<span class="w"> </span>adminScope/protection.ql
+</code></pre></div>
+
+<p><strong>Additional Permission Sets:</strong></p>
+<p><strong>Read-Only Monitoring:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># For monitoring/analytics scripts</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>monitorScope<span class="w"> </span>log
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>monitorScope<span class="w"> </span>get_online_players
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>monitorScope<span class="w"> </span>get_player
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>monitorScope<span class="w"> </span>get_location
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>monitorScope<span class="w"> </span>get_health
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>monitorScope<span class="w"> </span>get_gamemode
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>monitorScope<span class="w"> </span>get_block
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>monitorScope<span class="w"> </span>get_time
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>monitorScope<span class="w"> </span>get_weather
+</code></pre></div>
+
+<p><strong>Building Automation:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># For construction/terraforming scripts</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>buildScope<span class="w"> </span>set_block
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>buildScope<span class="w"> </span>get_block
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>buildScope<span class="w"> </span>break_block
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>buildScope<span class="w"> </span>log
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>buildScope<span class="w"> </span>location
+</code></pre></div>
+
+<p><strong>Event System:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># For event management scripts</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>eventScope<span class="w"> </span>sendmessage
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>eventScope<span class="w"> </span>sendtitle
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>eventScope<span class="w"> </span>broadcast
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>eventScope<span class="w"> </span>playsound
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>eventScope<span class="w"> </span>teleport
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>eventScope<span class="w"> </span>give
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>eventScope<span class="w"> </span>spawn_entity
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>eventScope<span class="w"> </span>addtoscope
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>eventScope<span class="w"> </span>removefromscope
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>eventScope<span class="w"> </span>getplayers
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="permission-errors">Permission Errors</h3>
+<p><strong>Common Error Messages:</strong></p>
+<p><strong>Missing Permission:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">Runtime</span><span class="w"> </span><span class="nt">error</span><span class="w"> </span><span class="nt">in</span><span class="w"> </span><span class="nt">myScope</span><span class="o">:</span><span class="w"> </span><span class="nt">Scope</span><span class="w"> </span><span class="s1">&#39;myScope&#39;</span><span class="w"> </span><span class="nt">does</span><span class="w"> </span><span class="nt">not</span><span class="w"> </span><span class="nt">have</span><span class="w"> </span><span class="nt">permission</span><span class="w"> </span><span class="nt">to</span><span class="w"> </span><span class="nt">call</span><span class="w"> </span><span class="nt">function</span><span class="w"> </span><span class="s1">&#39;give&#39;</span><span class="o">;</span><span class="w"> </span><span class="nt">refusing</span><span class="w"> </span><span class="nt">to</span><span class="w"> </span><span class="nt">evaluate</span><span class="o">!</span>
+</code></pre></div>
+
+<p><strong>What This Means:</strong><br />
+- Script tried to call <code>give()</code> function<br />
+- Scope <code>myScope</code> doesn't have permission to use <code>give()</code><br />
+- In whitelist mode: <code>give</code> not in allowed list<br />
+- In blacklist mode: <code>give</code> is in denied list</p>
+<p><strong>How to Fix:</strong></p>
+<p><strong>Check Current Mode:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>scope<span class="w"> </span>info<span class="w"> </span>myScope
+</code></pre></div>
+
+<p><strong>If Whitelist Mode:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Grant the missing permission</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>give
+
+<span class="c1"># Reload script</span>
+/quill<span class="w"> </span>reload<span class="w"> </span>myScope/script.ql
+</code></pre></div>
+
+<p><strong>If Blacklist Mode:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Remove from blacklist (grant permission)</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>give
+
+<span class="c1"># Reload script</span>
+/quill<span class="w"> </span>reload<span class="w"> </span>myScope/script.ql
+</code></pre></div>
+
+<p><strong>Already Granted Error:</strong></p>
+<div class="highlight"><pre><span></span><code>Scope &#39;myScope&#39; has already been granted function &#39;give&#39;
+</code></pre></div>
+
+<p><strong>What This Means:</strong><br />
+- Whitelist mode: Function already in allowed list<br />
+- Blacklist mode: Function already removed from denied list<br />
+- Permission already exists</p>
+<p><strong>How to Fix:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify permission list</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>myScope
+
+<span class="c1"># If using whitelist and function in list, permission is already granted</span>
+<span class="c1"># If still getting errors, check:</span>
+<span class="c1"># 1. Script is loaded in correct scope</span>
+<span class="c1"># 2. Function name is correct in script</span>
+<span class="c1"># 3. Scope name is correct</span>
+</code></pre></div>
+
+<p><strong>Already Revoked Error:</strong></p>
+<div class="highlight"><pre><span></span><code>Scope &#39;myScope&#39; has already had function &#39;give&#39; revoked
+</code></pre></div>
+
+<p><strong>What This Means:</strong><br />
+- Whitelist mode: Function already removed from allowed list<br />
+- Blacklist mode: Function already in denied list<br />
+- Permission already revoked</p>
+<p><strong>How to Fix:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># If you need the function, grant it instead</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>give
+</code></pre></div>
+
+<p><strong>Not Granted Error (Revoke in Whitelist):</strong></p>
+<div class="highlight"><pre><span></span><code>Scope &#39;myScope&#39; has not been granted function &#39;give&#39;
+</code></pre></div>
+
+<p><strong>What This Means:</strong><br />
+- Whitelist mode: Trying to revoke function that isn't in allowed list<br />
+- Can't revoke something that wasn't granted</p>
+<p><strong>How to Fix:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Function already not allowed, nothing to do</span>
+<span class="c1"># Or if you meant to grant it:</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>give
+</code></pre></div>
+
+<p><strong>Scope Not Found:</strong></p>
+<div class="highlight"><pre><span></span><code>Scope &#39;myScope&#39; not found
+</code></pre></div>
+
+<p><strong>What This Means:</strong><br />
+- Scope doesn't exist<br />
+- Scope name misspelled<br />
+- Scope file missing/corrupted</p>
+<p><strong>How to Fix:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># List all scopes</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>list
+
+<span class="c1"># Check exact scope name</span>
+<span class="c1"># Verify scope file exists</span>
+ls<span class="w"> </span>plugins/Quill/scopes/
+
+<span class="c1"># If missing, recreate scope</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>myScope<span class="w"> </span>Player<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>whitelist
+</code></pre></div>
+
+<h3 id="debugging-permissions">Debugging Permissions</h3>
+<p><strong>Step-by-Step Debugging Process:</strong></p>
+<p><strong>1. Identify the Error:</strong></p>
+<div class="highlight"><pre><span></span><code>Runtime error in myScope: Scope &#39;myScope&#39; does not have permission to call function &#39;teleport&#39;
+</code></pre></div>
+
+<p><strong>2. Check Scope Configuration:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>scope<span class="w"> </span>info<span class="w"> </span>myScope
+</code></pre></div>
+
+<p>Output shows:<br />
+- Scope name<br />
+- Owner<br />
+- Boundaries<br />
+- <strong>Security Mode</strong> ← Important!</p>
+<p><strong>3. List Current Permissions:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>myScope
+</code></pre></div>
+
+<p><strong>If Whitelist Mode:</strong></p>
+<div class="highlight"><pre><span></span><code>=== myScope&#39;s Whitelisted Functions ===
+sendmessage
+give
+log
+==============================
+</code></pre></div>
+
+<p><code>teleport</code> is NOT in list → Not allowed → Error makes sense</p>
+<p><strong>If Blacklist Mode:</strong></p>
+<div class="highlight"><pre><span></span><code>=== myScope&#39;s Blacklisted Functions ===
+teleport
+kill
+create_explosion
+==============================
+</code></pre></div>
+
+<p><code>teleport</code> IS in list → Denied → Error makes sense</p>
+<p><strong>4. Grant Required Permission:</strong></p>
+<p><strong>For Whitelist:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>teleport
+</code></pre></div>
+
+<p><strong>For Blacklist:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Remove from blacklist (grant permission)</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>teleport
+</code></pre></div>
+
+<p><strong>5. Verify Permission Added:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>myScope
+</code></pre></div>
+
+<p><strong>Whitelist should now show:</strong></p>
+<div class="highlight"><pre><span></span><code>=== myScope&#39;s Whitelisted Functions ===
+sendmessage
+give
+log
+teleport  ← Added
+==============================
+</code></pre></div>
+
+<p><strong>Blacklist should now show:</strong></p>
+<div class="highlight"><pre><span></span><code>=== myScope&#39;s Blacklisted Functions ===
+kill
+create_explosion
+(teleport removed)
+==============================
+</code></pre></div>
+
+<p><strong>6. Reload Script:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>reload<span class="w"> </span>myScope/script.ql
+</code></pre></div>
+
+<p><strong>7. Test Functionality:</strong></p>
+<p>Trigger the event that caused the error and verify it works.</p>
+<p><strong>Advanced Debugging:</strong></p>
+<p><strong>Check Script Location:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify script is in correct scope directory</span>
+ls<span class="w"> </span>plugins/Quill/scripts/
+
+<span class="c1"># Global scripts: plugins/Quill/scripts/script.ql</span>
+<span class="c1"># Scope scripts: plugins/Quill/scripts/scopeName/script.ql</span>
+</code></pre></div>
+
+<p><strong>Verify Script is Loaded in Correct Scope:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>list
+</code></pre></div>
+
+<p>Output shows loaded scripts with their scopes:</p>
+<div class="highlight"><pre><span></span><code><span class="o">===</span><span class="w"> </span><span class="n">Available</span><span class="w"> </span><span class="n">Quill</span><span class="w"> </span><span class="n">Scripts</span><span class="w"> </span><span class="o">===</span>
+<span class="o">[</span><span class="n">LOADED</span><span class="o">]</span><span class="w"> </span><span class="n">myScope</span><span class="o">/</span><span class="n">automation</span><span class="p">.</span><span class="n">ql</span>
+<span class="o">[</span><span class="n">LOADED</span><span class="o">]</span><span class="w"> </span><span class="k">global</span><span class="o">/</span><span class="k">admin</span><span class="p">.</span><span class="n">ql</span>
+<span class="o">==============================</span>
+</code></pre></div>
+
+<p><strong>Check for Typos:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Wrong function name</span>
+<span class="n">teleportPlayer</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">  </span><span class="c1">// ✗ No such function</span>
+
+<span class="c1">// Correct</span>
+<span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">  </span><span class="c1">// ✓</span>
+</code></pre></div>
+
+<p><strong>Review Server Logs:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check for detailed error messages</span>
+tail<span class="w"> </span>-f<span class="w"> </span>logs/latest.log
+
+<span class="c1"># Look for:</span>
+<span class="c1"># - Lexer errors (syntax)</span>
+<span class="c1"># - Parser errors (structure)</span>
+<span class="c1"># - Runtime errors (permissions)</span>
+</code></pre></div>
+
+<p><strong>Enable Debug Logging:</strong></p>
+<p>Check script execution flow:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerJoin</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Event triggered for {player.name}&quot;</span><span class="ss">)</span>
+
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;About to send message...&quot;</span><span class="ss">)</span>
+<span class="w">    </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;Welcome!&quot;</span><span class="ss">)</span>
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Message sent&quot;</span><span class="ss">)</span>
+
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;About to teleport...&quot;</span><span class="ss">)</span>
+<span class="w">    </span><span class="nv">teleport</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="mi">0</span>,<span class="w"> </span><span class="mi">65</span>,<span class="w"> </span><span class="mi">0</span><span class="ss">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="k">If</span><span class="w"> </span><span class="nv">error</span><span class="w"> </span><span class="nv">here</span>,<span class="w"> </span><span class="nv">won</span><span class="err">&#39;t see &quot;Teleported&quot;</span>
+<span class="err">    log(&quot;Teleported&quot;)</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Test in Global Scope First:</strong></p>
+<p>If unsure if it's permissions or script bug:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Move script to global scope temporarily</span>
+<span class="c1">// Global scope has no restrictions</span>
+<span class="c1">// If it works in global but not in scope → permission issue</span>
+<span class="c1">// If it fails in both → script bug</span>
+</code></pre></div>
+
+<p><strong>Debugging Checklist:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="err">☐</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="n">identifies</span><span class="w"> </span><span class="n">exact</span><span class="w"> </span><span class="n">function</span>
+<span class="err">☐</span><span class="w"> </span><span class="n">Scope</span><span class="w"> </span><span class="n">exists</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">loaded</span>
+<span class="err">☐</span><span class="w"> </span><span class="n">Script</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">correct</span><span class="w"> </span><span class="n">directory</span><span class="w"> </span><span class="p">(</span><span class="n">scopeName</span><span class="o">/</span><span class="n">script</span><span class="o">.</span><span class="n">ql</span><span class="p">)</span>
+<span class="err">☐</span><span class="w"> </span><span class="n">Security</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">known</span><span class="w"> </span><span class="p">(</span><span class="n">whitelist</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">blacklist</span><span class="p">)</span>
+<span class="err">☐</span><span class="w"> </span><span class="n">Permission</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="n">reviewed</span>
+<span class="err">☐</span><span class="w"> </span><span class="n">Function</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">spelled</span><span class="w"> </span><span class="n">correctly</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">script</span>
+<span class="err">☐</span><span class="w"> </span><span class="n">Permission</span><span class="w"> </span><span class="n">granted</span><span class="w"> </span><span class="n">correctly</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">mode</span>
+<span class="err">☐</span><span class="w"> </span><span class="n">Script</span><span class="w"> </span><span class="n">reloaded</span><span class="w"> </span><span class="n">after</span><span class="w"> </span><span class="n">permission</span><span class="w"> </span><span class="n">change</span>
+<span class="err">☐</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="n">typos</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">commands</span>
+<span class="err">☐</span><span class="w"> </span><span class="n">Scope</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">exists</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="n">YAML</span>
+</code></pre></div>
+
+<p><strong>Common Mistakes:</strong></p>
+<p><strong>Mistake 1: Wrong Security Mode Assumption</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Assuming whitelist mode</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>teleport<span class="w">  </span><span class="c1"># Adds to whitelist</span>
+
+<span class="c1"># But scope is actually blacklist mode</span>
+<span class="c1"># This removes teleport from blacklist (correct, but confusing)</span>
+
+<span class="c1"># Always check mode first:</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>info<span class="w"> </span>myScope
+</code></pre></div>
+
+<p><strong>Mistake 2: Forgetting to Reload</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Changed permissions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>give
+
+<span class="c1"># Forgot to reload script!</span>
+<span class="c1"># Script is still running with old permission check</span>
+
+<span class="c1"># Must reload:</span>
+/quill<span class="w"> </span>reload<span class="w"> </span>myScope/script.ql
+</code></pre></div>
+
+<p><strong>Mistake 3: Script in Wrong Directory</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Script location: plugins/Quill/scripts/script.ql (global)</span>
+<span class="c1"># Loading as: /quill load myScope/script.ql (scope)</span>
+
+<span class="c1"># Script not found! Must be in:</span>
+<span class="c1"># plugins/Quill/scripts/myScope/script.ql</span>
+</code></pre></div>
+
+<p><strong>Mistake 4: Granting to Wrong Scope</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Error in myScope</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>otherScope<span class="w"> </span>teleport
+
+<span class="c1"># Wrong scope! Should be:</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>teleport
+</code></pre></div>
+
+<p><strong>Mistake 5: Security Mode vs Function List Confusion</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Whitelist scope, granted [A, B, C]</span>
+<span class="c1"># Change to blacklist</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>mode<span class="w"> </span>myScope<span class="w"> </span>blacklist
+
+<span class="c1"># Now [A, B, C] are DENIED (blacklist), not allowed!</span>
+<span class="c1"># Previous whitelist becomes blacklist</span>
+
+<span class="c1"># If changing modes, consider clearing permissions:</span>
+<span class="c1"># Manually edit plugins/Quill/scopes/myScope.yml</span>
+<span class="c1"># Set funcs: [] (empty)</span>
+<span class="c1"># Then rebuild permission list</span>
+</code></pre></div>
+
+<p><strong>Permission Testing Script:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// test_permissions.ql</span>
+<span class="c1">// Tests which functions are available</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">chat</span><span class="p">.</span><span class="n">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;!testperms&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;=== Permission Test ===&quot;</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c1">// Test each function</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sendmessage: OK&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;sendmessage: ALLOWED&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="nb">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;sendmessage: DENIED - {error}&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">location</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">location</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">location</span><span class="p">.</span><span class="n">z</span><span class="p">)</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;teleport: ALLOWED&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="nb">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;teleport: DENIED - {error}&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;stone&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;give: ALLOWED&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="nb">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;give: DENIED - {error}&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// Test dangerous functions</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">create_explosion</span><span class="p">(</span><span class="n">player</span><span class="p">.</span><span class="n">location</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">location</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">location</span><span class="p">.</span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">false</span><span class="p">)</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;create_explosion: ALLOWED (WARNING)&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="nb">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;create_explosion: DENIED (good)&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;=== Test Complete ===&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Quick Reference Commands:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check scope info</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>info<span class="w"> </span>&lt;scope&gt;
+
+<span class="c1"># List permissions</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>&lt;scope&gt;
+
+<span class="c1"># Grant permission</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>&lt;scope&gt;<span class="w"> </span>&lt;<span class="k">function</span>&gt;
+
+<span class="c1"># Revoke permission</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>&lt;scope&gt;<span class="w"> </span>&lt;<span class="k">function</span>&gt;
+
+<span class="c1"># Change mode</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>mode<span class="w"> </span>&lt;scope&gt;<span class="w"> </span>&lt;whitelist<span class="p">|</span>blacklist&gt;
+
+<span class="c1"># Reload script</span>
+/quill<span class="w"> </span>reload<span class="w"> </span>&lt;scope&gt;/script.ql
+
+<span class="c1"># List all scopes</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>list
+
+<span class="c1"># List all scripts</span>
+/quill<span class="w"> </span>list
+</code></pre></div>
+
+<p><strong>Getting Help:</strong></p>
+<p>If still experiencing issues:</p>
+<ol>
+<li><strong>Check Documentation</strong>: Review this guide and function documentation</li>
+<li><strong>Join Support Discord</strong>: https://discord.gg/FZuVXszuuM</li>
+<li><strong>Provide Information</strong>:<br />
+   - Error message (full text)<br />
+   - <code>/quill scope info &lt;scope&gt;</code> output<br />
+   - <code>/quill scope permission list &lt;scope&gt;</code> output<br />
+   - Relevant script code<br />
+   - What you've tried</li>
+<li><strong>Check for Updates</strong>: Ensure Quill plugin is up to date</li>
+<li><strong>Review Logs</strong>: Check <code>logs/latest.log</code> for detailed errors</li>
+</ol>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#security-modes'>Security Modes</a></li><li style='margin-left:20px'><a href='#whitelist-mode'>Whitelist Mode</a></li><li style='margin-left:20px'><a href='#blacklist-mode'>Blacklist Mode</a></li><li style='margin-left:20px'><a href='#choosing-a-mode'>Choosing a Mode</a></li><li style='margin-left:0px'><a href='#function-permissions'>Function Permissions</a></li><li style='margin-left:20px'><a href='#granting-permissions'>Granting Permissions</a></li><li style='margin-left:20px'><a href='#revoking-permissions'>Revoking Permissions</a></li><li style='margin-left:20px'><a href='#listing-permissions'>Listing Permissions</a></li><li style='margin-left:0px'><a href='#permission-management-commands'>Permission Management Commands</a></li><li style='margin-left:20px'><a href='#via-commands'>Via Commands</a></li><li style='margin-left:20px'><a href='#via-configuration'>Via Configuration</a></li><li style='margin-left:0px'><a href='#security-best-practices'>Security Best Practices</a></li><li style='margin-left:20px'><a href='#default-deny'>Default Deny</a></li><li style='margin-left:20px'><a href='#principle-of-least-privilege'>Principle of Least Privilege</a></li><li style='margin-left:20px'><a href='#regular-audits'>Regular Audits</a></li><li style='margin-left:0px'><a href='#common-permission-sets'>Common Permission Sets</a></li><li style='margin-left:20px'><a href='#basic-automation'>Basic Automation</a></li><li style='margin-left:20px'><a href='#minigame-scope'>Minigame Scope</a></li><li style='margin-left:20px'><a href='#administrative-scope'>Administrative Scope</a></li><li style='margin-left:0px'><a href='#troubleshooting'>Troubleshooting</a></li><li style='margin-left:20px'><a href='#permission-errors'>Permission Errors</a></li><li style='margin-left:20px'><a href='#debugging-permissions'>Debugging Permissions</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

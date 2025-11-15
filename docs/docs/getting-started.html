@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Getting Started with Quill — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html' class='active'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span class='current'>Getting Started</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Getting Started with Quill</h1>
+                    <h1 id="getting-started-with-quill">Getting Started with Quill</h1>
+<h2 id="what-youll-learn">What You'll Learn</h2>
+<p>This guide will walk you through everything you need to know to start creating Quill scripts. By the end, you'll understand:</p>
+<ul>
+<li>What scopes are and how to create them</li>
+<li>How to write basic Quill scripts</li>
+<li>How to respond to Minecraft events</li>
+<li>How to test and debug your scripts</li>
+<li>Best practices for writing maintainable code</li>
+</ul>
+<p>This tutorial assumes no prior programming experience. If you're already comfortable with scripting, you might prefer the <a href="quickstart.html">Quick Start</a> guide instead.</p>
+<hr />
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before you begin, make sure you have:</p>
+<ol>
+<li><strong>Server Access</strong> - You need access to a Minecraft server with Quill installed</li>
+<li><strong>Permissions</strong> - You need either:<br />
+   - Operator status on the server, OR<br />
+   - The <code>quill.scope.create</code> and <code>quill.script.load.scope</code> permissions</li>
+<li><strong>File Access</strong> - Ability to create and edit files in the server's <code>plugins/Quill/scripts/</code> directory (or use the web editor with <code>/quill edit</code>)</li>
+</ol>
+<p>If you're a server owner setting up Quill for the first time, see the <a href="installation.html">Installation Guide</a>.</p>
+<hr />
+<h2 id="understanding-scopes">Understanding Scopes</h2>
+<h3 id="what-is-a-scope">What is a Scope?</h3>
+<p>A <strong>scope</strong> is Quill's fundamental building block. Think of it as a container that combines:</p>
+<ol>
+<li><strong>A physical region</strong> - A 3D box in your Minecraft world</li>
+<li><strong>Scripts</strong> - Code that runs when events happen in that region</li>
+<li><strong>Permissions</strong> - Control over which functions the scripts can use</li>
+<li><strong>Persistent data</strong> - Variables that survive server restarts</li>
+</ol>
+<p>Scopes serve two main purposes:</p>
+<ul>
+<li><strong>Isolation</strong> - Scripts in one scope can't interfere with scripts in another scope</li>
+<li><strong>Security</strong> - Server admins control exactly what each scope can do</li>
+</ul>
+<p>For example, you might create a scope for a minigame arena where scripts can:<br />
+- Heal players and change their gamemode<br />
+- But NOT break blocks or kick players</p>
+<h3 id="creating-your-first-scope">Creating Your First Scope</h3>
+<p>Scopes are created using the <code>/quill scope create</code> command. The syntax is:</p>
+<div class="highlight"><pre><span></span><code>/quill scope create &lt;name&gt; &lt;owner&gt; &lt;x1&gt; &lt;y1&gt; &lt;z1&gt; &lt;x2&gt; &lt;y2&gt; &lt;z2&gt; &lt;mode&gt;
+</code></pre></div>
+
+<p>Let's break this down:</p>
+<ul>
+<li><strong>name</strong> - A unique identifier for your scope (e.g., <code>my_first_scope</code>)</li>
+<li><strong>owner</strong> - The player who owns this scope (username or UUID)</li>
+<li><strong>x1 y1 z1</strong> - First corner of the region (coordinates)</li>
+<li><strong>x2 y2 z2</strong> - Opposite corner of the region (coordinates)</li>
+<li><strong>mode</strong> - Security mode: <code>whitelist</code> or <code>blacklist</code></li>
+</ul>
+<p><strong>Example:</strong> Create a 100×100×100 block scope centered at spawn:</p>
+<div class="highlight"><pre><span></span><code>/quill scope create tutorial_zone Steve -50 60 -50 50 120 50 whitelist
+</code></pre></div>
+
+<p>This creates a scope named <code>tutorial_zone</code> owned by Steve, covering coordinates from (-50, 60, -50) to (50, 120, 50), using whitelist security mode.</p>
+<blockquote>
+<p><strong>Tip:</strong> The coordinates don't need to be in any particular order - Quill will automatically sort them to create a proper box.</p>
+</blockquote>
+<h3 id="scope-boundaries-and-regions">Scope Boundaries and Regions</h3>
+<p>The physical boundaries of a scope define where its scripts are active. Understanding this is crucial:</p>
+<p><strong>Inside the scope:</strong><br />
+- Scripts can respond to events (player movement, block breaks, etc.)<br />
+- Functions can interact with the world<br />
+- Players can be added to the scope's player list</p>
+<p><strong>Outside the scope:</strong><br />
+- Scripts don't respond to events happening outside<br />
+- Functions still work but should be used carefully</p>
+<p><strong>Example scenario:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// This scope covers coordinates (-50, 60, -50) to (50, 120, 50)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">my_scope</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// This only triggers when players move INSIDE the scope region</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">my_scope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You&#39;re inside the scope!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Important notes:</strong></p>
+<ul>
+<li>Regions are <strong>inclusive</strong> - players exactly on the boundary are considered inside</li>
+<li>Y-coordinates matter - make sure your region covers the full height you need</li>
+<li>Scopes can overlap - players can be in multiple scopes simultaneously</li>
+</ul>
+<hr />
+<h2 id="writing-your-first-script">Writing Your First Script</h2>
+<h3 id="script-file-structure">Script File Structure</h3>
+<p>Quill scripts are text files with a <code>.ql</code> or <code>.quill</code> extension. They live in your server's <code>plugins/Quill/scripts/</code> directory.</p>
+<p><strong>For scope-specific scripts</strong>, create a folder matching your scope name:</p>
+<div class="highlight"><pre><span></span><code>plugins/Quill/scripts/
+  ├── my_scope/
+  │   └── welcome.ql
+  └── another_scope/
+      └── game.ql
+</code></pre></div>
+
+<p><strong>For global scripts</strong> (not tied to a scope), place them directly in the scripts folder:</p>
+<div class="highlight"><pre><span></span><code>plugins/Quill/scripts/
+  ├── global_events.ql
+  └── my_scope/
+      └── welcome.ql
+</code></pre></div>
+
+<p>Let's create our first script. Create a file at:</p>
+<div class="highlight"><pre><span></span><code>plugins/Quill/scripts/tutorial_zone/welcome.ql
+</code></pre></div>
+
+<h3 id="basic-syntax">Basic Syntax</h3>
+<p>Quill's syntax is designed to be readable and familiar. Here's a simple script:</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">comment</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">it</span><span class="s1">&#39;s ignored by Quill</span>
+<span class="o">//</span><span class="w"> </span><span class="n">Comments</span><span class="w"> </span><span class="n">help</span><span class="w"> </span><span class="n">explain</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="n">code</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Variables</span><span class="w"> </span><span class="n">store</span><span class="w"> </span><span class="n">data</span>
+<span class="n">let</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Functions</span><span class="w"> </span><span class="n">contain</span><span class="w"> </span><span class="n">reusable</span><span class="w"> </span><span class="n">code</span>
+<span class="k">func</span><span class="w"> </span><span class="n">greet_player</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Welcome to the tutorial zone!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Player count: {player_count}&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Event</span><span class="w"> </span><span class="n">handlers</span><span class="w"> </span><span class="n">respond</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">things</span><span class="w"> </span><span class="n">happening</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">Minecraft</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">player_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">greet_player</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Key syntax rules:</strong></p>
+<ol>
+<li><strong>Comments</strong> start with <code>//</code> (single line) or <code>/* */</code> (multi-line)</li>
+<li><strong>Variables</strong> are declared with <code>let</code> (or <code>const</code> for constants)</li>
+<li><strong>Statements</strong> end with a newline (semicolons are optional)</li>
+<li><strong>Blocks</strong> use curly braces <code>{ }</code></li>
+<li><strong>Strings</strong> use double quotes <code>"like this"</code></li>
+</ol>
+<h3 id="variables-and-data-types">Variables and Data Types</h3>
+<p>Variables store information. Declare them with <code>let</code>:</p>
+<div class="highlight"><pre><span></span><code>let name = &quot;Steve&quot;           // String (text)
+let health = 20              // Number
+let is_alive = true          // Boolean (true/false)
+let nothing = null           // Null (no value)
+let items = [&quot;sword&quot;, &quot;bow&quot;] // List
+let data = {                 // Map (key-value pairs)
+    score: 100,
+    level: 5
+}
+</code></pre></div>
+
+<p><strong>Variable rules:</strong></p>
+<ul>
+<li>Variables must be declared before use</li>
+<li>Use <code>let</code> for variables that can change</li>
+<li>Use <code>const</code> for values that never change</li>
+<li>Variable names can contain letters, numbers, and underscores</li>
+<li>Variable names are case-sensitive (<code>player</code> ≠ <code>Player</code>)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">const</span><span class="w"> </span><span class="n">MAX_PLAYERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Constant</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">never</span><span class="w"> </span><span class="n">changes</span>
+<span class="n">let</span><span class="w"> </span><span class="n">current_players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">Variable</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">change</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">current_players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_players</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">current_players</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">MAX_PLAYERS</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">kick</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Server full!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerQuit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">current_players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_players</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="event-handlers">Event Handlers</h3>
+<p>Event handlers let your scripts react to things happening in Minecraft. They use the <code>OnEvent()</code> syntax:</p>
+<div class="highlight"><pre><span></span><code>OnEvent(EventName) {
+    // Code here runs when the event happens
+}
+</code></pre></div>
+
+<p><strong>Common events:</strong></p>
+<ul>
+<li><code>PlayerJoin</code> - When a player joins the server</li>
+<li><code>PlayerQuit</code> - When a player leaves the server</li>
+<li><code>PlayerChat</code> - When a player sends a chat message</li>
+<li><code>PlayerMove</code> - When a player moves</li>
+<li><code>BlockBreak</code> - When a block is broken</li>
+<li><code>BlockPlace</code> - When a block is placed</li>
+</ul>
+<p>Each event provides <strong>context variables</strong> you can use:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// &#39;player&#39; is automatically available</span>
+<span class="w">    </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Welcome, {player.name}!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// &#39;player&#39; and &#39;chat&#39; are available</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">chat</span><span class="p">.</span><span class="nx">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;!help&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Available commands: !help, !info&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// &#39;player&#39; and &#39;block&#39; are available</span>
+<span class="w">    </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You broke a {block.type} block!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Your first complete script:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// welcome.ql - Greet players when they enter the scope</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">visitors</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Check if player just entered the region</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="nb">move</span><span class="p">.</span><span class="n">to</span><span class="p">,</span><span class="w"> </span><span class="n">my_scope</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>!<span class="n">in_region</span><span class="p">(</span><span class="nb">move</span><span class="p">.</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="n">my_scope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">visitors</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visitors</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Welcome! You&#39;re visitor #{visitors}&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">playsound</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;entity.player.levelup&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="testing-and-debugging">Testing and Debugging</h2>
+<h3 id="loading-scripts">Loading Scripts</h3>
+<p>Once you've created a script file, you need to load it into Quill:</p>
+<p><strong>For scope scripts:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">tutorial_zone</span><span class="o">/</span><span class="n">welcome</span><span class="o">.</span><span class="n">ql</span>
+</code></pre></div>
+
+<p><strong>For global scripts:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">my_script</span><span class="o">.</span><span class="n">ql</span>
+</code></pre></div>
+
+<p><strong>Other useful commands:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">tutorial_zone</span><span class="o">/</span><span class="n">welcome</span><span class="o">.</span><span class="n">ql</span><span class="w">  </span><span class="c1"># Reload after making changes</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">unload</span><span class="w"> </span><span class="n">tutorial_zone</span><span class="o">/</span><span class="n">welcome</span><span class="o">.</span><span class="n">ql</span><span class="w">  </span><span class="c1"># Stop the script</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">list</span><span class="w">                              </span><span class="c1"># See all loaded scripts</span>
+</code></pre></div>
+
+<blockquote>
+<p><strong>Tip:</strong> During development, keep the server console open to see error messages immediately.</p>
+</blockquote>
+<h3 id="common-errors">Common Errors</h3>
+<p>When you're learning, you'll encounter errors. Here are the most common ones and how to fix them:</p>
+<p><strong>1. Lexer Error - "Unrecognised character in source"</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="n">Lexer</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">tutorial_zone</span><span class="o">/</span><span class="n">welcome</span><span class="p">.</span><span class="nl">ql</span><span class="p">:</span><span class="w"> </span><span class="n">Unrecognised</span><span class="w"> </span><span class="k">character</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nl">source</span><span class="p">:</span><span class="w"> </span><span class="err">@</span>
+</code></pre></div>
+
+<p><strong>Cause:</strong> You used a character Quill doesn't understand (like <code>@</code> or <code>$</code>)</p>
+<p><strong>Fix:</strong> Check your syntax - you might have a typo or used the wrong symbol</p>
+<hr />
+<p><strong>2. Parser Error - "Expected IDENTIFIER but got NUMBER"</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="n">Parser</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">tutorial_zone</span><span class="o">/</span><span class="n">welcome</span><span class="p">.</span><span class="nl">ql</span><span class="p">:</span><span class="w"> </span><span class="n">Expected</span><span class="w"> </span><span class="n">identifier</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">got</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="k">at</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="mi">5</span>
+</code></pre></div>
+
+<p><strong>Cause:</strong> Syntax error - something is in the wrong place</p>
+<p><strong>Fix:</strong> Check the line number mentioned. Common causes:<br />
+- Variable name starts with a number: <code>let 1player = "Steve"</code> (invalid)<br />
+- Missing keyword: <code>player_count = 0</code> (should be <code>let player_count = 0</code>)<br />
+- Typo in keyword: <code>fonction greet()</code> (should be <code>func greet()</code>)</p>
+<hr />
+<p><strong>3. Runtime Error - "Undefined variable"</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="n">Runtime</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">tutorial_zone</span><span class="o">/</span><span class="n">welcome</span><span class="p">.</span><span class="nl">ql</span><span class="p">:</span><span class="w"> </span><span class="n">Undefined</span><span class="w"> </span><span class="k">variable</span><span class="err">:</span><span class="w"> </span><span class="n">player_count</span>
+</code></pre></div>
+
+<p><strong>Cause:</strong> You tried to use a variable that doesn't exist</p>
+<p><strong>Fix:</strong> Make sure you declared the variable with <code>let</code> before using it</p>
+<hr />
+<p><strong>4. Runtime Error - "Function not found"</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="n">Runtime</span><span class="w"> </span><span class="nl">error</span><span class="p">:</span><span class="w"> </span><span class="n">Expected</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">got</span><span class="w"> </span><span class="n">string</span>
+</code></pre></div>
+
+<p><strong>Cause:</strong> You passed the wrong type of value to a function</p>
+<p><strong>Fix:</strong> Check the function documentation - you might be passing a string when it expects a player object</p>
+<hr />
+<p><strong>5. Permission Error - "Scope does not have permission"</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="k">Scope</span><span class="w"> </span><span class="s1">&#39;tutorial_zone&#39;</span><span class="w"> </span><span class="n">does</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">have</span><span class="w"> </span><span class="n">permission</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">call</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="s1">&#39;kick&#39;</span>
+</code></pre></div>
+
+<p><strong>Cause:</strong> Your scope's security settings don't allow that function</p>
+<p><strong>Fix:</strong> Grant the permission:</p>
+<div class="highlight"><pre><span></span><code>/quill scope permission grant tutorial_zone kick
+</code></pre></div>
+
+<h3 id="using-the-log-function">Using the Log Function</h3>
+<p>The <code>log()</code> function is your best friend for debugging. It prints messages to the server console:</p>
+<div class="highlight"><pre><span></span><code>let player_count = 0
+
+OnEvent(PlayerJoin) {
+    log(&quot;PlayerJoin event triggered!&quot;)
+    log(&quot;Player name: {player.name}&quot;)
+
+    player_count = player_count + 1
+    log(&quot;New player count: {player_count}&quot;)
+
+    sendmessage(player, &quot;Welcome!&quot;)
+}
+</code></pre></div>
+
+<p><strong>Console output:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="p">(</span><span class="n">tutorial_zone</span><span class="p">)</span><span class="w"> </span><span class="n">PlayerJoin</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="n">triggered</span><span class="err">!</span>
+<span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="p">(</span><span class="n">tutorial_zone</span><span class="p">)</span><span class="w"> </span><span class="n">Player</span><span class="w"> </span><span class="nl">name</span><span class="p">:</span><span class="w"> </span><span class="n">Steve</span>
+<span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="p">(</span><span class="n">tutorial_zone</span><span class="p">)</span><span class="w"> </span><span class="k">New</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="nf">count</span><span class="err">:</span><span class="w"> </span><span class="mi">1</span>
+</code></pre></div>
+
+<p><strong>Debugging tips:</strong></p>
+<ol>
+<li><strong>Use log() liberally</strong> - Log at the start of event handlers, before important operations, and after changes</li>
+<li><strong>Log variable values</strong> - Use string interpolation: <code>log("Score: {score}")</code></li>
+<li><strong>Use descriptive messages</strong> - <code>log("Before heal")</code> and <code>log("After heal")</code> help track flow</li>
+<li><strong>Check the scope name</strong> - The log shows which scope logged the message</li>
+</ol>
+<p><strong>Example debugging session:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Debugging why players aren&#39;t being teleported</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Chat event received&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Message: {chat.message}&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">chat</span><span class="p">.</span><span class="n">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;!spawn&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Spawn command detected!&quot;</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">spawn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Created location: {spawn}&quot;</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">spawn</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Teleport completed&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="naming-conventions">Naming Conventions</h3>
+<p>Good names make your code easier to understand and maintain.</p>
+<p><strong>Variables and functions - use snake_case:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">           </span><span class="o">//</span><span class="w"> </span><span class="n">Good</span>
+<span class="n">let</span><span class="w"> </span><span class="n">playerCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">            </span><span class="o">//</span><span class="w"> </span><span class="n">Avoid</span><span class="w"> </span><span class="p">(</span><span class="n">camelCase</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">PLAYER_COUNT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">           </span><span class="o">//</span><span class="w"> </span><span class="n">Avoid</span><span class="w"> </span><span class="p">(</span><span class="n">SCREAMING_SNAKE_CASE</span><span class="p">)</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">heal_player</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Good</span>
+<span class="k">func</span><span class="w"> </span><span class="n">HealPlayer</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">         </span><span class="o">//</span><span class="w"> </span><span class="n">Avoid</span><span class="w"> </span><span class="p">(</span><span class="n">PascalCase</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Constants - use UPPER_SNAKE_CASE:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">const</span><span class="w"> </span><span class="n">MAX_PLAYERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="k">const</span><span class="w"> </span><span class="n">SPAWN_LOCATION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="k">const</span><span class="w"> </span><span class="n">GAME_DURATION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">300</span>
+</code></pre></div>
+
+<p><strong>Scopes - use lowercase with underscores or hyphens:</strong></p>
+<div class="highlight"><pre><span></span><code>tutorial_zone      // Good
+minigame-arena     // Good
+TutorialZone       // Avoid
+</code></pre></div>
+
+<p><strong>Use descriptive names:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Bad - unclear what these mean</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="n">let</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">player</span>
+<span class="n">let</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span>
+
+<span class="c1">// Good - intent is clear</span>
+<span class="n">let</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="n">let</span><span class="w"> </span><span class="n">target_player</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">player</span>
+<span class="n">let</span><span class="w"> </span><span class="n">high_scores</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span>
+</code></pre></div>
+
+<h3 id="code-organization">Code Organization</h3>
+<p><strong>1. Structure your scripts logically:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="o">==========</span><span class="w"> </span><span class="n">CONSTANTS</span><span class="w"> </span><span class="o">==========</span>
+<span class="k">const</span><span class="w"> </span><span class="n">MAX_HEALTH</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span>
+<span class="k">const</span><span class="w"> </span><span class="n">GAME_DURATION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">300</span>
+
+<span class="o">//</span><span class="w"> </span><span class="o">==========</span><span class="w"> </span><span class="n">VARIABLES</span><span class="w"> </span><span class="o">==========</span>
+<span class="n">let</span><span class="w"> </span><span class="n">game_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">false</span>
+<span class="n">let</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="o">//</span><span class="w"> </span><span class="o">==========</span><span class="w"> </span><span class="n">FUNCTIONS</span><span class="w"> </span><span class="o">==========</span>
+<span class="k">func</span><span class="w"> </span><span class="n">start_game</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">game_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">true</span>
+<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Game starting!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">end_game</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">game_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">false</span>
+<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Game ended!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="o">==========</span><span class="w"> </span><span class="n">EVENT</span><span class="w"> </span><span class="n">HANDLERS</span><span class="w"> </span><span class="o">==========</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">player_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerQuit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">player_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>2. Use comments to explain WHY, not WHAT:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Bad - comment just repeats the code</span>
+<span class="c1">// Increment player count</span>
+<span class="n">player_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="c1">// Good - comment explains the reason</span>
+<span class="c1">// Track active players for game balancing</span>
+<span class="n">player_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">player_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="c1">// Good - comment explains edge case</span>
+<span class="c1">// Don&#39;t teleport spectators - they&#39;re observing</span>
+<span class="k">if</span><span class="w"> </span><span class="n">get_gamemode</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span>!<span class="p">=</span><span class="w"> </span><span class="s">&quot;spectator&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">spawn</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>3. Keep functions small and focused:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Bad</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">function</span><span class="w"> </span><span class="n">does</span><span class="w"> </span><span class="n">too</span><span class="w"> </span><span class="n">many</span><span class="w"> </span><span class="n">things</span>
+<span class="k">func</span><span class="w"> </span><span class="n">handle_player</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">heal</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="w">    </span><span class="n">set_gamemode</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;survival&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;diamond_sword&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">teleport</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">spawn</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Ready!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Good</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">separate</span><span class="w"> </span><span class="n">functions</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">responsibility</span>
+<span class="k">func</span><span class="w"> </span><span class="n">heal_player</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">heal</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">prepare_for_game</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">set_gamemode</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;survival&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;diamond_sword&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">teleport_to_spawn</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">teleport</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">spawn</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">send_ready_message</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Ready!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>4. Group related scripts in folders:</strong></p>
+<div class="highlight"><pre><span></span><code>plugins/Quill/scripts/
+  ├── pvp_arena/
+  │   ├── game_logic.ql
+  │   ├── player_management.ql
+  │   └── scoring.ql
+  └── safe_zone/
+      ├── protection.ql
+      └── welcome.ql
+</code></pre></div>
+
+<h3 id="performance-considerations">Performance Considerations</h3>
+<p><strong>1. Avoid expensive operations in frequent events:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Bad - PlayerMove fires CONSTANTLY</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">get_online_players</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// Very expensive</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Someone moved!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Good - Use less frequent events</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="s">&quot;{player.name} joined!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>2. Filter events early:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Bad - does unnecessary work</span>
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">block_type</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">block</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">block_type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;diamond_ore&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Only care about diamond ore</span>
+<span class="w">        </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You found diamonds!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Good - exit early if not relevant</span>
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">block</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;diamond_ore&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w">  </span><span class="c1">// Exit immediately if not diamond</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You found diamonds!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>3. Cache expensive lookups:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Bad - looks up players repeatedly</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">get_online_players</span><span class="p">())</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">get_online_players</span><span class="p">())</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Called get_online_players() twice!</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Good - look up once and store</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">online</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_online_players</span><span class="p">()</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">online</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Uses cached value</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>4. Use region checks wisely:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Good - only process events in the region</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>!<span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">my_scope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w">  </span><span class="c1">// Ignore events outside our scope</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Process movement inside scope</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>5. Avoid creating objects in loops:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Bad - creates location object 100 times</span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">loc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">set_block</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;stone&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Good - more efficient if possible</span>
+<span class="n">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">64</span>
+<span class="n">let</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="k">for</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">set_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;stone&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="where-to-go-next">Where to Go Next</h2>
+<p>Congratulations! You now know the fundamentals of Quill scripting. Here's what to explore next:</p>
+<p><strong>Learn more about the language:</strong><br />
+- <a href="language/syntax.html">Syntax</a> - Detailed syntax reference<br />
+- <a href="language/data-types.html">Data Types</a> - All available types<br />
+- <a href="language/functions.html">Functions</a> - Writing and using functions<br />
+- <a href="language/events.html">Events</a> - Complete event system guide</p>
+<p><strong>Explore the API:</strong><br />
+- <a href="api/player.html">Player Functions</a> - Teleport, heal, give items, etc.<br />
+- <a href="api/world.html">World Functions</a> - Modify blocks and spawn entities<br />
+- <a href="api/utility.html">Utility Functions</a> - Math, lists, strings, and more</p>
+<p><strong>See examples:</strong><br />
+- <a href="examples/basic-scripts.html">Basic Scripts</a> - Simple complete examples<br />
+- <a href="examples/minigames.html">Minigames</a> - Full minigame implementations<br />
+- <a href="examples/region-protection.html">Region Protection</a> - Protecting areas</p>
+<p><strong>Advanced topics:</strong><br />
+- <a href="advanced/security.html">Security</a> - Permission management<br />
+- <a href="advanced/persistent-variables.html">Persistent Variables</a> - Data that survives restarts<br />
+- <a href="advanced/subscopes.html">Subscopes</a> - Creating nested scopes<br />
+- <a href="advanced/custom-events.html">Custom Events</a> - Creating your own events</p>
+<p><strong>Need help?</strong><br />
+- <a href="troubleshooting.html">Troubleshooting</a> - Common problems and solutions<br />
+- <a href="faq.html">FAQ</a> - Frequently asked questions<br />
+- <a href="https://discord.gg/FZuVXszuuM">Discord</a> - Community support</p>
+<p>Happy scripting!</p>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#what-you'll-learn'>What You'll Learn</a></li><li style='margin-left:0px'><a href='#prerequisites'>Prerequisites</a></li><li style='margin-left:0px'><a href='#understanding-scopes'>Understanding Scopes</a></li><li style='margin-left:20px'><a href='#what-is-a-scope'>What is a Scope?</a></li><li style='margin-left:20px'><a href='#creating-your-first-scope'>Creating Your First Scope</a></li><li style='margin-left:20px'><a href='#scope-boundaries-and-regions'>Scope Boundaries and Regions</a></li><li style='margin-left:0px'><a href='#writing-your-first-script'>Writing Your First Script</a></li><li style='margin-left:20px'><a href='#script-file-structure'>Script File Structure</a></li><li style='margin-left:20px'><a href='#basic-syntax'>Basic Syntax</a></li><li style='margin-left:20px'><a href='#variables-and-data-types'>Variables and Data Types</a></li><li style='margin-left:20px'><a href='#event-handlers'>Event Handlers</a></li><li style='margin-left:0px'><a href='#testing-and-debugging'>Testing and Debugging</a></li><li style='margin-left:20px'><a href='#loading-scripts'>Loading Scripts</a></li><li style='margin-left:20px'><a href='#common-errors'>Common Errors</a></li><li style='margin-left:20px'><a href='#using-the-log-function'>Using the Log Function</a></li><li style='margin-left:0px'><a href='#best-practices'>Best Practices</a></li><li style='margin-left:20px'><a href='#naming-conventions'>Naming Conventions</a></li><li style='margin-left:20px'><a href='#code-organization'>Code Organization</a></li><li style='margin-left:20px'><a href='#performance-considerations'>Performance Considerations</a></li><li style='margin-left:0px'><a href='#where-to-go-next'>Where to Go Next</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

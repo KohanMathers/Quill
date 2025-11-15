@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Error Handling — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html' class='active'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Advanced</span><span class='separator'>/</span><span class='current'>Error Handling</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Error Handling</h1>
+                    <h1 id="error-handling">Error Handling</h1>
+<h2 id="overview">Overview</h2>
+<p>Error handling in Quill allows you to gracefully handle runtime errors and prevent your scripts from crashing. When an error occurs, Quill can catch it, allowing you to respond appropriately instead of having the entire script fail.</p>
+<p>Proper error handling is essential for:<br />
+- <strong>Robustness</strong> - Scripts continue running even when unexpected situations occur<br />
+- <strong>User Experience</strong> - Provide helpful feedback instead of silent failures<br />
+- <strong>Debugging</strong> - Capture and log errors for troubleshooting<br />
+- <strong>Graceful Degradation</strong> - Fall back to safe defaults when operations fail</p>
+<h2 id="try-catch-blocks">Try-Catch Blocks</h2>
+<h3 id="basic-syntax">Basic Syntax</h3>
+<p>Use <code>try-catch</code> blocks to handle errors that might occur during execution:</p>
+<div class="highlight"><pre><span></span><code>try {
+    // Code that might throw an error
+} catch errorName {
+    // Code to handle the error
+}
+</code></pre></div>
+
+<p><strong>Basic example:</strong></p>
+<div class="highlight"><pre><span></span><code>try {
+    let player = get_player(&quot;NonexistentPlayer&quot;)
+    teleport(player, 0, 100, 0)
+} catch error {
+    log(&quot;Failed to teleport player: &quot; + error)
+}
+</code></pre></div>
+
+<h3 id="catch-block">Catch Block</h3>
+<p>The <code>catch</code> block executes only if an error occurs in the <code>try</code> block. If no error occurs, the catch block is skipped:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">try</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;This always runs&quot;</span><span class="ss">)</span>
+<span class="w">    </span><span class="nv">let</span><span class="w"> </span><span class="nb">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;No error - this runs too&quot;</span><span class="ss">)</span>
+}<span class="w"> </span><span class="nv">catch</span><span class="w"> </span><span class="nv">err</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;This only runs if there&#39;s an error&quot;</span><span class="ss">)</span>
+}
+<span class="o">//</span><span class="w"> </span><span class="nv">Execution</span><span class="w"> </span><span class="nv">continues</span><span class="w"> </span><span class="nv">here</span><span class="w"> </span><span class="nv">after</span><span class="w"> </span><span class="nv">try</span><span class="o">-</span><span class="nv">catch</span>
+</code></pre></div>
+
+<h3 id="error-variable">Error Variable</h3>
+<p>The catch block requires an error variable name. This variable contains the error message as a string:</p>
+<div class="highlight"><pre><span></span><code>try {
+    let player = get_player(&quot;Steve&quot;)
+    set_health(player, -1)  // Invalid health value
+} catch errorMessage {
+    log(&quot;Caught error: &quot; + errorMessage)
+    // errorMessage contains: &quot;Expected digit between 0 and 20 in set_health(), found: -1&quot;
+}
+</code></pre></div>
+
+<p><strong>You can name the error variable anything:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">catch</span><span class="w"> </span><span class="nv">e</span><span class="w"> </span>{<span class="w"> </span>}<span class="w">           </span><span class="o">//</span><span class="w"> </span><span class="nv">Short</span><span class="w"> </span><span class="nv">name</span>
+<span class="nv">catch</span><span class="w"> </span><span class="nv">error</span><span class="w"> </span>{<span class="w"> </span>}<span class="w">       </span><span class="o">//</span><span class="w"> </span><span class="nv">Descriptive</span>
+<span class="nv">catch</span><span class="w"> </span><span class="nv">errorMsg</span><span class="w"> </span>{<span class="w"> </span>}<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Very</span><span class="w"> </span><span class="nv">descriptive</span>
+<span class="nv">catch</span><span class="w"> </span><span class="nv">ohNo</span><span class="w"> </span>{<span class="w"> </span>}<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="nv">Creative</span><span class="w"> </span><span class="ss">(</span><span class="nv">but</span><span class="w"> </span><span class="nv">don</span><span class="err">&#39;t do this)</span>
+</code></pre></div>
+
+<h2 id="common-errors">Common Errors</h2>
+<h3 id="runtime-errors">Runtime Errors</h3>
+<p>Runtime errors occur during script execution when an operation fails:</p>
+<p><strong>Division by zero:</strong></p>
+<div class="highlight"><pre><span></span><code>try {
+    let result = 10 / 0
+} catch error {
+    log(&quot;Cannot divide by zero!&quot;)
+}
+</code></pre></div>
+
+<p><strong>Invalid function arguments:</strong></p>
+<div class="highlight"><pre><span></span><code>try {
+    set_health(player, 999)  // Health must be 0-20
+} catch error {
+    log(&quot;Invalid health value: &quot; + error)
+}
+</code></pre></div>
+
+<p><strong>Function call on wrong type:</strong></p>
+<div class="highlight"><pre><span></span><code>try {
+    let notAPlayer = &quot;Steve&quot;
+    teleport(notAPlayer, 0, 100, 0)  // Expects player, got string
+} catch error {
+    log(&quot;Type error: &quot; + error)
+}
+</code></pre></div>
+
+<h3 id="type-errors">Type Errors</h3>
+<p>Type errors occur when a value isn't the expected type:</p>
+<div class="highlight"><pre><span></span><code>try {
+    let value = &quot;not a number&quot;
+    let result = value + 10  // This works (concatenation)
+    let calculated = value * 2  // This fails (can&#39;t multiply string)
+} catch error {
+    log(&quot;Cannot perform math on string: &quot; + error)
+}
+</code></pre></div>
+
+<p><strong>Accessing properties on wrong type:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">notALocation</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;somewhere&quot;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">notALocation</span><span class="p">.</span><span class="nx">x</span><span class="w">  </span><span class="c1">// Locations have .x, strings don&#39;t</span>
+<span class="p">}</span><span class="w"> </span><span class="nx">catch</span><span class="w"> </span><span class="nx">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Cannot access property on wrong type: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="permission-errors">Permission Errors</h3>
+<p>Permission errors occur when a scope doesn't have permission to call a function:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// In a scope with whitelist mode and no permissions granted</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">set_block</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond_block&quot;</span><span class="p">)</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="nb">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Permission denied: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">error</span><span class="p">)</span>
+<span class="w">    </span><span class="c1">// Error: &quot;Scope &#39;restricted_area&#39; does not have permission to call function &#39;set_block&#39;&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Checking permissions before calling:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Instead of try-catch, you can organize by scope permissions</span>
+<span class="c1">// Only call restricted functions in scopes with permission</span>
+</code></pre></div>
+
+<h3 id="null-reference-errors">Null Reference Errors</h3>
+<p>Null reference errors occur when trying to use a null value:</p>
+<div class="highlight"><pre><span></span><code>try {
+    let player = get_player(&quot;OfflinePlayer&quot;)
+    // get_player returns null if player not found
+
+    sendmessage(player, &quot;Hello!&quot;)  // Error: player is null
+} catch error {
+    log(&quot;Player not found or is null&quot;)
+}
+</code></pre></div>
+
+<p><strong>Better approach - check for null first:</strong></p>
+<div class="highlight"><pre><span></span><code>let player = get_player(&quot;Steve&quot;)
+
+if player == null {
+    log(&quot;Player not found&quot;)
+} else {
+    sendmessage(player, &quot;Hello!&quot;)
+}
+</code></pre></div>
+
+<h2 id="error-messages">Error Messages</h2>
+<h3 id="understanding-error-messages">Understanding Error Messages</h3>
+<p>Quill error messages follow a consistent format to help you identify and fix issues:</p>
+<p><strong>Type mismatch errors:</strong></p>
+<div class="highlight"><pre><span></span><code>Expected player but got string
+Expected number but got boolean
+Expected location but got null
+</code></pre></div>
+
+<p><strong>Argument errors:</strong></p>
+<div class="highlight"><pre><span></span><code>teleport() requires 2 or 4 arguments: teleport(player, location) or teleport(player, x, y, z)
+set_health() requires 2 arguments: set_health(player, health)
+Expected digit between 0 and 20 in set_health(), found: -1
+</code></pre></div>
+
+<p><strong>Scope errors:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">Undefined</span><span class="w"> </span><span class="n">variable</span><span class="p">:</span><span class="w"> </span><span class="n">playerScore</span>
+<span class="n">Variable</span><span class="w"> </span><span class="n">health</span><span class="w"> </span><span class="n">already</span><span class="w"> </span><span class="n">defined</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">scope</span>
+<span class="n">Scope</span><span class="w"> </span><span class="s1">&#39;arena&#39;</span><span class="w"> </span><span class="n">does</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">have</span><span class="w"> </span><span class="n">permission</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">call</span><span class="w"> </span><span class="n">function</span><span class="w"> </span><span class="s1">&#39;set_gamemode&#39;</span>
+</code></pre></div>
+
+<p><strong>World/Location errors:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">World</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nl">found:</span><span class="w"> </span><span class="n">nether_dimension</span>
+<span class="n">No</span><span class="w"> </span><span class="n">region</span><span class="w"> </span><span class="n">defined</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="err">–</span><span class="w"> </span><span class="n">cannot</span><span class="w"> </span><span class="n">determine</span><span class="w"> </span><span class="n">world</span>
+<span class="n">Invalid</span><span class="w"> </span><span class="nl">item_id:</span><span class="w"> </span><span class="p">&#39;</span><span class="n">daimond_sword</span><span class="p">&#39;</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">valid</span><span class="w"> </span><span class="n">Minecraft</span><span class="w"> </span><span class="n">item</span>
+</code></pre></div>
+
+<h3 id="line-numbers">Line Numbers</h3>
+<p>Error messages from the lexer and parser include line numbers:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">Lexer</span><span class="w"> </span><span class="nt">error</span><span class="w"> </span><span class="nt">in</span><span class="w"> </span><span class="nt">my_script</span><span class="p">.</span><span class="nc">ql</span><span class="o">:</span><span class="w"> </span><span class="nt">Unterminated</span><span class="w"> </span><span class="nt">string</span><span class="w"> </span><span class="nt">literal</span><span class="w"> </span><span class="nt">at</span><span class="w"> </span><span class="nt">line</span><span class="w"> </span><span class="nt">15</span>
+<span class="nt">Parser</span><span class="w"> </span><span class="nt">error</span><span class="w"> </span><span class="nt">in</span><span class="w"> </span><span class="nt">my_script</span><span class="p">.</span><span class="nc">ql</span><span class="o">:</span><span class="w"> </span><span class="nt">Expected</span><span class="w"> </span><span class="o">)</span><span class="w"> </span><span class="nt">but</span><span class="w"> </span><span class="nt">got</span><span class="w"> </span><span class="o">;</span><span class="w"> </span><span class="nt">at</span><span class="w"> </span><span class="nt">line</span><span class="w"> </span><span class="nt">23</span>
+</code></pre></div>
+
+<p><strong>Runtime errors</strong> show where in your script the error originated:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Line 1</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="c1">// Line 3</span>
+<span class="n">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="c1">// Line 5</span>
+<span class="n">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">y</span><span class="w">  </span><span class="c1">// Division by zero at line 5</span>
+
+<span class="c1">// Console shows:</span>
+<span class="c1">// Runtime error in my_script.ql: Division by zero</span>
+</code></pre></div>
+
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="when-to-use-try-catch">When to Use Try-Catch</h3>
+<p><strong>Use try-catch for:</strong><br />
+- Operations that might fail due to external factors (player lookups, world state)<br />
+- User input validation<br />
+- Operations with strict requirements (health values, coordinates)<br />
+- Cross-scope operations where permissions might vary</p>
+<p><strong>Don't use try-catch for:</strong><br />
+- Control flow (use <code>if</code> statements instead)<br />
+- Expected conditions (check with <code>if</code> rather than catching errors)<br />
+- Every single operation (too verbose and hides bugs)</p>
+<p><strong>Good use case:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// External operation that might fail</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_player</span><span class="p">(</span><span class="n">playerName</span><span class="p">)</span>
+<span class="w">    </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">spawnLocation</span><span class="p">)</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="nb">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Could not teleport &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">playerName</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">error</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Bad use case (use if instead):</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Don&#39;t use try-catch for expected null checks</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_player</span><span class="p">(</span><span class="n">playerName</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">)</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="nb">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Player was null - this is expected, not an error</span>
+<span class="p">}</span>
+
+<span class="c1">// Better:</span>
+<span class="n">let</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_player</span><span class="p">(</span><span class="n">playerName</span><span class="p">)</span>
+<span class="k">if</span><span class="w"> </span><span class="n">player</span><span class="w"> </span>!<span class="p">=</span><span class="w"> </span><span class="nb">null</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="error-recovery">Error Recovery</h3>
+<p>When catching errors, try to recover gracefully:</p>
+<p><strong>Provide fallback values:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">getPlayerSafely</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">get_player</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">catch</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Player lookup failed: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb nb-Type">null</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getPlayerSafely</span><span class="p">(</span><span class="n">userName</span><span class="p">)</span>
+<span class="k">if</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb nb-Type">null</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Do</span><span class="w"> </span><span class="n">something</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">player</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Retry operations:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">teleportWithRetry</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">,</span><span class="w"> </span><span class="n">attempts</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">attempts</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="bp">true</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">catch</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Teleport attempt &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; failed: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="w">            </span><span class="n">wait</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Wait</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="n">before</span><span class="w"> </span><span class="n">retry</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="bp">false</span>
+<span class="p">}</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">teleportWithRetry</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">spawnPoint</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Teleport failed after 3 attempts&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Fall back to safe defaults:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">setHealthSafely</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">targetHealth</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">set_health</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">targetHealth</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">catch</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="n">invalid</span><span class="w"> </span><span class="n">health</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">default</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Invalid health value, setting to 20: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="w">        </span><span class="n">set_health</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="logging-errors">Logging Errors</h3>
+<p>Always log errors for debugging, even if you handle them:</p>
+<div class="highlight"><pre><span></span><code>try {
+    let block = get_block(x, y, z)
+    set_block(x, y, z, &quot;diamond_block&quot;)
+} catch error {
+    log(&quot;Block operation failed at &quot; + x + &quot;, &quot; + y + &quot;, &quot; + z)
+    log(&quot;Error: &quot; + error)
+}
+</code></pre></div>
+
+<p><strong>Include context in logs:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerInteract) {
+    try {
+        let clickedBlock = event.block
+        processBlockClick(clickedBlock)
+    } catch error {
+        log(&quot;Error processing player interaction&quot;)
+        log(&quot;Player: &quot; + get_name(player))
+        log(&quot;Error: &quot; + error)
+    }
+}
+</code></pre></div>
+
+<p><strong>Use structured logging:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">func</span><span class="w"> </span><span class="n">logError</span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="k">operation</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;[ERROR] Context: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">context</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;[ERROR] Operation: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">operation</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;[ERROR] Message: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="err">}</span>
+
+<span class="k">try</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">spawn_entity</span><span class="p">(</span><span class="ss">&quot;zombie&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="err">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">logError</span><span class="p">(</span><span class="ss">&quot;mob_spawner&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;spawn_entity&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h3 id="user-feedback">User Feedback</h3>
+<p>Provide helpful feedback to players when errors occur:</p>
+<p><strong>Don't expose raw errors to players:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Bad - shows technical error to player</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">destination</span><span class="p">)</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="nb">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="nb">error</span><span class="p">)</span><span class="w">  </span><span class="c1">// Shows: &quot;Expected location but got null&quot;</span>
+<span class="p">}</span>
+
+<span class="c1">// Good - shows friendly message</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">destination</span><span class="p">)</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="nb">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Teleport failed. Please try again.&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Teleport error for &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">error</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Provide actionable feedback:</strong></p>
+<div class="highlight"><pre><span></span><code>try {
+    let item = item(&quot;diamond_sword&quot;, 1)
+    give(player, item)
+} catch error {
+    if contains(error, &quot;inventory full&quot;) {
+        sendmessage(player, &quot;Your inventory is full! Please make space.&quot;)
+    } else {
+        sendmessage(player, &quot;Could not give item. Contact an admin.&quot;)
+    }
+    log(&quot;Give item error: &quot; + error)
+}
+</code></pre></div>
+
+<h2 id="examples">Examples</h2>
+<h3 id="safe-player-lookup">Safe Player Lookup</h3>
+<p>Handle cases where players might not exist or be offline:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">findPlayerSafe</span><span class="p">(</span><span class="n">playerName</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_player</span><span class="p">(</span><span class="n">playerName</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb nb-Type">null</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb nb-Type">null</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">player</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">catch</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Error finding player &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">playerName</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb nb-Type">null</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">custom_teleport_request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">targetName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="o">.</span><span class="n">target_player</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">findPlayerSafe</span><span class="p">(</span><span class="n">targetName</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb nb-Type">null</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="n">targetName</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; is not online&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="o">.</span><span class="n">destination</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;You have been teleported!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="graceful-degradation">Graceful Degradation</h3>
+<p>Keep systems running even when some operations fail:</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Reward</span><span class="w"> </span><span class="n">system</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">continues</span><span class="w"> </span><span class="n">even</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">rewards</span><span class="w"> </span><span class="n">fail</span>
+<span class="k">func</span><span class="w"> </span><span class="n">giveRewards</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">rewards</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">successCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">failCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">reward</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">rewards</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">reward</span><span class="o">.</span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;item&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">reward</span><span class="o">.</span><span class="n">item_id</span><span class="p">,</span><span class="w"> </span><span class="n">reward</span><span class="o">.</span><span class="n">amount</span><span class="p">)</span>
+<span class="w">                </span><span class="n">successCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">successCount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">reward</span><span class="o">.</span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;health&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">                </span><span class="n">successCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">successCount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">reward</span><span class="o">.</span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;teleport&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">reward</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+<span class="w">                </span><span class="n">successCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">successCount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">catch</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Failed to give reward to &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">))</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Reward: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">reward</span><span class="o">.</span><span class="n">type</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;, Error: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="w">            </span><span class="n">failCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">failCount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Received &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">successCount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; rewards&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">failCount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Some rewards failed for &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">failCount</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">rewards</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;item&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">item_id</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;health&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;teleport&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">:</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)}</span>
+<span class="w">    </span><span class="p">]</span>
+
+<span class="w">    </span><span class="n">giveRewards</span><span class="p">(</span><span class="n">killer</span><span class="p">,</span><span class="w"> </span><span class="n">rewards</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="validation">Validation</h3>
+<p>Validate user input and handle invalid data:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">validateCoordinates</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">coordinates</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">numbers</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">numX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_number</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">numY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_number</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">numZ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_number</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="n">bounds</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">numY</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="o">-</span><span class="mi">64</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">numY</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">320</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="n">valid</span><span class="p">:</span><span class="w"> </span><span class="bp">false</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Y coordinate out of bounds (-64 to 320)&quot;</span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">valid</span><span class="p">:</span><span class="w"> </span><span class="bp">true</span><span class="p">,</span>
+<span class="w">            </span><span class="n">coords</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="n">x</span><span class="p">:</span><span class="w"> </span><span class="n">numX</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">:</span><span class="w"> </span><span class="n">numY</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">:</span><span class="w"> </span><span class="n">numZ</span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">catch</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="n">valid</span><span class="p">:</span><span class="w"> </span><span class="bp">false</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Invalid coordinate format: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error</span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">custom_set_home</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="o">.</span><span class="n">x</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="o">.</span><span class="n">y</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="o">.</span><span class="n">z</span>
+
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">validation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">validateCoordinates</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">validation</span><span class="o">.</span><span class="n">valid</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">coords</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">validation</span><span class="o">.</span><span class="n">coords</span>
+<span class="w">        </span><span class="n">player_homes</span><span class="p">[</span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">coords</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">coords</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Home set!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Invalid coordinates: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">validation</span><span class="o">.</span><span class="n">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="database-style-operations">Database-style Operations</h3>
+<p>Handle operations that modify state with transactions:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">playerBalances</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">func</span><span class="w"> </span><span class="n">transferMoney</span><span class="p">(</span><span class="k">from</span><span class="p">,</span><span class="w"> </span><span class="k">to</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">fromName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="k">from</span><span class="p">)</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">toName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="k">to</span><span class="p">)</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Validation</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="err">{</span><span class="nl">success</span><span class="p">:</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w"> </span><span class="nl">error</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;Amount must be positive&quot;</span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">playerBalances</span><span class="p">,</span><span class="w"> </span><span class="n">fromName</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="err">{</span><span class="nl">success</span><span class="p">:</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w"> </span><span class="nl">error</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;Sender has no balance&quot;</span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">fromBalance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">playerBalances</span><span class="o">[</span><span class="n">fromName</span><span class="o">]</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">fromBalance</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="err">{</span><span class="nl">success</span><span class="p">:</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w"> </span><span class="nl">error</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;Insufficient funds&quot;</span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Perform</span><span class="w"> </span><span class="k">transaction</span>
+<span class="w">        </span><span class="n">playerBalances</span><span class="o">[</span><span class="n">fromName</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fromBalance</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">amount</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">playerBalances</span><span class="p">,</span><span class="w"> </span><span class="n">toName</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">playerBalances</span><span class="o">[</span><span class="n">toName</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="n">playerBalances</span><span class="o">[</span><span class="n">toName</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">playerBalances</span><span class="o">[</span><span class="n">toName</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">amount</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="err">{</span><span class="nl">success</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="err">}</span>
+
+<span class="w">    </span><span class="err">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Transfer error: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="err">{</span><span class="nl">success</span><span class="p">:</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w"> </span><span class="nl">error</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;Transaction failed: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error</span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">custom_pay_player</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">sender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">recipientName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">recipient</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">amount</span>
+
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">recipient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_player</span><span class="p">(</span><span class="n">recipientName</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">recipient</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Player &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">recipientName</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; not found&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">transferMoney</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span><span class="w"> </span><span class="n">recipient</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">result</span><span class="p">.</span><span class="n">success</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Sent $&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; to &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">recipientName</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">recipient</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Received $&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; from &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">sender</span><span class="p">))</span>
+<span class="w">    </span><span class="err">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Payment failed: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">result</span><span class="p">.</span><span class="n">error</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="debugging">Debugging</h2>
+<h3 id="using-log">Using log()</h3>
+<p>The <code>log()</code> function is your primary debugging tool. It outputs to the server console:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">playerScore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span>
+
+<span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Player score is: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">playerScore</span><span class="p">)</span>
+<span class="o">//</span><span class="w"> </span><span class="nl">Console</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="p">(</span><span class="n">scope_name</span><span class="p">)</span><span class="w"> </span><span class="n">Player</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="k">is</span><span class="err">:</span><span class="w"> </span><span class="mi">100</span>
+</code></pre></div>
+
+<p><strong>Log at different stages:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Player join event triggered&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Player name: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">))</span>
+
+<span class="w">    </span><span class="n">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_location</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">        </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Player location: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">z</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">spawn_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Player is in spawn zone&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">addtoscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">spawn_zone</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Player is outside spawn zone&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">catch</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Error during player join: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="console-output">Console Output</h3>
+<p>Check your server console for Quill output. Messages are prefixed with <code>[Quill]</code> and include the scope name:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="p">(</span><span class="k">global</span><span class="p">)</span><span class="w"> </span><span class="n">Player</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="n">triggered</span>
+<span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="p">(</span><span class="k">global</span><span class="p">)</span><span class="w"> </span><span class="n">Player</span><span class="w"> </span><span class="nl">name</span><span class="p">:</span><span class="w"> </span><span class="n">Steve</span>
+<span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="p">(</span><span class="k">global</span><span class="p">)</span><span class="w"> </span><span class="n">Player</span><span class="w"> </span><span class="nl">location</span><span class="p">:</span><span class="w"> </span><span class="mf">123.5</span><span class="p">,</span><span class="w"> </span><span class="mf">64.0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">89.3</span>
+<span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="p">(</span><span class="k">global</span><span class="p">)</span><span class="w"> </span><span class="n">Player</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">spawn</span><span class="w"> </span><span class="k">zone</span>
+</code></pre></div>
+
+<p><strong>Error output:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">SEVERE</span><span class="o">]</span><span class="w"> </span><span class="n">Runtime</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">my_script</span><span class="p">.</span><span class="nl">ql</span><span class="p">:</span><span class="w"> </span><span class="n">Expected</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">got</span><span class="w"> </span><span class="n">string</span>
+</code></pre></div>
+
+<h3 id="testing-error-cases">Testing Error Cases</h3>
+<p>Deliberately test error conditions to ensure your error handling works:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">testErrorHandling</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;=== Starting Error Handling Tests ===&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Test</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="w"> </span><span class="n">Null</span><span class="w"> </span><span class="n">player</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Test 1: Null player lookup&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_player</span><span class="p">(</span><span class="s2">&quot;NonexistentPlayer123&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb nb-Type">null</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Test 1: PASS - Null returned&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">catch</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Test 1: CAUGHT - &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Test</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span><span class="w"> </span><span class="n">Invalid</span><span class="w"> </span><span class="n">health</span><span class="w"> </span><span class="n">value</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Test 2: Invalid health value&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">testPlayer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_online_players</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="w">        </span><span class="n">set_health</span><span class="p">(</span><span class="n">testPlayer</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Test 2: FAIL - Should have thrown error&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">catch</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Test 2: PASS - Caught: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Test</span><span class="w"> </span><span class="mi">3</span><span class="p">:</span><span class="w"> </span><span class="n">Division</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Test 3: Division by zero&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Test 3: FAIL - Should have thrown error&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">catch</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Test 3: PASS - Caught: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;=== Tests Complete ===&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Call</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">when</span><span class="w"> </span><span class="n">script</span><span class="w"> </span><span class="n">loads</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">verify</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">handling</span>
+<span class="n">testErrorHandling</span><span class="p">()</span>
+</code></pre></div>
+
+<p><strong>Create a test command:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(custom_run_tests) {
+    if is_op(player) {
+        testErrorHandling()
+        sendmessage(player, &quot;Tests complete - check console&quot;)
+    }
+}
+</code></pre></div>
+
+<p><strong>Test with edge cases:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">testEdgeCases</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">testValues</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nb nb-Type">null</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">999999</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;invalid&quot;</span><span class="p">,</span><span class="w"> </span><span class="bp">true</span><span class="p">,</span><span class="w"> </span><span class="p">[]]</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">testValues</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Testing value: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+<span class="w">        </span><span class="n">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="o">//</span><span class="w"> </span><span class="n">Test</span><span class="w"> </span><span class="n">various</span><span class="w"> </span><span class="n">operations</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">edge</span><span class="w"> </span><span class="n">case</span><span class="w"> </span><span class="n">values</span>
+<span class="w">            </span><span class="n">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;  Addition: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">result</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">catch</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;  Addition error: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#try-catch-blocks'>Try-Catch Blocks</a></li><li style='margin-left:20px'><a href='#basic-syntax'>Basic Syntax</a></li><li style='margin-left:20px'><a href='#catch-block'>Catch Block</a></li><li style='margin-left:20px'><a href='#error-variable'>Error Variable</a></li><li style='margin-left:0px'><a href='#common-errors'>Common Errors</a></li><li style='margin-left:20px'><a href='#runtime-errors'>Runtime Errors</a></li><li style='margin-left:20px'><a href='#type-errors'>Type Errors</a></li><li style='margin-left:20px'><a href='#permission-errors'>Permission Errors</a></li><li style='margin-left:20px'><a href='#null-reference-errors'>Null Reference Errors</a></li><li style='margin-left:0px'><a href='#error-messages'>Error Messages</a></li><li style='margin-left:20px'><a href='#understanding-error-messages'>Understanding Error Messages</a></li><li style='margin-left:20px'><a href='#line-numbers'>Line Numbers</a></li><li style='margin-left:0px'><a href='#best-practices'>Best Practices</a></li><li style='margin-left:20px'><a href='#when-to-use-try-catch'>When to Use Try-Catch</a></li><li style='margin-left:20px'><a href='#error-recovery'>Error Recovery</a></li><li style='margin-left:20px'><a href='#logging-errors'>Logging Errors</a></li><li style='margin-left:20px'><a href='#user-feedback'>User Feedback</a></li><li style='margin-left:0px'><a href='#examples'>Examples</a></li><li style='margin-left:20px'><a href='#safe-player-lookup'>Safe Player Lookup</a></li><li style='margin-left:20px'><a href='#graceful-degradation'>Graceful Degradation</a></li><li style='margin-left:20px'><a href='#validation'>Validation</a></li><li style='margin-left:20px'><a href='#database-style-operations'>Database-style Operations</a></li><li style='margin-left:0px'><a href='#debugging'>Debugging</a></li><li style='margin-left:20px'><a href='#using-log'>Using log()</a></li><li style='margin-left:20px'><a href='#console-output'>Console Output</a></li><li style='margin-left:20px'><a href='#testing-error-cases'>Testing Error Cases</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

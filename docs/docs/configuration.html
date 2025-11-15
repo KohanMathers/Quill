@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Configuration — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html' class='active'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span class='current'>Configuration</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Configuration</h1>
+                    <h1 id="configuration">Configuration</h1>
+<h2 id="overview">Overview</h2>
+<p>Quill uses two primary configuration files located in the <code>plugins/Quill/</code> directory:</p>
+<ul>
+<li><strong><code>config.yml</code></strong> - Main plugin configuration, including web editor settings</li>
+<li><strong><code>translations.yml</code></strong> - Localization strings for all plugin messages</li>
+</ul>
+<p>Both files are automatically generated on first run with default values. Quill includes intelligent configuration migration that preserves your custom settings when updating to newer versions.</p>
+<p><strong>Configuration Philosophy:</strong><br />
+- Minimal configuration required for basic operation<br />
+- Smart defaults that work out of the box<br />
+- Automatic version migration preserves user changes<br />
+- Clear warnings for invalid settings</p>
+<hr />
+<h2 id="configyml-structure">config.yml Structure</h2>
+<p>The main configuration file controls core plugin behavior and integrations.</p>
+<h3 id="complete-default-configuration">Complete Default Configuration</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">###############################################</span>
+<span class="c1">#      Quill – A sandboxed scripting language #</span>
+<span class="c1">#          for Minecraft event automation     #</span>
+<span class="c1">#               By Kohan Mathers              #</span>
+<span class="c1">###############################################</span>
+
+<span class="c1"># Join the support server for config help</span>
+<span class="c1"># https://discord.gg/FZuVXszuuM</span>
+
+<span class="c1">##############</span>
+<span class="c1"># Web Editor #</span>
+<span class="c1">##############</span>
+
+<span class="c1"># Config options for the web editor</span>
+<span class="c1"># Do not touch unless you know what you&#39;re doing!</span>
+<span class="nt">editor</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://quill.kmathers.co.uk/editor/#</span>
+
+<span class="c1">####################</span>
+<span class="c1"># DO NOT CHANGE THESE</span>
+<span class="nt">config-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">translation-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</code></pre></div>
+
+<h3 id="file-location">File Location</h3>
+<div class="highlight"><pre><span></span><code>server/
+└── plugins/
+    └── Quill/
+        ├── config.yml              ← Main configuration
+        ├── translations.yml        ← Message translations
+        ├── scripts/                ← Script files
+        │   ├── welcome.ql
+        │   └── scopeName/
+        │       └── events.ql
+        └── scopes/                 ← Scope definitions
+            └── scopeName.yml
+</code></pre></div>
+
+<hr />
+<h2 id="editor-configuration">Editor Configuration</h2>
+<p>The web editor allows you to edit Quill scripts through a browser interface with live collaboration support.</p>
+<h3 id="editorurl">editor.url</h3>
+<p>The base URL for the Quill web editor interface.</p>
+<p><strong>Default Value:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">editor</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://quill.kmathers.co.uk/editor/#</span>
+</code></pre></div>
+
+<p><strong>Description:</strong><br />
+- Points to the official Quill web editor hosted by the developer<br />
+- Sessions are relayed through Cloudflare Workers<br />
+- Must end with <code>#</code> or <code>/</code> for proper session ID appending<br />
+- Must start with <code>http://</code> or <code>https://</code> (validated on startup)</p>
+<p><strong>How It Works:</strong><br />
+1. When you run <code>/quill edit script.ql</code>, the plugin:<br />
+   - Reads your script file<br />
+   - Creates a temporary session via the relay API<br />
+   - Generates a unique session ID<br />
+   - Returns a clickable URL: <code>https://quill.kmathers.co.uk/editor/#sessionId</code><br />
+2. You click the link and edit in your browser<br />
+3. When you save, changes are sent back to the relay<br />
+4. The plugin polls for changes and writes them back to the file<br />
+5. You're notified in-game when the save is complete</p>
+<p><strong>URL Format:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Correct formats:</span>
+<span class="nt">editor</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://quill.kmathers.co.uk/editor/#</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://quill.kmathers.co.uk/editor/</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://localhost:3000/editor/#</span>
+
+<span class="c1"># Incorrect formats (will cause errors):</span>
+<span class="nt">editor</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">quill.kmathers.co.uk/editor/#</span><span class="w">          </span><span class="c1"># Missing protocol</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://quill.kmathers.co.uk/editor</span><span class="w">    </span><span class="c1"># Missing trailing separator</span>
+</code></pre></div>
+
+<p><strong>Validation:</strong><br />
+If the URL is invalid, Quill will:<br />
+- Log a warning on startup: <code>"Invalid editor URL: must start with http:// or https://"</code><br />
+- Log a warning: <code>"/quill edit will NOT work!"</code><br />
+- Disable the edit command functionality<br />
+- Still allow all other commands to work normally</p>
+<h3 id="setting-up-custom-editor">Setting Up Custom Editor</h3>
+<p>You can host your own Quill editor instance for privacy, customization, or offline use.</p>
+<h4 id="requirements">Requirements</h4>
+<ol>
+<li>
+<p><strong>Web Editor Frontend</strong><br />
+   - HTML/JavaScript editor interface<br />
+   - Must support session-based editing<br />
+   - Must communicate with the relay API</p>
+</li>
+<li>
+<p><strong>Relay Service</strong><br />
+   - Handles session creation and storage<br />
+   - API endpoint: <code>https://your-relay.com/session/</code><br />
+   - Methods required:</p>
+<ul>
+<li><code>POST /session/</code> - Create session, returns <code>{"sessionId": "..."}</code></li>
+<li><code>GET /session/{id}/wait</code> - Long-poll for changes (26s timeout)</li>
+<li><code>DELETE /session/{id}</code> - Clean up session</li>
+</ul>
+</li>
+<li>
+<p><strong>HTTPS Certificate</strong> (recommended)<br />
+   - Self-signed certificates work for local networks<br />
+   - Let's Encrypt for public instances</p>
+</li>
+</ol>
+<h4 id="configuration-example">Configuration Example</h4>
+<p>Tutorial to host the relay coming soon...</p>
+<h4 id="offline-editor">Offline Editor</h4>
+<p>For completely offline environments:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">editor</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://localhost:8080/editor/#</span>
+</code></pre></div>
+
+<p><strong>Setup:</strong><br />
+1. Host editor on local machine<br />
+2. Run relay service locally<br />
+3. Configure Quill to use localhost<br />
+4. Only works when local server is running</p>
+<hr />
+<h2 id="internal-settings">Internal Settings</h2>
+<p>These settings are managed automatically by Quill and should not be manually modified.</p>
+<h3 id="config-version">config-version</h3>
+<p>Tracks the configuration file structure version.</p>
+<p><strong>Current Version:</strong> <code>1</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">config-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</code></pre></div>
+
+<p><strong>Purpose:</strong><br />
+- Enables automatic configuration migration<br />
+- Ensures compatibility between plugin versions<br />
+- Triggers upgrade/downgrade warnings</p>
+<p><strong>Behavior:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config-version &lt; 1</code></td>
+<td>Warns about lower version, attempts merge with new defaults</td>
+</tr>
+<tr>
+<td><code>config-version = 1</code></td>
+<td>No action, configuration is current</td>
+</tr>
+<tr>
+<td><code>config-version &gt; 1</code></td>
+<td><strong>WARNING</strong>: User modified version, backs up to <code>config_broken_backup.yml</code> and restores defaults</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Warning Messages:</strong></p>
+<div class="highlight"><pre><span></span><code>Config version is lower than current plugin version; some features may have changed.
+</code></pre></div>
+
+<ul>
+<li>Your config is from an older version</li>
+<li>Plugin will merge your settings with new defaults</li>
+<li>Old config saved as <code>config_old.yml</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code>PEBKAC error detected in config version! Reverting config to stable version...
+</code></pre></div>
+
+<ul>
+<li>Config version was manually increased (user error)</li>
+<li>Old config backed up to <code>config_broken_backup.yml</code></li>
+<li>Fresh config generated from defaults</li>
+</ul>
+<p><strong>DO NOT MODIFY</strong> unless you're developing the plugin and know what you're doing.</p>
+<h3 id="translation-version">translation-version</h3>
+<p>Tracks the translation file structure version.</p>
+<p><strong>Current Version:</strong> <code>1</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">translation-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</code></pre></div>
+
+<p><strong>Purpose:</strong><br />
+- Manages translation file migrations<br />
+- Ensures all translation keys are present<br />
+- Preserves custom translations during updates</p>
+<p><strong>Behavior:</strong><br />
+- If <code>translation-version &lt; 1</code>: Merges user translations with new default translations<br />
+- Old translations saved as <code>translations_old.yml</code><br />
+- Missing keys added automatically<br />
+- User customizations preserved</p>
+<hr />
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="backup-configuration">Backup Configuration</h3>
+<p>Always backup your configuration before making changes.</p>
+<h4 id="manual-backup">Manual Backup</h4>
+<p><strong>Before Editing:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>plugins/Quill/
+cp<span class="w"> </span>config.yml<span class="w"> </span>config.backup.yml
+cp<span class="w"> </span>translations.yml<span class="w"> </span>translations.backup.yml
+</code></pre></div>
+
+<p><strong>Before Major Updates:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>plugins/Quill/
+tar<span class="w"> </span>-czf<span class="w"> </span>quill-backup-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>.tar.gz<span class="w"> </span>config.yml<span class="w"> </span>translations.yml<span class="w"> </span>scopes/<span class="w"> </span>scripts/
+</code></pre></div>
+
+<h4 id="automatic-backups">Automatic Backups</h4>
+<p>Quill creates automatic backups during:<br />
+- Version migrations: <code>config_old.yml</code><br />
+- Invalid version detection: <code>config_broken_backup.yml</code><br />
+- Translation updates: <code>translations_old.yml</code></p>
+<p><strong>Backup Files:</strong></p>
+<div class="highlight"><pre><span></span><code>plugins/Quill/
+├── config.yml                    ← Current
+├── config_old.yml               ← Auto-backup from migration
+├── config_broken_backup.yml     ← Auto-backup from error
+└── translations_old.yml         ← Auto-backup from translation merge
+</code></pre></div>
+
+<p><strong>Restoration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Restore from automatic backup</span>
+<span class="nb">cd</span><span class="w"> </span>plugins/Quill/
+cp<span class="w"> </span>config_old.yml<span class="w"> </span>config.yml
+
+<span class="c1"># Restart server</span>
+</code></pre></div>
+
+<h3 id="version-control">Version Control</h3>
+<p>Track your Quill configuration in version control for team servers.</p>
+<h4 id="git-setup">Git Setup</h4>
+<p><strong>Initialize Repository:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>plugins/Quill/
+git<span class="w"> </span>init
+</code></pre></div>
+
+<p><strong>Create <code>.gitignore</code>:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="gh">#</span> Backup files
+*_old.yml
+*_backup.yml
+<span class="gs">*_broken_backup.yml</span>
+
+<span class="gs"># Temporary files</span>
+<span class="gs">*</span>.tmp
+*.swp
+</code></pre></div>
+
+<p><strong>Initial Commit:</strong></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>config.yml<span class="w"> </span>translations.yml
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial Quill configuration&quot;</span>
+</code></pre></div>
+
+<p><strong>Track Changes:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Before making changes</span>
+git<span class="w"> </span>diff<span class="w"> </span>config.yml
+
+<span class="c1"># After changes</span>
+git<span class="w"> </span>add<span class="w"> </span>config.yml
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Updated editor URL to custom instance&quot;</span>
+
+<span class="c1"># Revert if needed</span>
+git<span class="w"> </span>checkout<span class="w"> </span>HEAD<span class="w"> </span>--<span class="w"> </span>config.yml
+</code></pre></div>
+
+<h4 id="configuration-templates">Configuration Templates</h4>
+<p>Create templates for different environments:</p>
+<p><strong><code>config.production.yml</code>:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">editor</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://quill.myserver.com/editor/#</span>
+</code></pre></div>
+
+<p><strong><code>config.development.yml</code>:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">editor</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://localhost:3000/editor/#</span>
+</code></pre></div>
+
+<p><strong>Deploy:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Production</span>
+cp<span class="w"> </span>config.production.yml<span class="w"> </span>config.yml
+
+<span class="c1"># Development</span>
+cp<span class="w"> </span>config.development.yml<span class="w"> </span>config.yml
+</code></pre></div>
+
+<h3 id="configuration-management">Configuration Management</h3>
+<p><strong>Documentation:</strong><br />
+- Comment your changes in the config file<br />
+- Maintain a separate <code>CHANGES.md</code> documenting modifications<br />
+- Note the reason for custom settings</p>
+<p><strong>Testing:</strong><br />
+- Test configuration changes on a staging server<br />
+- Verify editor functionality after URL changes<br />
+- Check console logs for validation errors</p>
+<p><strong>Rollback Plan:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Quick rollback</span>
+cp<span class="w"> </span>config_old.yml<span class="w"> </span>config.yml
+/reload<span class="w"> </span>confirm
+</code></pre></div>
+
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="invalid-configuration">Invalid Configuration</h3>
+<h4 id="symptom-plugin-wont-load">Symptom: Plugin Won't Load</h4>
+<p><strong>Error in Console:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="n">Invalid</span><span class="w"> </span><span class="n">editor</span><span class="w"> </span><span class="nl">URL</span><span class="p">:</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="k">start</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nl">http</span><span class="p">:</span><span class="o">//</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="nl">https</span><span class="p">:</span><span class="o">//</span>
+<span class="o">[</span><span class="n">Quill</span><span class="o">]</span><span class="w"> </span><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">edit</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="ow">NOT</span><span class="w"> </span><span class="k">work</span><span class="err">!</span>
+</code></pre></div>
+
+<p><strong>Cause:</strong><br />
+- Editor URL missing <code>http://</code> or <code>https://</code><br />
+- URL malformed</p>
+<p><strong>Solution:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Fix in config.yml</span>
+<span class="nt">editor</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://quill.kmathers.co.uk/editor/#</span>
+</code></pre></div>
+
+<p><strong>Steps:</strong><br />
+1. Stop the server<br />
+2. Edit <code>plugins/Quill/config.yml</code><br />
+3. Ensure URL has proper protocol and trailing separator<br />
+4. Start the server<br />
+5. Verify: <code>/quill info</code> should work</p>
+<h4 id="symptom-config-reverted-to-defaults">Symptom: Config Reverted to Defaults</h4>
+<p><strong>Warning in Console:</strong></p>
+<div class="highlight"><pre><span></span><code>PEBKAC error detected in config version! Reverting config to stable version...
+Backed up user-modified config to config_broken_backup.yml
+Default config has been restored. Do not change the config version manually!
+</code></pre></div>
+
+<p><strong>Cause:</strong><br />
+- <code>config-version</code> was manually modified<br />
+- Config file corrupted</p>
+<p><strong>Solution:</strong><br />
+1. Stop the server<br />
+2. Restore your settings:<br />
+<code>bash
+   cd plugins/Quill/
+   # Check the backup
+   cat config_broken_backup.yml
+   # Copy editor URL from backup
+   nano config.yml</code><br />
+3. Do <strong>NOT</strong> modify <code>config-version</code> or <code>translation-version</code><br />
+4. Start the server</p>
+<h4 id="symptom-missing-configuration-entries">Symptom: Missing Configuration Entries</h4>
+<p><strong>Cause:</strong><br />
+- Updating from old version<br />
+- Incomplete migration</p>
+<p><strong>Solution:</strong><br />
+Quill handles this automatically:<br />
+- Old config renamed to <code>config_old.yml</code><br />
+- New config generated with defaults<br />
+- User values merged where possible</p>
+<p><strong>Manual Fix:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>plugins/Quill/
+<span class="c1"># Compare files</span>
+diff<span class="w"> </span>config_old.yml<span class="w"> </span>config.yml
+<span class="c1"># Manually copy any custom settings</span>
+nano<span class="w"> </span>config.yml
+</code></pre></div>
+
+<h3 id="editor-issues">Editor Issues</h3>
+<h4 id="symptom-edit-command-does-nothing">Symptom: Edit Command Does Nothing</h4>
+<p><strong>Error Message:</strong></p>
+<div class="highlight"><pre><span></span><code>Cannot open editor: URL is not valid
+</code></pre></div>
+
+<p><strong>Cause:</strong><br />
+- Editor URL validation failed<br />
+- URL missing protocol</p>
+<p><strong>Solution:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Correct format in config.yml</span>
+<span class="nt">editor</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://quill.kmathers.co.uk/editor/#</span>
+</code></pre></div>
+
+<p><strong>Verification:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="nv">quill</span><span class="w"> </span><span class="nv">info</span>
+#<span class="w"> </span><span class="nv">Should</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="k">show</span><span class="w"> </span><span class="nv">editor</span><span class="w"> </span><span class="nv">warning</span>
+</code></pre></div>
+
+<h4 id="symptom-edit-link-opens-but-editor-doesnt-load">Symptom: Edit Link Opens But Editor Doesn't Load</h4>
+<p><strong>Possible Causes:</strong></p>
+<ol>
+<li>
+<p><strong>Editor Service Down</strong><br />
+   - Check if <code>https://quill.kmathers.co.uk/editor/</code> is accessible<br />
+   - Try in a different browser<br />
+   - Check firewall/network restrictions</p>
+</li>
+<li>
+<p><strong>Session Creation Failed</strong><br />
+   - Check server console for errors<br />
+   - Look for: <code>"sessionId not found in response"</code><br />
+   - Relay API may be down</p>
+</li>
+<li>
+<p><strong>Browser Issues</strong><br />
+   - Clear browser cache<br />
+   - Disable browser extensions<br />
+   - Try incognito mode<br />
+   - Check browser console for JavaScript errors</p>
+</li>
+</ol>
+<p><strong>Debug Steps:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check relay API manually</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://quill-relay.kohanmathersmcgonnell.workers.dev/session/<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: text/plain&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;let x = 123&quot;</span>
+
+<span class="c1"># Should return: {&quot;sessionId&quot;: &quot;...&quot;}</span>
+</code></pre></div>
+
+<h4 id="symptom-changes-not-saving-back-to-server">Symptom: Changes Not Saving Back to Server</h4>
+<p><strong>Error in Console:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">Failed</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">write</span><span class="w"> </span><span class="k">file</span><span class="err">:</span><span class="w"> </span><span class="o">[</span><span class="n">filename</span><span class="o">]</span>
+</code></pre></div>
+
+<p><strong>Causes:</strong><br />
+1. <strong>File Permission Issues</strong><br />
+<code>bash
+   # Check permissions
+   ls -la plugins/Quill/scripts/
+   # Fix if needed
+   chmod 755 plugins/Quill/scripts/
+   chmod 644 plugins/Quill/scripts/*.ql</code></p>
+<ol start="2">
+<li>
+<p><strong>Disk Space</strong><br />
+<code>bash
+   df -h
+   # Ensure adequate space</code></p>
+</li>
+<li>
+<p><strong>File Locked by Another Process</strong><br />
+   - Close any text editors with the file open<br />
+   - Check for file system locks</p>
+</li>
+</ol>
+<p><strong>Solution:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Ensure write permissions</span>
+<span class="nb">cd</span><span class="w"> </span>plugins/Quill/
+chmod<span class="w"> </span>-R<span class="w"> </span>u+w<span class="w"> </span>scripts/
+
+<span class="c1"># Restart server</span>
+</code></pre></div>
+
+<h4 id="symptom-session-expires-before-editing-complete">Symptom: Session Expires Before Editing Complete</h4>
+<p><strong>Cause:</strong><br />
+- Long-running edit session<br />
+- Relay service times out</p>
+<p><strong>Solution:</strong><br />
+- Save frequently during editing<br />
+- Re-run <code>/quill edit</code> to create a new session<br />
+- Changes are saved incrementally</p>
+<p><strong>Workaround:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Edit locally instead</span>
+nano<span class="w"> </span>plugins/Quill/scripts/myscript.ql
+<span class="c1"># Then reload</span>
+/quill<span class="w"> </span>reload<span class="w"> </span>myscript.ql
+</code></pre></div>
+
+<h4 id="symptom-custom-editor-not-working">Symptom: Custom Editor Not Working</h4>
+<p><strong>Checklist:</strong><br />
+- [ ] Custom editor URL in config has <code>http://</code> or <code>https://</code><br />
+- [ ] Editor is accessible from your network<br />
+- [ ] Relay API is running and reachable<br />
+- [ ] CORS headers configured correctly on relay<br />
+- [ ] Session creation endpoint returns proper JSON<br />
+- [ ] Plugin console shows session created successfully</p>
+<p><strong>Test Custom Relay:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test session creation</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://your-relay.com/session/<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: text/plain&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;test content&quot;</span>
+
+<span class="c1"># Should return:</span>
+<span class="c1"># {&quot;sessionId&quot;: &quot;some-uuid&quot;}</span>
+
+<span class="c1"># Test session retrieval</span>
+curl<span class="w"> </span>https://your-relay.com/session/some-uuid/wait
+
+<span class="c1"># Should return content after timeout or change</span>
+</code></pre></div>
+
+<h3 id="configuration-reset">Configuration Reset</h3>
+<p>If all else fails, reset to defaults:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Backup current config</span>
+<span class="nb">cd</span><span class="w"> </span>plugins/Quill/
+mv<span class="w"> </span>config.yml<span class="w"> </span>config.broken.yml
+
+<span class="c1"># Stop server</span>
+<span class="c1"># Start server (new config.yml generated)</span>
+<span class="c1"># Manually re-apply custom settings from config.broken.yml</span>
+</code></pre></div>
+
+<h3 id="getting-help">Getting Help</h3>
+<p><strong>Before Reporting Issues:</strong><br />
+1. Check console for error messages<br />
+2. Verify config.yml syntax (use YAML validator)<br />
+3. Test with default configuration<br />
+4. Check if editor URL is accessible in browser</p>
+<p><strong>Include in Bug Reports:</strong><br />
+- Quill version: <code>/quill info</code><br />
+- Server version: <code>/version</code><br />
+- Relevant console errors<br />
+- config.yml content (remove sensitive data)<br />
+- Steps to reproduce</p>
+<p><strong>Support Resources:</strong><br />
+- Discord: https://discord.gg/FZuVXszuuM<br />
+- GitHub Issues: https://github.com/kohanmathers/quill<br />
+- Documentation: https://quill.kmathers.co.uk/docs</p>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#config.yml-structure'>config.yml Structure</a></li><li style='margin-left:20px'><a href='#complete-default-configuration'>Complete Default Configuration</a></li><li style='margin-left:20px'><a href='#file-location'>File Location</a></li><li style='margin-left:0px'><a href='#editor-configuration'>Editor Configuration</a></li><li style='margin-left:20px'><a href='#editor.url'>editor.url</a></li><li style='margin-left:20px'><a href='#setting-up-custom-editor'>Setting Up Custom Editor</a></li><li style='margin-left:0px'><a href='#internal-settings'>Internal Settings</a></li><li style='margin-left:20px'><a href='#config-version'>config-version</a></li><li style='margin-left:20px'><a href='#translation-version'>translation-version</a></li><li style='margin-left:0px'><a href='#best-practices'>Best Practices</a></li><li style='margin-left:20px'><a href='#backup-configuration'>Backup Configuration</a></li><li style='margin-left:20px'><a href='#version-control'>Version Control</a></li><li style='margin-left:20px'><a href='#configuration-management'>Configuration Management</a></li><li style='margin-left:0px'><a href='#troubleshooting'>Troubleshooting</a></li><li style='margin-left:20px'><a href='#invalid-configuration'>Invalid Configuration</a></li><li style='margin-left:20px'><a href='#editor-issues'>Editor Issues</a></li><li style='margin-left:20px'><a href='#configuration-reset'>Configuration Reset</a></li><li style='margin-left:20px'><a href='#getting-help'>Getting Help</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Script Management Commands — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html' class='active'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Commands</span><span class='separator'>/</span><span class='current'>Script Management</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Script Management Commands</h1>
+                    <h1 id="script-management-commands">Script Management Commands</h1>
+<h2 id="overview">Overview</h2>
+<p>Quill provides a comprehensive set of commands for managing scripts in your Minecraft server. Scripts can be loaded, reloaded, unloaded, edited, and listed. Scripts are organized into <strong>global scripts</strong> (available server-wide) and <strong>scope scripts</strong> (restricted to specific regions and owners).</p>
+<hr />
+<h2 id="quill-load">/quill load</h2>
+<p>Load a Quill script from the scripts directory and execute it.</p>
+<h3 id="syntax">Syntax</h3>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><code>&lt;filename&gt;</code> - The name of the script file to load</li>
+<li>Can be specified with or without the <code>.ql</code> or <code>.quill</code> extension</li>
+<li>For scope scripts, use the format: <code>&lt;scope_name&gt;/&lt;filename&gt;</code></li>
+<li>Examples: <code>myscript</code>, <code>myscript.ql</code>, <code>myScope/events.ql</code></li>
+</ul>
+<h3 id="permissions">Permissions</h3>
+<ul>
+<li><strong>Global Scripts</strong>: <code>quill.script.load.global</code> (default: op)</li>
+<li><strong>Scope Scripts</strong>: <code>quill.script.load.scope</code> (default: true)</li>
+<li>Scope owners can always load scripts in their own scopes</li>
+</ul>
+<h3 id="examples">Examples</h3>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">welcome</span><span class="o">.</span><span class="n">ql</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">myscript</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">myScope</span><span class="o">/</span><span class="n">events</span><span class="o">.</span><span class="n">ql</span>
+</code></pre></div>
+
+<hr />
+<h2 id="quill-reload">/quill reload</h2>
+<p>Reload a currently loaded script. This unloads the script and loads it again with any changes you've made to the file.</p>
+<h3 id="syntax_1">Syntax</h3>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<h3 id="parameters_1">Parameters</h3>
+<ul>
+<li><code>&lt;filename&gt;</code> - The name of the script file to reload</li>
+<li>Can be specified with or without the <code>.ql</code> or <code>.quill</code> extension</li>
+<li>For scope scripts, use the format: <code>&lt;scope_name&gt;/&lt;filename&gt;</code></li>
+</ul>
+<h3 id="permissions_1">Permissions</h3>
+<ul>
+<li><strong>Global Scripts</strong>: <code>quill.script.reload.global</code> (default: op)</li>
+<li><strong>Scope Scripts</strong>: <code>quill.script.reload.scope</code> (default: true)</li>
+<li>Scope owners can always reload scripts in their own scopes</li>
+</ul>
+<h3 id="examples_1">Examples</h3>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">welcome</span><span class="o">.</span><span class="n">ql</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">myScope</span><span class="o">/</span><span class="n">events</span>
+</code></pre></div>
+
+<hr />
+<h2 id="quill-unload">/quill unload</h2>
+<p>Unload a currently loaded script, removing its event handlers and stopping execution.</p>
+<h3 id="syntax_2">Syntax</h3>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">unload</span><span class="w"> </span><span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<h3 id="parameters_2">Parameters</h3>
+<ul>
+<li><code>&lt;filename&gt;</code> - The name of the script file to unload</li>
+<li>Can be specified with or without the <code>.ql</code> or <code>.quill</code> extension</li>
+<li>For scope scripts, use the format: <code>&lt;scope_name&gt;/&lt;filename&gt;</code></li>
+</ul>
+<h3 id="permissions_2">Permissions</h3>
+<ul>
+<li><strong>Global Scripts</strong>: <code>quill.script.unload.global</code> (default: op)</li>
+<li><strong>Scope Scripts</strong>: <code>quill.script.unload.scope</code> (default: true)</li>
+<li>Scope owners can always unload scripts in their own scopes</li>
+</ul>
+<h3 id="examples_2">Examples</h3>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">unload</span><span class="w"> </span><span class="n">welcome</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">unload</span><span class="w"> </span><span class="n">myScope</span><span class="o">/</span><span class="n">events</span><span class="o">.</span><span class="n">ql</span>
+</code></pre></div>
+
+<hr />
+<h2 id="quill-list">/quill list</h2>
+<p>List all available scripts in the scripts directory, showing their load status.</p>
+<h3 id="syntax_3">Syntax</h3>
+<div class="highlight"><pre><span></span><code>/quill list
+</code></pre></div>
+
+<h3 id="permissions_3">Permissions</h3>
+<ul>
+<li><strong>Basic Listing</strong>: <code>quill.script.list</code> (default: true)</li>
+<li>Shows global scripts and scripts in scopes you own</li>
+<li><strong>List All</strong>: <code>quill.script.list.all</code> (default: op)</li>
+<li>Shows all scripts including those in other players' scopes</li>
+</ul>
+<h3 id="output">Output</h3>
+<p>The command displays:<br />
+- <code>[LOADED]</code> - Script is currently loaded and active (green)<br />
+- <code>[UNLOADED]</code> - Script exists but is not loaded (gray)<br />
+- Script path (e.g., <code>welcome.ql</code> or <code>myScope/events.ql</code>)</p>
+<h3 id="examples_3">Examples</h3>
+<div class="highlight"><pre><span></span><code>/quill list
+</code></pre></div>
+
+<p><strong>Sample Output:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">===</span><span class="w"> </span><span class="n">Available</span><span class="w"> </span><span class="n">Quill</span><span class="w"> </span><span class="n">Scripts</span><span class="w"> </span><span class="o">===</span>
+<span class="o">[</span><span class="n">LOADED</span><span class="o">]</span><span class="w"> </span><span class="n">welcome</span><span class="p">.</span><span class="n">ql</span>
+<span class="o">[</span><span class="n">UNLOADED</span><span class="o">]</span><span class="w"> </span><span class="n">test</span><span class="p">.</span><span class="n">ql</span>
+<span class="o">[</span><span class="n">LOADED</span><span class="o">]</span><span class="w"> </span><span class="n">playerScope</span><span class="o">/</span><span class="n">events</span><span class="p">.</span><span class="n">ql</span>
+<span class="o">[</span><span class="n">UNLOADED</span><span class="o">]</span><span class="w"> </span><span class="n">adminScope</span><span class="o">/</span><span class="n">cleanup</span><span class="p">.</span><span class="n">ql</span>
+<span class="o">==============================</span>
+</code></pre></div>
+
+<hr />
+<h2 id="quill-edit">/quill edit</h2>
+<p>Open a script in the web-based Quill editor for live editing. Changes are automatically saved back to the server.</p>
+<h3 id="syntax_4">Syntax</h3>
+<div class="highlight"><pre><span></span><code>/quill edit &lt;filename&gt;
+</code></pre></div>
+
+<h3 id="parameters_3">Parameters</h3>
+<ul>
+<li><code>&lt;filename&gt;</code> - The name of the script file to edit</li>
+<li>Can be specified with or without the <code>.ql</code> or <code>.quill</code> extension</li>
+<li>For scope scripts, use the format: <code>&lt;scope_name&gt;/&lt;filename&gt;</code></li>
+<li>If the file doesn't exist, it will be created</li>
+</ul>
+<h3 id="permissions_4">Permissions</h3>
+<ul>
+<li><strong>Global Scripts</strong>: <code>quill.script.edit.global</code> (default: op)</li>
+<li><strong>Scope Scripts</strong>: <code>quill.script.edit.scope</code> (default: true)</li>
+<li>Scope owners can always edit scripts in their own scopes</li>
+</ul>
+<h3 id="web-editor">Web Editor</h3>
+<p>When you run <code>/quill edit</code>, the command:<br />
+1. Creates a temporary editing session<br />
+2. Provides a clickable link to the web editor<br />
+3. Loads the current script content into the editor<br />
+4. Waits for you to save your changes<br />
+5. Automatically writes the changes back to the server<br />
+6. Notifies you when the save is complete</p>
+<p>The editor URL is configured in <code>config.yml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">editor</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://quill.kmathers.co.uk/editor/#</span>
+</code></pre></div>
+
+<h3 id="examples_4">Examples</h3>
+<div class="highlight"><pre><span></span><code>/quill edit welcome.ql
+/quill edit myScope/events
+/quill edit newscript
+</code></pre></div>
+
+<hr />
+<h2 id="script-file-organization">Script File Organization</h2>
+<h3 id="global-scripts">Global Scripts</h3>
+<p>Global scripts are placed directly in the <code>plugins/Quill/scripts/</code> directory and run server-wide with full permissions (unless restricted by the global scope configuration).</p>
+<p><strong>Location:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="o">/</span><span class="n">Quill</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">welcome</span><span class="o">.</span><span class="n">ql</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">broadcast</span><span class="o">.</span><span class="n">ql</span>
+<span class="err">└──</span><span class="w"> </span><span class="n">admin</span><span class="o">-</span><span class="n">tools</span><span class="o">.</span><span class="n">ql</span>
+</code></pre></div>
+
+<p><strong>Characteristics:</strong><br />
+- Available to all players<br />
+- Require op permissions to load/reload/unload/edit<br />
+- Execute in the "global" scope with unrestricted region boundaries<br />
+- Event handlers trigger for all matching events server-wide</p>
+<h3 id="scope-scripts">Scope Scripts</h3>
+<p>Scope scripts are organized in subdirectories named after their scopes and are restricted to specific regions and permissions.</p>
+<p><strong>Location:</strong></p>
+<div class="highlight"><pre><span></span><code>plugins/Quill/scripts/
+└── myScope/
+    ├── events.ql
+    ├── utilities.ql
+    └── protections.ql
+</code></pre></div>
+
+<p><strong>Characteristics:</strong><br />
+- Only execute within the scope's defined region boundaries<br />
+- Owned by a specific player (UUID)<br />
+- Subject to whitelist/blacklist security mode<br />
+- Scope owners can manage their own scripts without op permissions<br />
+- Event handlers only trigger for events within the scope's boundaries</p>
+<h3 id="file-naming">File Naming</h3>
+<p><strong>Valid Extensions:</strong><br />
+- <code>.ql</code> - Standard Quill script extension<br />
+- <code>.quill</code> - Alternative extension</p>
+<p><strong>Naming Convention:</strong><br />
+- Use lowercase letters, numbers, underscores, and hyphens<br />
+- Avoid spaces in filenames<br />
+- Be descriptive: <code>player-join-events.ql</code> is better than <code>pje.ql</code></p>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">welcome</span><span class="o">.</span><span class="n">ql</span><span class="w">              </span><span class="err">✓</span><span class="w"> </span><span class="n">Good</span>
+<span class="n">player_events</span><span class="o">.</span><span class="n">ql</span><span class="w">        </span><span class="err">✓</span><span class="w"> </span><span class="n">Good</span>
+<span class="n">admin</span><span class="o">-</span><span class="n">tools</span><span class="o">.</span><span class="n">ql</span><span class="w">          </span><span class="err">✓</span><span class="w"> </span><span class="n">Good</span>
+<span class="n">my</span><span class="w"> </span><span class="n">script</span><span class="o">.</span><span class="n">ql</span><span class="w">            </span><span class="err">✗</span><span class="w"> </span><span class="n">Bad</span><span class="w"> </span><span class="p">(</span><span class="n">contains</span><span class="w"> </span><span class="n">space</span><span class="p">)</span>
+<span class="n">MyScript</span><span class="o">.</span><span class="n">QL</span><span class="w">             </span><span class="err">✓</span><span class="w"> </span><span class="n">Works</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">inconsistent</span>
+</code></pre></div>
+
+<hr />
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="development-workflow">Development Workflow</h3>
+<ol>
+<li>
+<p><strong>Create Your Script</strong><br />
+<code>/quill edit myScope/newfeature.ql</code><br />
+   - Write your code in the web editor<br />
+   - Save and close when done</p>
+</li>
+<li>
+<p><strong>Load and Test</strong><br />
+<code>/quill load myScope/newfeature.ql</code><br />
+   - Test the functionality in-game<br />
+   - Check console for any errors</p>
+</li>
+<li>
+<p><strong>Iterate</strong><br />
+<code>/quill reload myScope/newfeature.ql</code><br />
+   - Make changes in the web editor<br />
+   - Reload to see updates<br />
+   - Repeat until satisfied</p>
+</li>
+<li>
+<p><strong>Deploy</strong><br />
+   - Once tested, leave the script loaded<br />
+   - Scripts auto-load on server restart</p>
+</li>
+</ol>
+<h3 id="testing">Testing</h3>
+<p><strong>Use Try-Catch Blocks:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Your event handling code</span>
+<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;Welcome &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="nx">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Error in PlayerJoin: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Test in Scopes First:</strong><br />
+- Create a test scope for development<br />
+- Test scripts in isolation before deploying globally<br />
+- Use smaller region boundaries during testing</p>
+<p><strong>Console Monitoring:</strong><br />
+- Watch the server console for errors<br />
+- Lexer, parser, and runtime errors are logged with line numbers<br />
+- Use <code>console.log()</code> for debugging output</p>
+<h3 id="production-deployment">Production Deployment</h3>
+<p><strong>Auto-Loading:</strong><br />
+- All scripts in the <code>scripts/</code> directory auto-load on server start<br />
+- Ensure critical scripts are present before restart</p>
+<p><strong>Performance Considerations:</strong><br />
+- Avoid heavy operations in high-frequency events (like <code>PlayerMove</code>)<br />
+- Use conditionals to filter events early<br />
+- Consider async operations for complex tasks</p>
+<p><strong>Security:</strong><br />
+- Use scope security modes (whitelist/blacklist) appropriately<br />
+- Grant minimal necessary permissions to scope scripts<br />
+- Test permission boundaries before production use</p>
+<p><strong>Backup:</strong><br />
+- Keep backups of working scripts before major changes<br />
+- Version control your scripts directory<br />
+- Test updates on a staging server first</p>
+<p><strong>Monitoring:</strong><br />
+- Check server logs regularly for script errors<br />
+- Monitor server performance when loading many scripts<br />
+- Use <code>/quill list</code> to verify all critical scripts are loaded</p>
+<p><strong>Documentation:</strong><br />
+- Comment your scripts clearly<br />
+- Document required permissions for scope scripts<br />
+- Note any dependencies between scripts</p>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#/quill-load'>/quill load</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-reload'>/quill reload</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-unload'>/quill unload</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-list'>/quill list</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#output'>Output</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-edit'>/quill edit</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#web-editor'>Web Editor</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#script-file-organization'>Script File Organization</a></li><li style='margin-left:20px'><a href='#global-scripts'>Global Scripts</a></li><li style='margin-left:20px'><a href='#scope-scripts'>Scope Scripts</a></li><li style='margin-left:20px'><a href='#file-naming'>File Naming</a></li><li style='margin-left:0px'><a href='#best-practices'>Best Practices</a></li><li style='margin-left:20px'><a href='#development-workflow'>Development Workflow</a></li><li style='margin-left:20px'><a href='#testing'>Testing</a></li><li style='margin-left:20px'><a href='#production-deployment'>Production Deployment</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

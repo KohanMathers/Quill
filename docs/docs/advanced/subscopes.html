@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Subscopes — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html' class='active'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Advanced</span><span class='separator'>/</span><span class='current'>Subscopes</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Subscopes</h1>
+                    <h1 id="subscopes">Subscopes</h1>
+<h2 id="overview">Overview</h2>
+<p>Subscopes are dynamically created, temporary scopes that exist within a parent scope. They provide isolated execution environments for specific areas, features, or game mechanics without requiring permanent scope configuration files.</p>
+<p>Unlike named scopes (created via <code>/quill scope create</code>), subscopes are:<br />
+- Created at runtime using <code>new Scope()</code><br />
+- Temporary (exist only while the script runs)<br />
+- Not persisted to disk<br />
+- Ideal for dynamic regions, mini-games, or temporary zones</p>
+<h2 id="what-are-subscopes">What are Subscopes?</h2>
+<h3 id="subscopes-vs-parent-scopes">Subscopes vs Parent Scopes</h3>
+<p><strong>Parent Scopes (Named Scopes):</strong><br />
+- Created with <code>/quill scope create</code><br />
+- Stored in <code>plugins/Quill/scopes/</code><br />
+- Persist across server restarts<br />
+- Have owners and security permissions<br />
+- Can have persistent variables<br />
+- Require admin configuration</p>
+<p><strong>Subscopes:</strong><br />
+- Created with <code>new Scope()</code> in scripts<br />
+- Exist only in memory during runtime<br />
+- Automatically cleaned up when script unloads<br />
+- Inherit parent scope context<br />
+- No permission system (inherit parent's permissions)<br />
+- Perfect for temporary or dynamic areas</p>
+<p><strong>Relationship hierarchy:</strong></p>
+<div class="highlight"><pre><span></span><code>Global Scope
+└── Named Scope &quot;arena&quot;
+    ├── Subscope (team_red)
+    ├── Subscope (team_blue)
+    └── Subscope (spectator_area)
+</code></pre></div>
+
+<h3 id="use-cases">Use Cases</h3>
+<p>Subscopes are ideal for:</p>
+<ol>
+<li><strong>Team divisions</strong> - Separate teams in a mini-game</li>
+<li><strong>Dynamic zones</strong> - Regions that appear/disappear based on game state</li>
+<li><strong>Sub-regions</strong> - Breaking a large area into smaller sections</li>
+<li><strong>Temporary instances</strong> - Per-player or per-group isolated spaces</li>
+<li><strong>Game phases</strong> - Different areas active during different game phases</li>
+</ol>
+<h2 id="creating-subscopes">Creating Subscopes</h2>
+<h3 id="using-new-scope">Using new Scope()</h3>
+<p>Create a subscope with the <code>new Scope()</code> constructor, which takes 6 coordinates defining a rectangular region:</p>
+<div class="highlight"><pre><span></span><code>let mySubscope = new Scope(x1, y1, z1, x2, y2, z2)
+</code></pre></div>
+
+<p>The coordinates work like Minecraft's <code>/fill</code> command - they define opposite corners of a rectangular region.</p>
+<p><strong>Basic example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Create a subscope from (0, 64, 0) to (100, 100, 100)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">arena</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Using variables:</strong></p>
+<div class="highlight"><pre><span></span><code>let minX = -50
+let minY = 60
+let minZ = -50
+let maxX = 50
+let maxY = 120
+let maxZ = 50
+
+let spawnZone = new Scope(minX, minY, minZ, maxX, maxY, maxZ)
+</code></pre></div>
+
+<p><strong>Dynamic creation based on player location:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerInteract) {
+    if player_clicked_sign {
+        let loc = get_location(player)
+        let x = loc.x
+        let y = loc.y
+        let z = loc.z
+
+        // Create 10x10x10 subscope around player
+        let personalZone = new Scope(
+            x - 5, y - 5, z - 5,
+            x + 5, y + 5, z + 5
+        )
+
+        addtoscope(player, personalZone)
+    }
+}
+</code></pre></div>
+
+<h3 id="subscope-boundaries">Subscope Boundaries</h3>
+<p>The six coordinates define the subscope's boundaries:<br />
+- <code>x1, y1, z1</code> - One corner of the region<br />
+- <code>x2, y2, z2</code> - Opposite corner of the region</p>
+<p>Quill automatically normalizes these coordinates so it doesn't matter which corner you specify first:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// These are equivalent:</span>
+<span class="n">let</span><span class="w"> </span><span class="n">scope1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">scope2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Coordinates are normalized internally:</strong><br />
+- Minimum X, Y, Z become the lower bounds<br />
+- Maximum X, Y, Z become the upper bounds</p>
+<h3 id="subscope-regions">Subscope Regions</h3>
+<p>Every subscope has an associated region that defines where it exists in the world. Use region-related functions to work with subscope boundaries:</p>
+<p><strong>Check if location is in subscope:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">teamRed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">10</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">40</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">teamRed</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You&#39;re in the red team area!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Get subscope region details:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">regionInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_region</span><span class="p">(</span><span class="n">zone</span><span class="p">)</span>
+
+<span class="n">log</span><span class="p">(</span><span class="s">&quot;Region boundaries:&quot;</span><span class="p">)</span>
+<span class="n">log</span><span class="p">(</span><span class="s">&quot;X: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">regionInfo</span><span class="p">.</span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; to &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">regionInfo</span><span class="p">.</span><span class="n">x2</span><span class="p">)</span>
+<span class="n">log</span><span class="p">(</span><span class="s">&quot;Y: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">regionInfo</span><span class="p">.</span><span class="n">y1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; to &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">regionInfo</span><span class="p">.</span><span class="n">y2</span><span class="p">)</span>
+<span class="n">log</span><span class="p">(</span><span class="s">&quot;Z: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">regionInfo</span><span class="p">.</span><span class="n">z1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; to &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">regionInfo</span><span class="p">.</span><span class="n">z2</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Modify subscope region:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">expandingZone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">10</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">10</span><span class="p">)</span>
+
+<span class="c1">// Later, expand the zone</span>
+<span class="n">set_region</span><span class="p">(</span><span class="n">expandingZone</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="subscope-variables">Subscope Variables</h2>
+<h3 id="variable-isolation">Variable Isolation</h3>
+<p>Variables defined in a subscope are isolated from the parent scope:</p>
+<div class="highlight"><pre><span></span><code>let parentVar = &quot;I&#39;m in the parent&quot;
+
+let subscope = new Scope(0, 64, 0, 100, 100, 100)
+
+// This won&#39;t affect the parent scope
+subscope.childVar = &quot;I&#39;m in the subscope&quot;
+
+log(parentVar)  // Works: &quot;I&#39;m in the parent&quot;
+log(childVar)   // Error: childVar is undefined in parent scope
+</code></pre></div>
+
+<h3 id="accessing-parent-variables">Accessing Parent Variables</h3>
+<p>Subscopes can read variables from their parent scope:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">gameMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;capture_flag&quot;</span>
+<span class="n">let</span><span class="w"> </span><span class="n">pointsToWin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">teamRedZone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">)</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Inside</span><span class="w"> </span><span class="n">subscope</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="p">(</span><span class="n">like</span><span class="w"> </span><span class="n">when</span><span class="w"> </span><span class="n">iterating</span><span class="w"> </span><span class="n">players</span><span class="p">)</span>
+<span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">teamRedZone</span><span class="o">.</span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Can</span><span class="w"> </span><span class="n">access</span><span class="w"> </span><span class="n">parent</span><span class="w"> </span><span class="n">variables</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Game mode: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">gameMode</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Points to win: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">pointsToWin</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="variable-shadowing">Variable Shadowing</h3>
+<p>If a subscope defines a variable with the same name as a parent variable, the subscope version "shadows" the parent:</p>
+<div class="highlight"><pre><span></span><code>let teamColor = &quot;neutral&quot;
+
+let redTeam = new Scope(-50, 64, 0, -10, 100, 40)
+redTeam.teamColor = &quot;red&quot;
+
+let blueTeam = new Scope(10, 64, 0, 50, 100, 40)
+blueTeam.teamColor = &quot;blue&quot;
+
+// When iterating redTeam players, teamColor = &quot;red&quot;
+// When iterating blueTeam players, teamColor = &quot;blue&quot;
+// Outside subscopes, teamColor = &quot;neutral&quot;
+</code></pre></div>
+
+<p><strong>Example showing shadowing in action:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Default message&quot;</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">zone1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">)</span>
+<span class="n">zone1</span><span class="p">.</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Zone 1 message&quot;</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">zone2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">60</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">110</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">)</span>
+<span class="n">zone2</span><span class="p">.</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Zone 2 message&quot;</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">zone1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// In zone1, message is shadowed</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">zone1</span><span class="p">.</span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">zone1</span><span class="p">.</span><span class="n">message</span><span class="p">)</span><span class="w">  </span><span class="c1">// &quot;Zone 1 message&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">zone2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">zone2</span><span class="p">.</span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">zone2</span><span class="p">.</span><span class="n">message</span><span class="p">)</span><span class="w">  </span><span class="c1">// &quot;Zone 2 message&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w">  </span><span class="c1">// &quot;Default message&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="subscope-players">Subscope Players</h2>
+<h3 id="player-management">Player Management</h3>
+<p>Add and remove players from subscopes using the standard scope functions:</p>
+<p><strong>Adding players:</strong></p>
+<div class="highlight"><pre><span></span><code>let teamZone = new Scope(0, 64, 0, 50, 100, 50)
+
+OnEvent(PlayerJoin) {
+    addtoscope(player, teamZone)
+    sendmessage(player, &quot;Added to team zone!&quot;)
+}
+</code></pre></div>
+
+<p><strong>Removing players:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerQuit) {
+    removefromscope(player, teamZone)
+}
+
+OnEvent(PlayerDeath) {
+    // Move player to spectator subscope
+    removefromscope(player, activeGameZone)
+    addtoscope(player, spectatorZone)
+}
+</code></pre></div>
+
+<p><strong>Getting all players in subscope:</strong></p>
+<div class="highlight"><pre><span></span><code>let arena = new Scope(-100, 64, -100, 100, 120, 100)
+
+let playersInArena = getplayers(arena)
+let playerCount = len(playersInArena)
+
+broadcast(&quot;Players in arena: &quot; + playerCount)
+</code></pre></div>
+
+<h3 id="iterating-over-players">Iterating Over Players</h3>
+<p>The <code>for ... in</code> loop has special behavior when iterating over subscope players - the loop body executes in the subscope's context:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">redTeam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">)</span>
+<span class="n">redTeam</span><span class="o">.</span><span class="n">teamName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Red Team&quot;</span>
+<span class="n">redTeam</span><span class="o">.</span><span class="n">teamColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;red&quot;</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">blueTeam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">)</span>
+<span class="n">blueTeam</span><span class="o">.</span><span class="n">teamName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Blue Team&quot;</span><span class="w">  </span>
+<span class="n">blueTeam</span><span class="o">.</span><span class="n">teamColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;blue&quot;</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Iterate</span><span class="w"> </span><span class="n">red</span><span class="w"> </span><span class="n">team</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">inside</span><span class="w"> </span><span class="n">loop</span><span class="p">,</span><span class="w"> </span><span class="n">subscope</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">accessible</span>
+<span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">redTeam</span><span class="o">.</span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">teamName</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">teamColor</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">redTeam</span><span class="w"> </span><span class="n">subscope</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;You are on &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">teamName</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Your color is &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">teamColor</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Iterate</span><span class="w"> </span><span class="n">blue</span><span class="w"> </span><span class="n">team</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">different</span><span class="w"> </span><span class="n">subscope</span><span class="w"> </span><span class="n">context</span>
+<span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">blueTeam</span><span class="o">.</span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Now</span><span class="w"> </span><span class="n">teamName</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">teamColor</span><span class="w"> </span><span class="n">come</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">blueTeam</span><span class="w"> </span><span class="n">subscope</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;You are on &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">teamName</span><span class="p">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;Blue Team&quot;</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Your color is &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">teamColor</span><span class="p">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;blue&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Important:</strong> This context switching only happens when iterating over <code>.players</code> of a subscope. Regular list iteration doesn't have this behavior.</p>
+<h2 id="practical-examples">Practical Examples</h2>
+<h3 id="mini-game-arenas">Mini-Game Arenas</h3>
+<p>Create multiple arena subscopes with isolated state:</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Arena</span><span class="w"> </span><span class="n">configuration</span>
+<span class="n">let</span><span class="w"> </span><span class="n">arenas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">createArena</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">y1</span><span class="p">,</span><span class="w"> </span><span class="n">z1</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">y2</span><span class="p">,</span><span class="w"> </span><span class="n">z2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">arena</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">y1</span><span class="p">,</span><span class="w"> </span><span class="n">z1</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">y2</span><span class="p">,</span><span class="w"> </span><span class="n">z2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">arena</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span>
+<span class="w">    </span><span class="n">arena</span><span class="o">.</span><span class="n">players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="n">arena</span><span class="o">.</span><span class="n">active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">false</span>
+<span class="w">    </span><span class="n">arena</span><span class="o">.</span><span class="n">roundNumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">arena</span><span class="o">.</span><span class="n">scores</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">    </span><span class="n">append</span><span class="p">(</span><span class="n">arenas</span><span class="p">,</span><span class="w"> </span><span class="n">arena</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">arena</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">multiple</span><span class="w"> </span><span class="n">arenas</span>
+<span class="n">let</span><span class="w"> </span><span class="n">arena1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createArena</span><span class="p">(</span><span class="s2">&quot;Arena 1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">arena2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createArena</span><span class="p">(</span><span class="s2">&quot;Arena 2&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">arena3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createArena</span><span class="p">(</span><span class="s2">&quot;Arena 3&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">250</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Start</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">game</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">arena</span>
+<span class="k">func</span><span class="w"> </span><span class="n">startArenaGame</span><span class="p">(</span><span class="n">arena</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">arena</span><span class="o">.</span><span class="n">active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">true</span>
+<span class="w">    </span><span class="n">arena</span><span class="o">.</span><span class="n">roundNumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arena</span><span class="o">.</span><span class="n">roundNumber</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">getplayers</span><span class="p">(</span><span class="n">arena</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sendtitle</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Round &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">arena</span><span class="o">.</span><span class="n">roundNumber</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Fight!&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
+<span class="w">        </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Player</span><span class="w"> </span><span class="n">joins</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">arena</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerInteract</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">player_clicked_join_sign</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">targetArena</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arena1</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Determine</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="n">arena</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">getplayers</span><span class="p">(</span><span class="n">targetArena</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">addtoscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">targetArena</span><span class="p">)</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Joined &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">targetArena</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="w">            </span><span class="o">//</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">enough</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">start</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">getplayers</span><span class="p">(</span><span class="n">targetArena</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">startArenaGame</span><span class="p">(</span><span class="n">targetArena</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="protected-regions">Protected Regions</h3>
+<p>Create safe zones and danger zones:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Safe zone where PvP is disabled</span>
+<span class="n">let</span><span class="w"> </span><span class="n">safeZone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+<span class="n">safeZone</span><span class="p">.</span><span class="n">pvpEnabled</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">false</span>
+<span class="n">safeZone</span><span class="p">.</span><span class="n">damageEnabled</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">false</span>
+
+<span class="c1">// Danger zone with increased difficulty</span>
+<span class="n">let</span><span class="w"> </span><span class="n">dangerZone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span>
+<span class="n">dangerZone</span><span class="p">.</span><span class="n">pvpEnabled</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">true</span>
+<span class="n">dangerZone</span><span class="p">.</span><span class="n">mobDamageMultiplier</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">2.0</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">EntityDamageByEntity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">victim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">entity</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">attacker</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">damager</span>
+
+<span class="w">    </span><span class="c1">// Check if in safe zone</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">victim</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">safeZone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span>!<span class="n">safeZone</span><span class="p">.</span><span class="n">pvpEnabled</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">attacker</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;PvP is disabled in the safe zone!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Check if in danger zone</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">victim</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">dangerZone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">cause</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;ENTITY_ATTACK&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Increase damage in danger zone</span>
+<span class="w">            </span><span class="n">event</span><span class="p">.</span><span class="n">damage</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">damage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dangerZone</span><span class="p">.</span><span class="n">mobDamageMultiplier</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">oldLoc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">from</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">newLoc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">to</span>
+
+<span class="w">    </span><span class="c1">// Entering safe zone</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>!<span class="n">in_region</span><span class="p">(</span><span class="n">oldLoc</span><span class="p">,</span><span class="w"> </span><span class="n">safeZone</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">newLoc</span><span class="p">,</span><span class="w"> </span><span class="n">safeZone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Entered safe zone - PvP disabled&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">playsound</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;block.note_block.chime&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.5</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Entering danger zone</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>!<span class="n">in_region</span><span class="p">(</span><span class="n">oldLoc</span><span class="p">,</span><span class="w"> </span><span class="n">dangerZone</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">newLoc</span><span class="p">,</span><span class="w"> </span><span class="n">dangerZone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Entered danger zone - Mobs deal 2x damage!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">playsound</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;entity.ender_dragon.growl&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="dynamic-zones">Dynamic Zones</h3>
+<p>Create zones that move, expand, or change based on game events:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Shrinking battle royale zone</span>
+<span class="n">let</span><span class="w"> </span><span class="n">safeZone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="mi">500</span><span class="p">)</span>
+<span class="n">safeZone</span><span class="p">.</span><span class="n">shrinkTimer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="n">safeZone</span><span class="p">.</span><span class="n">phase</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">ServerTick</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">safeZone</span><span class="p">.</span><span class="n">shrinkTimer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">safeZone</span><span class="p">.</span><span class="n">shrinkTimer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">    </span><span class="c1">// Shrink every 30 seconds (600 ticks)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">safeZone</span><span class="p">.</span><span class="n">shrinkTimer</span><span class="w"> </span><span class="o">&gt;</span><span class="p">=</span><span class="w"> </span><span class="mi">600</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">safeZone</span><span class="p">.</span><span class="n">shrinkTimer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="n">safeZone</span><span class="p">.</span><span class="n">phase</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">safeZone</span><span class="p">.</span><span class="n">phase</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">currentRegion</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_region</span><span class="p">(</span><span class="n">safeZone</span><span class="p">)</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">shrinkAmount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">50</span>
+
+<span class="w">        </span><span class="c1">// Shrink the zone</span>
+<span class="w">        </span><span class="n">set_region</span><span class="p">(</span>
+<span class="w">            </span><span class="n">safeZone</span><span class="p">,</span>
+<span class="w">            </span><span class="n">currentRegion</span><span class="p">.</span><span class="n">x1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">shrinkAmount</span><span class="p">,</span>
+<span class="w">            </span><span class="n">currentRegion</span><span class="p">.</span><span class="n">y1</span><span class="p">,</span>
+<span class="w">            </span><span class="n">currentRegion</span><span class="p">.</span><span class="n">z1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">shrinkAmount</span><span class="p">,</span>
+<span class="w">            </span><span class="n">currentRegion</span><span class="p">.</span><span class="n">x2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">shrinkAmount</span><span class="p">,</span>
+<span class="w">            </span><span class="n">currentRegion</span><span class="p">.</span><span class="n">y2</span><span class="p">,</span>
+<span class="w">            </span><span class="n">currentRegion</span><span class="p">.</span><span class="n">z2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">shrinkAmount</span>
+<span class="w">        </span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s">&quot;Safe zone shrinking! Phase &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">safeZone</span><span class="p">.</span><span class="n">phase</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c1">// Damage players outside zone</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">allPlayers</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_online_players</span><span class="p">()</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">allPlayers</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span>!<span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">safeZone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">set_health</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">get_health</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">                </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You&#39;re outside the safe zone!&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Moving king-of-the-hill zone</span>
+<span class="n">let</span><span class="w"> </span><span class="n">kothZone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+<span class="n">kothZone</span><span class="p">.</span><span class="n">moveTimer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="n">kothZone</span><span class="p">.</span><span class="n">captureProgress</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">ServerTick</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">kothZone</span><span class="p">.</span><span class="n">moveTimer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kothZone</span><span class="p">.</span><span class="n">moveTimer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">    </span><span class="c1">// Move zone every 2 minutes</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">kothZone</span><span class="p">.</span><span class="n">moveTimer</span><span class="w"> </span><span class="o">&gt;</span><span class="p">=</span><span class="w"> </span><span class="mi">2400</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">kothZone</span><span class="p">.</span><span class="n">moveTimer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="w">        </span><span class="c1">// Random new location</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">newX</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="o">-</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">newZ</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="o">-</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">set_region</span><span class="p">(</span><span class="n">kothZone</span><span class="p">,</span><span class="w"> </span><span class="n">newX</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="n">newZ</span><span class="p">,</span><span class="w"> </span><span class="n">newX</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="n">newZ</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s">&quot;King of the Hill has moved to new location!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">kothZone</span><span class="p">.</span><span class="n">captureProgress</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="team-based-games">Team-Based Games</h3>
+<p>Organize players into team subscopes:</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">team</span><span class="w"> </span><span class="n">subscopes</span>
+<span class="n">let</span><span class="w"> </span><span class="n">redTeam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">)</span>
+<span class="n">redTeam</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Red Team&quot;</span>
+<span class="n">redTeam</span><span class="o">.</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;red&quot;</span>
+<span class="n">redTeam</span><span class="o">.</span><span class="n">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="n">redTeam</span><span class="o">.</span><span class="n">lives</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">blueTeam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">)</span>
+<span class="n">blueTeam</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Blue Team&quot;</span>
+<span class="n">blueTeam</span><span class="o">.</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;blue&quot;</span>
+<span class="n">blueTeam</span><span class="o">.</span><span class="n">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="n">blueTeam</span><span class="o">.</span><span class="n">lives</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Assign</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">teams</span>
+<span class="k">func</span><span class="w"> </span><span class="n">assignToTeam</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">redCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">getplayers</span><span class="p">(</span><span class="n">redTeam</span><span class="p">))</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">blueCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">getplayers</span><span class="p">(</span><span class="n">blueTeam</span><span class="p">))</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">redCount</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">blueCount</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">addtoscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">redTeam</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;You&#39;re on Red Team!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">addtoscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">blueTeam</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;You&#39;re on Blue Team!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">assignToTeam</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Team</span><span class="o">-</span><span class="n">specific</span><span class="w"> </span><span class="n">updates</span>
+<span class="k">func</span><span class="w"> </span><span class="n">updateTeams</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">red</span><span class="w"> </span><span class="n">team</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">redTeam</span><span class="o">.</span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Variables</span><span class="w"> </span><span class="n">like</span><span class="w"> </span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;color&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;score&#39;</span><span class="w"> </span><span class="n">come</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">redTeam</span><span class="w"> </span><span class="n">subscope</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; Score: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; Lives: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lives</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">blue</span><span class="w"> </span><span class="n">team</span><span class="w">  </span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">blueTeam</span><span class="o">.</span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Same</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">names</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">blueTeam</span><span class="w"> </span><span class="n">subscope</span><span class="w"> </span><span class="n">context</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; Score: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; Lives: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lives</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">redTeam</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">redTeam</span><span class="o">.</span><span class="n">lives</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">redTeam</span><span class="o">.</span><span class="n">lives</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Red Team lives remaining: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">redTeam</span><span class="o">.</span><span class="n">lives</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">redTeam</span><span class="o">.</span><span class="n">lives</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Blue Team wins!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">blueTeam</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">blueTeam</span><span class="o">.</span><span class="n">lives</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blueTeam</span><span class="o">.</span><span class="n">lives</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Blue Team lives remaining: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">blueTeam</span><span class="o">.</span><span class="n">lives</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">blueTeam</span><span class="o">.</span><span class="n">lives</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Red Team wins!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="organization">Organization</h3>
+<p><strong>Group related subscopes:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Good - organized structure</span>
+<span class="n">let</span><span class="w"> </span><span class="n">gameZones</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{}</span>
+<span class="n">gameZones</span><span class="p">.</span><span class="n">lobby</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+<span class="n">gameZones</span><span class="p">.</span><span class="n">arena</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span>
+<span class="n">gameZones</span><span class="p">.</span><span class="n">spectator</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="mi">170</span><span class="p">,</span><span class="w"> </span><span class="mi">140</span><span class="p">,</span><span class="w"> </span><span class="mi">170</span><span class="p">)</span>
+
+<span class="c1">// Better than:</span>
+<span class="n">let</span><span class="w"> </span><span class="n">lobby</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">arena</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">spectator</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="mi">170</span><span class="p">,</span><span class="w"> </span><span class="mi">140</span><span class="p">,</span><span class="w"> </span><span class="mi">170</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Use factory functions for similar subscopes:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">createTeamZone</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">40</span><span class="p">)</span>
+<span class="w">    </span><span class="n">zone</span><span class="o">.</span><span class="n">teamName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span>
+<span class="w">    </span><span class="n">zone</span><span class="o">.</span><span class="n">teamColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">color</span>
+<span class="w">    </span><span class="n">zone</span><span class="o">.</span><span class="n">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">zone</span><span class="o">.</span><span class="n">lives</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">zone</span>
+<span class="p">}</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">red</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTeamZone</span><span class="p">(</span><span class="s2">&quot;Red&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">blue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTeamZone</span><span class="p">(</span><span class="s2">&quot;Blue&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;blue&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">green</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTeamZone</span><span class="p">(</span><span class="s2">&quot;Green&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;green&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">70</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="naming">Naming</h3>
+<p><strong>Use descriptive names:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Good</span>
+<span class="n">let</span><span class="w"> </span><span class="n">capturePointAlpha</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">medicStationZone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">70</span><span class="p">,</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="mi">70</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">respawnArea</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">80</span><span class="p">)</span>
+
+<span class="c1">// Bad</span>
+<span class="n">let</span><span class="w"> </span><span class="n">zone1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">70</span><span class="p">,</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="mi">70</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">80</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Consistent naming conventions:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Pick a pattern and stick to it</span>
+<span class="n">let</span><span class="w"> </span><span class="n">redTeamZone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(...)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">blueTeamZone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(...)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">greenTeamZone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(...)</span>
+
+<span class="c1">// Not mixed styles</span>
+<span class="n">let</span><span class="w"> </span><span class="n">red_team</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(...)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">BlueTeam</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(...)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">greenteamzone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(...)</span>
+</code></pre></div>
+
+<h3 id="cleanup">Cleanup</h3>
+<p><strong>Track subscopes for cleanup:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">activeSubscopes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">createGameZone</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+<span class="w">    </span><span class="n">append</span><span class="p">(</span><span class="n">activeSubscopes</span><span class="p">,</span><span class="w"> </span><span class="n">zone</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">zone</span>
+<span class="p">}</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">cleanupAllZones</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">zone</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">activeSubscopes</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Remove</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">players</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getplayers</span><span class="p">(</span><span class="n">zone</span><span class="p">)</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">removefromscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">zone</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Clear</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">list</span>
+<span class="w">    </span><span class="n">activeSubscopes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Call</span><span class="w"> </span><span class="n">cleanup</span><span class="w"> </span><span class="n">when</span><span class="w"> </span><span class="n">game</span><span class="w"> </span><span class="n">ends</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">custom_game_end</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cleanupAllZones</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Remove players when appropriate:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerQuit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Remove from all subscopes</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">zone</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">activeSubscopes</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">removefromscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">zone</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Move from active to spectator</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">activeGameZone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">removefromscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">activeGameZone</span><span class="p">)</span>
+<span class="w">        </span><span class="n">addtoscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">spectatorZone</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="subscope-not-working">Subscope Not Working</h3>
+<p><strong>Problem:</strong> Created a subscope but functions aren't working with it.</p>
+<p><strong>Common causes:</strong></p>
+<ol>
+<li><strong>Variable not a subscope:</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1">// Wrong - this is just a map, not a subscope</span>
+<span class="n">let</span><span class="w"> </span><span class="n">zone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">x1</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">y1</span><span class="p">:</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="n">z1</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">y2</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">z2</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">}</span>
+
+<span class="c1">// Correct</span>
+<span class="n">let</span><span class="w"> </span><span class="n">zone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+</code></pre></div>
+
+<ol start="2">
+<li><strong>Coordinates are wrong:</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1">// Check if coordinates make sense</span>
+<span class="n">let</span><span class="w"> </span><span class="n">zone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">log</span><span class="p">(</span><span class="s">&quot;Zone created successfully&quot;</span><span class="p">)</span>
+
+<span class="c1">// Test if location is in region</span>
+<span class="n">let</span><span class="w"> </span><span class="n">testLoc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+<span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">testLoc</span><span class="p">,</span><span class="w"> </span><span class="n">zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Location is in zone&quot;</span><span class="p">)</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Location is NOT in zone - check coordinates!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ol start="3">
+<li><strong>Subscope created but not assigned:</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Wrong</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">creates</span><span class="w"> </span><span class="n">subscope</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">doesn</span><span class="s1">&#39;t save it</span>
+<span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Correct</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">save</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">variable</span>
+<span class="n">let</span><span class="w"> </span><span class="n">myZone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="variable-access-issues">Variable Access Issues</h3>
+<p><strong>Problem:</strong> Can't access subscope variables or parent variables.</p>
+<p><strong>Solution - Understanding context:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">let</span><span class="w"> </span><span class="nv">parentVar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;I&#39;m in parent&quot;</span>
+
+<span class="nv">let</span><span class="w"> </span><span class="nv">subscope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">new</span><span class="w"> </span><span class="nv">Scope</span><span class="ss">(</span><span class="mi">0</span>,<span class="w"> </span><span class="mi">64</span>,<span class="w"> </span><span class="mi">0</span>,<span class="w"> </span><span class="mi">100</span>,<span class="w"> </span><span class="mi">100</span>,<span class="w"> </span><span class="mi">100</span><span class="ss">)</span>
+<span class="nv">subscope</span>.<span class="nv">childVar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;I&#39;m in subscope&quot;</span>
+
+<span class="o">//</span><span class="w"> </span><span class="nv">From</span><span class="w"> </span><span class="nv">parent</span><span class="w"> </span><span class="nv">context</span>:
+<span class="nv">log</span><span class="ss">(</span><span class="nv">parentVar</span><span class="ss">)</span><span class="w">     </span><span class="o">//</span><span class="w"> </span>✓<span class="w"> </span><span class="nv">Works</span>
+<span class="nv">log</span><span class="ss">(</span><span class="nv">subscope</span>.<span class="nv">childVar</span><span class="ss">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span>✓<span class="w"> </span><span class="nv">Works</span><span class="w"> </span><span class="ss">(</span><span class="nv">accessing</span><span class="w"> </span><span class="nv">via</span><span class="w"> </span><span class="nv">subscope</span><span class="w"> </span><span class="nv">object</span><span class="ss">)</span>
+<span class="nv">log</span><span class="ss">(</span><span class="nv">childVar</span><span class="ss">)</span><span class="w">      </span><span class="o">//</span><span class="w"> </span>✗<span class="w"> </span><span class="nv">Error</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">not</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">parent</span><span class="w"> </span><span class="nv">scope</span>
+
+<span class="o">//</span><span class="w"> </span><span class="nv">During</span><span class="w"> </span><span class="nv">subscope</span><span class="w"> </span><span class="nv">iteration</span>:
+<span class="k">for</span><span class="w"> </span><span class="nv">player</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">subscope</span>.<span class="nv">players</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Now</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">subscope</span><span class="w"> </span><span class="nv">context</span>
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="nv">childVar</span><span class="ss">)</span><span class="w">     </span><span class="o">//</span><span class="w"> </span>✓<span class="w"> </span><span class="nv">Works</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">we</span><span class="err">&#39;re in subscope</span>
+<span class="err">    log(parentVar)    // ✓ Works - can access parent</span>
+<span class="err">    sendmessage(player, childVar)  // ✓ Works</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Problem:</strong> Variable shadowing confusion.</p>
+<p><strong>Solution - Use explicit subscope references:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">let</span><span class="w"> </span><span class="nv">teamColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;neutral&quot;</span>
+
+<span class="nv">let</span><span class="w"> </span><span class="nv">redZone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">new</span><span class="w"> </span><span class="nv">Scope</span><span class="ss">(</span><span class="o">-</span><span class="mi">50</span>,<span class="w"> </span><span class="mi">64</span>,<span class="w"> </span><span class="mi">0</span>,<span class="w"> </span><span class="o">-</span><span class="mi">10</span>,<span class="w"> </span><span class="mi">100</span>,<span class="w"> </span><span class="mi">40</span><span class="ss">)</span>
+<span class="nv">redZone</span>.<span class="nv">teamColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;red&quot;</span>
+
+<span class="nv">let</span><span class="w"> </span><span class="nv">blueZone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">new</span><span class="w"> </span><span class="nv">Scope</span><span class="ss">(</span><span class="mi">10</span>,<span class="w"> </span><span class="mi">64</span>,<span class="w"> </span><span class="mi">0</span>,<span class="w"> </span><span class="mi">50</span>,<span class="w"> </span><span class="mi">100</span>,<span class="w"> </span><span class="mi">40</span><span class="ss">)</span>
+<span class="nv">blueZone</span>.<span class="nv">teamColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;blue&quot;</span>
+
+<span class="o">//</span><span class="w"> </span><span class="nv">Be</span><span class="w"> </span><span class="nv">explicit</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">avoid</span><span class="w"> </span><span class="nv">confusion</span>
+<span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Parent color: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">teamColor</span><span class="ss">)</span><span class="w">           </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;neutral&quot;</span>
+<span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Red zone color: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">redZone</span>.<span class="nv">teamColor</span><span class="ss">)</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;red&quot;</span>
+<span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Blue zone color: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">blueZone</span>.<span class="nv">teamColor</span><span class="ss">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;blue&quot;</span>
+
+<span class="o">//</span><span class="w"> </span><span class="nv">In</span><span class="w"> </span><span class="nv">iteration</span>,<span class="w"> </span><span class="nv">context</span><span class="w"> </span><span class="nv">switches</span><span class="w"> </span><span class="nv">automatically</span>
+<span class="k">for</span><span class="w"> </span><span class="nv">player</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">redZone</span>.<span class="nv">players</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="nv">teamColor</span><span class="ss">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;red&quot;</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">shadowed</span><span class="w"> </span><span class="nv">by</span><span class="w"> </span><span class="nv">subscope</span>
+}
+</code></pre></div>
+
+<p><strong>Problem:</strong> Subscope loses data.</p>
+<p><strong>Remember:</strong> Subscopes are not persistent - they exist only while the script runs:</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">lost</span><span class="w"> </span><span class="n">when</span><span class="w"> </span><span class="n">script</span><span class="w"> </span><span class="n">reloads</span>
+<span class="n">let</span><span class="w"> </span><span class="n">gameZone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="n">gameZone</span><span class="o">.</span><span class="n">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">need</span><span class="w"> </span><span class="n">persistence</span><span class="p">,</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">named</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">persistent</span><span class="w"> </span><span class="n">variables</span>
+<span class="o">//</span><span class="w"> </span><span class="n">Or</span><span class="w"> </span><span class="n">store</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">parent</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">variables</span>
+<span class="n">let</span><span class="w"> </span><span class="n">scores</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+<span class="n">scores</span><span class="p">[</span><span class="s2">&quot;game_zone&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span>
+</code></pre></div>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#what-are-subscopes'>What are Subscopes?</a></li><li style='margin-left:20px'><a href='#subscopes-vs-parent-scopes'>Subscopes vs Parent Scopes</a></li><li style='margin-left:20px'><a href='#use-cases'>Use Cases</a></li><li style='margin-left:0px'><a href='#creating-subscopes'>Creating Subscopes</a></li><li style='margin-left:20px'><a href='#using-new-scope'>Using new Scope()</a></li><li style='margin-left:20px'><a href='#subscope-boundaries'>Subscope Boundaries</a></li><li style='margin-left:20px'><a href='#subscope-regions'>Subscope Regions</a></li><li style='margin-left:0px'><a href='#subscope-variables'>Subscope Variables</a></li><li style='margin-left:20px'><a href='#variable-isolation'>Variable Isolation</a></li><li style='margin-left:20px'><a href='#accessing-parent-variables'>Accessing Parent Variables</a></li><li style='margin-left:20px'><a href='#variable-shadowing'>Variable Shadowing</a></li><li style='margin-left:0px'><a href='#subscope-players'>Subscope Players</a></li><li style='margin-left:20px'><a href='#player-management'>Player Management</a></li><li style='margin-left:20px'><a href='#iterating-over-players'>Iterating Over Players</a></li><li style='margin-left:0px'><a href='#practical-examples'>Practical Examples</a></li><li style='margin-left:20px'><a href='#mini-game-arenas'>Mini-Game Arenas</a></li><li style='margin-left:20px'><a href='#protected-regions'>Protected Regions</a></li><li style='margin-left:20px'><a href='#dynamic-zones'>Dynamic Zones</a></li><li style='margin-left:20px'><a href='#team-based-games'>Team-Based Games</a></li><li style='margin-left:0px'><a href='#best-practices'>Best Practices</a></li><li style='margin-left:20px'><a href='#organization'>Organization</a></li><li style='margin-left:20px'><a href='#naming'>Naming</a></li><li style='margin-left:20px'><a href='#cleanup'>Cleanup</a></li><li style='margin-left:0px'><a href='#troubleshooting'>Troubleshooting</a></li><li style='margin-left:20px'><a href='#subscope-not-working'>Subscope Not Working</a></li><li style='margin-left:20px'><a href='#variable-access-issues'>Variable Access Issues</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

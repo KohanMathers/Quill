@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Event Handlers — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html' class='active'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Language</span><span class='separator'>/</span><span class='current'>Events</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Event Handlers</h1>
+                    <h1 id="event-handlers">Event Handlers</h1>
+<h2 id="overview">Overview</h2>
+<p>Event handlers allow Quill scripts to respond to Minecraft events in real-time. When specific actions occur in the game (like a player joining, a block breaking, or an entity spawning), Quill can execute custom code to modify behavior, trigger effects, or implement game mechanics.</p>
+<p>Events are automatically bridged from Bukkit/Paper to Quill, providing access to event data through context variables. Scripts can register multiple handlers for the same event, cancel certain events, and trigger custom events.</p>
+<h2 id="event-handler-syntax">Event Handler Syntax</h2>
+<h3 id="basic-structure">Basic Structure</h3>
+<p>Event handlers are declared using the <code>OnEvent</code> keyword followed by the event name and a code block:</p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerJoin) {
+    sendmessage(player, &quot;Welcome to the server!&quot;)
+}
+</code></pre></div>
+
+<p>The event name must match one of the supported event types (see Event Types section).</p>
+<h3 id="event-context">Event Context</h3>
+<p>Each event provides context variables that contain relevant data:</p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Context</span><span class="w"> </span><span class="n">variables</span><span class="p">:</span><span class="w"> </span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">block</span><span class="p">,</span><span class="w"> </span><span class="n">event</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">blockType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">block</span><span class="o">.</span><span class="n">type</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;You broke: {blockType}&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Available context variables depend on the specific event type. The <code>event</code> variable always contains the raw Bukkit event object.</p>
+<h3 id="multiple-handlers">Multiple Handlers</h3>
+<p>You can register multiple handlers for the same event. All handlers will execute in the order they were registered:</p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerJoin) {
+    log(&quot;Player joined: {player.name}&quot;)
+}
+
+OnEvent(PlayerJoin) {
+    sendmessage(player, &quot;Welcome!&quot;)
+    heal(player)
+}
+
+OnEvent(PlayerJoin) {
+    set_gamemode(player, &quot;survival&quot;)
+}
+</code></pre></div>
+
+<h2 id="event-types">Event Types</h2>
+<h3 id="player-events">Player Events</h3>
+<p><strong>PlayerJoin</strong> - Fires when a player joins the server<br />
+- Context: <code>player</code></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerJoin) {
+    sendmessage(player, &quot;Welcome, {player.name}!&quot;)
+}
+</code></pre></div>
+
+<p><strong>PlayerQuit</strong> - Fires when a player leaves the server<br />
+- Context: <code>player</code></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerQuit) {
+    log(&quot;Player left: {player.name}&quot;)
+}
+</code></pre></div>
+
+<p><strong>PlayerChat</strong> - Fires when a player sends a chat message<br />
+- Context: <code>player</code>, <code>chat</code><br />
+- <code>chat.message</code> - The message content</p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerChat</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">contains</span><span class="ss">(</span><span class="nv">chat</span>.<span class="nv">message</span>,<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;Visit /spawn for assistance!&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<p><strong>PlayerMove</strong> - Fires when a player moves to a different block position<br />
+- Context: <code>player</code>, <code>move</code>, <code>event</code><br />
+- <code>move.from</code> - Starting location<br />
+- <code>move.to</code> - Destination location</p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerMove</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">move</span>.<span class="nv">to</span>.<span class="nv">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">teleport</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="mi">0</span>,<span class="w"> </span><span class="mi">100</span>,<span class="w"> </span><span class="mi">0</span><span class="ss">)</span>
+<span class="w">        </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;You fell into the void!&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<p><strong>PlayerDamage</strong> - Fires when a player takes damage<br />
+- Context: <code>damage</code>, <code>event</code><br />
+- <code>damage.target</code> - The player being damaged<br />
+- <code>damage.amount</code> - Amount of damage<br />
+- <code>damage.cause</code> - Damage cause (string)<br />
+- <code>damage.source</code> - Damage source entity (or null)</p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerDamage</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">damage</span>.<span class="nv">cause</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;fall&quot;</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">cancel</span><span class="ss">(</span><span class="nv">event</span><span class="ss">)</span>
+<span class="w">        </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">damage</span>.<span class="nv">target</span>,<span class="w"> </span><span class="s2">&quot;Fall damage prevented!&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<p><strong>PlayerDeath</strong> - Fires when a player dies<br />
+- Context: <code>player</code>, <code>death</code><br />
+- <code>death.killer</code> - The player who killed them (or null)<br />
+- <code>death.cause</code> - Cause of death</p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerDeath</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">death</span>.<span class="nv">killer</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nv">null</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">death</span>.<span class="nv">killer</span>,<span class="w"> </span><span class="s2">&quot;You defeated {player.name}!&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<p><strong>PlayerRespawn</strong> - Fires when a player respawns<br />
+- Context: <code>player</code></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerRespawn) {
+    give(player, &quot;golden_apple&quot;, 3)
+    sendmessage(player, &quot;Welcome back!&quot;)
+}
+</code></pre></div>
+
+<p><strong>PlayerInteract</strong> - Fires when a player right-clicks<br />
+- Context: <code>player</code>, <code>interact</code>, <code>event</code><br />
+- <code>interact.block</code> - Clicked block location (or null)<br />
+- <code>interact.item</code> - Item in hand (or null)</p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerInteract</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">interact</span><span class="p">.</span><span class="nx">item</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">interact</span><span class="p">.</span><span class="nx">item</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;stick&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You waved a stick!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>PlayerDropItem</strong> - Fires when a player drops an item<br />
+- Context: <code>player</code>, <code>item</code>, <code>event</code></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerDropItem</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;diamond&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You cannot drop diamonds!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>PlayerPickupItem</strong> - Fires when a player picks up an item<br />
+- Context: <code>player</code>, <code>item</code>, <code>event</code></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerPickupItem</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Picked up: {item.type}&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>PlayerTeleport</strong> - Fires when a player teleports<br />
+- Context: <code>player</code>, <code>teleport</code>, <code>event</code><br />
+- <code>teleport.from</code> - Starting location<br />
+- <code>teleport.to</code> - Destination location</p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerTeleport) {
+    log(&quot;{player.name} teleported!&quot;)
+}
+</code></pre></div>
+
+<p><strong>PlayerGamemodeChange</strong> - Fires when a player's gamemode changes<br />
+- Context: <code>player</code>, <code>gamemode</code>, <code>event</code><br />
+- <code>gamemode.old</code> - Previous gamemode<br />
+- <code>gamemode.new</code> - New gamemode</p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerGamemodeChange) {
+    sendmessage(player, &quot;Gamemode: {gamemode.old} → {gamemode.new}&quot;)
+}
+</code></pre></div>
+
+<h3 id="block-events">Block Events</h3>
+<p><strong>BlockBreak</strong> - Fires when a player breaks a block<br />
+- Context: <code>player</code>, <code>block</code>, <code>event</code><br />
+- <code>block.type</code> - Block material type<br />
+- <code>block.location</code> - Block location</p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">block</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;diamond_ore&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You found diamonds!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">give</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>BlockPlace</strong> - Fires when a player places a block<br />
+- Context: <code>player</code>, <code>block</code>, <code>event</code><br />
+- <code>block.type</code> - Block material type<br />
+- <code>block.location</code> - Block location</p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockPlace</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">block</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;tnt&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;TNT is not allowed here!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>BlockInteract</strong> - Fires when a player interacts with a block<br />
+- Context: <code>player</code>, <code>block</code>, <code>hand</code>, <code>event</code><br />
+- <code>block.type</code> - Block material type<br />
+- <code>block.location</code> - Block location<br />
+- <code>hand</code> - "hand" or "off_hand"</p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockInteract</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">block</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;stone_button&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Button pressed!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="entity-events">Entity Events</h3>
+<p><strong>EntitySpawn</strong> - Fires when an entity spawns<br />
+- Context: <code>entity</code><br />
+- <code>entity.type</code> - Entity type<br />
+- <code>entity.location</code> - Spawn location</p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntitySpawn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;creeper&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">remove_entity</span><span class="p">(</span><span class="nx">entity</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Prevented creeper spawn&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>EntityDeath</strong> - Fires when an entity dies<br />
+- Context: <code>entity</code><br />
+- <code>entity.killer</code> - Player who killed the entity (or null)</p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="nx">killer</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">entity</span><span class="p">.</span><span class="nx">killer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You killed a {entity.type}!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>EntityDamage</strong> - Fires when a non-player entity takes damage<br />
+- Context: <code>entity</code>, <code>damage</code>, <code>event</code><br />
+- <code>damage.amount</code> - Damage amount<br />
+- <code>damage.source</code> - Damage source entity (or null)</p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;villager&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="world-events">World Events</h3>
+<p><strong>TimeChange</strong> - Fires when world time changes<br />
+- Context: <code>world</code>, <code>time</code><br />
+- <code>time.old</code> - Previous time<br />
+- <code>time.new</code> - New time</p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">TimeChange</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">time</span>.<span class="nv">new</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">13000</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">broadcast</span><span class="ss">(</span><span class="s2">&quot;Night is falling!&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<p><strong>WeatherChange</strong> - Fires when weather changes<br />
+- Context: <code>world</code>, <code>weather</code><br />
+- <code>weather.new</code> - New weather state ("clear", "rain", or "thunder")</p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">WeatherChange</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">weather</span>.<span class="nv">new</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;rain&quot;</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">broadcast</span><span class="ss">(</span><span class="s2">&quot;It&#39;s starting to rain!&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<h3 id="custom-events">Custom Events</h3>
+<p>You can trigger custom events using <code>trigger_custom()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Trigger a custom event</span>
+<span class="n">let</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">reason</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;example&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">count</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span>
+<span class="p">}</span>
+<span class="n">trigger_custom</span><span class="p">(</span><span class="s">&quot;MyCustomEvent&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1">// Handle the custom event</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">MyCustomEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Custom event fired!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Reason: {event.reason}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Count: {event.count}&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Custom events pass data through the <code>event</code> context variable. The data must be a map or JSON string.</p>
+<h2 id="accessing-event-data">Accessing Event Data</h2>
+<h3 id="context-variables">Context Variables</h3>
+<p>Each event provides specific context variables. Access them directly by name:</p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Direct</span><span class="w"> </span><span class="n">access</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="n">variable</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="event-properties">Event Properties</h3>
+<p>Access properties of context variables using dot notation:</p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerDamage) {
+    let victimName = damage.target.name
+    let damageAmount = damage.amount
+    let damageCause = damage.cause
+
+    log(&quot;{victimName} took {damageAmount} {damageCause} damage&quot;)
+}
+</code></pre></div>
+
+<p>Common player properties:<br />
+- <code>player.name</code> - Player's username<br />
+- <code>player.health</code> - Current health<br />
+- <code>player.hunger</code> - Current hunger level<br />
+- <code>player.location</code> - Current location<br />
+- <code>player.gamemode</code> - Current gamemode<br />
+- <code>player.flying</code> - Whether player is flying<br />
+- <code>player.online</code> - Whether player is online</p>
+<p>Common location properties:<br />
+- <code>location.x</code> - X coordinate<br />
+- <code>location.y</code> - Y coordinate<br />
+- <code>location.z</code> - Z coordinate<br />
+- <code>location.world</code> - World object</p>
+<p>Common item properties:<br />
+- <code>item.type</code> - Item material type<br />
+- <code>item.amount</code> - Stack size</p>
+<p>Common entity properties:<br />
+- <code>entity.type</code> - Entity type<br />
+- <code>entity.location</code> - Entity location<br />
+- <code>entity.alive</code> - Whether entity is alive</p>
+<h3 id="nested-data">Nested Data</h3>
+<p>Event data can be nested in maps. Access nested properties using multiple dots:</p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerMove) {
+    let fromX = move.from.x
+    let fromY = move.from.y
+    let fromZ = move.from.z
+
+    let toX = move.to.x
+    let toY = move.to.y
+    let toZ = move.to.z
+
+    let dist = distance(move.from, move.to)
+    log(&quot;Player moved {dist} blocks&quot;)
+}
+</code></pre></div>
+
+<p>You can also use string interpolation with nested data:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Broke {block.type} at {block.location.x}, {block.location.y}, {block.location.z}&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="event-cancellation">Event Cancellation</h2>
+<h3 id="cancellable-events">Cancellable Events</h3>
+<p>Some events can be cancelled to prevent their default behavior. Cancellable events include:<br />
+- PlayerDamage<br />
+- PlayerMove<br />
+- PlayerInteract<br />
+- PlayerDropItem<br />
+- PlayerPickupItem<br />
+- PlayerTeleport<br />
+- PlayerGamemodeChange<br />
+- BlockBreak<br />
+- BlockPlace<br />
+- BlockInteract<br />
+- EntityDamage</p>
+<h3 id="using-cancel">Using cancel()</h3>
+<p>Call <code>cancel(event)</code> with the event context variable to cancel the event:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">block</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;bedrock&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You cannot break bedrock!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerDamage</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">damage</span>.<span class="nv">cause</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;fall&quot;</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">cancel</span><span class="ss">(</span><span class="nv">event</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<p><strong>Important</strong>: Not all events are cancellable. Attempting to cancel a non-cancellable event will result in an error. The <code>event</code> variable must be passed to <code>cancel()</code>.</p>
+<h2 id="event-execution-order">Event Execution Order</h2>
+<p>Events execute in the following order:</p>
+<ol>
+<li><strong>Bukkit/Paper events fire</strong> - The original Minecraft event occurs</li>
+<li><strong>QuillEventBridge converts events</strong> - Events are bridged to Quill with context data</li>
+<li><strong>QuillEvent fires asynchronously</strong> - Custom Quill event is triggered on async thread</li>
+<li><strong>Registered handlers execute</strong> - All OnEvent handlers run in registration order</li>
+<li><strong>Event completion</strong> - Control returns to Minecraft</li>
+</ol>
+<p><strong>Key points:</strong><br />
+- Events run on <strong>asynchronous threads</strong> by default for performance<br />
+- Multiple handlers for the same event execute <strong>sequentially</strong> in registration order<br />
+- If one handler cancels an event, subsequent handlers still execute but cancellation persists<br />
+- Errors in one handler don't prevent other handlers from executing</p>
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="performance-considerations">Performance Considerations</h3>
+<p><strong>Avoid expensive operations in frequently-fired events:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Bad - PlayerMove fires very frequently</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Expensive loop on every move</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Good - Only check necessary condition</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">move</span><span class="p">.</span><span class="n">to</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="nb">move</span><span class="p">.</span><span class="n">from</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Cache calculations when possible:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Bad - Recalculates every time</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">spawnLoc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">distance</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">spawnLoc</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Too far from spawn!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Good - Calculate spawn location once</span>
+<span class="n">let</span><span class="w"> </span><span class="n">spawnLocation</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">distance</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">spawnLocation</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Too far from spawn!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="event-filtering">Event Filtering</h3>
+<p>Filter events early to avoid unnecessary processing:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Good - Early exit</span>
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">block</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;diamond_ore&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Only process diamond ore breaks</span>
+<span class="w">    </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Diamond found!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">give</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Good - Specific condition checks</span>
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">damage</span><span class="p">.</span><span class="nx">cause</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;fall&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">damage</span><span class="p">.</span><span class="nx">amount</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Only handle significant fall damage</span>
+<span class="w">    </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">damage</span><span class="p">.</span><span class="nx">target</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Saved from fall!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="error-handling">Error Handling</h3>
+<p>Use try-catch blocks for operations that might fail:</p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loadPlayerConfig</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="w">        </span><span class="n">applyConfig</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">catch</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Failed to load config: {error}&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Apply</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="n">config</span>
+<span class="w">        </span><span class="n">set_gamemode</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;survival&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Validate data before using it:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerInteract</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">interact</span><span class="p">.</span><span class="nx">block</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w">  </span><span class="c1">// No block was clicked</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">interact</span><span class="p">.</span><span class="nx">item</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w">  </span><span class="c1">// No item in hand</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Safe to use interact.block and interact.item</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">interact</span><span class="p">.</span><span class="nx">item</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;stick&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">strike_lightning</span><span class="p">(</span><span class="nx">interact</span><span class="p">.</span><span class="nx">block</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Keep handlers focused and maintainable:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Good</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Separate</span><span class="w"> </span><span class="n">concerns</span>
+<span class="k">func</span><span class="w"> </span><span class="n">shouldPreventDamage</span><span class="p">(</span><span class="n">damage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">damage</span><span class="o">.</span><span class="n">cause</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;fall&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="bp">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">damage</span><span class="o">.</span><span class="n">amount</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="bp">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="bp">false</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">shouldPreventDamage</span><span class="p">(</span><span class="n">damage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">damage</span><span class="o">.</span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Damage prevented!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Avoid</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Too</span><span class="w"> </span><span class="n">much</span><span class="w"> </span><span class="n">logic</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">handler</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">damage</span><span class="o">.</span><span class="n">cause</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;fall&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">damage</span><span class="o">.</span><span class="n">amount</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">damage</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">gamemode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;creative&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">get_health</span><span class="p">(</span><span class="n">damage</span><span class="o">.</span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">18</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">damage</span><span class="o">.</span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Damage prevented!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#event-handler-syntax'>Event Handler Syntax</a></li><li style='margin-left:20px'><a href='#basic-structure'>Basic Structure</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#multiple-handlers'>Multiple Handlers</a></li><li style='margin-left:0px'><a href='#event-types'>Event Types</a></li><li style='margin-left:20px'><a href='#player-events'>Player Events</a></li><li style='margin-left:20px'><a href='#block-events'>Block Events</a></li><li style='margin-left:20px'><a href='#entity-events'>Entity Events</a></li><li style='margin-left:20px'><a href='#world-events'>World Events</a></li><li style='margin-left:20px'><a href='#custom-events'>Custom Events</a></li><li style='margin-left:0px'><a href='#accessing-event-data'>Accessing Event Data</a></li><li style='margin-left:20px'><a href='#context-variables'>Context Variables</a></li><li style='margin-left:20px'><a href='#event-properties'>Event Properties</a></li><li style='margin-left:20px'><a href='#nested-data'>Nested Data</a></li><li style='margin-left:0px'><a href='#event-cancellation'>Event Cancellation</a></li><li style='margin-left:20px'><a href='#cancellable-events'>Cancellable Events</a></li><li style='margin-left:20px'><a href='#using-cancel'>Using cancel()</a></li><li style='margin-left:0px'><a href='#event-execution-order'>Event Execution Order</a></li><li style='margin-left:0px'><a href='#best-practices'>Best Practices</a></li><li style='margin-left:20px'><a href='#performance-considerations'>Performance Considerations</a></li><li style='margin-left:20px'><a href='#event-filtering'>Event Filtering</a></li><li style='margin-left:20px'><a href='#error-handling'>Error Handling</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

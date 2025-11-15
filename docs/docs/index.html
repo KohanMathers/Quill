@@ -10,11 +10,9 @@
 </head>
 
 <body>
-    <!-- Animated Background Particles -->
     <div class="particles" id="particles"></div>
 
     <div class="layout">
-        <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>
@@ -25,7 +23,7 @@
                 <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
             </div>
             <nav class="sidebar-nav">
-                <ul><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>concepts</span><ul><li><a href='/docs/concepts/events.html'>Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/welcome-system.html'>Welcome System</a></li></ul></li><li><a href='/docs/index.html' class='active'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/control-flow.html'>Control Flow</a></li><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li class='folder'><span class='folder-name'>tutorial</span><ul><li><a href='/docs/tutorial/first-script.html'>First Script</a></li></ul></li></ul>
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html' class='active'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
             </nav>
             <div class="sidebar-footer">
                 <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
@@ -38,9 +36,7 @@
             </div>
         </aside>
 
-        <!-- Main Content Area -->
         <main class="content">
-            <!-- Hero Section (only on index) -->
             <header class="hero show-hero">
                 <img class="hero-logo"
                     src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
@@ -53,116 +49,126 @@
                 </div>
             </header>
 
-            <!-- Breadcrumb Navigation -->
             <nav class="breadcrumbs" aria-label="Breadcrumb">
                 <a href='../index.html'>Quill</a><span class='separator'>/</span><span class='current'>Index</span>
             </nav>
 
-            <!-- Documentation Content -->
             <div class="doc-layout">
                 <article class="doc-content">
                     <h1 class="page-title">Welcome to Quill</h1>
                     <h1 id="welcome-to-quill">Welcome to Quill</h1>
 <p>Quill is a <strong>sandboxed scripting language for Minecraft event automation</strong>. Create community-run events, mini-games, and automated systems without bugging your admins.</p>
+<hr />
 <h2 id="what-is-quill">What is Quill?</h2>
 <p>Quill allows players to write custom scripts that react to in-game events within defined physical boundaries. Scripts run in isolated scopes with granular permission controls, making it safe for server owners to delegate creativity to their community.</p>
+<hr />
 <h2 id="key-features">Key Features</h2>
 <ul>
 <li><strong>Event-Driven Architecture</strong> - React to player actions, block changes, and world events in real-time</li>
 <li><strong>Sandboxed Execution</strong> - Scripts run in isolated scopes with physical boundaries and permission controls</li>
 <li><strong>Player-Friendly Syntax</strong> - Simple, readable syntax designed for non-programmers</li>
 <li><strong>Persistent State</strong> - Variables and scope data survive server restarts</li>
-<li><strong>In-Game Editor</strong> - Write and test code directly in Minecraft</li>
-<li><strong>Permission System</strong> - Admins can revoke specific functions per scope</li>
+<li><strong>Web-Based Editor</strong> - Write and test code through an in-browser editor</li>
+<li><strong>Permission System</strong> - Admins control which functions each scope can use (whitelist/blacklist mode)</li>
 </ul>
+<hr />
 <h2 id="quick-example">Quick Example</h2>
 <div class="highlight"><pre><span></span><code><span class="c1">// Create an arena with a simple deathmatch game</span>
-<span class="kd">let</span><span class="w"> </span><span class="nx">arena</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">new</span><span class="w"> </span><span class="nx">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">);</span>
-<span class="nx">arena</span><span class="p">.</span><span class="nx">game_active</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">arena</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">new</span><span class="w"> </span><span class="nx">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">game_active</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">false</span>
 
 <span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">chat</span><span class="p">.</span><span class="nx">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;!start&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">in_region</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">arena</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">arena</span><span class="p">.</span><span class="nx">game_active</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
-<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s">&quot;Game starting!&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">game_active</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s">&quot;Game starting!&quot;</span><span class="p">)</span>
 
-<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">arena</span><span class="p">.</span><span class="nx">players</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">set_gamemode</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;survival&quot;</span><span class="p">);</span>
-<span class="w">            </span><span class="nx">give</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;minecraft:stone_sword&quot;</span><span class="p">);</span>
-<span class="w">            </span><span class="nx">heal</span><span class="p">(</span><span class="nx">player</span><span class="p">);</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">arena</span><span class="p">.</span><span class="nx">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">set_gamemode</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;survival&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">give</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;stone_sword&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">heal</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 
 <span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">arena</span><span class="p">.</span><span class="nx">game_active</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">in_region</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">arena</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s">&quot;{player.name} was eliminated!&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">game_active</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">in_region</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">arena</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s">&quot;{player.name} was eliminated!&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 
+<hr />
 <h2 id="getting-started">Getting Started</h2>
 <p>New to Quill? Start here:</p>
 <ol>
 <li><strong><a href="installation.html">Installation Guide</a></strong> - Set up Quill on your server</li>
-<li><strong><a href="tutorial/first-script.html">Your First Script</a></strong> - Write your first event handler</li>
+<li><strong><a href="quickstart.html">Quick Start</a></strong> - Write your first script in 5 minutes</li>
 <li><strong><a href="language/syntax.html">Language Basics</a></strong> - Learn the core syntax</li>
-<li><strong><a href="examples/welcome-system.html">Examples</a></strong> - See complete working scripts</li>
+<li><strong><a href="examples/basic-scripts.html">Examples</a></strong> - See complete working scripts</li>
 </ol>
+<hr />
 <h2 id="documentation-structure">Documentation Structure</h2>
 <h3 id="core-concepts">Core Concepts</h3>
 <ul>
-<li><a href="concepts/scopes.html">Scopes and Regions</a> - Understanding scope boundaries <strong>⚠️ yet implemented</strong></li>
-<li><a href="concepts/events.html">Event Handlers</a> - React to Minecraft events</li>
-<li><a href="concepts/variables.html">Variables and State</a> - Managing persistent data <strong>⚠️ Not yet implemented</strong></li>
-<li><a href="concepts/permissions.html">Permissions</a> - Security and access control <strong>⚠️ Not yet implemented</strong></li>
+<li><a href="advanced/subscopes.html">Scopes and Regions</a> - Understanding scope boundaries and regions</li>
+<li><a href="language/events.html">Event Handlers</a> - React to Minecraft events</li>
+<li><a href="advanced/persistent-variables.html">Persistent Variables</a> - Managing data across restarts</li>
+<li><a href="advanced/security.html">Security</a> - Permission system and access control</li>
 </ul>
 <h3 id="language-reference">Language Reference</h3>
 <ul>
 <li><a href="language/syntax.html">Syntax</a> - Basic syntax and structure</li>
-<li><a href="language/data-types.html">Data Types</a> - Numbers, strings, lists, and more</li>
-<li><a href="language/control-flow.html">Control Flow</a> - Conditionals and loops</li>
-<li><a href="language/functions.html">Functions</a> - Built-in and custom functions</li>
+<li><a href="language/data-types.html">Data Types</a> - Numbers, strings, lists, maps, and more</li>
+<li><a href="language/functions.html">Functions</a> - Declaring and calling functions</li>
+<li><a href="language/string-interpolation.html">String Interpolation</a> - Embedding variables in strings</li>
 </ul>
 <h3 id="api-reference">API Reference</h3>
 <ul>
 <li><a href="api/player.html">Player Functions</a> - Interact with players</li>
 <li><a href="api/world.html">World Functions</a> - Modify blocks and environment</li>
 <li><a href="api/scope.html">Scope Functions</a> - Manage scope membership</li>
-<li><a href="api/utility.html">Utility Functions</a> - Helpers and tools</li>
+<li><a href="api/utility.html">Utility Functions</a> - Helpers and math functions</li>
+<li><a href="api/constructors.html">Constructor Functions</a> - Create locations and items</li>
 </ul>
+<h3 id="commands">Commands</h3>
+<ul>
+<li><a href="commands/script-management.html">Script Management</a> - Load, reload, unload scripts</li>
+<li><a href="commands/scope-management.html">Scope Management</a> - Create and configure scopes</li>
+<li><a href="commands/general.html">General Commands</a> - Info and help commands</li>
+</ul>
+<h3 id="events">Events</h3>
+<ul>
+<li><a href="events/player-events.html">Player Events</a> - Join, quit, chat, movement, damage, death, etc.</li>
+<li><a href="events/block-events.html">Block Events</a> - Breaking, placing, interacting</li>
+<li><a href="events/entity-events.html">Entity Events</a> - Spawning, death, damage</li>
+<li><a href="events/world-events.html">World Events</a> - Time and weather changes</li>
+<li><a href="events/custom-events.html">Custom Events</a> - Trigger your own events</li>
+</ul>
+<hr />
 <h2 id="community">Community</h2>
 <ul>
 <li><strong>Issues</strong> - <a href="https://github.com/kohanmathers/quill/issues">GitHub Issues</a></li>
 <li><strong>Discussions</strong> - <a href="https://github.com/kohanmathers/quill/discussions">GitHub Discussions</a></li>
 <li><strong>Discord</strong> - <a href="https://discord.gg/FZuVXszuuM">KM's Support &amp; Updates</a></li>
 </ul>
-<h2 id="development-status">Development Status</h2>
-<p>⚠️ <strong>Alpha</strong> - Quill is in early development. Expect breaking changes.</p>
-<p><strong>Current Progress:</strong><br />
-- ✅ Language specification<br />
-- ✅ Lexer/Tokenizer<br />
-- ✅ Parser<br />
-- ✅ Interpreter<br />
-- 🚧 Bukkit plugin integration<br />
-- 🚧 In-game editor<br />
-- ⏳ Persistence layer<br />
-- ⏳ Permission system</p>
+<hr />
+<h2 id="version-information">Version Information</h2>
+<p><strong>Current Version:</strong> 1.0.0</p>
+<p>The core language and API are stable, but minor breaking changes may still occur.</p>
+<hr />
 <h2 id="license">License</h2>
 <p>Quill is licensed under the <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE">MIT License</a>.</p>
 <hr />
-<p>Created with ❤️ by Kohan Mathers</p>
+<p><em>Created with ❤️ by Kohan Mathers</em></p>
 
-                    <!-- Last Modified -->
                     <div class="page-meta">
-                        <span class="last-modified">Last updated: November 07, 2025</span>
+                        <span class="last-modified">Last updated: November 15, 2025</span>
                     </div>
                 </article>
 
-                <!-- Table of Contents -->
-                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#what-is-quill'>What is Quill?</a></li><li style='margin-left:0px'><a href='#key-features'>Key Features</a></li><li style='margin-left:0px'><a href='#quick-example'>Quick Example</a></li><li style='margin-left:0px'><a href='#getting-started'>Getting Started</a></li><li style='margin-left:0px'><a href='#documentation-structure'>Documentation Structure</a></li><li style='margin-left:20px'><a href='#core-concepts'>Core Concepts</a></li><li style='margin-left:20px'><a href='#language-reference'>Language Reference</a></li><li style='margin-left:20px'><a href='#api-reference'>API Reference</a></li><li style='margin-left:0px'><a href='#community'>Community</a></li><li style='margin-left:0px'><a href='#development-status'>Development Status</a></li><li style='margin-left:0px'><a href='#license'>License</a></li></ul></nav>
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#what-is-quill'>What is Quill?</a></li><li style='margin-left:0px'><a href='#key-features'>Key Features</a></li><li style='margin-left:0px'><a href='#quick-example'>Quick Example</a></li><li style='margin-left:0px'><a href='#getting-started'>Getting Started</a></li><li style='margin-left:0px'><a href='#documentation-structure'>Documentation Structure</a></li><li style='margin-left:20px'><a href='#core-concepts'>Core Concepts</a></li><li style='margin-left:20px'><a href='#language-reference'>Language Reference</a></li><li style='margin-left:20px'><a href='#api-reference'>API Reference</a></li><li style='margin-left:20px'><a href='#commands'>Commands</a></li><li style='margin-left:20px'><a href='#events'>Events</a></li><li style='margin-left:0px'><a href='#community'>Community</a></li><li style='margin-left:0px'><a href='#version-information'>Version Information</a></li><li style='margin-left:0px'><a href='#license'>License</a></li></ul></nav>
             </div>
 
-            <!-- Footer -->
             <footer class="doc-footer">
                 <div class="footer-content">
                     <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
@@ -178,9 +184,7 @@
         </main>
     </div>
 
-    <!-- Smooth scroll and particle animation -->
     <script>
-        // Generate floating particles
         function createParticles() {
             const particles = document.getElementById('particles');
             const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
@@ -201,7 +205,6 @@
         document.addEventListener('DOMContentLoaded', function () {
             createParticles();
 
-            // Smooth scroll for TOC links
             document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -212,7 +215,6 @@
                 });
             });
 
-            // Highlight current section in TOC
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
                     const id = entry.target.getAttribute('id');

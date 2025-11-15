@@ -5,16 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
-    <title>Language — Functions — Quill</title>
+    <title>Functions — Quill</title>
     <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
 </head>
 
 <body>
-    <!-- Animated Background Particles -->
     <div class="particles" id="particles"></div>
 
     <div class="layout">
-        <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>
@@ -25,7 +23,7 @@
                 <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
             </div>
             <nav class="sidebar-nav">
-                <ul><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>concepts</span><ul><li><a href='/docs/concepts/events.html'>Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/welcome-system.html'>Welcome System</a></li></ul></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/control-flow.html'>Control Flow</a></li><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/functions.html' class='active'>Functions</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li class='folder'><span class='folder-name'>tutorial</span><ul><li><a href='/docs/tutorial/first-script.html'>First Script</a></li></ul></li></ul>
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html' class='active'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
             </nav>
             <div class="sidebar-footer">
                 <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
@@ -38,9 +36,7 @@
             </div>
         </aside>
 
-        <!-- Main Content Area -->
         <main class="content">
-            <!-- Hero Section (only on index) -->
             <header class="hero hide-hero">
                 <img class="hero-logo"
                     src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
@@ -53,330 +49,297 @@
                 </div>
             </header>
 
-            <!-- Breadcrumb Navigation -->
             <nav class="breadcrumbs" aria-label="Breadcrumb">
                 <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Language</span><span class='separator'>/</span><span class='current'>Functions</span>
             </nav>
 
-            <!-- Documentation Content -->
             <div class="doc-layout">
                 <article class="doc-content">
-                    <h1 class="page-title">Language — Functions</h1>
-                    <h1 id="language-functions">Language — Functions</h1>
-<p>This page covers how to define and use functions in Quill scripts, both custom functions and built-in ones. Functions let you organize code into reusable blocks and break down complex logic into smaller pieces.</p>
-<h2 id="defining-functions">Defining Functions</h2>
-<p>Create custom functions using the <code>func</code> keyword:</p>
-<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">function_name</span><span class="p">(</span><span class="n">parameter1</span><span class="p">,</span><span class="w"> </span><span class="n">parameter2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">function</span><span class="w"> </span><span class="n">body</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">optional</span>
+                    <h1 class="page-title">Functions</h1>
+                    <h1 id="functions">Functions</h1>
+<h2 id="overview">Overview</h2>
+<p>Functions in Quill are reusable blocks of code that can accept parameters and return values. Quill supports both user-defined functions and a comprehensive set of built-in functions for interacting with the Minecraft world.</p>
+<h2 id="declaring-functions">Declaring Functions</h2>
+<h3 id="basic-function-declaration">Basic Function Declaration</h3>
+<p>Functions are declared using the <code>func</code> or <code>function</code> keyword:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">greet</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Hello, world!&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 
-<p>Functions can:<br />
-- Take any number of parameters<br />
-- Return values (optional)<br />
-- Access global scope variables<br />
-- Call other functions</p>
-<p>Example function definitions:</p>
-<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Basic</span><span class="w"> </span><span class="n">function</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="k">return</span>
+<h3 id="function-parameters">Function Parameters</h3>
+<p>Functions can accept parameters that become local variables within the function body:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">greet</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Hello, {name}!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
 <span class="k">func</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="o">//</span><span class="w"> </span><span class="n">Void</span><span class="w"> </span><span class="n">function</span><span class="w"> </span><span class="p">(</span><span class="n">no</span><span class="w"> </span><span class="k">return</span><span class="p">)</span>
-<span class="k">func</span><span class="w"> </span><span class="n">heal_team</span><span class="p">(</span><span class="n">team_scope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">team_scope</span><span class="o">.</span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-
-<span class="o">//</span><span class="w"> </span><span class="n">Multiple</span><span class="w"> </span><span class="n">parameters</span>
-<span class="k">func</span><span class="w"> </span><span class="n">give_with_message</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">item_id</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">item_id</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Given {amount}x {item_id}&quot;</span><span class="p">);</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="bp">true</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="bp">false</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span>
 <span class="p">}</span>
 </code></pre></div>
 
+<p><strong>Important</strong>: All parameters must be provided when calling a function. The number of arguments must match the number of parameters exactly.</p>
+<h3 id="return-values">Return Values</h3>
+<p>Functions can return values using the <code>return</code> statement:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">multiply</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span>
+<span class="p">}</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">multiply</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">15</span>
+</code></pre></div>
+
+<p>If no <code>return</code> statement is used, functions return <code>null</code> by default.</p>
 <h2 id="calling-functions">Calling Functions</h2>
-<p>Call functions by name with parentheses:</p>
-<div class="highlight"><pre><span></span><code><span class="c1">// Call and use return value</span>
-<span class="n">let</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
-
-<span class="c1">// Call without using return</span>
-<span class="n">heal_team</span><span class="p">(</span><span class="n">red_team</span><span class="p">);</span>
-
-<span class="c1">// Store result for error checking</span>
-<span class="n">let</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">give_with_message</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">);</span>
-<span class="k">if</span><span class="w"> </span>!<span class="n">success</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Failed to give diamonds&quot;</span><span class="p">);</span>
-<span class="p">}</span>
+<h3 id="basic-function-calls">Basic Function Calls</h3>
+<p>Call functions by using their name followed by parentheses:</p>
+<div class="highlight"><pre><span></span><code>greet()  // Calls function with no parameters
+greet(&quot;Alice&quot;)  // Calls function with one parameter
 </code></pre></div>
 
-<h2 id="parameter-rules">Parameter Rules</h2>
-<ul>
-<li>Parameters can be any type</li>
-<li>Arguments are passed by value for primitives</li>
-<li>Complex types (Player, Scope, etc.) are passed by reference</li>
-<li>Default values are not supported (use multiple functions instead)</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Example</span><span class="w"> </span><span class="n">showing</span><span class="w"> </span><span class="n">parameter</span><span class="w"> </span><span class="n">behavior</span>
-<span class="k">func</span><span class="w"> </span><span class="n">modify</span><span class="p">(</span><span class="n">number</span><span class="p">,</span><span class="w"> </span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Only</span><span class="w"> </span><span class="n">affects</span><span class="w"> </span><span class="n">local</span><span class="w"> </span><span class="n">copy</span>
-<span class="w">    </span><span class="n">append</span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;new&quot;</span><span class="p">);</span><span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Modifies</span><span class="w"> </span><span class="n">original</span><span class="w"> </span><span class="n">list</span>
-<span class="w">    </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">);</span><span class="w">              </span><span class="o">//</span><span class="w"> </span><span class="n">Affects</span><span class="w"> </span><span class="n">actual</span><span class="w"> </span><span class="n">player</span>
-<span class="w">    </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb nb-Type">null</span><span class="p">;</span><span class="w">             </span><span class="o">//</span><span class="w"> </span><span class="n">Only</span><span class="w"> </span><span class="n">affects</span><span class="w"> </span><span class="n">local</span><span class="w"> </span><span class="n">reference</span>
+<h3 id="passing-arguments">Passing Arguments</h3>
+<p>Arguments are passed by value and evaluated before the function executes:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">calculate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span>
 <span class="p">}</span>
 
-<span class="n">let</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
-<span class="n">let</span><span class="w"> </span><span class="n">items</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;old&quot;</span><span class="p">];</span>
-<span class="n">let</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_player</span><span class="p">(</span><span class="s2">&quot;Steve&quot;</span><span class="p">);</span>
-
-<span class="n">modify</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="w"> </span><span class="n">items</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">);</span>
-<span class="o">//</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">still</span><span class="w"> </span><span class="mi">5</span>
-<span class="o">//</span><span class="w"> </span><span class="n">items</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;old&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;new&quot;</span><span class="p">]</span>
-<span class="o">//</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">still</span><span class="w"> </span><span class="n">healed</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="nb nb-Type">null</span>
+<span class="n">let</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+<span class="n">let</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+<span class="n">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculate</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">calculate</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span>
 </code></pre></div>
 
-<h2 id="return-values">Return Values</h2>
-<p>Functions can return any type or nothing:</p>
-<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="n">different</span><span class="w"> </span><span class="n">types</span>
-<span class="k">func</span><span class="w"> </span><span class="n">get_value</span><span class="p">(</span><span class="n">type</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;list&quot;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">];</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb nb-Type">null</span><span class="p">;</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Default</span><span class="w"> </span><span class="k">return</span>
+<h3 id="using-return-values">Using Return Values</h3>
+<p>Capture return values by assigning the function call to a variable:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">getPlayerHealth</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">get_health</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="o">//</span><span class="w"> </span><span class="n">Early</span><span class="w"> </span><span class="n">returns</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">validation</span>
-<span class="k">func</span><span class="w"> </span><span class="n">safe_teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">player</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="bp">false</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">255</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="bp">false</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="n">let</span><span class="w"> </span><span class="n">health</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getPlayerHealth</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Your health: {health}&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<h2 id="scope-access">Scope Access</h2>
-<p>Functions can access the global scope and create local variables:</p>
-<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Global</span><span class="w"> </span><span class="n">variable</span>
-<span class="n">let</span><span class="w"> </span><span class="n">total_healings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-
-<span class="k">func</span><span class="w"> </span><span class="n">heal_if_needed</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Local</span><span class="w"> </span><span class="n">variable</span>
-<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">current_health</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_health</span><span class="p">(</span><span class="n">player</span><span class="p">);</span>
-
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">current_health</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">);</span>
-<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Access</span><span class="w"> </span><span class="n">global</span><span class="w"> </span><span class="n">variable</span>
-<span class="w">        </span><span class="n">total_healings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">total_healings</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="bp">true</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="bp">false</span><span class="p">;</span>
+<h2 id="function-scope">Function Scope</h2>
+<h3 id="local-variables">Local Variables</h3>
+<p>Variables declared inside functions are local to that function:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">example</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">localVar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Only</span><span class="w"> </span><span class="n">exists</span><span class="w"> </span><span class="n">inside</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">function</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="n">localVar</span><span class="p">)</span>
 <span class="p">}</span>
+
+<span class="n">example</span><span class="p">()</span>
+<span class="o">//</span><span class="w"> </span><span class="nb">log</span><span class="p">(</span><span class="n">localVar</span><span class="p">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Error</span><span class="p">:</span><span class="w"> </span><span class="n">undefined</span><span class="w"> </span><span class="n">variable</span>
+</code></pre></div>
+
+<h3 id="closure">Closure</h3>
+<p>Functions capture their surrounding scope and can access variables from parent scopes:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">multiplier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">multiply</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">multiplier</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Accesses</span><span class="w"> </span><span class="n">outer</span><span class="w"> </span><span class="n">scope</span>
+<span class="p">}</span>
+
+<span class="nb">log</span><span class="p">(</span><span class="n">multiply</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Output</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span>
+</code></pre></div>
+
+<h3 id="accessing-outer-scope">Accessing Outer Scope</h3>
+<p>Functions can read and modify variables from outer scopes:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="p">}</span>
+
+<span class="n">increment</span><span class="p">()</span>
+<span class="n">increment</span><span class="p">()</span>
+<span class="nb">log</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Output</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
 </code></pre></div>
 
 <h2 id="built-in-functions">Built-in Functions</h2>
-<p>Quill provides many built-in functions categorized by purpose:</p>
+<p>Quill provides extensive built-in functions organized by category:</p>
 <h3 id="player-functions">Player Functions</h3>
-<p>Essential player interactions:</p>
-<div class="highlight"><pre><span></span><code>teleport(player, x, y, z)
-give(player, item_id, amount)
-heal(player)
-kill(player)
-sendmessage(player, message)
-</code></pre></div>
-
+<p><strong>Movement &amp; Teleportation</strong><br />
+- <code>teleport(player, location)</code> - Teleport player to location<br />
+- <code>teleport(player, x, y, z)</code> - Teleport player to coordinates</p>
+<p><strong>Inventory Management</strong><br />
+- <code>give(player, item_id)</code> - Give item to player<br />
+- <code>give(player, item_id, amount)</code> - Give specific amount<br />
+- <code>give(player, item)</code> - Give item stack<br />
+- <code>remove_item(player, item_id)</code> - Remove item from inventory<br />
+- <code>remove_item(player, item_id, amount)</code> - Remove specific amount<br />
+- <code>has_item(player, item_id)</code> - Check if player has item<br />
+- <code>has_item(player, item_id, amount)</code> - Check for specific amount</p>
+<p><strong>Player State</strong><br />
+- <code>set_gamemode(player, mode)</code> - Set gamemode (survival, creative, adventure, spectator)<br />
+- <code>set_health(player, health)</code> - Set health (0-20)<br />
+- <code>set_hunger(player, hunger)</code> - Set hunger (0-20)<br />
+- <code>heal(player)</code> - Fully heal player<br />
+- <code>kill(player)</code> - Kill player<br />
+- <code>set_flying(player, flying)</code> - Enable/disable flight<br />
+- <code>kick(player, reason)</code> - Kick player from server</p>
+<p><strong>Communication</strong><br />
+- <code>sendmessage(player, message)</code> - Send chat message<br />
+- <code>sendtitle(player, title, subtitle, fade_in, stay, fade_out)</code> - Display title<br />
+- <code>playsound(player, sound, volume, pitch)</code> - Play sound</p>
+<p><strong>Effects</strong><br />
+- <code>give_effect(player, effect, duration, amplifier)</code> - Apply potion effect<br />
+- <code>remove_effect(player, effect)</code> - Remove potion effect<br />
+- <code>clear_effects(player)</code> - Remove all effects</p>
+<p><strong>Getters</strong><br />
+- <code>get_health(player)</code> - Get current health<br />
+- <code>get_hunger(player)</code> - Get current hunger<br />
+- <code>get_location(player)</code> - Get player location<br />
+- <code>get_gamemode(player)</code> - Get current gamemode<br />
+- <code>get_name(player)</code> - Get player name<br />
+- <code>is_online(player)</code> - Check if player is online<br />
+- <code>is_op(player)</code> - Check if player is operator</p>
 <h3 id="world-functions">World Functions</h3>
-<p>Modify the environment:</p>
-<div class="highlight"><pre><span></span><code><span class="nx">set_block</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="p">,</span><span class="w"> </span><span class="nx">block_id</span><span class="p">)</span>
-<span class="nx">spawn_entity</span><span class="p">(</span><span class="nx">entity_type</span><span class="p">,</span><span class="w"> </span><span class="nx">location</span><span class="p">)</span>
-<span class="nx">create_explosion</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="p">,</span><span class="w"> </span><span class="nx">power</span><span class="p">)</span>
-<span class="nx">set_time</span><span class="p">(</span><span class="nx">world</span><span class="p">,</span><span class="w"> </span><span class="nx">time</span><span class="p">)</span>
-</code></pre></div>
-
+<p><strong>Block Manipulation</strong><br />
+- <code>set_block(location, block_id)</code> - Set block at location<br />
+- <code>set_block(x, y, z, block_id)</code> - Set block at coordinates<br />
+- <code>get_block(location)</code> - Get block type at location<br />
+- <code>get_block(x, y, z)</code> - Get block type at coordinates<br />
+- <code>break_block(location)</code> - Break block and drop items<br />
+- <code>break_block(x, y, z)</code> - Break block at coordinates</p>
+<p><strong>Entity Management</strong><br />
+- <code>spawn_entity(entity_type, location)</code> - Spawn entity<br />
+- <code>spawn_entity(entity_type, x, y, z)</code> - Spawn at coordinates<br />
+- <code>remove_entity(entity)</code> - Remove entity from world</p>
+<p><strong>World Effects</strong><br />
+- <code>create_explosion(location, power)</code> - Create explosion<br />
+- <code>create_explosion(location, power, fire)</code> - Explosion with fire<br />
+- <code>create_explosion(x, y, z, power)</code> - Explosion at coordinates<br />
+- <code>create_explosion(x, y, z, power, fire)</code> - Full control<br />
+- <code>strike_lightning(location)</code> - Strike lightning<br />
+- <code>strike_lightning(x, y, z)</code> - Lightning at coordinates</p>
+<p><strong>Time &amp; Weather</strong><br />
+- <code>set_time(world, time)</code> - Set world time (0-24000)<br />
+- <code>get_time(world)</code> - Get current time<br />
+- <code>set_weather(world, weather, duration)</code> - Set weather (clear, rain, thunder)<br />
+- <code>get_weather(world)</code> - Get current weather</p>
+<p><strong>Utilities</strong><br />
+- <code>get_world(name)</code> - Get world by name<br />
+- <code>broadcast(message)</code> - Broadcast to all players in scope</p>
 <h3 id="scope-functions">Scope Functions</h3>
-<p>Manage player regions:</p>
-<div class="highlight"><pre><span></span><code><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">scope</span><span class="p">)</span>
-<span class="n">addtoscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">scope</span><span class="p">)</span>
-<span class="n">getplayers</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
-</code></pre></div>
-
-<h3 id="utility-functions">Utility Functions</h3>
-<p>Helper functions:</p>
-<div class="highlight"><pre><span></span><code><span class="nx">wait</span><span class="p">(</span><span class="nx">ticks</span><span class="p">)</span>
-<span class="nx">random</span><span class="p">(</span><span class="nx">min</span><span class="p">,</span><span class="w"> </span><span class="nx">max</span><span class="p">)</span>
-<span class="nx">len</span><span class="p">(</span><span class="nx">list</span><span class="p">)</span>
-<span class="nx">type_of</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
-<span class="nx">log</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span>
-</code></pre></div>
-
-<p>See the API Reference pages for complete documentation of all built-in functions:<br />
-- <a href="../api/player.html">Player Functions</a><br />
-- <a href="../api/world.html">World Functions</a><br />
-- <a href="../api/scope.html">Scope Functions</a><br />
-- <a href="../api/utility.html">Utility Functions</a></p>
-<h2 id="best-practices">Best Practices</h2>
-<ol>
-<li><strong>Meaningful Names</strong><br />
-   ```quill<br />
-   // Good<br />
-   func calculate_damage(weapon, armor)</li>
-</ol>
-<p>// Bad<br />
-   func calc(w, a)<br />
-   ```</p>
-<ol start="2">
-<li><strong>Single Responsibility</strong><br />
-   ```quill<br />
-   // Good<br />
-   func check_health(player) {<br />
-       return get_health(player) &gt; 10;<br />
-   }</li>
-</ol>
-<p>func heal_if_low(player) {<br />
-       if !check_health(player) {<br />
-           heal(player);<br />
-       }<br />
-   }</p>
-<p>// Bad<br />
-   func do_health_stuff(player) {<br />
-       // Too many responsibilities<br />
-       if get_health(player) &gt; 10 {<br />
-           give(player, "golden_apple");<br />
-       } else {<br />
-           heal(player);<br />
-           sendmessage(player, "Healed!");<br />
-       }<br />
-   }<br />
-   ```</p>
-<ol start="3">
-<li>
-<p><strong>Validate Parameters</strong><br />
-   ```quill<br />
-   func give_items(player, amount) {<br />
-       // Check parameters first<br />
-       if !player || !is_online(player) {<br />
-           return false;<br />
-       }</p>
-<p>if amount &lt; 1 {<br />
-       return false;<br />
-   }</p>
-<p>// Main logic after validation<br />
-   return give(player, "diamond", amount);<br />
-   }<br />
-   ```</p>
-</li>
-<li>
-<p><strong>Return Consistent Types</strong><br />
-   ```quill<br />
-   // Good - always returns number<br />
-   func get_max_health(entity_type) {<br />
-       if entity_type == "zombie" {<br />
-           return 20;<br />
-       }<br />
-       return 10;  // Default<br />
-   }</p>
-</li>
-</ol>
-<p>// Bad - inconsistent returns<br />
-   func get_health_info(entity_type) {<br />
-       if entity_type == "zombie" {<br />
-           return 20;<br />
-       }<br />
-       return "unknown";  // Different type<br />
-   }<br />
-   ```</p>
-<h2 id="examples">Examples</h2>
-<p>Complex game function using multiple concepts:</p>
-<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">arena</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">);</span>
-
-<span class="k">func</span><span class="w"> </span><span class="n">start_game</span><span class="p">(</span><span class="n">required_players</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Validation</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">arena</span><span class="o">.</span><span class="n">players</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">required_players</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Not enough players!&quot;</span><span class="p">);</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="bp">false</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Setup</span>
-<span class="w">    </span><span class="n">arena</span><span class="o">.</span><span class="n">game_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">true</span><span class="p">;</span>
-<span class="w">    </span><span class="n">arena</span><span class="o">.</span><span class="n">remaining_players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">arena</span><span class="o">.</span><span class="n">players</span><span class="p">);</span>
-
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Player</span><span class="w"> </span><span class="n">initialization</span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">arena</span><span class="o">.</span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">reset_player</span><span class="p">(</span><span class="n">player</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Game started with {arena.remaining_players} players!&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="bp">true</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="k">func</span><span class="w"> </span><span class="n">reset_player</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Health</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">game</span><span class="w"> </span><span class="n">mode</span>
-<span class="w">    </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">);</span>
-<span class="w">    </span><span class="n">clear_effects</span><span class="p">(</span><span class="n">player</span><span class="p">);</span>
-<span class="w">    </span><span class="n">set_gamemode</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;survival&quot;</span><span class="p">);</span>
-
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Equipment</span>
-<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;minecraft:iron_sword&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;minecraft:bread&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
-
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Random</span><span class="w"> </span><span class="n">spawn</span><span class="w"> </span><span class="n">within</span><span class="w"> </span><span class="n">arena</span>
-<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="o">-</span><span class="mi">45</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">);</span>
-<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="o">-</span><span class="mi">45</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">);</span>
-<span class="w">    </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="k">func</span><span class="w"> </span><span class="n">eliminate_player</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">arena</span><span class="o">.</span><span class="n">game_active</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="bp">false</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="n">set_gamemode</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;spectator&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="n">arena</span><span class="o">.</span><span class="n">remaining_players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arena</span><span class="o">.</span><span class="n">remaining_players</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
-<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;{player.name} was eliminated!&quot;</span><span class="p">);</span>
-
-<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="n">win</span><span class="w"> </span><span class="n">condition</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">arena</span><span class="o">.</span><span class="n">remaining_players</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">end_game</span><span class="p">();</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="bp">true</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<h2 id="related-topics">Related topics</h2>
 <ul>
-<li><a href="data-types.html">Data Types</a> - Types used in parameters and returns</li>
-<li><a href="control-flow.html">Control Flow</a> - Logic structures inside functions</li>
-<li><a href="../concepts/events.html">Events</a> - Event handlers and functions</li>
-<li><a href="../api/">API Reference</a> - All built-in functions</li>
+<li><code>addtoscope(player, scope)</code> - Add player to scope</li>
+<li><code>removefromscope(player, scope)</code> - Remove player from scope</li>
+<li><code>getplayers(scope)</code> - Get all players in scope</li>
+<li><code>in_region(player, scope)</code> - Check if player is in region</li>
+<li><code>in_region(location, scope)</code> - Check if location is in region</li>
+<li><code>get_region(scope)</code> - Get scope's region boundaries</li>
+<li><code>set_region(scope, x1, y1, z1, x2, y2, z2)</code> - Set region boundaries</li>
 </ul>
-<hr />
-<p>Functions are a core part of organizing Quill scripts. For more examples, check out the <a href="../examples/welcome-system.html">Examples</a> section.</p>
+<h3 id="utility-functions">Utility Functions</h3>
+<p><strong>Math</strong><br />
+- <code>random(max)</code> - Random number 0 to max<br />
+- <code>random(min, max)</code> - Random number between min and max<br />
+- <code>round(number)</code> - Round to nearest integer<br />
+- <code>floor(number)</code> - Round down<br />
+- <code>ceil(number)</code> - Round up<br />
+- <code>abs(number)</code> - Absolute value<br />
+- <code>sqrt(number)</code> - Square root<br />
+- <code>pow(number, exponent)</code> - Power<br />
+- <code>distance(location1, location2)</code> - Calculate distance<br />
+- <code>distance(x1, y1, z1, x2, y2, z2)</code> - Distance between coordinates</p>
+<p><strong>Type Conversion</strong><br />
+- <code>to_string(value)</code> - Convert to string<br />
+- <code>to_number(value)</code> - Convert to number<br />
+- <code>to_boolean(value)</code> - Convert to boolean<br />
+- <code>type_of(value)</code> - Get value type</p>
+<p><strong>String Operations</strong><br />
+- <code>split(string, delimiter)</code> - Split string into list<br />
+- <code>join(list, delimiter)</code> - Join list into string<br />
+- <code>contains(string, substring)</code> - Check if string contains substring<br />
+- <code>len(string)</code> - Get string length</p>
+<p><strong>List Operations</strong><br />
+- <code>len(list)</code> - Get list length<br />
+- <code>append(list, item)</code> - Add item to list<br />
+- <code>remove(list, index)</code> - Remove item at index<br />
+- <code>contains(list, item)</code> - Check if list contains item<br />
+- <code>range(start, end)</code> - Create range of numbers<br />
+- <code>random_choice(list)</code> - Pick random item from list</p>
+<p><strong>Other</strong><br />
+- <code>log(message)</code> - Log message to console<br />
+- <code>cancel(event)</code> - Cancel Bukkit event<br />
+- <code>wait(ticks)</code> - Wait specified ticks (non-blocking)<br />
+- <code>trigger_custom(event_name, data)</code> - Trigger custom event<br />
+- <code>get_player(name)</code> - Get player by name<br />
+- <code>get_online_players()</code> - Get all online players</p>
+<h3 id="constructor-functions">Constructor Functions</h3>
+<ul>
+<li><code>location(x, y, z)</code> - Create location in current world</li>
+<li><code>location(x, y, z, world)</code> - Create location in specific world</li>
+<li><code>item(item_id)</code> - Create item stack</li>
+<li><code>item(item_id, amount)</code> - Create item with amount</li>
+<li><code>item(item_id, amount, metadata)</code> - Create item with metadata</li>
+</ul>
+<h2 id="arrow-functions-not-supported">Arrow Functions (Not Supported)</h2>
+<p>Quill does not support arrow function syntax (<code>=&gt;</code>). All functions must be declared using the <code>func</code> or <code>function</code> keyword.</p>
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="function-naming">Function Naming</h3>
+<p>Use descriptive, verb-based names for functions:</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Good</span>
+<span class="k">func</span><span class="w"> </span><span class="n">healPlayer</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">...</span><span class="w"> </span><span class="p">}</span>
+<span class="k">func</span><span class="w"> </span><span class="n">checkInventorySpace</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">...</span><span class="w"> </span><span class="p">}</span>
 
-                    <!-- Last Modified -->
+<span class="o">//</span><span class="w"> </span><span class="n">Avoid</span>
+<span class="k">func</span><span class="w"> </span><span class="n">hp</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">...</span><span class="w"> </span><span class="p">}</span>
+<span class="k">func</span><span class="w"> </span><span class="n">check</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">...</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<h3 id="parameter-count">Parameter Count</h3>
+<p>Keep parameter count reasonable (ideally 3 or fewer). For more complex data, use maps:</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Good</span>
+<span class="k">func</span><span class="w"> </span><span class="n">configurePlayer</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">set_health</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">health</span><span class="p">)</span>
+<span class="w">    </span><span class="n">set_gamemode</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">gamemode</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Less</span><span class="w"> </span><span class="n">ideal</span>
+<span class="k">func</span><span class="w"> </span><span class="n">configurePlayer</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">health</span><span class="p">,</span><span class="w"> </span><span class="n">hunger</span><span class="p">,</span><span class="w"> </span><span class="n">gamemode</span><span class="p">,</span><span class="w"> </span><span class="n">effects</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">...</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<h3 id="single-responsibility">Single Responsibility</h3>
+<p>Each function should do one thing well:</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Good</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">separate</span><span class="w"> </span><span class="n">concerns</span>
+<span class="k">func</span><span class="w"> </span><span class="n">isPlayerHealthy</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">get_health</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">15</span>
+<span class="p">}</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">healIfNeeded</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">isPlayerHealthy</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Avoid</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mixed</span><span class="w"> </span><span class="n">concerns</span>
+<span class="k">func</span><span class="w"> </span><span class="n">checkAndHealPlayer</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">get_health</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Healed!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Player healed&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="documentation">Documentation</h3>
+<p>Document complex functions with comments:</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Calculates</span><span class="w"> </span><span class="n">damage</span><span class="w"> </span><span class="n">reduction</span><span class="w"> </span><span class="n">based</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">armor</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">enchantments</span>
+<span class="o">//</span><span class="w"> </span><span class="n">Returns</span><span class="p">:</span><span class="w"> </span><span class="n">damage</span><span class="w"> </span><span class="n">multiplier</span><span class="w"> </span><span class="p">(</span><span class="mf">0.0</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span>
+<span class="k">func</span><span class="w"> </span><span class="n">calculateDamageReduction</span><span class="p">(</span><span class="n">armor</span><span class="p">,</span><span class="w"> </span><span class="n">enchantLevel</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">baseReduction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">armor</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.04</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">enchantBonus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enchantLevel</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.03</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">baseReduction</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">enchantBonus</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
                     <div class="page-meta">
-                        <span class="last-modified">Last updated: November 07, 2025</span>
+                        <span class="last-modified">Last updated: November 15, 2025</span>
                     </div>
                 </article>
 
-                <!-- Table of Contents -->
-                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#defining-functions'>Defining Functions</a></li><li style='margin-left:0px'><a href='#calling-functions'>Calling Functions</a></li><li style='margin-left:0px'><a href='#parameter-rules'>Parameter Rules</a></li><li style='margin-left:0px'><a href='#return-values'>Return Values</a></li><li style='margin-left:0px'><a href='#scope-access'>Scope Access</a></li><li style='margin-left:0px'><a href='#built-in-functions'>Built-in Functions</a></li><li style='margin-left:20px'><a href='#player-functions'>Player Functions</a></li><li style='margin-left:20px'><a href='#world-functions'>World Functions</a></li><li style='margin-left:20px'><a href='#scope-functions'>Scope Functions</a></li><li style='margin-left:20px'><a href='#utility-functions'>Utility Functions</a></li><li style='margin-left:0px'><a href='#best-practices'>Best Practices</a></li><li style='margin-left:0px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#related-topics'>Related topics</a></li></ul></nav>
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#declaring-functions'>Declaring Functions</a></li><li style='margin-left:20px'><a href='#basic-function-declaration'>Basic Function Declaration</a></li><li style='margin-left:20px'><a href='#function-parameters'>Function Parameters</a></li><li style='margin-left:20px'><a href='#return-values'>Return Values</a></li><li style='margin-left:0px'><a href='#calling-functions'>Calling Functions</a></li><li style='margin-left:20px'><a href='#basic-function-calls'>Basic Function Calls</a></li><li style='margin-left:20px'><a href='#passing-arguments'>Passing Arguments</a></li><li style='margin-left:20px'><a href='#using-return-values'>Using Return Values</a></li><li style='margin-left:0px'><a href='#function-scope'>Function Scope</a></li><li style='margin-left:20px'><a href='#local-variables'>Local Variables</a></li><li style='margin-left:20px'><a href='#closure'>Closure</a></li><li style='margin-left:20px'><a href='#accessing-outer-scope'>Accessing Outer Scope</a></li><li style='margin-left:0px'><a href='#built-in-functions'>Built-in Functions</a></li><li style='margin-left:20px'><a href='#player-functions'>Player Functions</a></li><li style='margin-left:20px'><a href='#world-functions'>World Functions</a></li><li style='margin-left:20px'><a href='#scope-functions'>Scope Functions</a></li><li style='margin-left:20px'><a href='#utility-functions'>Utility Functions</a></li><li style='margin-left:20px'><a href='#constructor-functions'>Constructor Functions</a></li><li style='margin-left:0px'><a href='#arrow-functions-not-supported'>Arrow Functions (Not Supported)</a></li><li style='margin-left:0px'><a href='#best-practices'>Best Practices</a></li><li style='margin-left:20px'><a href='#function-naming'>Function Naming</a></li><li style='margin-left:20px'><a href='#parameter-count'>Parameter Count</a></li><li style='margin-left:20px'><a href='#single-responsibility'>Single Responsibility</a></li><li style='margin-left:20px'><a href='#documentation'>Documentation</a></li></ul></nav>
             </div>
 
-            <!-- Footer -->
             <footer class="doc-footer">
                 <div class="footer-content">
                     <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
@@ -392,9 +355,7 @@ sendmessage(player, message)
         </main>
     </div>
 
-    <!-- Smooth scroll and particle animation -->
     <script>
-        // Generate floating particles
         function createParticles() {
             const particles = document.getElementById('particles');
             const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
@@ -415,7 +376,6 @@ sendmessage(player, message)
         document.addEventListener('DOMContentLoaded', function () {
             createParticles();
 
-            // Smooth scroll for TOC links
             document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -426,7 +386,6 @@ sendmessage(player, message)
                 });
             });
 
-            // Highlight current section in TOC
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
                     const id = entry.target.getAttribute('id');

@@ -10,11 +10,9 @@
 </head>
 
 <body>
-    <!-- Animated Background Particles -->
     <div class="particles" id="particles"></div>
 
     <div class="layout">
-        <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>
@@ -25,7 +23,7 @@
                 <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
             </div>
             <nav class="sidebar-nav">
-                <ul><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>concepts</span><ul><li><a href='/docs/concepts/events.html'>Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/welcome-system.html'>Welcome System</a></li></ul></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html' class='active'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/control-flow.html'>Control Flow</a></li><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li class='folder'><span class='folder-name'>tutorial</span><ul><li><a href='/docs/tutorial/first-script.html'>First Script</a></li></ul></li></ul>
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html' class='active'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
             </nav>
             <div class="sidebar-footer">
                 <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
@@ -38,9 +36,7 @@
             </div>
         </aside>
 
-        <!-- Main Content Area -->
         <main class="content">
-            <!-- Hero Section (only on index) -->
             <header class="hero hide-hero">
                 <img class="hero-logo"
                     src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
@@ -53,78 +49,234 @@
                 </div>
             </header>
 
-            <!-- Breadcrumb Navigation -->
             <nav class="breadcrumbs" aria-label="Breadcrumb">
                 <a href='../index.html'>Quill</a><span class='separator'>/</span><span class='current'>Installation</span>
             </nav>
 
-            <!-- Documentation Content -->
             <div class="doc-layout">
                 <article class="doc-content">
                     <h1 class="page-title">Installation</h1>
                     <h1 id="installation">Installation</h1>
-<p>This page shows how to install and configure Quill on your Minecraft server.</p>
+<p>This guide shows you how to install and configure Quill on your Minecraft server.</p>
+<hr />
 <h2 id="requirements">Requirements</h2>
 <ul>
-<li>Minecraft server: Bukkit / Spigot / Paper</li>
-<li>Java 21 or higher</li>
+<li><strong>Minecraft Server:</strong> Bukkit, Spigot, or Paper (1.20+)</li>
+<li><strong>Java:</strong> 21 or higher</li>
+<li><strong>Dependencies:</strong> None required</li>
 </ul>
-<h2 id="quick-setup">Quick setup</h2>
+<hr />
+<h2 id="installation-steps">Installation Steps</h2>
+<h3 id="1-download-quill">1. Download Quill</h3>
+<p>Download the latest <code>Quill-1.0.0.jar</code> from one of the following providers.<br />
+- <a href="https://modrinth.com/plugin/quill-script">Modrinth</a><br />
+- <a href="https://hangar.papermc.io/KohanMathers/Quill">Hangar</a><br />
+- <a href="https://www.spigotmc.org/resources/quill.130163/">SpigotMC</a><br />
+- <a href="https://legacy.curseforge.com/minecraft/bukkit-plugins/quill">Bukkit/Curseforge</a><br />
+- <a href="https://polymart.org/product/8834/quill">PolyMart</a></p>
+<h3 id="2-install-the-plugin">2. Install the Plugin</h3>
 <ol>
-<li>Download the latest <code>Quill.jar-0.1.0-ALPHA</code> from the Releases page.</li>
-<li>Place <code>Quil-0.1.0-ALPHAl.jar</code> in your server's <code>plugins/</code> folder.</li>
-<li>Restart your Minecraft server so the plugin can load.</li>
-<li>Configure Quill using the plugin config (example path: <code>plugins/Quill/config.yml</code>).</li>
+<li>Place <code>Quill-1.0.0.jar</code> in your server's <code>plugins/</code> folder</li>
+<li>Restart your server (or use <code>/reload confirm</code> if your server supports it)</li>
+<li>Quill will generate its configuration files automatically</li>
 </ol>
-<h2 id="detailed-steps">Detailed steps</h2>
-<h3 id="1-download">1) Download</h3>
-<p>Get the most recent release from the project's Releases page (for example: GitHub Releases). Save the <code>Quill.jar</code> file to a location accessible from your server machine.</p>
-<h3 id="2-install">2) Install</h3>
-<p>Copy <code>Quill-0.1.0-ALPHA.jar</code> into your server's <code>plugins/</code> directory. On most hosting setups this is in the server root.</p>
-<h3 id="3-start-the-server">3) Start the server</h3>
-<p>Restart your server (or run a plugin reload if your host supports it) so the plugin initializes and creates its configuration files and data folders.</p>
-<h3 id="4-configure">4) Configure</h3>
-<p>Open the generated <code>plugins/Quill/config.yml</code> to adjust runtime options.</p>
-<h2 id="common-commands-admin">Common Commands (Admin)</h2>
-<p>These commands are available via the Quill plugin:</p>
-<div class="highlight"><pre><span></span><code>/quill scope create &lt;scope_name&gt; &lt;owner_username&gt; &lt;x1&gt; &lt;y1&gt; &lt;z1&gt; &lt;x2&gt; &lt;y2&gt; &lt;z2&gt;
-/quill scope join &lt;scope_name&gt; &lt;username&gt;
-/quill permission revoke &lt;scope_name&gt; &lt;function_name&gt;
-/quill permission grant &lt;scope_name&gt; &lt;function_name&gt;
-/quill permission list &lt;scope_name&gt;
+<h3 id="3-verify-installation">3. Verify Installation</h3>
+<p>Run the following command in-game or console:</p>
+<div class="highlight"><pre><span></span><code>/quill info
 </code></pre></div>
 
-<h2 id="using-quill-player">Using Quill (Player)</h2>
-<p>Players can edit and run scripts using in-game commands:</p>
-<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">edit</span><span class="w">        </span><span class="c1"># Open in-game editor</span>
-<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span><span class="w"> </span><span class="c1"># Load a script file</span>
-<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">run</span><span class="w">         </span><span class="c1"># Compile/run current script</span>
-<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">info</span><span class="w">        </span><span class="c1"># Show scope info</span>
+<p>You should see output showing:<br />
+- Quill version<br />
+- Number of loaded scripts<br />
+- Scripts directory path</p>
+<hr />
+<h2 id="configuration">Configuration</h2>
+<p>After first startup, Quill creates a <code>config.yml</code> file in <code>plugins/Quill/</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">###############################################</span>
+<span class="c1">#      Quill – A sandboxed scripting language #</span>
+<span class="c1">#          for Minecraft event automation     #</span>
+<span class="c1">#               By Kohan Mathers              #</span>
+<span class="c1">###############################################</span>
+
+<span class="c1">##############</span>
+<span class="c1"># Web Editor #</span>
+<span class="c1">##############</span>
+
+<span class="nt">editor</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://quill.kmathers.co.uk/editor/#</span>
+
+<span class="c1">####################</span>
+<span class="c1"># DO NOT CHANGE THESE</span>
+<span class="nt">config-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">translation-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 </code></pre></div>
 
-<h2 id="notes-and-best-practices">Notes and best practices</h2>
-<ul>
-<li>Quill runs scripts in sandboxed scopes with per-scope permission controls. Use the permission commands to revoke or grant built-in functions for a scope.</li>
-<li>Persisted state (variables and scope data) is stored by the plugin — make sure to backup the plugin folder when migrating servers.</li>
-<li>If you rely on advanced features described in the SPEC (for example, custom events or persistence), verify your <code>config.yml</code> allows them and review permission settings.</li>
-</ul>
+<h3 id="editor-url">Editor URL</h3>
+<p>The <code>editor.url</code> setting points to the web-based script editor. When you run <code>/quill edit &lt;filename&gt;</code>, Quill creates a session and provides you with a clickable link to this editor.</p>
+<p><strong>Default:</strong> <code>https://quill.kmathers.co.uk/editor/#</code></p>
+<p>You can host your own editor instance if desired, but the default should work for most users.</p>
+<hr />
+<h2 id="directory-structure">Directory Structure</h2>
+<p>After installation, your plugin folder will look like this:</p>
+<div class="highlight"><pre><span></span><code>plugins/Quill/
+├── config.yml              # Plugin configuration
+├── translations.yml        # Localization strings
+├── scripts/                # Script storage
+│   ├── example.ql         # Global scripts
+│   └── my-scope/          # Scope-specific scripts
+│       └── game.ql
+└── scopes/                # Scope configurations
+    └── my-scope.yml
+</code></pre></div>
+
+<hr />
+<h2 id="permissions">Permissions</h2>
+<p>Quill uses Bukkit's permission system. Here are the key permissions:</p>
+<h3 id="admin-permissions">Admin Permissions</h3>
+<div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">quill.admin</span><span class="w">              </span><span class="c1"># Full access (all permissions below)</span>
+<span class="l l-Scalar l-Scalar-Plain">quill.scope.create</span><span class="w">       </span><span class="c1"># Create new scopes</span>
+<span class="l l-Scalar l-Scalar-Plain">quill.scope.delete.any</span><span class="w">   </span><span class="c1"># Delete any scope</span>
+<span class="l l-Scalar l-Scalar-Plain">quill.script.load.global</span><span class="w"> </span><span class="c1"># Load global scripts</span>
+<span class="l l-Scalar l-Scalar-Plain">quill.script.edit.global</span><span class="w"> </span><span class="c1"># Edit global scripts</span>
+</code></pre></div>
+
+<h3 id="player-permissions">Player Permissions</h3>
+<div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">quill.command</span><span class="w">            </span><span class="c1"># Use /quill command</span>
+<span class="l l-Scalar l-Scalar-Plain">quill.script.load.scope</span><span class="w">  </span><span class="c1"># Load scripts in owned scopes</span>
+<span class="l l-Scalar l-Scalar-Plain">quill.script.edit.scope</span><span class="w">  </span><span class="c1"># Edit scripts in owned scopes</span>
+<span class="l l-Scalar l-Scalar-Plain">quill.scope.list</span><span class="w">         </span><span class="c1"># List your own scopes</span>
+<span class="l l-Scalar l-Scalar-Plain">quill.scope.info</span><span class="w">         </span><span class="c1"># View your scope info</span>
+</code></pre></div>
+
+<p>See <a href="permissions.html">permissions.html</a> for the complete list.</p>
+<hr />
+<h2 id="first-steps">First Steps</h2>
+<h3 id="for-server-admins">For Server Admins</h3>
+<ol>
+<li>
+<p><strong>Create a test scope:</strong><br />
+<code>/quill scope create test-zone YourUsername 0 60 0 50 100 50 whitelist</code></p>
+</li>
+<li>
+<p><strong>Grant basic permissions to the scope:</strong><br />
+<code>/quill scope permission grant test-zone sendmessage
+   /quill scope permission grant test-zone log</code></p>
+</li>
+<li>
+<p><strong>Create a test script:</strong><br />
+<code>/quill edit test-zone/welcome.ql</code></p>
+</li>
+<li>
+<p><strong>Write a simple script in the editor:</strong><br />
+<code>quill
+   onEvent(PlayerJoin) {
+       log("Player joined: {player.name}")
+   }</code></p>
+</li>
+<li>
+<p><strong>Load the script:</strong><br />
+<code>/quill load test-zone/welcome.ql</code></p>
+</li>
+</ol>
+<h3 id="for-players">For Players</h3>
+<p>If your server admin has given you a scope:</p>
+<ol>
+<li>
+<p><strong>Check your scopes:</strong><br />
+<code>/quill scope list</code></p>
+</li>
+<li>
+<p><strong>View scope details:</strong><br />
+<code>/quill scope info your-scope-name</code></p>
+</li>
+<li>
+<p><strong>Create a script:</strong><br />
+<code>/quill edit your-scope-name/my-script.ql</code></p>
+</li>
+<li>
+<p><strong>Load your script:</strong><br />
+<code>/quill load your-scope-name/my-script.ql</code></p>
+</li>
+</ol>
+<hr />
 <h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="plugin-wont-load">Plugin won't load</h3>
+<p><strong>Check your Java version:</strong></p>
+<div class="highlight"><pre><span></span><code>java -version
+</code></pre></div>
+
+<p>Quill requires Java 21 or higher.</p>
+<p><strong>Check server logs:</strong><br />
+Look for errors in <code>logs/latest.log</code>. Common issues:<br />
+- Incompatible Minecraft version<br />
+- Missing dependencies (shouldn't happen with Quill)<br />
+- File permission errors</p>
+<h3 id="scripts-wont-load">Scripts won't load</h3>
+<p><strong>Verify file location:</strong><br />
+Scripts must be in <code>plugins/Quill/scripts/</code> (for global) or <code>plugins/Quill/scripts/scope-name/</code> (for scoped scripts).</p>
+<p><strong>Check file extension:</strong><br />
+Scripts must end in <code>.ql</code> or <code>.quill</code>.</p>
+<p><strong>Review permissions:</strong><br />
+Make sure your scope has permission for the functions you're using:</p>
+<div class="highlight"><pre><span></span><code>/quill scope permission list your-scope-name
+</code></pre></div>
+
+<h3 id="editor-link-doesnt-work">Editor link doesn't work</h3>
+<p><strong>Check the editor URL:</strong><br />
+Verify <code>editor.url</code> in <code>config.yml</code> starts with <code>http://</code> or <code>https://</code>.</p>
+<p><strong>Firewall issues:</strong><br />
+Some server hosts block outgoing connections. Try accessing the editor manually in your browser.</p>
+<h3 id="permission-errors">Permission errors</h3>
+<p><strong>Global scripts:</strong><br />
+You need <code>quill.script.load.global</code> permission to load scripts in the root <code>scripts/</code> folder.</p>
+<p><strong>Scoped scripts:</strong><br />
+You need either:<br />
+- <code>quill.script.load.scope</code> permission AND ownership of the scope, OR<br />
+- <code>quill.script.load.global</code> permission</p>
+<hr />
+<h2 id="updating-quill">Updating Quill</h2>
+<ol>
+<li>
+<p><strong>Backup your data:</strong><br />
+<code>plugins/Quill/scripts/
+   plugins/Quill/scopes/</code></p>
+</li>
+<li>
+<p><strong>Replace the JAR:</strong><br />
+   - Stop your server<br />
+   - Replace <code>Quill-X.X.X.jar</code> with the new version<br />
+   - Start your server</p>
+</li>
+<li>
+<p><strong>Check for breaking changes:</strong><br />
+   Review the <a href="changelog.html">changelog</a> for any breaking changes.</p>
+</li>
+</ol>
+<p>Quill will automatically migrate your configuration if needed.</p>
+<hr />
+<h2 id="next-steps">Next Steps</h2>
 <ul>
-<li>If the plugin does not load, check the server logs for Java exceptions. Ensure you run Java 21+.</li>
-<li>If features appear missing, confirm you installed the correct <code>Quill-0.1.0-ALPHA.jar</code> release and restart the server after replacing the jar.</li>
+<li><strong><a href="quickstart.html">Quick Start Guide</a></strong> - Write your first script</li>
+<li><strong><a href="language/syntax.html">Language Basics</a></strong> - Learn Quill syntax</li>
+<li><strong><a href="examples/basic-scripts.html">Examples</a></strong> - See working scripts</li>
+<li><strong><a href="commands/script-management.html">Commands Reference</a></strong> - Learn all commands</li>
+</ul>
+<hr />
+<h2 id="getting-help">Getting Help</h2>
+<ul>
+<li><strong>Discord:</strong> <a href="https://discord.gg/FZuVXszuuM">KM's Support &amp; Updates</a></li>
+<li><strong>GitHub Issues:</strong> <a href="https://github.com/kohanmathers/quill/issues">Report bugs</a></li>
+<li><strong>GitHub Discussions:</strong> <a href="https://github.com/kohanmathers/quill/discussions">Ask questions</a></li>
 </ul>
 
-                    <!-- Last Modified -->
                     <div class="page-meta">
-                        <span class="last-modified">Last updated: November 07, 2025</span>
+                        <span class="last-modified">Last updated: November 15, 2025</span>
                     </div>
                 </article>
 
-                <!-- Table of Contents -->
-                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#requirements'>Requirements</a></li><li style='margin-left:0px'><a href='#quick-setup'>Quick setup</a></li><li style='margin-left:0px'><a href='#detailed-steps'>Detailed steps</a></li><li style='margin-left:20px'><a href='#1-download'>1) Download</a></li><li style='margin-left:20px'><a href='#2-install'>2) Install</a></li><li style='margin-left:20px'><a href='#3-start-the-server'>3) Start the server</a></li><li style='margin-left:20px'><a href='#4-configure'>4) Configure</a></li><li style='margin-left:0px'><a href='#common-commands-admin'>Common Commands (Admin)</a></li><li style='margin-left:0px'><a href='#using-quill-player'>Using Quill (Player)</a></li><li style='margin-left:0px'><a href='#notes-and-best-practices'>Notes and best practices</a></li><li style='margin-left:0px'><a href='#troubleshooting'>Troubleshooting</a></li></ul></nav>
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#requirements'>Requirements</a></li><li style='margin-left:0px'><a href='#installation-steps'>Installation Steps</a></li><li style='margin-left:20px'><a href='#1.-download-quill'>1. Download Quill</a></li><li style='margin-left:20px'><a href='#2.-install-the-plugin'>2. Install the Plugin</a></li><li style='margin-left:20px'><a href='#3.-verify-installation'>3. Verify Installation</a></li><li style='margin-left:0px'><a href='#configuration'>Configuration</a></li><li style='margin-left:20px'><a href='#editor-url'>Editor URL</a></li><li style='margin-left:0px'><a href='#directory-structure'>Directory Structure</a></li><li style='margin-left:0px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#admin-permissions'>Admin Permissions</a></li><li style='margin-left:20px'><a href='#player-permissions'>Player Permissions</a></li><li style='margin-left:0px'><a href='#first-steps'>First Steps</a></li><li style='margin-left:20px'><a href='#for-server-admins'>For Server Admins</a></li><li style='margin-left:20px'><a href='#for-players'>For Players</a></li><li style='margin-left:0px'><a href='#troubleshooting'>Troubleshooting</a></li><li style='margin-left:20px'><a href='#plugin-won't-load'>Plugin won't load</a></li><li style='margin-left:20px'><a href='#scripts-won't-load'>Scripts won't load</a></li><li style='margin-left:20px'><a href='#editor-link-doesn't-work'>Editor link doesn't work</a></li><li style='margin-left:20px'><a href='#permission-errors'>Permission errors</a></li><li style='margin-left:0px'><a href='#updating-quill'>Updating Quill</a></li><li style='margin-left:0px'><a href='#next-steps'>Next Steps</a></li><li style='margin-left:0px'><a href='#getting-help'>Getting Help</a></li></ul></nav>
             </div>
 
-            <!-- Footer -->
             <footer class="doc-footer">
                 <div class="footer-content">
                     <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
@@ -140,9 +292,7 @@
         </main>
     </div>
 
-    <!-- Smooth scroll and particle animation -->
     <script>
-        // Generate floating particles
         function createParticles() {
             const particles = document.getElementById('particles');
             const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
@@ -163,7 +313,6 @@
         document.addEventListener('DOMContentLoaded', function () {
             createParticles();
 
-            // Smooth scroll for TOC links
             document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -174,7 +323,6 @@
                 });
             });
 
-            // Highlight current section in TOC
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
                     const id = entry.target.getAttribute('id');

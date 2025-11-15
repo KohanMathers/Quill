@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Frequently Asked Questions — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html' class='active'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span class='current'>Faq</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Frequently Asked Questions</h1>
+                    <h1 id="frequently-asked-questions">Frequently Asked Questions</h1>
+<h2 id="general-questions">General Questions</h2>
+<h3 id="what-is-quill">What is Quill?</h3>
+<p>Quill allows players to write custom scripts that react to in-game events within defined physical boundaries. Scripts run in isolated scopes with granular permission controls, making it safe for server owners to delegate creativity to their community.</p>
+<h3 id="who-should-use-quill">Who should use Quill?</h3>
+<p>Quill is designed for server owners that want to delegate creativity to their members without giving them the full freedom other scripting plugins provide.</p>
+<h3 id="is-quill-safe-for-production-servers">Is Quill safe for production servers?</h3>
+<p>The core language and API are stable, but minor breaking changes may still occur.</p>
+<h3 id="what-versions-of-minecraft-does-quill-support">What versions of Minecraft does Quill support?</h3>
+<p>Quill is developed and tested on 1.21, but may work on older versions although untested.</p>
+<h2 id="scripting-questions">Scripting Questions</h2>
+<h3 id="what-language-does-quill-use">What language does Quill use?</h3>
+<p>Quill's syntax is designed to be clean, readable, and familiar to anyone who has used JavaScript, Python, or similar languages. </p>
+<h3 id="can-i-use-javascriptpythonetc">Can I use JavaScript/Python/etc?</h3>
+<p>No, although Quill's syntax is similar it is still unique.</p>
+<h3 id="how-do-i-learn-quill">How do I learn Quill?</h3>
+<p>As of writing (15/11/2025) the only available tutorial is the guides in this documentation.</p>
+<h3 id="where-do-i-put-my-scripts">Where do I put my scripts?</h3>
+<p><code>plugins/Quill/scripts</code></p>
+<h2 id="scope-questions">Scope Questions</h2>
+<h3 id="what-is-a-scope">What is a scope?</h3>
+<p>A scope is a context that defines:<br />
+1. <strong>Variable accessibility</strong> - Which variables can be read and written<br />
+2. <strong>Physical boundaries</strong> - A 3D region in the Minecraft world (optional)<br />
+3. <strong>Player membership</strong> - Which players belong to the scope<br />
+4. <strong>Function permissions</strong> - Which built-in functions can be called<br />
+5. <strong>Persistent variables</strong> - Variables that survive script reloads</p>
+<h3 id="do-i-need-to-create-a-scope">Do I need to create a scope?</h3>
+<p>Not necessarily. Although you can run all scopes in the global scope, you should create scopes for security.</p>
+<h3 id="can-scopes-overlap">Can scopes overlap?</h3>
+<p>Yes, and players will be marked as being in both scope's regions.</p>
+<h3 id="how-many-scopes-can-i-have">How many scopes can I have?</h3>
+<p>As many as you want, although for performance reasons the recommended max is ~20</p>
+<h2 id="security-questions">Security Questions</h2>
+<h3 id="can-scripts-harm-my-server">Can scripts harm my server?</h3>
+<p>If they are not properly scoped, there is a low chance a malicious script could overwork the server to the point of harm.</p>
+<h3 id="what-permissions-should-i-give-players">What permissions should I give players?</h3>
+<p>The general recommendation for permissions for a normal player are as follows</p>
+<div class="highlight"><pre><span></span><code><span class="n">quill</span><span class="o">.</span><span class="n">command</span>
+<span class="n">quill</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">scope</span>
+<span class="n">quill</span><span class="o">.</span><span class="n">reload</span><span class="o">.</span><span class="n">scope</span>
+<span class="n">quill</span><span class="o">.</span><span class="n">unload</span><span class="o">.</span><span class="n">scope</span>
+<span class="n">quill</span><span class="o">.</span><span class="n">list</span>
+<span class="n">quill</span><span class="o">.</span><span class="n">info</span>
+<span class="n">quill</span><span class="o">.</span><span class="n">help</span>
+<span class="n">quill</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">list</span>
+<span class="n">quill</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">info</span>
+<span class="n">quill</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">persist</span>
+</code></pre></div>
+
+<h3 id="how-do-i-restrict-dangerous-functions">How do I restrict dangerous functions?</h3>
+<ul>
+<li><code>/quill scope mode &lt;name&gt; blacklist</code></li>
+<li><code>/quill scope permission revoke &lt;permission&gt;</code><br />
+And repeat for all permissions you wish to restrict</li>
+</ul>
+<h3 id="can-scripts-access-files">Can scripts access files?</h3>
+<p>No, although that is planned for a future release.</p>
+<h2 id="performance-questions">Performance Questions</h2>
+<h3 id="will-quill-slow-down-my-server">Will Quill slow down my server?</h3>
+<p>On average, Quill runs extremely performant unless you have 20 or more scopes running 3 or more scripts each.</p>
+<h3 id="how-many-scripts-can-i-run">How many scripts can I run?</h3>
+<p>Unlimited, but refer to the question above for the recommended amount</p>
+<h3 id="do-events-impact-tps">Do events impact TPS?</h3>
+<p>Refer to <code>Will Quill slow down my server?</code></p>
+<h3 id="should-i-optimize-my-scripts">Should I optimize my scripts?</h3>
+<p>Yes.</p>
+<h2 id="integration-questions">Integration Questions</h2>
+<h3 id="can-quill-work-with-other-plugins">Can Quill work with other plugins?</h3>
+<p>Quill can work <em>alongside</em> other plugins, although it has no integration with them.</p>
+<h3 id="can-i-trigger-quill-from-other-plugins">Can I trigger Quill from other plugins?</h3>
+<p>Not currently, although you can modify events before they reach Quill (see <a href="developer/api-integration.html">API Integration</a>)</p>
+<h3 id="does-quill-support-worldguard-regions">Does Quill support WorldGuard regions?</h3>
+<p>Refer to <code>Can Quill work with other plugins?</code></p>
+<h3 id="can-i-use-quill-with-economy-plugins">Can I use Quill with economy plugins?</h3>
+<p>Refer to <code>Can Quill work with other plugins?</code></p>
+<h3 id="whats-the-meaning-of-life">What's the meaning of life?</h3>
+<p>42.</p>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#general-questions'>General Questions</a></li><li style='margin-left:20px'><a href='#what-is-quill'>What is Quill?</a></li><li style='margin-left:20px'><a href='#who-should-use-quill'>Who should use Quill?</a></li><li style='margin-left:20px'><a href='#is-quill-safe-for-production-servers'>Is Quill safe for production servers?</a></li><li style='margin-left:20px'><a href='#what-versions-of-minecraft-does-quill-support'>What versions of Minecraft does Quill support?</a></li><li style='margin-left:0px'><a href='#scripting-questions'>Scripting Questions</a></li><li style='margin-left:20px'><a href='#what-language-does-quill-use'>What language does Quill use?</a></li><li style='margin-left:20px'><a href='#can-i-use-javascript/python/etc'>Can I use JavaScript/Python/etc?</a></li><li style='margin-left:20px'><a href='#how-do-i-learn-quill'>How do I learn Quill?</a></li><li style='margin-left:20px'><a href='#where-do-i-put-my-scripts'>Where do I put my scripts?</a></li><li style='margin-left:0px'><a href='#scope-questions'>Scope Questions</a></li><li style='margin-left:20px'><a href='#what-is-a-scope'>What is a scope?</a></li><li style='margin-left:20px'><a href='#do-i-need-to-create-a-scope'>Do I need to create a scope?</a></li><li style='margin-left:20px'><a href='#can-scopes-overlap'>Can scopes overlap?</a></li><li style='margin-left:20px'><a href='#how-many-scopes-can-i-have'>How many scopes can I have?</a></li><li style='margin-left:0px'><a href='#security-questions'>Security Questions</a></li><li style='margin-left:20px'><a href='#can-scripts-harm-my-server'>Can scripts harm my server?</a></li><li style='margin-left:20px'><a href='#what-permissions-should-i-give-players'>What permissions should I give players?</a></li><li style='margin-left:20px'><a href='#how-do-i-restrict-dangerous-functions'>How do I restrict dangerous functions?</a></li><li style='margin-left:20px'><a href='#can-scripts-access-files'>Can scripts access files?</a></li><li style='margin-left:0px'><a href='#performance-questions'>Performance Questions</a></li><li style='margin-left:20px'><a href='#will-quill-slow-down-my-server'>Will Quill slow down my server?</a></li><li style='margin-left:20px'><a href='#how-many-scripts-can-i-run'>How many scripts can I run?</a></li><li style='margin-left:20px'><a href='#do-events-impact-tps'>Do events impact TPS?</a></li><li style='margin-left:20px'><a href='#should-i-optimize-my-scripts'>Should I optimize my scripts?</a></li><li style='margin-left:0px'><a href='#integration-questions'>Integration Questions</a></li><li style='margin-left:20px'><a href='#can-quill-work-with-other-plugins'>Can Quill work with other plugins?</a></li><li style='margin-left:20px'><a href='#can-i-trigger-quill-from-other-plugins'>Can I trigger Quill from other plugins?</a></li><li style='margin-left:20px'><a href='#does-quill-support-worldguard-regions'>Does Quill support WorldGuard regions?</a></li><li style='margin-left:20px'><a href='#can-i-use-quill-with-economy-plugins'>Can I use Quill with economy plugins?</a></li><li style='margin-left:20px'><a href='#what's-the-meaning-of-life'>What's the meaning of life?</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

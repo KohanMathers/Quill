@@ -16,6 +16,7 @@ public class ScopeContext {
     private final String name;
     private final ScopeContext parent;
     private final Map<String, QuillValue> variables;
+    private final Set<String> consts;
     private final Map<String, ScopeContext> subscopes;
     private final Set<Player> players;
     private Region region;
@@ -25,6 +26,7 @@ public class ScopeContext {
         this.name = name;
         this.parent = null;
         this.variables = new HashMap<>();
+        this.consts = new HashSet<>();
         this.subscopes = new HashMap<>();
         this.players = new HashSet<>();
         this.region = region;
@@ -35,6 +37,7 @@ public class ScopeContext {
         this.name = name;
         this.parent = parent;
         this.variables = new HashMap<>();
+        this.consts = new HashSet<>();
         this.subscopes = new HashMap<>();
         this.players = new HashSet<>();
         this.region = region;
@@ -45,6 +48,7 @@ public class ScopeContext {
         this.name = "anonymous";
         this.parent = parent;
         this.variables = new HashMap<>();
+        this.consts = new HashSet<>();
         this.subscopes = new HashMap<>();
         this.players = new HashSet<>();
         this.region = parent != null ? parent.region : null;
@@ -63,12 +67,34 @@ public class ScopeContext {
         variables.put(name, value);
     }
     
+    public void defineConst(String name, QuillValue value) {
+        if (variables.containsKey(name)) {
+            throw new RuntimeException(plugin.translate("quill.error.user.scope.already-defined", name));
+        }
+        variables.put(name, value);
+        consts.add(name);
+    }
+
+    private boolean isConst(String name) {
+        if (consts.contains(name)) {
+            return true;
+        }
+        if (parent != null && parent.has(name)) {
+            return parent.isConst(name);
+        }
+        return false;
+    }
+
     /**
      * Set a variable's value.
      * Looks up the scope chain to find where the variable is defined.
      * If not found anywhere, defines it in the current scope.
      */
     public void set(String name, QuillValue value) {
+        if (consts.contains(name)) {
+            throw new RuntimeException(plugin.translate("quill.error.user.scope.cannot-const", name));
+        }
+
         if (variables.containsKey(name)) {
             variables.put(name, value);
             return;
@@ -77,9 +103,16 @@ public class ScopeContext {
         if (parent != null) {
             try {
                 parent.get(name);
+                if (parent.isConst(name)) {
+                    throw new RuntimeException(plugin.translate("quill.error.user.scope.cannot-const", name));
+                }
                 parent.set(name, value);
                 return;
             } catch (RuntimeException e) {
+                // If a const error, re-throw
+                if (e.getMessage().contains(plugin.translate("quill.error.user.scope.cannot-const", name))) {
+                    throw e;
+                }
                 // Variable doesn't exist in parent chain, define it here
             }
         }

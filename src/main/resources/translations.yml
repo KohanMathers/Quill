@@ -188,6 +188,7 @@ quill:
         wrong-boundary-list-size: "Scope boundaries must be 6 items: (x1, y1, z1, x2, y2, z2)"
         no-persistent-var: "Persistent variable '{0}' does not exist"
         no-player: "Player '{0}' not found. They must have joined the server at least once."
+        cannot-const: "Cannot reassign constant variable '{0}'"
 
       misc:
         invalid-sound: "Invalid sound: {0}"

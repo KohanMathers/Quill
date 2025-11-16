@@ -667,13 +667,23 @@ public class QuillInterpreter {
             
             if (storedValue != null) {
                 QuillValue persistedValue = convertObjectToQuillValue(storedValue);
-                currentScope.define(node.name, persistedValue);
+
+                if (node.isConst) {
+                    currentScope.defineConst(node.name, persistedValue);
+                } else {
+                    currentScope.define(node.name, persistedValue);
+                }
                 return NullValue.INSTANCE;
             }
         }
         
         QuillValue value = evaluate(node.value);
-        currentScope.define(node.name, value);
+
+            if (node.isConst) {
+                currentScope.defineConst(node.name, value);
+            } else {
+                currentScope.define(node.name, value);
+            }
         
         if (permissionScope != null && permissionScope.getPersistentVars().containsKey(node.name)) {
             Object javaValue = convertQuillValueToObject(value);

@@ -30,10 +30,10 @@ public class Quill extends JavaPlugin {
 
     public boolean editValid = true;
 
-    @Override
+   @Override
     public void onEnable() {
         getLogger().info("Enabling Quill...");
-    
+
         saveDefaultConfig();
         saveResource("translations.yml", false);
 
@@ -41,17 +41,15 @@ public class Quill extends JavaPlugin {
             getDataFolder().mkdirs();
         }
 
+        File translationsFile = new File(getDataFolder(), "translations.yml");
+        translations = YamlConfiguration.loadConfiguration(translationsFile);
+
         validateConfig();
 
         getServer().getPluginManager().registerEvents(new QuillInternalListeners(this), this);
 
-        File translationsFile = new File(getDataFolder(), "translations.yml");
-        translations = YamlConfiguration.loadConfiguration(translationsFile);
-
         scopeManager = new QuillScopeManager(this, getDataFolder(), getLogger());
-
         scriptManager = new QuillScriptManager(this, getDataFolder(), getLogger(), scopeManager);
-
         eventBridge = new QuillEventBridge(scriptManager, this);
 
         try {
@@ -68,7 +66,7 @@ public class Quill extends JavaPlugin {
 
         getLogger().info(translate("quill.system.state.enabled"));
     }
-    
+        
     @Override
     public void onDisable() {
         getLogger().info("Disabling Quill...");

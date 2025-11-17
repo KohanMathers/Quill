@@ -91,8 +91,8 @@ public class Quill extends JavaPlugin {
         String[] scripts = scriptManager.listAllScripts();
         
         if (scripts.length == 0) {
-            getLogger().info(translate("autoload.no-scripts"));
-            getLogger().info(translate("autoload.no-scripts-hint", scriptManager.getScriptsDirectory().getAbsolutePath()));
+            getLogger().info(translate("quill.system.autoload.no-scripts"));
+            getLogger().info(translate("quill.system.autoload.no-scripts-hint", scriptManager.getScriptsDirectory().getAbsolutePath()));
             return;
         }
         

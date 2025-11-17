@@ -79,6 +79,7 @@ import me.kmathers.quill.interpreter.QuillValue.*;
 import me.kmathers.quill.lexer.QuillLexer;
 import me.kmathers.quill.lexer.QuillLexer.Token;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -115,13 +116,33 @@ public class QuillInterpreter {
     }
     
     // === Main Evaluation ===
-    
+        
     public void execute(Program program) {
-        for (ASTNode statement : program.statements) {
-            evaluate(statement);
+        executeStatementsAsync(program.statements, 0);
+    }
+
+    private void executeStatementsAsync(List<ASTNode> statements, int startIndex) {
+        for (int i = startIndex; i < statements.size(); i++) {
+            final int currentIndex = i;
+            try {
+                evaluate(statements.get(i));
+            } catch (RuntimeException e) {
+                if (e.getMessage() != null && e.getMessage().startsWith("QL-INTERNAL-CALL-WAIT:")) {
+                    int ticks = Integer.parseInt(e.getMessage().substring("QL-INTERNAL-CALL-WAIT:".length()));
+                    
+                    final List<ASTNode> finalStatements = statements;
+                    
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        executeStatementsAsync(finalStatements, currentIndex + 1);
+                    }, ticks);
+                    
+                    return;
+                }
+                throw e;
+            }
         }
     }
-    
+
     public QuillValue evaluate(ASTNode node) {
         if (node == null) {
             return NullValue.INSTANCE;

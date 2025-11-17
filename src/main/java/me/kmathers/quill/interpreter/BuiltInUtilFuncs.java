@@ -65,14 +65,13 @@ public class BuiltInUtilFuncs {
                 throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-single", "wait()", "wait(ticks)"));
             }
             
-            // TODO: Handle wait
             int ticks = (int) args.get(0).asNumber();
             
             if (ticks < 0) {
                 throw new RuntimeException(plugin.translate("quill.error.developer.arguments.expected", "non-negative digit", "wait()", String.valueOf(ticks)));
             }
             
-            return new BooleanValue(true);
+            throw new RuntimeException("QL-INTERNAL-CALL-WAIT:" + ticks);
         }
     }
 

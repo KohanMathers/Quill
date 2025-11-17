@@ -542,20 +542,28 @@ public class BuiltInPlayerFuncs {
             throw new RuntimeException(plugin.translate("quill.error.user.item.empty-item-id"));
         }
         
-        String materialName = itemId;
+        Material material;
+        
         if (itemId.contains(":")) {
             String[] parts = itemId.split(":", 2);
-            // TODO: Implement handling for other namespaces
-            materialName = parts[1].toUpperCase();
+            String namespace = parts[0];
+            String materialName = parts[1].toUpperCase();
+            
+            if ("minecraft".equalsIgnoreCase(namespace)) {
+                try {
+                    material = Material.valueOf(materialName);
+                } catch (IllegalArgumentException e) {
+                    throw new RuntimeException(plugin.translate("quill.error.user.item.invalid-item-id", itemId));
+                }
+            } else {
+                throw new RuntimeException(plugin.translate("quill.error.user.item.custom-namespace-not-supported", namespace));
+            }
         } else {
-            materialName = itemId.toUpperCase();
-        }
-        
-        Material material;
-        try {
-            material = Material.valueOf(materialName);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(plugin.translate("quill.error.user.item.invalid-item-id", itemId));
+            try {
+                material = Material.valueOf(itemId.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new RuntimeException(plugin.translate("quill.error.user.item.invalid-item-id", itemId));
+            }
         }
         
         if (amount < 1) {

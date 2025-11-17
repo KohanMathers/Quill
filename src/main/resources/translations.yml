@@ -200,6 +200,7 @@ quill:
         empty-item-id: "Invalid item_id: cannot be null or empty"
         invalid-item-id: "Invalid item_id: '{0}' is not a valid Minecraft item"
         under-1-item: "Item amount must be at least 1, got: {0}"
+        custom-namespace-not-supported: "Custom namespace '{0}' is not supported"        
 
       scope:
         already-defined: "Variable {0} already defined in this scope"

@@ -19,9 +19,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Main plugin class for Quill.
  */
 public class Quill extends JavaPlugin {
-    // Version constants
-    private static final int CURRENT_CONFIG_VERSION = 1;
-    private static final int CURRENT_TRANSLATION_VERSION = 1;
+    private static final int CURRENT_CONFIG_VERSION = 2;
+    private static final int CURRENT_TRANSLATION_VERSION = 2;
     
     private QuillScriptManager scriptManager;
     private QuillEventBridge eventBridge;

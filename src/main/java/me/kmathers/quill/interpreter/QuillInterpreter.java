@@ -332,6 +332,18 @@ public class QuillInterpreter {
                                     default:
                                         throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "entity", prop));
                                 }
+                            } else if (current.isRegion()) {
+                                RegionValue region = (RegionValue) current;
+                                switch (prop) {
+                                    case "x1": current = new NumberValue(region.getX1()); break;
+                                    case "y1": current = new NumberValue(region.getY1()); break;
+                                    case "z1": current = new NumberValue(region.getZ1()); break;
+                                    case "x2": current = new NumberValue(region.getX2()); break;
+                                    case "y2": current = new NumberValue(region.getY2()); break;
+                                    case "z2": current = new NumberValue(region.getZ2()); break;
+                                    default:
+                                        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "region", prop));
+                                }
                             } else if (current.isMap()) {
                                 MapValue mapValue = (MapValue) current;
                                 current = mapValue.get(prop);
@@ -462,6 +474,20 @@ public class QuillInterpreter {
             }
         }
         
+        if (object.isRegion()) {
+            RegionValue region = object.asRegion();
+            switch (node.property) {
+                case "x1": return new NumberValue(region.getX1());
+                case "y1": return new NumberValue(region.getY1());
+                case "z1": return new NumberValue(region.getZ1());
+                case "x2": return new NumberValue(region.getX2());
+                case "y2": return new NumberValue(region.getY2());
+                case "z2": return new NumberValue(region.getZ2());
+                default:
+                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "region", node.property));
+            }
+        }
+
         if (object.isMap()) {
             MapValue mapValue = (MapValue) object;
             return mapValue.get(node.property);

@@ -1,5 +1,5 @@
 name: Quill
-version: 0.2.0
+version: 1.0.0
 main: me.kmathers.quill.Quill
 api-version: 1.20
 author: Kohan Mathers

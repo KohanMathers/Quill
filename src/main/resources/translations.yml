@@ -232,6 +232,7 @@ quill:
         cannot-persist: "Cannot persist variable: {0}"
         index-out-of-bounds: "Index {0} out of bounds of list of size {1}"
         cannot-index: "Cannot index object of type {0}"
+        infinite-loop: "Infinite loop detected in {0} loop: {1}"
 
       parser:
         expected: "Expected {0} but got {1} at line {2}"

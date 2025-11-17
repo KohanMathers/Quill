@@ -95,7 +95,13 @@ public class QuillInterpreter {
     private Map<String, BuiltInFunction> builtIns;
     private Map<String, List<EventHandler>> eventHandlers;
     private Scope permissionScope;
-    
+    private ThreadLocal<LoopDetector> loopDetector = ThreadLocal.withInitial(() -> 
+        new LoopDetector(
+            plugin.getConfig().getInt("safety.max-loop-iterations", 10000), 
+            plugin.getConfig().getLong("safety.max-loop-time-ms", 5000)
+        )
+    );
+
     private static class ReturnSignal extends RuntimeException {
         final QuillValue value;
         ReturnSignal(QuillValue value) { this.value = value; }
@@ -751,8 +757,12 @@ public class QuillInterpreter {
     }
     
     private QuillValue evaluateWhileStatement(WhileStatement node) {
+        LoopDetector detector = loopDetector.get();
+        detector.startLoop();
+
         try {
             while (evaluate(node.condition).isTruthy()) {
+                detector.checkIteration();
                 try {
                     for (ASTNode statement : node.body) {
                         evaluate(statement);
@@ -763,6 +773,13 @@ public class QuillInterpreter {
             }
         } catch (BreakSignal b) {
             // Break out of loop
+        } catch (LoopDetector.InfiniteLoopException e) {
+            throw new RuntimeException(
+                plugin.translate("quill.error.runtime.interpreter.infinite-loop", 
+                    "while", e.getMessage())
+            );
+        } finally {
+            detector.endLoop();
         }
         
         return NullValue.INSTANCE;
@@ -771,7 +788,8 @@ public class QuillInterpreter {
 
     private QuillValue evaluateForStatement(ForStatement node) {
         QuillValue iterable = evaluate(node.iterable);
-        
+        LoopDetector detector = loopDetector.get();
+
         if (!iterable.isList()) {
             throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "list", iterable.getType()));
         }
@@ -792,8 +810,11 @@ public class QuillInterpreter {
             }
         }
         
+        detector.startLoop();
+
         try {
             for (QuillValue item : items) {
+                detector.checkIteration();
                 ScopeContext iterationScope = isSubscopeIteration 
                     ? new ScopeContext(subscope)
                     : new ScopeContext(currentScope);
@@ -817,6 +838,13 @@ public class QuillInterpreter {
             }
         } catch (BreakSignal b) {
             // Break out of loop
+        }  catch (LoopDetector.InfiniteLoopException e) {
+            throw new RuntimeException(
+                plugin.translate("quill.error.runtime.interpreter.infinite-loop", 
+                    "for", e.getMessage())
+            );
+        } finally {
+            detector.endLoop();
         }
         
         return NullValue.INSTANCE;
@@ -1063,5 +1091,11 @@ public class QuillInterpreter {
 
     public Set<String> getRegisteredEvents() {
         return eventHandlers.keySet();
+    }
+
+    public void setLoopLimits(int maxIterations, long maxExecutionTimeMs) {
+        loopDetector = ThreadLocal.withInitial(() -> 
+            new LoopDetector(maxIterations, maxExecutionTimeMs)
+        );
     }
 }

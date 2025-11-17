@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
+import me.kmathers.quill.Quill;
 import me.kmathers.quill.interpreter.QuillValue.ItemValue;
 import me.kmathers.quill.interpreter.QuillValue.LocationValue;
 
@@ -15,12 +16,13 @@ import me.kmathers.quill.interpreter.QuillValue.LocationValue;
  * Built-in constructor functions for Quill.
  */
 public class BuiltInConstructorFuncs {
-    
+    private static Quill plugin = Quill.getPlugin(Quill.class);
+
     public static class LocationFunction implements QuillInterpreter.BuiltInFunction {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() != 3 && args.size() != 4) {
-                throw new RuntimeException("location() requires 3 or 4 arguments: location(x, y, z) or location(x, y, z, world)");
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "location()", "3 or 4", "location(x, y, z) or location(x, y, z, world)"));
             }
             
             double x = args.get(0).asNumber();
@@ -32,16 +34,16 @@ public class BuiltInConstructorFuncs {
                 String worldName = args.get(3).asString();
                 world = Bukkit.getWorld(worldName);
                 if (world == null) {
-                    throw new RuntimeException("World not found: " + worldName);
+                    throw new RuntimeException(plugin.translate("quill.error.user.world.world-not-found", worldName));
                 }
             } else {
                 ScopeContext.Region region = scope.getRegion();
                 if (region == null) {
-                    throw new RuntimeException("No region defined in scope - cannot determine world for location");
+                    throw new RuntimeException(plugin.translate("quill.error.user.world.no-region-defined"));
                 }
                 world = Bukkit.getWorld(region.getWorldName());
                 if (world == null) {
-                    throw new RuntimeException("World '" + region.getWorldName() + "' not found");
+                    throw new RuntimeException(plugin.translate("quill.error.user.world.world-not-found", region.getWorldName()));
                 }
             }
             
@@ -53,7 +55,7 @@ public class BuiltInConstructorFuncs {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
             if (args.size() < 1 || args.size() > 3) {
-                throw new RuntimeException("item() requires 1 to 3 arguments: item(item_id), item(item_id, amount), or item(item_id, amount, metadata)");
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "item()", "1 to 3", "item(item_id), item(item_id, amount), or item(item_id, amount, metadata)"));
             }
             
             String itemId = args.get(0).asString();
@@ -66,7 +68,7 @@ public class BuiltInConstructorFuncs {
         
         private ItemStack createItemStack(String itemId, int amount) {
             if (itemId == null || itemId.isEmpty()) {
-                throw new RuntimeException("Invalid item_id: cannot be null or empty");
+                throw new RuntimeException(plugin.translate("quill.error.user.item.empty-item-id"));
             }
             
             String materialName = itemId;
@@ -81,11 +83,11 @@ public class BuiltInConstructorFuncs {
             try {
                 material = Material.valueOf(materialName);
             } catch (IllegalArgumentException e) {
-                throw new RuntimeException("Invalid item_id: '" + itemId + "' is not a valid Minecraft item");
+                throw new RuntimeException(plugin.translate("quill.error.user.item.invalid-item-id", itemId));
             }
             
             if (amount < 1) {
-                throw new RuntimeException("Item amount must be at least 1, got: " + amount);
+                throw new RuntimeException(plugin.translate("quill.error.user.item.under-1-item", amount));
             }
             if (amount > 64) {
                 amount = Math.min(amount, material.getMaxStackSize());

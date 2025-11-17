@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Quick Start — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html' class='active'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span class='current'>Quickstart</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Quick Start</h1>
+                    <h1 id="quick-start">Quick Start</h1>
+<p>Welcome to Quill! This guide will help you write your first script and get familiar with the basics.</p>
+<h2 id="introduction">Introduction</h2>
+<p>This guide will help you set up your first script and understand the basics of Quill. It assumes you have read the <a href="index.html">introduction to Quill</a> and have <a href="installation.html">installed</a> Quill on your server.</p>
+<h2 id="your-first-script">Your First Script</h2>
+<p>Let's create a simple welcome-message script that greets players when they join.</p>
+<h3 id="step-1-create-a-scope">Step 1: Create a Scope</h3>
+<p>First, create a scope for your script. A scope defines where your script can operate:</p>
+<div class="highlight"><pre><span></span><code>/quill scope create welcome-zone YourUsername -100 60 -100 100 120 100 whitelist
+</code></pre></div>
+
+<p>This creates a scope named <code>welcome-zone</code> that:</p>
+<ul>
+<li>Covers coordinates from (-100, 60, -100) to (100, 120, 100)</li>
+<li>Is owned by you</li>
+<li>Uses whitelist mode (only explicitly granted functions work)</li>
+</ul>
+<p>Allow the scope to send messages to players:</p>
+<div class="highlight"><pre><span></span><code>/quill scope permission grant welcome-zone sendmessage
+</code></pre></div>
+
+<p>Open the web editor:</p>
+<div class="highlight"><pre><span></span><code>/quill edit welcome-zone/welcome.ql
+</code></pre></div>
+
+<p>Click the link that appears in chat. This opens the Quill editor in your browser.</p>
+<h3 id="step-2-write-a-simple-script">Step 2: Write a Simple Script</h3>
+<p>In the editor, write the following script:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerJoin</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Get</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">player</span><span class="err">&#39;s username</span>
+<span class="err">    username = player.name</span>
+
+<span class="err">    // Send the player a welcome message</span>
+<span class="err">    sendmessage(player, &quot;Welcome to the server, &quot; + username + &quot;!&quot;)</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p>Press the <strong>Save &amp; Exit</strong> button in the top right.</p>
+<h3 id="step-3-load-the-script">Step 3: Load the Script</h3>
+<p>In-game, load the script with:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">welcome</span><span class="o">-</span><span class="n">zone</span><span class="p">,</span><span class="w"> </span><span class="n">welcome</span><span class="o">.</span><span class="n">ql</span>
+</code></pre></div>
+
+<p>This loads and runs the script.</p>
+<h3 id="step-4-test-it-out">Step 4: Test It Out</h3>
+<p>Have a player join the game to see if they receive the message. If they do, congratulations — you’ve just created your first script!</p>
+<h2 id="basic-examples">Basic Examples</h2>
+<h3 id="example-1-welcome-message">Example 1: Welcome Message</h3>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerJoin</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Get</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">player</span><span class="err">&#39;s username</span>
+<span class="err">    username = player.name</span>
+
+<span class="err">    // Send the player a welcome message</span>
+<span class="err">    sendmessage(player, &quot;Welcome to the server, &quot; + username + &quot;!&quot;)</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h3 id="example-2-heal-on-command">Example 2: Heal on Command</h3>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerChat</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="ss">(</span><span class="nv">chat</span>.<span class="nv">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!heal&quot;</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">heal</span><span class="ss">(</span><span class="nv">player</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<h3 id="example-3-block-break-counter">Example 3: Block Break Counter</h3>
+<div class="highlight"><pre><span></span><code>let blocks_broken = 0
+
+OnEvent(BlockBreak) {
+    blocks_broken = blocks_broken + 1
+    sendmessage(player, &quot;You have broken &quot; + blocks_broken + &quot; blocks!&quot;)
+}
+</code></pre></div>
+
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li>Read the <a href="language/syntax.html">syntax</a></li>
+<li>Learn about the different <a href="language/data-types.html">data types</a></li>
+<li>Discover <a href="language/events.html">events</a></li>
+<li>Read more about <a href="language/scopes.html">scopes</a></li>
+</ul>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#introduction'>Introduction</a></li><li style='margin-left:0px'><a href='#your-first-script'>Your First Script</a></li><li style='margin-left:20px'><a href='#step-1:-create-a-scope'>Step 1: Create a Scope</a></li><li style='margin-left:20px'><a href='#step-2:-write-a-simple-script'>Step 2: Write a Simple Script</a></li><li style='margin-left:20px'><a href='#step-3:-load-the-script'>Step 3: Load the Script</a></li><li style='margin-left:20px'><a href='#step-4:-test-it-out'>Step 4: Test It Out</a></li><li style='margin-left:0px'><a href='#basic-examples'>Basic Examples</a></li><li style='margin-left:20px'><a href='#example-1:-welcome-message'>Example 1: Welcome Message</a></li><li style='margin-left:20px'><a href='#example-2:-heal-on-command'>Example 2: Heal on Command</a></li><li style='margin-left:20px'><a href='#example-3:-block-break-counter'>Example 3: Block Break Counter</a></li><li style='margin-left:0px'><a href='#next-steps'>Next Steps</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

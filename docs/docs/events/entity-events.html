@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Entity Events — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html' class='active'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Events</span><span class='separator'>/</span><span class='current'>Entity Events</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Entity Events</h1>
+                    <h1 id="entity-events">Entity Events</h1>
+<h2 id="overview">Overview</h2>
+<p>Entity events are triggered by actions involving entities in Minecraft, including mobs, animals, and other non-player entities. These events allow you to control mob spawning, customize mob behavior, modify damage, and implement custom drops.</p>
+<p>All entity events provide access to the <code>entity</code> involved and the underlying Bukkit <code>event</code> object. Many entity events can be cancelled using the <code>cancel()</code> function.</p>
+<p><strong>Basic event structure:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">EventName</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">entity</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">entity</span><span class="w"> </span><span class="n">involved</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">event</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">Bukkit</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="n">object</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Additional</span><span class="w"> </span><span class="n">context</span><span class="o">-</span><span class="n">specific</span><span class="w"> </span><span class="n">variables</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Use</span><span class="w"> </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">cancellable</span><span class="w"> </span><span class="n">events</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="entityspawn">EntitySpawn</h2>
+<p>Triggered when an entity spawns in the world.</p>
+<h3 id="event-context">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>entity</code> - The entity that spawned (Entity object)<br />
+- <code>event</code> - The Bukkit EntitySpawnEvent/CreatureSpawnEvent object<br />
+- <code>location</code> - Where the entity spawned (Location)<br />
+- <code>spawn_reason</code> - Why the entity spawned (string)</p>
+<p><strong>Entity properties:</strong><br />
+- <code>entity.type</code> - Entity type (string, e.g., "ZOMBIE", "CREEPER")<br />
+- <code>entity.location</code> - Current location (Location)<br />
+- <code>entity.alive</code> - Whether entity is alive (boolean)</p>
+<p><strong>Cancellable:</strong> Yes</p>
+<p><strong>Common spawn reasons:</strong><br />
+- <code>"NATURAL"</code> - Natural spawning<br />
+- <code>"SPAWNER"</code> - Mob spawner<br />
+- <code>"EGG"</code> - Spawn egg<br />
+- <code>"CUSTOM"</code> - Plugin/command spawn<br />
+- <code>"BREEDING"</code> - Animal breeding</p>
+<h3 id="example">Example</h3>
+<p><strong>Prevent certain mobs from spawning:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">banned_mobs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;CREEPER&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ENDERMAN&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;PHANTOM&quot;</span><span class="p">]</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntitySpawn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">contains</span><span class="p">(</span><span class="nx">banned_mobs</span><span class="p">,</span><span class="w"> </span><span class="nx">mobType</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Prevented &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; from spawning&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Limit mob spawning in regions:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">safe_zone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">new</span><span class="w"> </span><span class="nx">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntitySpawn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">spawnLoc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">location</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">in_region</span><span class="p">(</span><span class="nx">spawnLoc</span><span class="p">,</span><span class="w"> </span><span class="nx">safe_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Only allow passive mobs in safe zone</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">hostile_mobs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;ZOMBIE&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SKELETON&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;CREEPER&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SPIDER&quot;</span><span class="p">]</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">contains</span><span class="p">(</span><span class="nx">hostile_mobs</span><span class="p">,</span><span class="w"> </span><span class="nx">mobType</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Prevent spawner spawning:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntitySpawn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">spawn_reason</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;SPAWNER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;BLAZE&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Prevented blaze spawner spawn&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Custom spawn modifications:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntitySpawn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;ZOMBIE&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 10% chance to spawn baby zombie</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="m m-Double">0.1</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Note: Modifying entity properties requires specific Bukkit API access</span>
+<span class="w">            </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Spawned baby zombie at &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">location</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">location</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">location</span><span class="p">.</span><span class="nx">z</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Limit mob density:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">spawn_area</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">new</span><span class="w"> </span><span class="nx">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">max_mobs_in_area</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">50</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntitySpawn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">in_region</span><span class="p">(</span><span class="nx">location</span><span class="p">,</span><span class="w"> </span><span class="nx">spawn_area</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Count existing mobs in area (simplified)</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">        </span><span class="c1">// If spawning would exceed limit, cancel</span>
+<span class="w">        </span><span class="c1">// (Full implementation would require counting nearby entities)</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Mob spawned in monitored area: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">mobType</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Log spawn patterns:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">spawn_log</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">EntitySpawn</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">mobType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entity</span><span class="p">.</span><span class="n">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">spawn_log</span><span class="p">,</span><span class="w"> </span><span class="n">mobType</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">spawn_log</span><span class="o">[</span><span class="n">mobType</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">spawn_log</span><span class="o">[</span><span class="n">mobType</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spawn_log</span><span class="o">[</span><span class="n">mobType</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="n">mobType</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; spawned (total: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">spawn_log</span><span class="o">[</span><span class="n">mobType</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot;)&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Reason: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">spawn_reason</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; at &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">location</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot;, &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">location</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot;, &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">location</span><span class="p">.</span><span class="n">z</span><span class="p">)</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="entitydeath">EntityDeath</h2>
+<p>Triggered when an entity dies.</p>
+<h3 id="event-context_1">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>entity</code> - The entity that died (Entity object)<br />
+- <code>event</code> - The Bukkit EntityDeathEvent object<br />
+- <code>killer</code> - The entity/player that killed this entity (may be null)</p>
+<p><strong>Entity properties:</strong><br />
+- <code>entity.type</code> - Entity type (string)<br />
+- <code>entity.location</code> - Death location (Location)</p>
+<p><strong>Cancellable:</strong> No (but can modify drops)</p>
+<h3 id="example_1">Example</h3>
+<p><strong>Custom mob drops:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">deathLoc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="nx">location</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;ZOMBIE&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 5% chance to drop diamond</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="m m-Double">0.05</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">spawn_entity</span><span class="p">(</span><span class="s">&quot;ITEM&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">deathLoc</span><span class="p">)</span>
+<span class="w">            </span><span class="c1">// Note: Creating item entities requires additional implementation</span>
+<span class="w">            </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Zombie dropped bonus diamond!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;CREEPER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Always drop extra gunpowder</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Creeper died - bonus gunpowder drop&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Track mob kills:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">mob_kills</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">EntityDeath</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">mobType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entity</span><span class="p">.</span><span class="n">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">killer</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="k">Check</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">killer</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">player</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">killerType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">killer</span><span class="p">.</span><span class="n">type</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">killerType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;PLAYER&quot;</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">let</span><span class="w"> </span><span class="n">playerName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">killer</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">mob_kills</span><span class="p">,</span><span class="w"> </span><span class="n">playerName</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="n">mob_kills</span><span class="o">[</span><span class="n">playerName</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+<span class="w">            </span><span class="err">}</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">mob_kills</span><span class="o">[</span><span class="n">playerName</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">mobType</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="n">mob_kills</span><span class="o">[</span><span class="n">playerName</span><span class="o">][</span><span class="n">mobType</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="err">}</span>
+
+<span class="w">            </span><span class="n">mob_kills</span><span class="o">[</span><span class="n">playerName</span><span class="o">][</span><span class="n">mobType</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mob_kills</span><span class="o">[</span><span class="n">playerName</span><span class="o">][</span><span class="n">mobType</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">killer</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Killed &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mobType</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; (total: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mob_kills</span><span class="o">[</span><span class="n">playerName</span><span class="o">][</span><span class="n">mobType</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot;)&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Prevent mob drops in specific areas:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">no_drops_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">EntityDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">deathLoc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entity</span><span class="p">.</span><span class="n">location</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">deathLoc</span><span class="p">,</span><span class="w"> </span><span class="n">no_drops_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Note: Clearing drops requires event.drops manipulation</span>
+<span class="w">        </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Mob died in no-drops zone&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Boss mob mechanics:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">boss_mobs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;ENDER_DRAGON&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;WITHER&quot;</span><span class="p">]</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">contains</span><span class="p">(</span><span class="nx">boss_mobs</span><span class="p">,</span><span class="w"> </span><span class="nx">mobType</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s">&quot;Boss defeated: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;!&quot;</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">killer</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">killer</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PLAYER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">killer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You defeated a boss!&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">give</span><span class="p">(</span><span class="nx">killer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">give</span><span class="p">(</span><span class="nx">killer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;emerald&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// Trigger custom event for boss death</span>
+<span class="w">        </span><span class="nx">trigger_custom</span><span class="p">(</span><span class="s">&quot;boss_defeated&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">boss_type</span><span class="p">:</span><span class="w"> </span><span class="nx">mobType</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">location</span><span class="p">:</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="nx">location</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">killer</span><span class="p">:</span><span class="w"> </span><span class="nx">killer</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>XP multiplier:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="c1">// Specific mobs give bonus XP</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;ZOMBIE&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;SKELETON&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">killer</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">killer</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PLAYER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Player &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">get_name</span><span class="p">(</span><span class="nx">killer</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; killed &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">mobType</span><span class="p">)</span>
+<span class="w">            </span><span class="c1">// Note: XP modification requires event.droppedExp manipulation</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Mob death effects:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">deathLoc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="nx">location</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;CREEPER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Create small explosion effect</span>
+<span class="w">        </span><span class="nx">create_explosion</span><span class="p">(</span><span class="nx">deathLoc</span><span class="p">,</span><span class="w"> </span><span class="m m-Double">1.0</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;ENDERMAN&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Create particles and sound</span>
+<span class="w">        </span><span class="nx">playsound_at</span><span class="p">(</span><span class="nx">deathLoc</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;entity.enderman.death&quot;</span><span class="p">,</span><span class="w"> </span><span class="m m-Double">1.0</span><span class="p">,</span><span class="w"> </span><span class="m m-Double">1.0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="entitydamage">EntityDamage</h2>
+<p>Triggered when an entity takes damage.</p>
+<h3 id="event-context_2">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>entity</code> - The entity taking damage (Entity object)<br />
+- <code>event</code> - The Bukkit EntityDamageEvent object<br />
+- <code>damage</code> - Amount of damage (number)<br />
+- <code>cause</code> - Damage cause (string)<br />
+- <code>damager</code> - The entity causing damage (may be null, available in EntityDamageByEntity)</p>
+<p><strong>Entity properties:</strong><br />
+- <code>entity.type</code> - Entity type (string)<br />
+- <code>entity.location</code> - Current location (Location)<br />
+- <code>entity.alive</code> - Whether entity is alive (boolean)</p>
+<p><strong>Cancellable:</strong> Yes</p>
+<p><strong>Common damage causes:</strong><br />
+- <code>"ENTITY_ATTACK"</code> - Melee attack<br />
+- <code>"PROJECTILE"</code> - Arrow, snowball, etc.<br />
+- <code>"FALL"</code> - Fall damage<br />
+- <code>"FIRE"</code> - Fire damage<br />
+- <code>"LAVA"</code> - Lava damage<br />
+- <code>"DROWNING"</code> - Drowning<br />
+- <code>"BLOCK_EXPLOSION"</code> - TNT explosion<br />
+- <code>"ENTITY_EXPLOSION"</code> - Creeper explosion</p>
+<h3 id="example_2">Example</h3>
+<p><strong>Invincible mobs in region:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">protected_area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">20</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">20</span><span class="p">,</span><span class="w"> </span><span class="mh">20</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">20</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">EntityDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">entityLoc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entity</span><span class="p">.</span><span class="n">location</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">entityLoc</span><span class="p">,</span><span class="w"> </span><span class="n">protected_area</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">        </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Protected entity from damage&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Damage multipliers:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">high_damage_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">200</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">200</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">EntityDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">entity</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">high_damage_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Double all damage in this zone</span>
+<span class="w">        </span><span class="k">event</span><span class="p">.</span><span class="n">damage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">damage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mh">2</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Prevent specific damage types:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="c1">// Make zombies immune to fire</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;ZOMBIE&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">cause</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;FIRE&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">cause</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;LAVA&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Track damage dealt by players:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">damage_dealt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">EntityDamage</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="k">Check</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">there</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">damager</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">damager</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">damager</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;PLAYER&quot;</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">let</span><span class="w"> </span><span class="n">playerName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">damager</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">damage_dealt</span><span class="p">,</span><span class="w"> </span><span class="n">playerName</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="n">damage_dealt</span><span class="o">[</span><span class="n">playerName</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="err">}</span>
+
+<span class="w">            </span><span class="n">damage_dealt</span><span class="o">[</span><span class="n">playerName</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">damage_dealt</span><span class="o">[</span><span class="n">playerName</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">damage</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Boss damage resistance:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">boss_entities</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;ENDER_DRAGON&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;WITHER&quot;</span><span class="p">]</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">contains</span><span class="p">(</span><span class="nx">boss_entities</span><span class="p">,</span><span class="w"> </span><span class="nx">mobType</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Reduce damage to bosses by 50%</span>
+<span class="w">        </span><span class="nx">event</span><span class="p">.</span><span class="nx">damage</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">damage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m m-Double">0.5</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">damager</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">damager</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PLAYER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">damager</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Boss has high resistance!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Projectile damage modification:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">cause</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PROJECTILE&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">        </span><span class="c1">// Skeletons take extra damage from arrows</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;SKELETON&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">event</span><span class="p">.</span><span class="nx">damage</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">damage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m m-Double">1.5</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">damager</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">damager</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PLAYER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">damager</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Projectile hit: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">damage</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; damage&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Damage thresholds:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">damage</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// High damage - trigger special event</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;High damage event: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">damage</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; to &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">damager</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">damager</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PLAYER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">damager</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Critical hit! &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">damage</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; damage&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">playsound</span><span class="p">(</span><span class="nx">damager</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;entity.player.attack.crit&quot;</span><span class="p">,</span><span class="w"> </span><span class="m m-Double">1.0</span><span class="p">,</span><span class="w"> </span><span class="m m-Double">1.0</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="event-properties-reference">Event Properties Reference</h2>
+<h3 id="entity-object">Entity Object</h3>
+<p>All entity events provide an <code>entity</code> object with these properties:</p>
+<p><strong>entity.type</strong> (string)<br />
+- Entity type name in uppercase<br />
+- Examples: <code>"ZOMBIE"</code>, <code>"CREEPER"</code>, <code>"COW"</code>, <code>"ARROW"</code></p>
+<p><strong>entity.location</strong> (Location)<br />
+- Current location of the entity<br />
+- Access with: <code>entity.location.x</code>, <code>entity.location.y</code>, <code>entity.location.z</code></p>
+<p><strong>entity.alive</strong> (boolean)<br />
+- Whether the entity is alive<br />
+- <code>true</code> for living entities, <code>false</code> for dead entities</p>
+<p><strong>Getting entity type:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntitySpawn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Entity spawned: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">type</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Checking entity location:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(EntityDamage) {
+    let loc = entity.location
+    log(&quot;Entity at: &quot; + loc.x + &quot;, &quot; + loc.y + &quot;, &quot; + loc.z)
+}
+</code></pre></div>
+
+<h3 id="location-properties">Location Properties</h3>
+<p>Events provide location information:</p>
+<p><strong>location.x, location.y, location.z</strong> (number)<br />
+- Coordinates of the location</p>
+<p><strong>location.world</strong> (World)<br />
+- The world the location is in</p>
+<h3 id="killerdamager-properties">Killer/Damager Properties</h3>
+<p>When available, <code>killer</code> or <code>damager</code> have the same properties as entities:</p>
+<p><strong>Check if killer is player:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">killer</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">killer</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PLAYER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="nx">playerName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_name</span><span class="p">(</span><span class="nx">killer</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Killed by player: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">playerName</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="common-patterns">Common Patterns</h2>
+<h3 id="mob-spawning-control">Mob Spawning Control</h3>
+<p>Control where and when mobs spawn:</p>
+<p><strong>Biome-based spawning:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">desert_area</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">new</span><span class="w"> </span><span class="nx">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">forest_area</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">new</span><span class="w"> </span><span class="nx">Scope</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntitySpawn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">spawnLoc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">location</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">in_region</span><span class="p">(</span><span class="nx">spawnLoc</span><span class="p">,</span><span class="w"> </span><span class="nx">desert_area</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Only allow desert mobs</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">desert_mobs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;HUSK&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;RABBIT&quot;</span><span class="p">]</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">!</span><span class="nx">contains</span><span class="p">(</span><span class="nx">desert_mobs</span><span class="p">,</span><span class="w"> </span><span class="nx">mobType</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">in_region</span><span class="p">(</span><span class="nx">spawnLoc</span><span class="p">,</span><span class="w"> </span><span class="nx">forest_area</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// No zombies in forest</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;ZOMBIE&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">            </span><span class="c1">// Spawn cow instead</span>
+<span class="w">            </span><span class="nx">spawn_entity</span><span class="p">(</span><span class="s">&quot;COW&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">spawnLoc</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Time-based spawning:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntitySpawn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">world_time</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_time</span><span class="p">(</span><span class="nx">spawn_location</span><span class="p">.</span><span class="nx">world</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="c1">// Only allow hostile mobs at night (13000-23000 ticks)</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">hostile_mobs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;ZOMBIE&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SKELETON&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;CREEPER&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SPIDER&quot;</span><span class="p">]</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">contains</span><span class="p">(</span><span class="nx">hostile_mobs</span><span class="p">,</span><span class="w"> </span><span class="nx">mobType</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">world_time</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">13000</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">world_time</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">23000</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Spawn rate limiting:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">spawn_cooldowns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+<span class="n">let</span><span class="w"> </span><span class="n">cooldown_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">seconds</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">EntitySpawn</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">mobType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entity</span><span class="p">.</span><span class="n">type</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">currentTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_time</span><span class="p">(</span><span class="n">location</span><span class="p">.</span><span class="n">world</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">spawn_cooldowns</span><span class="p">,</span><span class="w"> </span><span class="n">mobType</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">lastSpawn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spawn_cooldowns</span><span class="o">[</span><span class="n">mobType</span><span class="o">]</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">currentTime</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastSpawn</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cooldown_time</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">spawn_cooldowns</span><span class="o">[</span><span class="n">mobType</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentTime</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Replace spawns:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntitySpawn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="c1">// Replace all zombie spawns with husks</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;ZOMBIE&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="m m-Double">0.3</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">spawn_entity</span><span class="p">(</span><span class="s">&quot;HUSK&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">location</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="custom-drops">Custom Drops</h3>
+<p>Implement custom loot tables:</p>
+<p><strong>Tier-based drops:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">mob_tiers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+<span class="n">mob_tiers</span><span class="o">[</span><span class="n">&quot;ZOMBIE&quot;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="n">mob_tiers</span><span class="o">[</span><span class="n">&quot;SKELETON&quot;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="n">mob_tiers</span><span class="o">[</span><span class="n">&quot;CREEPER&quot;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="n">mob_tiers</span><span class="o">[</span><span class="n">&quot;ENDERMAN&quot;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">tier_rewards</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+<span class="n">tier_rewards</span><span class="o">[</span><span class="n">1</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&quot;iron_ingot&quot;, &quot;coal&quot;</span><span class="o">]</span>
+<span class="n">tier_rewards</span><span class="o">[</span><span class="n">2</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&quot;gold_ingot&quot;, &quot;redstone&quot;</span><span class="o">]</span>
+<span class="n">tier_rewards</span><span class="o">[</span><span class="n">3</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&quot;diamond&quot;, &quot;emerald&quot;</span><span class="o">]</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">EntityDeath</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">mobType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entity</span><span class="p">.</span><span class="n">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">mob_tiers</span><span class="p">,</span><span class="w"> </span><span class="n">mobType</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">tier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mob_tiers</span><span class="o">[</span><span class="n">mobType</span><span class="o">]</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">possible_drops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tier_rewards</span><span class="o">[</span><span class="n">tier</span><span class="o">]</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Random</span><span class="w"> </span><span class="k">drop</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">tier</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="k">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">random_choice</span><span class="p">(</span><span class="n">possible_drops</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">killer</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">killer</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;PLAYER&quot;</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">give</span><span class="p">(</span><span class="n">killer</span><span class="p">,</span><span class="w"> </span><span class="k">drop</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">killer</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Bonus drop: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">drop</span><span class="p">)</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Conditional drops:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">killer</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">killer</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PLAYER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Drop depends on what killed it</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;ZOMBIE&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// If killed with fire, drop cooked meat</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">has_item</span><span class="p">(</span><span class="nx">killer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;flint_and_steel&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">give</span><span class="p">(</span><span class="nx">killer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cooked_beef&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">give</span><span class="p">(</span><span class="nx">killer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;rotten_flesh&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Location-based drops:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">bonus_drop_zone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">new</span><span class="w"> </span><span class="nx">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">deathLoc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="nx">location</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">in_region</span><span class="p">(</span><span class="nx">deathLoc</span><span class="p">,</span><span class="w"> </span><span class="nx">bonus_drop_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">killer</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">killer</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PLAYER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Double drops in this zone</span>
+<span class="w">            </span><span class="nx">give</span><span class="p">(</span><span class="nx">killer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;emerald&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">killer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bonus drop zone!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Boss loot:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;WITHER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s">&quot;Wither defeated! Distributing rewards...&quot;</span><span class="p">)</span>
+
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">online_players</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_online_players</span><span class="p">()</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">online_players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">give</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;nether_star&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">give</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Boss reward received!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="damage-modification">Damage Modification</h3>
+<p>Customize damage calculations:</p>
+<p><strong>Weapon-based multipliers:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">damager</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">damager</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PLAYER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Check weapon type (simplified)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">has_item</span><span class="p">(</span><span class="nx">damager</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond_sword&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">event</span><span class="p">.</span><span class="nx">damage</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">damage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m m-Double">1.5</span>
+<span class="w">            </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">damager</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Diamond sword bonus!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">has_item</span><span class="p">(</span><span class="nx">damager</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;netherite_sword&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">event</span><span class="p">.</span><span class="nx">damage</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">damage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m m-Double">2.0</span>
+<span class="w">            </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">damager</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Netherite sword bonus!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Entity-specific resistances:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">entity_resistances</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+<span class="n">entity_resistances</span><span class="o">[</span><span class="n">&quot;ZOMBIE&quot;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span><span class="nl">fire</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="nl">projectile</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="err">}</span>
+<span class="n">entity_resistances</span><span class="o">[</span><span class="n">&quot;SKELETON&quot;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span><span class="nl">fire</span><span class="p">:</span><span class="w"> </span><span class="mf">1.5</span><span class="p">,</span><span class="w"> </span><span class="nl">projectile</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="err">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">EntityDamage</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">mobType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entity</span><span class="p">.</span><span class="n">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">entity_resistances</span><span class="p">,</span><span class="w"> </span><span class="n">mobType</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">resistances</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entity_resistances</span><span class="o">[</span><span class="n">mobType</span><span class="o">]</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">cause</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;FIRE&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">resistances</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;fire&quot;</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">event</span><span class="p">.</span><span class="n">damage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">damage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">resistances</span><span class="o">[</span><span class="n">&quot;fire&quot;</span><span class="o">]</span>
+<span class="w">        </span><span class="err">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">cause</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;PROJECTILE&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">resistances</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;projectile&quot;</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">event</span><span class="p">.</span><span class="n">damage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">damage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">resistances</span><span class="o">[</span><span class="n">&quot;projectile&quot;</span><span class="o">]</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Health-based damage scaling:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">entity</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">mobType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;ZOMBIE&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Zombies take more damage when low health</span>
+<span class="w">        </span><span class="c1">// Note: Getting entity health requires additional implementation</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Zombie damaged: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">damage</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Damage caps:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">max_damage</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">damage</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="nx">max_damage</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">event</span><span class="p">.</span><span class="nx">damage</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">max_damage</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">damager</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">damager</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PLAYER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">damager</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Damage capped at &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">max_damage</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Critical hit system:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntityDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">damager</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nx">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">damager</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PLAYER&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 10% chance for critical hit</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="m m-Double">0.1</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">event</span><span class="p">.</span><span class="nx">damage</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">damage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">            </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">damager</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;CRITICAL HIT! &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="nx">damage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; damage&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">playsound</span><span class="p">(</span><span class="nx">damager</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;entity.player.attack.crit&quot;</span><span class="p">,</span><span class="w"> </span><span class="m m-Double">1.0</span><span class="p">,</span><span class="w"> </span><span class="m m-Double">1.0</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Team damage prevention:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">player_teams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">EntityDamage</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">damager</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">entity</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;PLAYER&quot;</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">damager</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;PLAYER&quot;</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">let</span><span class="w"> </span><span class="n">attackerName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">damager</span><span class="p">)</span>
+<span class="w">            </span><span class="n">let</span><span class="w"> </span><span class="n">victimName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+
+<span class="w">            </span><span class="o">//</span><span class="w"> </span><span class="k">Check</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="n">team</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">player_teams</span><span class="p">,</span><span class="w"> </span><span class="n">attackerName</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">player_teams</span><span class="p">,</span><span class="w"> </span><span class="n">victimName</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="n">player_teams</span><span class="o">[</span><span class="n">attackerName</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">player_teams</span><span class="o">[</span><span class="n">victimName</span><span class="o">]</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                    </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="w">                    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">damager</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;You can&#39;t hurt your teammate!&quot;</span><span class="p">)</span>
+<span class="w">                </span><span class="err">}</span>
+<span class="w">            </span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#entityspawn'>EntitySpawn</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#entitydeath'>EntityDeath</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#entitydamage'>EntityDamage</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#event-properties-reference'>Event Properties Reference</a></li><li style='margin-left:20px'><a href='#entity-object'>Entity Object</a></li><li style='margin-left:20px'><a href='#location-properties'>Location Properties</a></li><li style='margin-left:20px'><a href='#killer/damager-properties'>Killer/Damager Properties</a></li><li style='margin-left:0px'><a href='#common-patterns'>Common Patterns</a></li><li style='margin-left:20px'><a href='#mob-spawning-control'>Mob Spawning Control</a></li><li style='margin-left:20px'><a href='#custom-drops'>Custom Drops</a></li><li style='margin-left:20px'><a href='#damage-modification'>Damage Modification</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

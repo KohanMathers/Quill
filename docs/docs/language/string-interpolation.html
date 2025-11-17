@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>String Interpolation — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html' class='active'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Language</span><span class='separator'>/</span><span class='current'>String Interpolation</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">String Interpolation</h1>
+                    <h1 id="string-interpolation">String Interpolation</h1>
+<h2 id="overview">Overview</h2>
+<p>String interpolation in Quill allows you to embed variable values and expressions directly within string literals using curly brace syntax <code>{...}</code>. At runtime, the expressions are evaluated and converted to strings, making it easy to create dynamic messages without manual concatenation.</p>
+<p>String interpolation works in any string literal (single or double quotes) and supports variables, member access, and nested properties. This feature is particularly useful for player messages, logging, and displaying dynamic game state.</p>
+<h2 id="basic-syntax">Basic Syntax</h2>
+<h3 id="simple-variables">Simple Variables</h3>
+<p>Wrap variable names in curly braces to interpolate them:</p>
+<div class="highlight"><pre><span></span><code>let playerName = &quot;Steve&quot;
+let message = &quot;Hello, {playerName}!&quot;
+// Result: &quot;Hello, Steve!&quot;
+</code></pre></div>
+
+<p>The variable is evaluated and converted to a string at the point where the string is created.</p>
+<h3 id="examples">Examples</h3>
+<p><strong>With numbers:</strong></p>
+<div class="highlight"><pre><span></span><code>let score = 1500
+let text = &quot;Your score: {score}&quot;
+// Result: &quot;Your score: 1500&quot;
+</code></pre></div>
+
+<p><strong>With booleans:</strong></p>
+<div class="highlight"><pre><span></span><code>let isOnline = true
+let status = &quot;Online status: {isOnline}&quot;
+// Result: &quot;Online status: true&quot;
+</code></pre></div>
+
+<p><strong>In event handlers:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerJoin) {
+    let greeting = &quot;Welcome, {player.name}!&quot;
+    sendmessage(player, greeting)
+    // Result: &quot;Welcome, Steve!&quot;
+}
+</code></pre></div>
+
+<p><strong>In function calls:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Player {player.name} broke {block.type}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="c1">// Result: &quot;Player Steve broke diamond_ore&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="expressions-in-interpolation">Expressions in Interpolation</h2>
+<h3 id="member-access">Member Access</h3>
+<p>Access object properties using dot notation:</p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerJoin) {
+    sendmessage(player, &quot;Welcome, {player.name}!&quot;)
+    // Accesses the &#39;name&#39; property of player
+}
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerMove) {
+    let x = move.to.x
+    let y = move.to.y
+    let z = move.to.z
+    sendmessage(player, &quot;Position: {move.to.x}, {move.to.y}, {move.to.z}&quot;)
+    // Result: &quot;Position: 123.5, 64.0, -45.2&quot;
+}
+</code></pre></div>
+
+<h3 id="nested-properties">Nested Properties</h3>
+<p>Chain multiple property accesses:</p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="s">&quot;World: {move.to.world.name}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="c1">// Accesses: move -&gt; to -&gt; world -&gt; name</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Broke {block.type} at X: {block.location.x}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="c1">// Accesses nested location properties</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Available nested properties:</strong></p>
+<p>Player properties:<br />
+- <code>{player.name}</code> - Username<br />
+- <code>{player.health}</code> - Current health<br />
+- <code>{player.hunger}</code> - Current hunger<br />
+- <code>{player.location.x}</code> - X coordinate<br />
+- <code>{player.location.y}</code> - Y coordinate<br />
+- <code>{player.location.z}</code> - Z coordinate<br />
+- <code>{player.gamemode}</code> - Current gamemode<br />
+- <code>{player.flying}</code> - Flight status<br />
+- <code>{player.online}</code> - Online status</p>
+<p>Location properties:<br />
+- <code>{location.x}</code> - X coordinate<br />
+- <code>{location.y}</code> - Y coordinate<br />
+- <code>{location.z}</code> - Z coordinate<br />
+- <code>{location.world.name}</code> - World name</p>
+<p>Item properties:<br />
+- <code>{item.type}</code> - Item material<br />
+- <code>{item.amount}</code> - Stack size</p>
+<p>Entity properties:<br />
+- <code>{entity.type}</code> - Entity type<br />
+- <code>{entity.location.x}</code> - X coordinate<br />
+- <code>{entity.alive}</code> - Alive status</p>
+<h3 id="limitations">Limitations</h3>
+<p><strong>Function calls are NOT supported:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// DOES NOT WORK</span>
+<span class="n">let</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Health: {get_health(player)}&quot;</span>
+<span class="c1">// Error: Function calls not supported in interpolation</span>
+</code></pre></div>
+
+<p><strong>Arithmetic expressions are NOT supported:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// DOES NOT WORK</span>
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">let</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Result: {x + 5}&quot;</span>
+<span class="c1">// Error: Arithmetic not supported in interpolation</span>
+</code></pre></div>
+
+<p><strong>Complex expressions are NOT supported:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// DOES NOT WORK</span>
+<span class="n">let</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Status: {player.health &gt; 10}&quot;</span>
+<span class="c1">// Error: Comparisons not supported</span>
+</code></pre></div>
+
+<p><strong>Workaround - Calculate first, then interpolate:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// CORRECT APPROACH</span>
+<span class="n">let</span><span class="w"> </span><span class="n">health</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_health</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Health: {health}&quot;</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span>
+<span class="n">let</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Result: {result}&quot;</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">isHealthy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">health</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">let</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Healthy: {isHealthy}&quot;</span>
+</code></pre></div>
+
+<h2 id="advanced-usage">Advanced Usage</h2>
+<h3 id="multiple-variables">Multiple Variables</h3>
+<p>Use multiple interpolations in a single string:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">attacker</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">damage</span><span class="p">.</span><span class="nx">source</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">victim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">damage</span><span class="p">.</span><span class="nx">target</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">amount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">damage</span><span class="p">.</span><span class="nx">amount</span>
+
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;{victim.name} took {amount} damage from {attacker.type}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="c1">// Result: &quot;Steve took 5.0 damage from zombie&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockPlace</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">block</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">x</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">block</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">y</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">block</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">z</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">block</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Placed {type} at {x}, {y}, {z}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="c1">// Result: &quot;Placed stone at 100.0, 64.0, 200.0&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="formatting">Formatting</h3>
+<p><strong>Concatenate with static text:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerJoin) {
+    sendmessage(player, &quot;=== Welcome {player.name}! ===&quot;)
+    sendmessage(player, &quot;Current health: {player.health}/20&quot;)
+    sendmessage(player, &quot;Position: ({player.location.x}, {player.location.y}, {player.location.z})&quot;)
+}
+</code></pre></div>
+
+<p><strong>Build complex messages:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">displayPlayerInfo</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Player: {player.name}</span><span class="se">\n</span><span class="s2">Health: {player.health}</span><span class="se">\n</span><span class="s2">Hunger: {player.hunger}</span><span class="se">\n</span><span class="s2">Gamemode: {player.gamemode}&quot;</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Create structured output:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">report</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;BLOCK BROKEN\nPlayer: {player.name}\nBlock: {block.type}\nLocation: {block.location.x}, {block.location.y}, {block.location.z}&quot;</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="nx">report</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="common-use-cases">Common Use Cases</h2>
+<h3 id="player-names">Player Names</h3>
+<p><strong>Welcome messages:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerJoin) {
+    sendmessage(player, &quot;Welcome back, {player.name}!&quot;)
+    broadcast(&quot;{player.name} has joined the server!&quot;)
+}
+</code></pre></div>
+
+<p><strong>Action notifications:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerDeath</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">death</span>.<span class="nv">killer</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nv">null</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">broadcast</span><span class="ss">(</span><span class="s2">&quot;{death.killer.name} defeated {player.name}!&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<h3 id="coordinates">Coordinates</h3>
+<p><strong>Location display:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerChat</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">chat</span>.<span class="nv">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!pos&quot;</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">player</span>.<span class="nv">location</span>.<span class="nv">x</span>
+<span class="w">        </span><span class="nv">let</span><span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">player</span>.<span class="nv">location</span>.<span class="nv">y</span>
+<span class="w">        </span><span class="nv">let</span><span class="w"> </span><span class="nv">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">player</span>.<span class="nv">location</span>.<span class="nv">z</span>
+<span class="w">        </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;Position: {x}, {y}, {z}&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<p><strong>Distance calculations:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">let</span><span class="w"> </span><span class="nv">spawn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">location</span><span class="ss">(</span><span class="mi">0</span>,<span class="w"> </span><span class="mi">64</span>,<span class="w"> </span><span class="mi">0</span><span class="ss">)</span>
+
+<span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerChat</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">chat</span>.<span class="nv">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!distance&quot;</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">let</span><span class="w"> </span><span class="nv">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">distance</span><span class="ss">(</span><span class="nv">player</span>.<span class="nv">location</span>,<span class="w"> </span><span class="nv">spawn</span><span class="ss">)</span>
+<span class="w">        </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;You are {dist} blocks from spawn&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<p><strong>Region boundaries:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">showRegion</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_region</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Region from ({region.x1}, {region.y1}, {region.z1}) to ({region.x2}, {region.y2}, {region.z2})&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="status-messages">Status Messages</h3>
+<p><strong>Health and hunger:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerChat</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">chat</span>.<span class="nv">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!stats&quot;</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;Health: {player.health}/20&quot;</span><span class="ss">)</span>
+<span class="w">        </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;Hunger: {player.hunger}/20&quot;</span><span class="ss">)</span>
+<span class="w">        </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;Gamemode: {player.gamemode}&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<p><strong>Event logging:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;{player.name} broke {block.type} at {block.location.x}, {block.location.y}, {block.location.z}&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntitySpawn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Entity spawned: {entity.type} at {entity.location.x}, {entity.location.y}, {entity.location.z}&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Game state:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">let</span><span class="w"> </span><span class="nv">gameActive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">false</span>
+<span class="nv">let</span><span class="w"> </span><span class="nv">playerCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerChat</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">chat</span>.<span class="nv">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!game&quot;</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;Game active: {gameActive}&quot;</span><span class="ss">)</span>
+<span class="w">        </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;Players: {playerCount}&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<h2 id="gotchas-and-limitations">Gotchas and Limitations</h2>
+<h3 id="what-works">What Works</h3>
+<p><strong>✓ Simple variables:</strong></p>
+<div class="highlight"><pre><span></span><code>let name = &quot;Steve&quot;
+log(&quot;Name: {name}&quot;)  // ✓ Works
+</code></pre></div>
+
+<p><strong>✓ Object properties:</strong></p>
+<div class="highlight"><pre><span></span><code>log(&quot;Player: {player.name}&quot;)  // ✓ Works
+</code></pre></div>
+
+<p><strong>✓ Nested properties:</strong></p>
+<div class="highlight"><pre><span></span><code>log(&quot;X: {player.location.x}&quot;)  // ✓ Works
+</code></pre></div>
+
+<p><strong>✓ Multiple interpolations:</strong></p>
+<div class="highlight"><pre><span></span><code>log(&quot;{player.name} at {player.location.x}, {player.location.y}&quot;)  // ✓ Works
+</code></pre></div>
+
+<p><strong>✓ All basic types:</strong></p>
+<div class="highlight"><pre><span></span><code>let num = 42
+let bool = true
+let str = &quot;hello&quot;
+log(&quot;Num: {num}, Bool: {bool}, Str: {str}&quot;)  // ✓ Works
+</code></pre></div>
+
+<p><strong>✓ Map properties:</strong></p>
+<div class="highlight"><pre><span></span><code>let data = { name: &quot;Steve&quot;, age: 25 }
+log(&quot;Name: {data.name}&quot;)  // ✓ Works
+</code></pre></div>
+
+<h3 id="what-doesnt-work">What Doesn't Work</h3>
+<p><strong>✗ Function calls:</strong></p>
+<div class="highlight"><pre><span></span><code>log(&quot;Health: {get_health(player)}&quot;)  // ✗ Doesn&#39;t work
+// Solution: Calculate first
+let health = get_health(player)
+log(&quot;Health: {health}&quot;)  // ✓ Works
+</code></pre></div>
+
+<p><strong>✗ Arithmetic operations:</strong></p>
+<div class="highlight"><pre><span></span><code>let x = 10
+log(&quot;Double: {x <span class="gs">* 2}&quot;)  // ✗ Doesn&#39;t work</span>
+<span class="gs">// Solution: Calculate first</span>
+<span class="gs">let doubled = x *</span> 2
+log(&quot;Double: {doubled}&quot;)  // ✓ Works
+</code></pre></div>
+
+<p><strong>✗ Comparisons:</strong></p>
+<div class="highlight"><pre><span></span><code>log(&quot;Healthy: {player.health &gt; 10}&quot;)  // ✗ Doesn&#39;t work
+// Solution: Evaluate first
+let isHealthy = player.health &gt; 10
+log(&quot;Healthy: {isHealthy}&quot;)  // ✓ Works
+</code></pre></div>
+
+<p><strong>✗ Logical operations:</strong></p>
+<div class="highlight"><pre><span></span><code>log(&quot;Valid: {x &gt; 0 &amp;&amp; x &lt; 100}&quot;)  // ✗ Doesn&#39;t work
+// Solution: Evaluate first
+let isValid = x &gt; 0 &amp;&amp; x &lt; 100
+log(&quot;Valid: {isValid}&quot;)  // ✓ Works
+</code></pre></div>
+
+<p><strong>✗ Array/list indexing:</strong></p>
+<div class="highlight"><pre><span></span><code>let players = get_online_players()
+log(&quot;First: {players[0]}&quot;)  // ✗ Doesn&#39;t work
+// Solution: Extract first
+let first = players[0]
+log(&quot;First: {first}&quot;)  // ✗ Still doesn&#39;t work - use first.name
+</code></pre></div>
+
+<p><strong>✗ Ternary operators:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Status: {player.health &gt; 10 ? &#39;Healthy&#39; : &#39;Hurt&#39;}&quot;</span><span class="ss">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span>✗<span class="w"> </span><span class="nv">Doesn</span><span class="err">&#39;t work</span>
+<span class="o">//</span><span class="w"> </span><span class="nv">Note</span>:<span class="w"> </span><span class="nv">Quill</span><span class="w"> </span><span class="nv">doesn</span><span class="err">&#39;t support ternary operators at all</span>
+<span class="err">// Solution: Use if/else</span>
+<span class="err">let status = &quot;Hurt&quot;</span>
+<span class="err">if player.health &gt; 10 {</span>
+<span class="err">    status = &quot;Healthy&quot;</span>
+<span class="err">}</span>
+<span class="err">log(&quot;Status: {status}&quot;)  // ✓ Works</span>
+</code></pre></div>
+
+<h2 id="best-practices">Best Practices</h2>
+<p><strong>Calculate before interpolating:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Good</span>
+<span class="n">let</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">distance</span><span class="p">(</span><span class="n">player</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">spawn</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">rounded</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span>
+<span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Distance: {rounded} blocks&quot;</span><span class="p">)</span>
+
+<span class="c1">// Avoid</span>
+<span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Distance: {distance(player.location, spawn)}&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// Won&#39;t work</span>
+</code></pre></div>
+
+<p><strong>Keep interpolations simple:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Good - clear and readable</span>
+<span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">name</span>
+<span class="n">let</span><span class="w"> </span><span class="n">health</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">health</span>
+<span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;{name} has {health} health&quot;</span><span class="p">)</span>
+
+<span class="c1">// Avoid - too complex</span>
+<span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;{player.name} has {player.health} health remaining out of 20 maximum&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Use meaningful variable names:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Good</span>
+<span class="n">let</span><span class="w"> </span><span class="n">playerName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">name</span>
+<span class="n">let</span><span class="w"> </span><span class="n">currentHealth</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">health</span>
+<span class="nb">log</span><span class="p">(</span><span class="s">&quot;{playerName} health: {currentHealth}&quot;</span><span class="p">)</span>
+
+<span class="c1">// Avoid</span>
+<span class="n">let</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">name</span>
+<span class="n">let</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">health</span>
+<span class="nb">log</span><span class="p">(</span><span class="s">&quot;{p} health: {h}&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Format consistently:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Good - consistent formatting</span>
+<span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;X: {x}, Y: {y}, Z: {z}&quot;</span><span class="p">)</span>
+<span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Health: {health}/20&quot;</span><span class="p">)</span>
+<span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Score: {score} points&quot;</span><span class="p">)</span>
+
+<span class="c1">// Avoid - inconsistent formatting</span>
+<span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;X:{x} Y:{y} Z:{z}&quot;</span><span class="p">)</span>
+<span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Health:{health} / 20&quot;</span><span class="p">)</span>
+<span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;{score}points&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Validate data exists before interpolating:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Good - check for null</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">death</span><span class="p">.</span><span class="n">killer</span><span class="w"> </span>!<span class="p">=</span><span class="w"> </span><span class="nb">null</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s">&quot;{death.killer.name} defeated {player.name}!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="s">&quot;{player.name} died!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Avoid - may error if killer is null</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="s">&quot;{death.killer.name} defeated {player.name}!&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// Crashes if no killer</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Use temporary variables for readability:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Good - readable</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">attacker</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">damage</span><span class="p">.</span><span class="nx">source</span><span class="p">.</span><span class="k">type</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">victim</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">damage</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">amount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">damage</span><span class="p">.</span><span class="nx">amount</span>
+<span class="nx">log</span><span class="p">(</span><span class="s">&quot;{victim} took {amount} damage from {attacker}&quot;</span><span class="p">)</span>
+
+<span class="c1">// Avoid - hard to read</span>
+<span class="nx">log</span><span class="p">(</span><span class="s">&quot;{damage.target.name} took {damage.amount} damage from {damage.source.type}&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Combine with string functions when needed:</strong></p>
+<div class="highlight"><pre><span></span><code>let name = player.name
+let uppercase = to_string(name)  // Convert if needed
+sendmessage(player, &quot;Hello {uppercase}!&quot;)
+</code></pre></div>
+
+<p><strong>Document what's being interpolated:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Sends</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">formatted</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="n">message</span>
+<span class="o">//</span><span class="w"> </span><span class="n">Format</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Position: X, Y, Z&quot;</span>
+<span class="k">func</span><span class="w"> </span><span class="n">sendPosition</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">x</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">y</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">z</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Position: {x}, {y}, {z}&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#basic-syntax'>Basic Syntax</a></li><li style='margin-left:20px'><a href='#simple-variables'>Simple Variables</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#expressions-in-interpolation'>Expressions in Interpolation</a></li><li style='margin-left:20px'><a href='#member-access'>Member Access</a></li><li style='margin-left:20px'><a href='#nested-properties'>Nested Properties</a></li><li style='margin-left:20px'><a href='#limitations'>Limitations</a></li><li style='margin-left:0px'><a href='#advanced-usage'>Advanced Usage</a></li><li style='margin-left:20px'><a href='#multiple-variables'>Multiple Variables</a></li><li style='margin-left:20px'><a href='#formatting'>Formatting</a></li><li style='margin-left:0px'><a href='#common-use-cases'>Common Use Cases</a></li><li style='margin-left:20px'><a href='#player-names'>Player Names</a></li><li style='margin-left:20px'><a href='#coordinates'>Coordinates</a></li><li style='margin-left:20px'><a href='#status-messages'>Status Messages</a></li><li style='margin-left:0px'><a href='#gotchas-and-limitations'>Gotchas and Limitations</a></li><li style='margin-left:20px'><a href='#what-works'>What Works</a></li><li style='margin-left:20px'><a href='#what-doesn't-work'>What Doesn't Work</a></li><li style='margin-left:0px'><a href='#best-practices'>Best Practices</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

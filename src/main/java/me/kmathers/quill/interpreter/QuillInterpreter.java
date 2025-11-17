@@ -1,6 +1,11 @@
 package me.kmathers.quill.interpreter;
 
+import me.kmathers.quill.parser.AST;
 import me.kmathers.quill.parser.AST.*;
+import me.kmathers.quill.parser.QuillParser;
+import me.kmathers.quill.utils.Scope;
+import me.kmathers.quill.Quill;
+import me.kmathers.quill.QuillScopeManager;
 import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.ClearEffectsFunction;
 import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetGamemodeFunction;
 import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetHealthFunction;
@@ -71,6 +76,9 @@ import me.kmathers.quill.interpreter.BuiltInWorldFuncs.SetWeatherFunction;
 import me.kmathers.quill.interpreter.BuiltInWorldFuncs.SpawnEntityFunction;
 import me.kmathers.quill.interpreter.BuiltInWorldFuncs.StrikeLightningFunction;
 import me.kmathers.quill.interpreter.QuillValue.*;
+import me.kmathers.quill.lexer.QuillLexer;
+import me.kmathers.quill.lexer.QuillLexer.Token;
+
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -85,6 +93,7 @@ public class QuillInterpreter {
     private ScopeContext currentScope;
     private Map<String, BuiltInFunction> builtIns;
     private Map<String, List<EventHandler>> eventHandlers;
+    private Scope permissionScope;
     
     private static class ReturnSignal extends RuntimeException {
         final QuillValue value;
@@ -94,11 +103,14 @@ public class QuillInterpreter {
     private static class BreakSignal extends RuntimeException {}
     private static class ContinueSignal extends RuntimeException {}
     
-    public QuillInterpreter(ScopeContext globalScope) {
+    private static Quill plugin = Quill.getPlugin(Quill.class);
+
+    public QuillInterpreter(ScopeContext globalScope, QuillScopeManager scopeManager) {
         this.globalScope = globalScope;
         this.currentScope = globalScope;
         this.builtIns = new HashMap<>();
-        this.eventHandlers = new HashMap<>(); // Now stores lists
+        this.eventHandlers = new HashMap<>();
+        this.permissionScope = scopeManager.getScope(globalScope.getName());
         registerBuiltIns();
     }
     
@@ -126,6 +138,8 @@ public class QuillInterpreter {
             return NullValue.INSTANCE;
         } else if (node instanceof ListLiteral) {
             return evaluateListLiteral((ListLiteral) node);
+        } else if (node instanceof MapLiteral) {
+            return evaluateMapLiteral((MapLiteral) node);
         }
         
         // Identifiers and member access
@@ -133,6 +147,8 @@ public class QuillInterpreter {
             return evaluateIdentifier((Identifier) node);
         } else if (node instanceof MemberExpression) {
             return evaluateMemberExpression((MemberExpression) node);
+        } else if (node instanceof IndexExpression) {
+            return evaluateIndexExpression((IndexExpression) node);
         }
         
         // Expressions
@@ -143,7 +159,20 @@ public class QuillInterpreter {
         } else if (node instanceof AssignmentExpression) {
             return evaluateAssignmentExpression((AssignmentExpression) node);
         } else if (node instanceof CallExpression) {
-            return evaluateCallExpression((CallExpression) node);
+            CallExpression call = (CallExpression) node;
+            
+            String functionName = null;
+            if (call.callee instanceof Identifier) {
+                functionName = ((Identifier) call.callee).name;
+            }
+            
+            if (permissionScope != null && !(permissionScope.getName().equals("global"))) {
+                if (functionName != null && !permissionScope.hasPermission(functionName)) {
+                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.missing-permission", permissionScope.getName(), functionName));
+                }
+            }
+            
+            return evaluateCallExpression(call);
         }
         
         // Statements
@@ -173,7 +202,7 @@ public class QuillInterpreter {
             return evaluate(((ExpressionStatement) node).expression);
         }
         
-        throw new RuntimeException("Unknown AST node type: " + node.getClass().getName());
+        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-ast", node.getClass().getName()));
     }
     
     // === Literal Evaluation ===
@@ -193,94 +222,104 @@ public class QuillInterpreter {
             String expression = result.substring(start + 1, end);
             QuillValue value;
             
-            if (expression.contains(".")) {
-                String[] parts = expression.split("\\.", 2);
-                String objectName = parts[0];
-                String propertyName = parts[1];
+            try {
+                // Parse and evaluate the expression as Quill code
+                QuillLexer lexer = new QuillLexer(expression);
+                List<Token> tokens = lexer.tokenize();
+                QuillParser parser = new QuillParser(tokens);
+                ASTNode expr = parser.parseExpression();
                 
-                try {
-                    QuillValue object = currentScope.get(objectName);
+                value = evaluate(expr);
+            } catch (Exception e) {
+                if (expression.contains(".")) {
+                    String[] parts = expression.split("\\.", 2);
+                    String objectName = parts[0];
+                    String propertyName = parts[1];
                     
-                    String[] allParts = expression.split("\\.");
-                    QuillValue current = currentScope.get(allParts[0]);
-                    
-                    for (int i = 1; i < allParts.length; i++) {
-                        String prop = allParts[i];
+                    try {
+                        QuillValue object = currentScope.get(objectName);
                         
-                        if (current.isScope()) {
-                            ScopeContext scope = current.asScope().getScope();
-                            if (prop.equals("players")) {
-                                List<QuillValue> players = scope.getPlayers().stream()
-                                    .map(PlayerValue::new)
-                                    .collect(java.util.stream.Collectors.toList());
-                                current = new ListValue(players);
-                            } else if (prop.equals("region")) {
-                                ScopeContext.Region region = scope.getRegion();
-                                if (region == null) {
-                                    current = NullValue.INSTANCE;
+                        String[] allParts = expression.split("\\.");
+                        QuillValue current = currentScope.get(allParts[0]);
+                        
+                        for (int i = 1; i < allParts.length; i++) {
+                            String prop = allParts[i];
+                            
+                            if (current.isScope()) {
+                                ScopeContext scope = current.asScope().getScope();
+                                if (prop.equals("players")) {
+                                    List<QuillValue> players = scope.getPlayers().stream()
+                                        .map(PlayerValue::new)
+                                        .collect(java.util.stream.Collectors.toList());
+                                    current = new ListValue(players);
+                                } else if (prop.equals("region")) {
+                                    ScopeContext.Region region = scope.getRegion();
+                                    if (region == null) {
+                                        current = NullValue.INSTANCE;
+                                    } else {
+                                        current = new RegionValue(
+                                            region.getX1(), region.getY1(), region.getZ1(),
+                                            region.getX2(), region.getY2(), region.getZ2()
+                                        );
+                                    }
                                 } else {
-                                    current = new RegionValue(
-                                        region.getX1(), region.getY1(), region.getZ1(),
-                                        region.getX2(), region.getY2(), region.getZ2()
-                                    );
+                                    current = scope.get(prop);
                                 }
+                            } else if (current.isPlayer()) {
+                                Player player = current.asPlayer();
+                                switch (prop) {
+                                    case "name": current = new StringValue(player.getName()); break;
+                                    case "health": current = new NumberValue(player.getHealth()); break;
+                                    case "hunger": current = new NumberValue(player.getFoodLevel()); break;
+                                    case "location": current = new LocationValue(player.getLocation()); break;
+                                    case "gamemode": current = new StringValue(player.getGameMode().name().toLowerCase()); break;
+                                    case "flying": current = new BooleanValue(player.isFlying()); break;
+                                    case "online": current = new BooleanValue(player.isOnline()); break;
+                                    default:
+                                        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "player", prop));
+                                }
+                            } else if (current.isLocation()) {
+                                org.bukkit.Location loc = current.asLocation();
+                                switch (prop) {
+                                    case "x": current = new NumberValue(loc.getX()); break;
+                                    case "y": current = new NumberValue(loc.getY()); break;
+                                    case "z": current = new NumberValue(loc.getZ()); break;
+                                    case "world": current = new WorldValue(loc.getWorld()); break;
+                                    default:
+                                        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "location", prop));
+                                }
+                            } else if (current.isItem()) {
+                                org.bukkit.inventory.ItemStack item = current.asItem();
+                                switch (prop) {
+                                    case "type": current = new StringValue(item.getType().name().toLowerCase()); break;
+                                    case "amount": current = new NumberValue(item.getAmount()); break;
+                                    default:
+                                        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "item", prop));
+                                }
+                            } else if (current.isEntity()) {
+                                org.bukkit.entity.Entity entity = current.asEntity();
+                                switch (prop) {
+                                    case "type": current = new StringValue(entity.getType().name().toLowerCase()); break;
+                                    case "location": current = new LocationValue(entity.getLocation()); break;
+                                    case "alive": current = new BooleanValue(!entity.isDead()); break;
+                                    default:
+                                        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "entity", prop));
+                                }
+                            } else if (current.isMap()) {
+                                MapValue mapValue = (MapValue) current;
+                                current = mapValue.get(prop);
                             } else {
-                                current = scope.get(prop);
+                                throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.cannot-prop", prop, current.getType()));
                             }
-                        } else if (current.isPlayer()) {
-                            Player player = current.asPlayer();
-                            switch (prop) {
-                                case "name": current = new StringValue(player.getName()); break;
-                                case "health": current = new NumberValue(player.getHealth()); break;
-                                case "hunger": current = new NumberValue(player.getFoodLevel()); break;
-                                case "location": current = new LocationValue(player.getLocation()); break;
-                                case "gamemode": current = new StringValue(player.getGameMode().name().toLowerCase()); break;
-                                case "flying": current = new BooleanValue(player.isFlying()); break;
-                                case "online": current = new BooleanValue(player.isOnline()); break;
-                                default:
-                                    throw new RuntimeException("Unknown player property: " + prop);
-                            }
-                        } else if (current.isLocation()) {
-                            org.bukkit.Location loc = current.asLocation();
-                            switch (prop) {
-                                case "x": current = new NumberValue(loc.getX()); break;
-                                case "y": current = new NumberValue(loc.getY()); break;
-                                case "z": current = new NumberValue(loc.getZ()); break;
-                                case "world": current = new WorldValue(loc.getWorld()); break;
-                                default:
-                                    throw new RuntimeException("Unknown location property: " + prop);
-                            }
-                        } else if (current.isItem()) {
-                            org.bukkit.inventory.ItemStack item = current.asItem();
-                            switch (prop) {
-                                case "type": current = new StringValue(item.getType().name().toLowerCase()); break;
-                                case "amount": current = new NumberValue(item.getAmount()); break;
-                                default:
-                                    throw new RuntimeException("Unknown item property: " + prop);
-                            }
-                        } else if (current.isEntity()) {
-                            org.bukkit.entity.Entity entity = current.asEntity();
-                            switch (prop) {
-                                case "type": current = new StringValue(entity.getType().name().toLowerCase()); break;
-                                case "location": current = new LocationValue(entity.getLocation()); break;
-                                case "alive": current = new BooleanValue(!entity.isDead()); break;
-                                default:
-                                    throw new RuntimeException("Unknown entity property: " + prop);
-                            }
-                        } else if (current.isMap()) {
-                            MapValue mapValue = (MapValue) current;
-                            current = mapValue.get(prop);
-                        } else {
-                            throw new RuntimeException("Cannot access property '" + prop + "' on " + current.getType());
                         }
+                        
+                        value = current;
+                    } catch (RuntimeException ex) {
+                        value = currentScope.get(expression);
                     }
-                    
-                    value = current;
-                } catch (RuntimeException e) {
+                } else {
                     value = currentScope.get(expression);
                 }
-            } else {
-                value = currentScope.get(expression);
             }
             
             String replacement = value.toString();
@@ -300,6 +339,18 @@ public class QuillInterpreter {
             elements.add(evaluate(element));
         }
         return new ListValue(elements);
+    }
+    
+    private QuillValue evaluateMapLiteral(MapLiteral node) {
+        AST.MapLiteral mapLiteral = (AST.MapLiteral) node;
+        Map<String, QuillValue> map = new HashMap<>();
+        
+        for (AST.MapLiteral.MapEntry entry : mapLiteral.entries) {
+            QuillValue value = evaluate(entry.value);
+            map.put(entry.key, value);
+        }
+        
+        return new MapValue(map);
     }
     
     // === Identifier and Member Access ===
@@ -347,7 +398,7 @@ public class QuillInterpreter {
                 case "flying": return new BooleanValue(player.isFlying());
                 case "online": return new BooleanValue(player.isOnline());
                 default:
-                    throw new RuntimeException("Unknown player property: " + node.property);
+                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "player", node.property));
             }
         }
         
@@ -359,7 +410,7 @@ public class QuillInterpreter {
                 case "z": return new NumberValue(loc.getZ());
                 case "world": return new WorldValue(loc.getWorld());
                 default:
-                    throw new RuntimeException("Unknown location property: " + node.property);
+                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "location", node.property));
             }
         }
         
@@ -369,7 +420,7 @@ public class QuillInterpreter {
                 case "type": return new StringValue(item.getType().name().toLowerCase());
                 case "amount": return new NumberValue(item.getAmount());
                 default:
-                    throw new RuntimeException("Unknown item property: " + node.property);
+                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "item", node.property));
             }
         }
         
@@ -380,7 +431,7 @@ public class QuillInterpreter {
                 case "location": return new LocationValue(entity.getLocation());
                 case "alive": return new BooleanValue(!entity.isDead());
                 default:
-                    throw new RuntimeException("Unknown entity property: " + node.property);
+                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "entity", node.property));
             }
         }
         
@@ -389,9 +440,28 @@ public class QuillInterpreter {
             return mapValue.get(node.property);
         }
 
-        throw new RuntimeException("Cannot access property '" + node.property + "' on " + object.getType());
+        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.cannot-prop", node.property, object.getType()));
     }
     
+    private QuillValue evaluateIndexExpression(IndexExpression node) {
+        QuillValue object = evaluate(node.object);
+        QuillValue index = evaluate(node.index);
+        
+        if (object.isMap()) {
+            String key = index.asString();
+            return object.asMap().getOrDefault(key, NullValue.INSTANCE);
+        } else if (object.isList()) {
+            int idx = (int) index.asNumber();
+            List<QuillValue> list = object.asList();
+            if (idx < 0 || idx >= list.size()) {
+                throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.index-out-of-bounds", idx, list.size()));
+            }
+            return list.get(idx);
+        }
+        
+        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.cannot-index", object.getType()));
+    }
+
     // === Binary Expressions ===
     
     private QuillValue evaluateBinaryExpression(BinaryExpression node) {
@@ -411,7 +481,7 @@ public class QuillInterpreter {
                 return new NumberValue(left.asNumber() * right.asNumber());
             case "/":
                 if (right.asNumber() == 0) {
-                    throw new RuntimeException("Division by zero");
+                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.zero-division"));
                 }
                 return new NumberValue(left.asNumber() / right.asNumber());
             case "%":
@@ -436,7 +506,7 @@ public class QuillInterpreter {
                 return new BooleanValue(left.isTruthy() || right.isTruthy());
                 
             default:
-                throw new RuntimeException("Unknown binary operator: " + node.operator);
+                throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-op", "binary", node.operator));
         }
     }
     
@@ -463,18 +533,27 @@ public class QuillInterpreter {
             case "-":
                 return new NumberValue(-operand.asNumber());
             default:
-                throw new RuntimeException("Unknown unary operator: " + node.operator);
+                throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-op", "unary", node.operator));
         }
     }
     
     // === Assignment ===
-    
     private QuillValue evaluateAssignmentExpression(AssignmentExpression node) {
         QuillValue value = evaluate(node.value);
         
         if (node.target instanceof Identifier) {
             String name = ((Identifier) node.target).name;
             currentScope.set(name, value);
+            
+            if (permissionScope != null && permissionScope.getPersistentVars().containsKey(name)) {
+                Object javaValue = convertQuillValueToObject(value);
+                permissionScope.setPersistentVar(name, javaValue);
+                Quill.getPlugin(Quill.class).getScopeManager().saveScope(
+                    permissionScope, 
+                    permissionScope.getName() + ".yml"
+                );
+            }
+            
             return value;
         } else if (node.target instanceof MemberExpression) {
             MemberExpression member = (MemberExpression) node.target;
@@ -492,10 +571,31 @@ public class QuillInterpreter {
                 return value;
             }
             
-            throw new RuntimeException("Cannot assign to property of " + object.getType());
+            throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.cannot-assign", object.getType()));
+        } else if (node.target instanceof IndexExpression) {
+            IndexExpression indexExpr = (IndexExpression) node.target;
+            QuillValue object = evaluate(indexExpr.object);
+            QuillValue index = evaluate(indexExpr.index);
+            
+            if (object.isMap()) {
+                String key = index.asString();
+                MapValue mapValue = (MapValue) object;
+                mapValue.put(key, value);
+                return value;
+            } else if (object.isList()) {
+                int idx = (int) index.asNumber();
+                List<QuillValue> list = object.asList();
+                if (idx < 0 || idx >= list.size()) {
+                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.index-out-of-bounds", idx, list.size()));
+                }
+                list.set(idx, value);
+                return value;
+            }
+            
+            throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.cannot-index", object.getType()));
         }
-        
-        throw new RuntimeException("Invalid assignment target");
+                
+        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.invalid-assignee"));
     }
     
     // === Function Calls ===
@@ -531,8 +631,7 @@ public class QuillInterpreter {
             ScopeContext funcScope = new ScopeContext(func.getClosure());
             
             if (args.size() != func.getParameters().size()) {
-                throw new RuntimeException("Function " + func.getName() + " expects " + 
-                    func.getParameters().size() + " arguments but got " + args.size());
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "function " + func.getName(), String.valueOf(func.getParameters().size()), "function(...)"));
             }
             
             for (int i = 0; i < args.size(); i++) {
@@ -557,14 +656,44 @@ public class QuillInterpreter {
             }
         }
         
-        throw new RuntimeException("Not a function: " + callee.getType());
+        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.not-func", callee.getType()));
     }
     
     // === Statements ===
     
     private QuillValue evaluateVariableDeclaration(VariableDeclaration node) {
+        if (permissionScope != null && permissionScope.getPersistentVars().containsKey(node.name)) {
+            Object storedValue = permissionScope.getPersistentVars().get(node.name);
+            
+            if (storedValue != null) {
+                QuillValue persistedValue = convertObjectToQuillValue(storedValue);
+
+                if (node.isConst) {
+                    currentScope.defineConst(node.name, persistedValue);
+                } else {
+                    currentScope.define(node.name, persistedValue);
+                }
+                return NullValue.INSTANCE;
+            }
+        }
+        
         QuillValue value = evaluate(node.value);
-        currentScope.define(node.name, value);
+
+            if (node.isConst) {
+                currentScope.defineConst(node.name, value);
+            } else {
+                currentScope.define(node.name, value);
+            }
+        
+        if (permissionScope != null && permissionScope.getPersistentVars().containsKey(node.name)) {
+            Object javaValue = convertQuillValueToObject(value);
+            permissionScope.setPersistentVar(node.name, javaValue);
+            Quill.getPlugin(Quill.class).getScopeManager().saveScope(
+                permissionScope, 
+                permissionScope.getName() + ".yml"
+            );
+        }
+        
         return NullValue.INSTANCE;
     }
     
@@ -623,7 +752,7 @@ public class QuillInterpreter {
         QuillValue iterable = evaluate(node.iterable);
         
         if (!iterable.isList()) {
-            throw new RuntimeException("For loop requires a list, got " + iterable.getType());
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "list", iterable.getType()));
         }
         
         List<QuillValue> items = iterable.asList();
@@ -643,21 +772,16 @@ public class QuillInterpreter {
         }
         
         try {
-            boolean firstIteration = true;
             for (QuillValue item : items) {
-                ScopeContext previousScope = null;
-                if (isSubscopeIteration) {
-                    previousScope = currentScope;
-                    currentScope = new ScopeContext(subscope);
-                }
+                ScopeContext iterationScope = isSubscopeIteration 
+                    ? new ScopeContext(subscope)
+                    : new ScopeContext(currentScope);
+                
+                ScopeContext previousScope = currentScope;
+                currentScope = iterationScope;
                 
                 try {
-                    if (firstIteration) {
-                        currentScope.define(node.variable, item);
-                        firstIteration = false;
-                    } else {
-                        currentScope.set(node.variable, item);
-                    }
+                    currentScope.define(node.variable, item);
                     
                     try {
                         for (ASTNode statement : node.body) {
@@ -667,9 +791,7 @@ public class QuillInterpreter {
                         continue;
                     }
                 } finally {
-                    if (isSubscopeIteration) {
-                        currentScope = previousScope;
-                    }
+                    currentScope = previousScope;
                 }
             }
         } catch (BreakSignal b) {
@@ -710,7 +832,7 @@ public class QuillInterpreter {
     
     private QuillValue evaluateScopeCreation(ScopeCreation node) {
         if (node.arguments.size() != 6) {
-            throw new RuntimeException("Scope creation requires 6 arguments (x1, y1, z1, x2, y2, z2)");
+            throw new RuntimeException(plugin.translate("quill.error.user.scope.wrong-boundary-list-size"));
         }
         
         double x1 = evaluate(node.arguments.get(0)).asNumber();
@@ -750,7 +872,7 @@ public class QuillInterpreter {
                 }
             } catch (Exception e) {
                 // Log error but continue with other handlers
-                System.err.println("Error in event handler " + eventName + ": " + e.getMessage());
+                plugin.getLogger().severe("Error in event handler " + eventName + ": " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 currentScope = previousScope;
@@ -846,5 +968,79 @@ public class QuillInterpreter {
     
     public interface BuiltInFunction {
         QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter);
+    }
+
+    private QuillValue convertObjectToQuillValue(Object obj) {
+        if (obj == null) {
+            return NullValue.INSTANCE;
+        } else if (obj instanceof Number) {
+            return new NumberValue(((Number) obj).doubleValue());
+        } else if (obj instanceof String) {
+            return new StringValue((String) obj);
+        } else if (obj instanceof Boolean) {
+            return new BooleanValue((Boolean) obj);
+        } else if (obj instanceof List) {
+            List<?> list = (List<?>) obj;
+            List<QuillValue> elements = new ArrayList<>();
+            for (Object item : list) {
+                elements.add(convertObjectToQuillValue(item));
+            }
+            return new ListValue(elements);
+        } else if (obj instanceof Map) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> map = (Map<String, Object>) obj;
+            Map<String, QuillValue> converted = new HashMap<>();
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                converted.put(entry.getKey(), convertObjectToQuillValue(entry.getValue()));
+            }
+            return new MapValue(converted);
+        }
+        
+        // For complex types we can't serialize, return null
+        return NullValue.INSTANCE;
+    }
+
+    private Object convertQuillValueToObject(QuillValue value) {
+        if (value.isNull()) {
+            return null;
+        } else if (value.isNumber()) {
+            return value.asNumber();
+        } else if (value.isString()) {
+            return value.asString();
+        } else if (value.isBoolean()) {
+            return value.asBoolean();
+        } else if (value.isList()) {
+            List<Object> list = new ArrayList<>();
+            for (QuillValue item : value.asList()) {
+                list.add(convertQuillValueToObject(item));
+            }
+            return list;
+        } else if (value.isMap()) {
+            Map<String, Object> map = new HashMap<>();
+            for (Map.Entry<String, QuillValue> entry : value.asMap().entrySet()) {
+                map.put(entry.getKey(), convertQuillValueToObject(entry.getValue()));
+            }
+            return map;
+        }
+        
+        // Complex types like Player, Location, etc. can't be persisted
+        plugin.getLogger().warning(plugin.translate("quill.error.runtime.interpreter.cannot-persist", value.getType()));
+        return null;
+    }
+
+    public String getScopeName() {
+        return globalScope.getName();
+    }
+
+    public boolean belongsToScope(String scopeName) {
+        return globalScope.getName().equals(scopeName);
+    }
+
+    public ScopeContext getGlobalScope() {
+        return globalScope;
+    }
+
+    public Set<String> getRegisteredEvents() {
+        return eventHandlers.keySet();
     }
 }

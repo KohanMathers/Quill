@@ -68,6 +68,25 @@ public class AST {
         }
     }
     
+    public static class MapLiteral extends ASTNode {
+        public List<MapEntry> entries;
+        
+        public MapLiteral(List<MapEntry> entries, int line, int column) {
+            super(line, column);
+            this.entries = entries;
+        }
+        
+        public static class MapEntry {
+            public String key;
+            public ASTNode value;
+            
+            public MapEntry(String key, ASTNode value) {
+                this.key = key;
+                this.value = value;
+            }
+        }
+    }
+
     // === Identifiers and Member Access ===
     
     public static class Identifier extends ASTNode {
@@ -87,6 +106,17 @@ public class AST {
             super(line, column);
             this.object = object;
             this.property = property;
+        }
+    }
+    
+    public static class IndexExpression extends ASTNode {
+        public ASTNode object;
+        public ASTNode index;
+        
+        public IndexExpression(ASTNode object, ASTNode index, int line, int column) {
+            super(line, column);
+            this.object = object;
+            this.index = index;
         }
     }
     

@@ -5,16 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
-    <title>Language — Data Types — Quill</title>
+    <title>Data Types — Quill</title>
     <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
 </head>
 
 <body>
-    <!-- Animated Background Particles -->
     <div class="particles" id="particles"></div>
 
     <div class="layout">
-        <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>
@@ -25,7 +23,7 @@
                 <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
             </div>
             <nav class="sidebar-nav">
-                <ul><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>concepts</span><ul><li><a href='/docs/concepts/events.html'>Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/welcome-system.html'>Welcome System</a></li></ul></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/control-flow.html'>Control Flow</a></li><li><a href='/docs/language/data-types.html' class='active'>Data Types</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li class='folder'><span class='folder-name'>tutorial</span><ul><li><a href='/docs/tutorial/first-script.html'>First Script</a></li></ul></li></ul>
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html' class='active'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
             </nav>
             <div class="sidebar-footer">
                 <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
@@ -38,9 +36,7 @@
             </div>
         </aside>
 
-        <!-- Main Content Area -->
         <main class="content">
-            <!-- Hero Section (only on index) -->
             <header class="hero hide-hero">
                 <img class="hero-logo"
                     src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
@@ -53,114 +49,1008 @@
                 </div>
             </header>
 
-            <!-- Breadcrumb Navigation -->
             <nav class="breadcrumbs" aria-label="Breadcrumb">
                 <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Language</span><span class='separator'>/</span><span class='current'>Data Types</span>
             </nav>
 
-            <!-- Documentation Content -->
             <div class="doc-layout">
                 <article class="doc-content">
-                    <h1 class="page-title">Language — Data Types</h1>
-                    <h1 id="language-data-types">Language — Data Types</h1>
-<p>Quill supports a range of primitive and complex data types for scripting Minecraft events and logic. This page summarizes all available types, their properties, and how to inspect them at runtime.</p>
-<h2 id="primitives">Primitives</h2>
+                    <h1 class="page-title">Data Types</h1>
+                    <h1 id="data-types">Data Types</h1>
+<h2 id="overview">Overview</h2>
+<p>Quill supports a variety of data types, from simple numbers and strings to complex Minecraft objects like players and locations. Understanding these types is essential for writing effective scripts.</p>
+<p><strong>Type Categories:</strong></p>
 <ul>
-<li><strong>Number</strong>: <code>42</code>, <code>3.14</code>, <code>-100</code></li>
-<li><strong>String</strong>: <code>"hello"</code>, <code>'world'</code></li>
-<li><strong>Boolean</strong>: <code>true</code>, <code>false</code></li>
-<li><strong>Null</strong>: <code>null</code></li>
+<li><strong>Primitive Types</strong> - Basic values: Number, String, Boolean, Null</li>
+<li><strong>Collection Types</strong> - Containers for multiple values: List, Map</li>
+<li><strong>Minecraft Types</strong> - Game objects: Player, Location, Item, Entity, World, Scope, Region, Event</li>
 </ul>
-<p>Numbers are always floating-point. Strings can use single or double quotes.</p>
-<h2 id="complex-types">Complex types</h2>
-<ul>
-<li><strong>Player</strong>: Reference to a Minecraft player (online or offline)</li>
-<li><strong>Location</strong>: <code>location(x, y, z)</code> or <code>location(x, y, z, world)</code></li>
-<li><strong>Item</strong>: <code>item("minecraft:diamond_sword", amount, metadata)</code></li>
-<li><strong>Scope</strong>: Reference to a subscope (region)</li>
-<li><strong>List</strong>: <code>[1, 2, 3, "hello", true]</code> — dynamic array of any type</li>
-<li><strong>Entity</strong>: Reference to a Minecraft entity (mob, dropped item, etc.)</li>
-<li><strong>World</strong>: Reference to a Minecraft world</li>
-<li><strong>Region</strong>: Object with <code>x1, y1, z1, x2, y2, z2</code> (scope bounds)</li>
-</ul>
-<h2 id="object-properties">Object properties</h2>
-<h3 id="player">Player</h3>
-<ul>
-<li><code>player.name</code> — String</li>
-<li><code>player.health</code> — Number</li>
-<li><code>player.hunger</code> — Number</li>
-<li><code>player.location</code> — Location</li>
-<li><code>player.gamemode</code> — String</li>
-<li><code>player.flying</code> — Boolean</li>
-<li><code>player.online</code> — Boolean</li>
-</ul>
-<h3 id="location">Location</h3>
-<ul>
-<li><code>location.x</code>, <code>location.y</code>, <code>location.z</code> — Number</li>
-<li><code>location.world</code> — World</li>
-</ul>
-<h3 id="item">Item</h3>
-<ul>
-<li><code>item.type</code> — String (e.g., <code>"minecraft:diamond_sword"</code>)</li>
-<li><code>item.amount</code> — Number</li>
-<li><code>item.metadata</code> — Object (NBT data)</li>
-</ul>
-<h3 id="entity">Entity</h3>
-<ul>
-<li><code>entity.type</code> — String</li>
-<li><code>entity.location</code> — Location</li>
-<li><code>entity.health</code> — Number</li>
-<li><code>entity.alive</code> — Boolean</li>
-</ul>
-<h3 id="scope">Scope</h3>
-<ul>
-<li><code>scope.players</code> — List of players in the scope</li>
-<li><code>scope.region</code> — Region object</li>
-</ul>
-<h3 id="region">Region</h3>
-<ul>
-<li><code>region.x1</code>, <code>region.y1</code>, <code>region.z1</code>, <code>region.x2</code>, <code>region.y2</code>, <code>region.z2</code> — Number <strong>⚠️ Not yet implemented</strong></li>
-</ul>
-<h2 id="lists">Lists</h2>
-<p>Lists are dynamic arrays and can hold any type:</p>
-<div class="highlight"><pre><span></span><code>let items = [1, &quot;a&quot;, true, player]
-let players = scope.players
+<p><strong>Type System:</strong></p>
+<p>Quill is <strong>dynamically typed</strong> - variables don't have fixed types. The same variable can hold different types of values:</p>
+<div class="highlight"><pre><span></span><code>let x = 10        // x is a Number
+x = &quot;hello&quot;       // Now x is a String
+x = true          // Now x is a Boolean
 </code></pre></div>
 
-<p>Use <code>len(list)</code> to get the length, <code>append(list, item)</code> to add, <code>remove(list, index)</code> to remove, and <code>contains(list, item)</code> to check for membership.</p>
-<h2 id="type-inspection">Type inspection</h2>
-<p>Use <code>type_of(value)</code> to get the type name as a string:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">type_of</span><span class="p">(</span><span class="nx">player</span><span class="p">)</span><span class="w">  </span><span class="c1">// &quot;player&quot;</span>
-<span class="kd">let</span><span class="w"> </span><span class="nx">t2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">type_of</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="w">  </span><span class="c1">// &quot;list&quot;</span>
+<p><strong>Type Safety:</strong></p>
+<p>While types are dynamic, functions expect specific types. Passing the wrong type causes runtime errors:</p>
+<div class="highlight"><pre><span></span><code>let name = &quot;Steve&quot;
+teleport(name, location(0, 64, 0))  // Error: expected Player, got String
 </code></pre></div>
 
-<h2 id="type-conversion">Type conversion</h2>
-<p>Convert between types with:<br />
-- <code>to_string(value)</code><br />
-- <code>to_number(value)</code><br />
-- <code>to_boolean(value)</code></p>
-<h2 id="null-and-existence">Null and existence</h2>
-<p><code>null</code> is used for missing values, failed lookups, or uninitialized variables. Always check for <code>null</code> before accessing properties.</p>
-<h2 id="related-topics">Related topics</h2>
-<ul>
-<li>Syntax basics: <code>syntax.html</code></li>
-<li>Control flow: <code>control-flow.html</code></li>
-<li>Full language specification: <code>../../SPEC.md</code></li>
-</ul>
 <hr />
-<p>For a full list of type-specific functions and advanced usage, see the language specification and API reference pages.</p>
+<h2 id="primitive-types">Primitive Types</h2>
+<h3 id="number">Number</h3>
+<p>Numbers represent numeric values - both integers and decimals.</p>
+<h4 id="integer-numbers">Integer Numbers</h4>
+<p>Whole numbers without decimal points:</p>
+<div class="highlight"><pre><span></span><code>let count = 0
+let score = 100
+let negative = -50
+let large = 1000000
+</code></pre></div>
 
-                    <!-- Last Modified -->
+<p><strong>Integer range:</strong><br />
+- Internally stored as doubles (JavaScript-style)<br />
+- Safe integer range: -2^53 to 2^53 (approximately ±9 quadrillion)<br />
+- Beyond this range, precision may be lost</p>
+<p><strong>Common uses:</strong></p>
+<div class="highlight"><pre><span></span><code>let player_count = 10
+let max_health = 20
+let x_coordinate = 128
+</code></pre></div>
+
+<h4 id="floating-point-numbers">Floating-Point Numbers</h4>
+<p>Numbers with decimal points:</p>
+<div class="highlight"><pre><span></span><code>let pi = 3.14159
+let half = 0.5
+let precise = 1.23456789
+let scientific = 1.5e10  // Not supported - use: 15000000000
+</code></pre></div>
+
+<p><strong>Precision:</strong><br />
+- Stored as 64-bit floating point (double precision)<br />
+- ~15-17 significant decimal digits<br />
+- Floating point arithmetic may have rounding errors</p>
+<div class="highlight"><pre><span></span><code>let result = 0.1 + 0.2  // 0.30000000000000004 (floating point quirk)
+</code></pre></div>
+
+<p><strong>Common uses:</strong></p>
+<div class="highlight"><pre><span></span><code>let health = 15.5
+let distance = 10.75
+let multiplier = 1.5
+</code></pre></div>
+
+<h4 id="number-operations">Number Operations</h4>
+<p>All standard arithmetic operations:</p>
+<div class="highlight"><pre><span></span><code>let a = 10
+let b = 3
+
+// Basic arithmetic
+let sum = a + b           // 13
+let difference = a - b    // 7
+let product = a <span class="gs">* b       // 30</span>
+<span class="gs">let quotient = a / b      // 3.333...</span>
+<span class="gs">let remainder = a % b     // 1 (modulo)</span>
+
+<span class="gs">// Negation</span>
+<span class="gs">let negative = -a         // -10</span>
+
+<span class="gs">// Complex expressions</span>
+<span class="gs">let result = (a + b) *</span> 2 - b / 2  // 24.5
+</code></pre></div>
+
+<p><strong>Special number values:</strong></p>
+<div class="highlight"><pre><span></span><code>let result = 10 / 0  // Infinity (not recommended - use conditionals)
+</code></pre></div>
+
+<p><strong>Math functions available:</strong></p>
+<div class="highlight"><pre><span></span><code>abs(-10)        // 10 (absolute value)
+sqrt(16)        // 4 (square root)
+pow(2, 3)       // 8 (2^3)
+round(3.7)      // 4 (round to nearest)
+floor(3.7)      // 3 (round down)
+ceil(3.2)       // 4 (round up)
+</code></pre></div>
+
+<hr />
+<h3 id="string">String</h3>
+<p>Strings represent text - sequences of characters.</p>
+<h4 id="string-literals">String Literals</h4>
+<p>Create strings with double or single quotes:</p>
+<div class="highlight"><pre><span></span><code>let name = &quot;Steve&quot;
+let message = &#39;Hello, World!&#39;
+let empty = &quot;&quot;
+</code></pre></div>
+
+<p><strong>Multi-line strings are NOT directly supported:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// This does NOT work:</span>
+<span class="n">let</span><span class="w"> </span><span class="n">poem</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Roses are red</span>
+<span class="s">Violets are blue&quot;</span>
+
+<span class="c1">// Instead, use string concatenation:</span>
+<span class="n">let</span><span class="w"> </span><span class="n">poem</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Roses are red\n&quot;</span><span class="w"> </span><span class="o">+</span>
+<span class="w">           </span><span class="s">&quot;Violets are blue&quot;</span>
+</code></pre></div>
+
+<h4 id="escape-sequences">Escape Sequences</h4>
+<p>Special character sequences inside strings:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">let</span><span class="w"> </span><span class="nv">newline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Line 1\nLine 2&quot;</span><span class="w">      </span><span class="o">//</span><span class="w"> </span><span class="nv">Line</span><span class="w"> </span><span class="k">break</span>
+<span class="nv">let</span><span class="w"> </span><span class="nv">tab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Name:\tSteve&quot;</span><span class="w">             </span><span class="o">//</span><span class="w"> </span><span class="nv">Tab</span><span class="w"> </span><span class="nv">character</span>
+<span class="nv">let</span><span class="w"> </span><span class="nv">quote</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;He said \&quot;</span><span class="nv">Hello</span>\<span class="s2">&quot;&quot;</span><span class="w">      </span><span class="o">//</span><span class="w"> </span><span class="nv">Escaped</span><span class="w"> </span><span class="nv">quote</span>
+<span class="nv">let</span><span class="w"> </span><span class="nv">backslash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Path: C:\\folder&quot;</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="nv">Escaped</span><span class="w"> </span><span class="nv">backslash</span>
+
+<span class="o">//</span><span class="w"> </span><span class="nv">Common</span><span class="w"> </span><span class="nv">escape</span><span class="w"> </span><span class="nv">sequences</span>:
+<span class="o">//</span><span class="w"> </span>\<span class="nv">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">Newline</span>
+<span class="o">//</span><span class="w"> </span>\<span class="nv">t</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">Tab</span>
+<span class="o">//</span><span class="w"> </span>\<span class="nv">r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">Carriage</span><span class="w"> </span><span class="k">return</span>
+<span class="o">//</span><span class="w"> </span>\\<span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">Backslash</span>
+<span class="o">//</span><span class="w"> </span>\<span class="err">&quot; - Double quote</span>
+</code></pre></div>
+
+<p><strong>Example output:</strong></p>
+<div class="highlight"><pre><span></span><code>log(&quot;Line 1\nLine 2&quot;)
+// Console shows:
+// Line 1
+// Line 2
+
+log(&quot;Name:\tSteve&quot;)
+// Console shows:
+// Name:    Steve
+</code></pre></div>
+
+<h4 id="string-operations">String Operations</h4>
+<p><strong>Concatenation</strong> - Join strings with <code>+</code>:</p>
+<div class="highlight"><pre><span></span><code>let first = &quot;Hello&quot;
+let last = &quot;World&quot;
+let greeting = first + &quot; &quot; + last  // &quot;Hello World&quot;
+</code></pre></div>
+
+<p><strong>String interpolation</strong> - Embed variables (preferred):</p>
+<div class="highlight"><pre><span></span><code>let name = &quot;Steve&quot;
+let score = 100
+let message = &quot;Player {name} scored {score} points!&quot;
+// Result: &quot;Player Steve scored 100 points!&quot;
+</code></pre></div>
+
+<p>See <a href="string-interpolation.html">String Interpolation</a> for full details.</p>
+<p><strong>String functions:</strong></p>
+<div class="highlight"><pre><span></span><code>let text = &quot;Hello World&quot;
+
+len(text)              // 11 (length)
+contains(text, &quot;World&quot;) // true (substring check)
+split(text, &quot; &quot;)       // [&quot;Hello&quot;, &quot;World&quot;] (split into list)
+
+let words = [&quot;Hello&quot;, &quot;World&quot;]
+join(words, &quot; &quot;)       // &quot;Hello World&quot; (join list into string)
+</code></pre></div>
+
+<p><strong>Comparison:</strong></p>
+<div class="highlight"><pre><span></span><code>&quot;apple&quot; == &quot;apple&quot;     // true
+&quot;apple&quot; == &quot;Apple&quot;     // false (case-sensitive)
+&quot;apple&quot; != &quot;orange&quot;    // true
+</code></pre></div>
+
+<hr />
+<h3 id="boolean">Boolean</h3>
+<p>Booleans represent truth values - either true or false.</p>
+<h4 id="boolean-values">Boolean Values</h4>
+<p>Only two possible values:</p>
+<div class="highlight"><pre><span></span><code>let is_active = true
+let is_paused = false
+
+let is_winner = score &gt; 100
+let has_permission = is_online(player) &amp;&amp; is_op(player)
+</code></pre></div>
+
+<p><strong>Logical operations:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="s">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="n">let</span><span class="w"> </span><span class="s">b</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span>
+
+<span class="n">a</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">b</span><span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nb">false</span><span class="w"> </span><span class="p">(</span><span class="n">AND</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">both</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span>
+<span class="n">a</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">b</span><span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nb">true</span><span class="w">  </span><span class="p">(</span><span class="n">OR</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="n">least</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span>
+<span class="sx">!a        // false (NOT - inverts the value)</span>
+</code></pre></div>
+
+<p><strong>From comparisons:</strong></p>
+<div class="highlight"><pre><span></span><code>let is_high_score = score &gt;= 100
+let is_low_health = health &lt; 5
+let is_equal = x == y
+</code></pre></div>
+
+<h4 id="truthy-and-falsy-values">Truthy and Falsy Values</h4>
+<p>Non-boolean values can be used in boolean contexts. They're automatically converted:</p>
+<p><strong>Falsy values</strong> (convert to false):</p>
+<div class="highlight"><pre><span></span><code>false          // Obviously false
+null           // Null is falsy
+0              // Zero is falsy
+&quot;&quot;             // Empty string is falsy
+[]             // Empty list is falsy
+</code></pre></div>
+
+<p><strong>Truthy values</strong> (convert to true):</p>
+<div class="highlight"><pre><span></span><code>true           // Obviously true
+1              // Any non-zero number
+-1             // Including negative
+&quot;text&quot;         // Any non-empty string
+&quot; &quot;            // Even just whitespace
+[1]            // Any non-empty list
+</code></pre></div>
+
+<p><strong>Examples in conditions:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">let</span><span class="w"> </span><span class="nv">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="k">if</span><span class="w"> </span><span class="nv">text</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Has text&quot;</span><span class="ss">)</span><span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nv">Doesn</span><span class="err">&#39;t run - empty string is falsy</span>
+<span class="err">}</span>
+
+<span class="err">let count = 0</span>
+<span class="err">if count {</span>
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Has items&quot;</span><span class="ss">)</span><span class="w">   </span><span class="o">//</span><span class="w"> </span><span class="nv">Doesn</span><span class="err">&#39;t run - zero is falsy</span>
+<span class="err">}</span>
+
+<span class="err">let players = []</span>
+<span class="err">if players {</span>
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Has players&quot;</span><span class="ss">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nv">Doesn</span><span class="err">&#39;t run - empty list is falsy</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Explicit conversion recommended:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Implicit (works but unclear)</span>
+<span class="k">if</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// Explicit (clearer intent)</span>
+<span class="k">if</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h3 id="null">Null</h3>
+<p>Null represents the absence of a value.</p>
+<h4 id="null-values">Null Values</h4>
+<p>Use <code>null</code> to indicate "no value":</p>
+<div class="highlight"><pre><span></span><code>let player = null           // No player yet
+let location = null         // No location set
+let cached_value = null     // Cache is empty
+</code></pre></div>
+
+<p><strong>Common uses:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Optional values</span>
+<span class="n">let</span><span class="w"> </span><span class="n">winner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">null</span>
+<span class="k">if</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">winner</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">player</span>
+<span class="p">}</span>
+
+<span class="c1">// Uninitialized state</span>
+<span class="n">let</span><span class="w"> </span><span class="n">target_player</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">null</span>
+<span class="c1">// ... later ...</span>
+<span class="n">target_player</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_player</span><span class="p">(</span><span class="s">&quot;Steve&quot;</span><span class="p">)</span>
+
+<span class="c1">// Reset values</span>
+<span class="n">let</span><span class="w"> </span><span class="n">cached_data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">expensive_calculation</span><span class="p">()</span>
+<span class="c1">// ... use cached_data ...</span>
+<span class="n">cached_data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">null</span><span class="w">  </span><span class="c1">// Clear the cache</span>
+</code></pre></div>
+
+<h4 id="checking-for-null">Checking for Null</h4>
+<p>Always check for null before using values:</p>
+<div class="highlight"><pre><span></span><code>let player = get_player(&quot;Steve&quot;)
+
+// Bad - will error if player is null
+sendmessage(player, &quot;Hello&quot;)
+
+// Good - check first
+if player != null {
+    sendmessage(player, &quot;Hello&quot;)
+}
+
+// Also good - null is falsy
+if player {
+    sendmessage(player, &quot;Hello&quot;)
+}
+</code></pre></div>
+
+<p><strong>Null in comparisons:</strong></p>
+<div class="highlight"><pre><span></span><code>null == null       // true
+null == false      // false
+null == 0          // false
+null == &quot;&quot;         // false
+
+let x = null
+x == null          // true
+x != null          // false
+</code></pre></div>
+
+<p><strong>Functions returning null:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_player</span><span class="p">(</span><span class="s">&quot;NonexistentPlayer&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// Returns null</span>
+<span class="n">let</span><span class="w"> </span><span class="n">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_region</span><span class="p">(</span><span class="n">my_scope</span><span class="p">)</span><span class="w">             </span><span class="c1">// Returns null if no region</span>
+
+<span class="c1">// Always handle null returns</span>
+<span class="k">if</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">null</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Player not found&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="collection-types">Collection Types</h2>
+<h3 id="list">List</h3>
+<p>Lists store ordered sequences of values.</p>
+<h4 id="creating-lists">Creating Lists</h4>
+<p>Use square brackets with comma-separated values:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">empty</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">numbers</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">]</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">names</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Steve&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Alex&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Herobrine&quot;</span><span class="p">]</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">mixed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;text&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nx">null</span><span class="p">]</span><span class="w">  </span><span class="c1">// Can mix types</span>
+
+<span class="c1">// Multi-line for readability</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">items</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s">&quot;diamond_sword&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;diamond_pickaxe&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;diamond_axe&quot;</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<h4 id="accessing-elements">Accessing Elements</h4>
+<p>Use square brackets with an index (0-based):</p>
+<div class="highlight"><pre><span></span><code>let names = [&quot;Steve&quot;, &quot;Alex&quot;, &quot;Herobrine&quot;]
+
+let first = names[0]     // &quot;Steve&quot;
+let second = names[1]    // &quot;Alex&quot;
+let third = names[2]     // &quot;Herobrine&quot;
+
+// Negative indices NOT supported
+let last = names[-1]     // Error
+</code></pre></div>
+
+<p><strong>Out of bounds:</strong></p>
+<div class="highlight"><pre><span></span><code>let names = [&quot;Steve&quot;, &quot;Alex&quot;]
+let item = names[10]     // Returns null (not an error)
+</code></pre></div>
+
+<p><strong>Assignment:</strong></p>
+<div class="highlight"><pre><span></span><code>let names = [&quot;Steve&quot;, &quot;Alex&quot;]
+names[0] = &quot;Notch&quot;       // Modifies the list
+// names is now [&quot;Notch&quot;, &quot;Alex&quot;]
+</code></pre></div>
+
+<h4 id="list-operations">List Operations</h4>
+<p><strong>Length:</strong></p>
+<div class="highlight"><pre><span></span><code>let items = [1, 2, 3]
+let count = len(items)   // 3
+</code></pre></div>
+
+<p><strong>Adding elements:</strong></p>
+<div class="highlight"><pre><span></span><code>let items = [1, 2, 3]
+append(items, 4)         // items is now [1, 2, 3, 4]
+append(items, 5)         // items is now [1, 2, 3, 4, 5]
+</code></pre></div>
+
+<p><strong>Removing elements:</strong></p>
+<div class="highlight"><pre><span></span><code>let items = [1, 2, 3, 4, 5]
+remove(items, 2)         // Remove at index 2
+// items is now [1, 2, 4, 5]
+</code></pre></div>
+
+<p><strong>Checking contents:</strong></p>
+<div class="highlight"><pre><span></span><code>let items = [&quot;sword&quot;, &quot;bow&quot;, &quot;arrow&quot;]
+contains(items, &quot;bow&quot;)          // true
+contains(items, &quot;diamond&quot;)      // false
+</code></pre></div>
+
+<p><strong>Creating ranges:</strong></p>
+<div class="highlight"><pre><span></span><code>range(0, 5)              // [0, 1, 2, 3, 4]
+range(5, 10)             // [5, 6, 7, 8, 9]
+range(10, 5)             // [10, 9, 8, 7, 6] (descending)
+</code></pre></div>
+
+<p><strong>Random selection:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">items</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;sword&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bow&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;axe&quot;</span><span class="p">]</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">random_item</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">random_choice</span><span class="p">(</span><span class="nx">items</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Concatenation:</strong></p>
+<div class="highlight"><pre><span></span><code>let list1 = [1, 2]
+let list2 = [3, 4]
+let combined = list1 + list2  // [1, 2, 3, 4]
+</code></pre></div>
+
+<h4 id="iterating-over-lists">Iterating Over Lists</h4>
+<p>Use <code>for</code> loops:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">items</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&quot;sword&quot;, &quot;bow&quot;, &quot;arrow&quot;</span><span class="o">]</span>
+
+<span class="k">for</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">items</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Item: {item}&quot;</span><span class="p">)</span>
+<span class="err">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="k">With</span><span class="w"> </span><span class="n">indices</span><span class="w"> </span><span class="p">(</span><span class="k">using</span><span class="w"> </span><span class="k">range</span><span class="p">)</span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">items</span><span class="p">))</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Index {i}: {items[i]}&quot;</span><span class="p">)</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<hr />
+<h3 id="map">Map</h3>
+<p>Maps store key-value pairs (like dictionaries or objects).</p>
+<h4 id="creating-maps">Creating Maps</h4>
+<p>Use curly braces with key-value pairs:</p>
+<div class="highlight"><pre><span></span><code>let empty = {}
+
+let player_data = {
+    name: &quot;Steve&quot;,
+    score: 100,
+    level: 5
+}
+
+let config = {
+    max_players: 10,
+    pvp_enabled: true,
+    spawn_x: 0,
+    spawn_y: 64,
+    spawn_z: 0
+}
+</code></pre></div>
+
+<p><strong>Keys must be identifiers or strings:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// With identifier keys (no quotes needed)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Steve&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">age</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span>
+<span class="p">}</span>
+
+<span class="c1">// With string keys (quotes required for special characters)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;player-name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Steve&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;high score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Values can be any type:</strong></p>
+<div class="highlight"><pre><span></span><code>let complex = {
+    number: 42,
+    text: &quot;Hello&quot;,
+    flag: true,
+    list: [1, 2, 3],
+    nested: {
+        inner: &quot;value&quot;
+    }
+}
+</code></pre></div>
+
+<h4 id="accessing-values">Accessing Values</h4>
+<p>Use dot notation or bracket notation:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="nl">name</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;Steve&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">score</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span>
+<span class="err">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Dot</span><span class="w"> </span><span class="n">notation</span><span class="w"> </span><span class="p">(</span><span class="n">preferred</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">name</span><span class="w">       </span><span class="o">//</span><span class="w"> </span><span class="ss">&quot;Steve&quot;</span>
+<span class="n">let</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player</span><span class="p">.</span><span class="n">score</span><span class="w">     </span><span class="o">//</span><span class="w"> </span><span class="mi">100</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Bracket</span><span class="w"> </span><span class="n">notation</span><span class="w"> </span><span class="p">(</span><span class="k">for</span><span class="w"> </span><span class="k">dynamic</span><span class="w"> </span><span class="n">keys</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;name&quot;</span>
+<span class="n">let</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player</span><span class="o">[</span><span class="n">key</span><span class="o">]</span><span class="w">      </span><span class="o">//</span><span class="w"> </span><span class="ss">&quot;Steve&quot;</span>
+</code></pre></div>
+
+<p><strong>Non-existent keys return null:</strong></p>
+<div class="highlight"><pre><span></span><code>let player = {name: &quot;Steve&quot;}
+let age = player.age         // null (key doesn&#39;t exist)
+</code></pre></div>
+
+<h4 id="map-operations">Map Operations</h4>
+<p><strong>Setting values:</strong></p>
+<div class="highlight"><pre><span></span><code>let player = {name: &quot;Steve&quot;}
+
+// Add new key
+player.score = 100
+// player is now {name: &quot;Steve&quot;, score: 100}
+
+// Update existing key
+player.name = &quot;Alex&quot;
+// player is now {name: &quot;Alex&quot;, score: 100}
+</code></pre></div>
+
+<p><strong>Checking for keys:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">let</span><span class="w"> </span><span class="nv">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>{<span class="nv">name</span>:<span class="w"> </span><span class="s2">&quot;Steve&quot;</span>,<span class="w"> </span><span class="nv">score</span>:<span class="w"> </span><span class="mi">100</span>}
+
+<span class="k">if</span><span class="w"> </span><span class="nv">player</span>.<span class="nv">age</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nv">null</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">log</span><span class="ss">(</span><span class="s2">&quot;Player has age&quot;</span><span class="ss">)</span>
+}
+</code></pre></div>
+
+<p><strong>Nested access:</strong></p>
+<div class="highlight"><pre><span></span><code>let data = {
+    player: {
+        name: &quot;Steve&quot;,
+        stats: {
+            health: 20,
+            hunger: 15
+        }
+    }
+}
+
+let health = data.player.stats.health  // 20
+</code></pre></div>
+
+<h4 id="iterating-over-maps">Iterating Over Maps</h4>
+<p>Maps are NOT directly iterable in Quill. Access known keys:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">scores</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="nl">steve</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">alex</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">herobrine</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span>
+<span class="err">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Access</span><span class="w"> </span><span class="n">known</span><span class="w"> </span><span class="n">keys</span>
+<span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Steve: {scores.steve}&quot;</span><span class="p">)</span>
+<span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Alex: {scores.alex}&quot;</span><span class="p">)</span>
+<span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Herobrine: {scores.herobrine}&quot;</span><span class="p">)</span>
+
+<span class="o">//</span><span class="w"> </span><span class="ow">Or</span><span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">keys</span>
+<span class="n">let</span><span class="w"> </span><span class="n">keys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&quot;steve&quot;, &quot;alex&quot;, &quot;herobrine&quot;</span><span class="o">]</span>
+<span class="k">for</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">keys</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;{key}: {scores[key]}&quot;</span><span class="p">)</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="minecraft-types">Minecraft Types</h2>
+<p>These types represent objects in the Minecraft world.</p>
+<h3 id="player">Player</h3>
+<p>Represents a player on the server.</p>
+<h4 id="player-properties">Player Properties</h4>
+<p>Access player information with dot notation:</p>
+<div class="highlight"><pre><span></span><code>let player = get_player(&quot;Steve&quot;)
+
+player.name          // &quot;Steve&quot; (player&#39;s username)
+player.health        // 20.0 (current health)
+player.hunger        // 20 (food level)
+player.location      // Location object
+player.gamemode      // &quot;survival&quot; (gamemode name)
+player.flying        // true/false (is flying)
+player.online        // true/false (is online)
+</code></pre></div>
+
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerJoin) {
+    log(&quot;Player {player.name} joined&quot;)
+    log(&quot;Health: {player.health}&quot;)
+    log(&quot;Location: {player.location}&quot;)
+}
+</code></pre></div>
+
+<h4 id="player-methods">Player Methods</h4>
+<p>Player objects work with player functions:</p>
+<div class="highlight"><pre><span></span><code>let player = get_player(&quot;Steve&quot;)
+
+// Movement
+teleport(player, location(0, 64, 0))
+
+// Inventory
+give(player, &quot;diamond_sword&quot;)
+remove_item(player, &quot;dirt&quot;, 64)
+let has_diamonds = has_item(player, &quot;diamond&quot;, 5)
+
+// State
+set_health(player, 20)
+set_hunger(player, 20)
+heal(player)
+set_gamemode(player, &quot;creative&quot;)
+
+// Communication
+sendmessage(player, &quot;Hello!&quot;)
+playsound(player, &quot;entity.player.levelup&quot;, 1.0, 1.0)
+
+// Getters
+let health = get_health(player)
+let location = get_location(player)
+let name = get_name(player)
+</code></pre></div>
+
+<hr />
+<h3 id="location">Location</h3>
+<p>Represents a position in 3D space.</p>
+<h4 id="location-properties">Location Properties</h4>
+<div class="highlight"><pre><span></span><code>let loc = location(100, 64, 200)
+
+loc.x        // 100.0 (X coordinate)
+loc.y        // 64.0 (Y coordinate)
+loc.z        // 200.0 (Z coordinate)
+loc.world    // World object
+</code></pre></div>
+
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code>let player_loc = get_location(player)
+log(&quot;Player at: {player_loc.x}, {player_loc.y}, {player_loc.z}&quot;)
+</code></pre></div>
+
+<h4 id="creating-locations">Creating Locations</h4>
+<p>Use the <code>location()</code> constructor:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// With default world</span>
+<span class="n">let</span><span class="w"> </span><span class="n">spawn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1">// With specific world</span>
+<span class="n">let</span><span class="w"> </span><span class="n">nether_spawn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;world_nether&quot;</span><span class="p">)</span>
+
+<span class="c1">// From player</span>
+<span class="n">let</span><span class="w"> </span><span class="n">player_pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_location</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="c1">// From event</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">block_pos</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">block</span><span class="p">.</span><span class="n">location</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Using locations:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">spawn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1">// Teleport players</span>
+<span class="nx">teleport</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">spawn</span><span class="p">)</span>
+
+<span class="c1">// Set blocks</span>
+<span class="nx">set_block</span><span class="p">(</span><span class="nx">spawn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;diamond_block&quot;</span><span class="p">)</span>
+
+<span class="c1">// Get blocks</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">block_type</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_block</span><span class="p">(</span><span class="nx">spawn</span><span class="p">)</span>
+
+<span class="c1">// Calculate distance</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">dist</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">distance</span><span class="p">(</span><span class="nx">spawn</span><span class="p">,</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">location</span><span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h3 id="item">Item</h3>
+<p>Represents an item stack.</p>
+<h4 id="item-properties">Item Properties</h4>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">item</span><span class="p">(</span><span class="s">&quot;diamond_sword&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nx">item</span><span class="p">.</span><span class="k">type</span><span class="w">        </span><span class="c1">// &quot;diamond_sword&quot; (item material)</span>
+<span class="nx">item</span><span class="p">.</span><span class="nx">amount</span><span class="w">      </span><span class="c1">// 1 (stack size)</span>
+</code></pre></div>
+
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerDropItem</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Dropped: {item.type} x{item.amount}&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="creating-items">Creating Items</h4>
+<p>Use the <code>item()</code> constructor:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Just type (default amount: 1)</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">sword</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">item</span><span class="p">(</span><span class="s">&quot;diamond_sword&quot;</span><span class="p">)</span>
+
+<span class="c1">// Type and amount</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">arrows</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">item</span><span class="p">(</span><span class="s">&quot;arrow&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">)</span>
+
+<span class="c1">// With namespace</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">custom</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">item</span><span class="p">(</span><span class="s">&quot;minecraft:golden_apple&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Using items:</strong></p>
+<div class="highlight"><pre><span></span><code>let sword = item(&quot;diamond_sword&quot;)
+give(player, sword)
+
+let apple = item(&quot;apple&quot;, 5)
+give(player, apple)
+</code></pre></div>
+
+<hr />
+<h3 id="entity">Entity</h3>
+<p>Represents a non-player entity (mob, animal, etc.).</p>
+<h4 id="entity-properties">Entity Properties</h4>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EntitySpawn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Entity type: {entity.type}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Location: {entity.location}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Is alive: {entity.alive}&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Properties:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">entity</span><span class="p">.</span><span class="k">type</span><span class="w">          </span><span class="c1">// &quot;zombie&quot;, &quot;cow&quot;, &quot;creeper&quot;, etc.</span>
+<span class="nx">entity</span><span class="p">.</span><span class="nx">location</span><span class="w">      </span><span class="c1">// Location object</span>
+<span class="nx">entity</span><span class="p">.</span><span class="nx">alive</span><span class="w">         </span><span class="c1">// true/false (is still alive)</span>
+</code></pre></div>
+
+<p><strong>Using entities:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Spawn entity</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">zombie</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">spawn_entity</span><span class="p">(</span><span class="s">&quot;zombie&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
+
+<span class="c1">// Remove entity</span>
+<span class="nx">remove_entity</span><span class="p">(</span><span class="nx">zombie</span><span class="p">)</span>
+
+<span class="c1">// Check type</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">zombie</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;zombie&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">remove_entity</span><span class="p">(</span><span class="nx">zombie</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h3 id="world">World</h3>
+<p>Represents a Minecraft world dimension.</p>
+<h4 id="world-properties">World Properties</h4>
+<div class="highlight"><pre><span></span><code>let world = get_world(&quot;world&quot;)
+
+world.name           // &quot;world&quot; (world name)
+
+// No other properties directly accessible
+// Use functions instead
+</code></pre></div>
+
+<p><strong>Using worlds:</strong></p>
+<div class="highlight"><pre><span></span><code>let world = get_world(&quot;world&quot;)
+
+// Time control
+set_time(world, 0)           // Morning
+let current_time = get_time(world)
+
+// Weather control
+set_weather(world, &quot;rain&quot;, 6000)
+let weather = get_weather(world)
+</code></pre></div>
+
+<hr />
+<h3 id="scope">Scope</h3>
+<p>Represents a Quill scope (physical region with scripts).</p>
+<h4 id="scope-properties">Scope Properties</h4>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">my_scope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+
+<span class="n">my_scope</span><span class="o">.</span><span class="n">players</span><span class="w">     </span><span class="o">//</span><span class="w"> </span><span class="n">List</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">scope</span>
+<span class="n">my_scope</span><span class="o">.</span><span class="n">region</span><span class="w">      </span><span class="o">//</span><span class="w"> </span><span class="n">Region</span><span class="w"> </span><span class="n">object</span><span class="w"> </span><span class="p">(</span><span class="n">boundaries</span><span class="p">)</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Access</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">parent</span><span class="p">)</span>
+<span class="n">my_scope</span><span class="o">.</span><span class="n">some_variable</span>
+</code></pre></div>
+
+<p><strong>Using scopes:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">arena</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">60</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">120</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">)</span>
+
+<span class="c1">// Player management</span>
+<span class="n">addtoscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arena</span><span class="p">)</span>
+<span class="n">removefromscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arena</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getplayers</span><span class="p">(</span><span class="n">arena</span><span class="p">)</span>
+
+<span class="c1">// Region checking</span>
+<span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arena</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Player in arena&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Iterate players</span>
+<span class="k">for</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">arena</span><span class="p">.</span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">heal</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h3 id="region">Region</h3>
+<p>Represents a 3D box area (scope boundaries).</p>
+<h4 id="region-properties">Region Properties</h4>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_region</span><span class="p">(</span><span class="n">my_scope</span><span class="p">)</span>
+
+<span class="n">region</span><span class="p">.</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">.</span><span class="n">y1</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">.</span><span class="n">z1</span><span class="w">    </span><span class="c1">// First corner</span>
+<span class="n">region</span><span class="p">.</span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">.</span><span class="n">y2</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">.</span><span class="n">z2</span><span class="w">    </span><span class="c1">// Opposite corner</span>
+
+<span class="c1">// If region is null, scope has no region</span>
+<span class="k">if</span><span class="w"> </span><span class="n">region</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">null</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;No region defined&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Using regions:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_region</span><span class="p">(</span><span class="n">arena</span><span class="p">)</span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">region</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">null</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Boundaries:&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;  ({region.x1}, {region.y1}, {region.z1})&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;  to&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">log</span><span class="p">(</span><span class="s">&quot;  ({region.x2}, {region.y2}, {region.z2})&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h3 id="event">Event</h3>
+<p>Represents a Minecraft event that occurred.</p>
+<h4 id="event-properties">Event Properties</h4>
+<p>Event objects are provided in event handlers and contain the original Bukkit event:</p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Cancel</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">event</span>
+<span class="w">    </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Event</span><span class="w"> </span><span class="n">object</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">properties</span><span class="w"> </span><span class="n">accessed</span><span class="w"> </span><span class="n">via</span><span class="w"> </span><span class="n">context</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="p">(</span><span class="n">block</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">provided</span><span class="w"> </span><span class="n">separately</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Using events:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerInteract</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Cancel certain interactions</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">block</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;tnt&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;TNT is disabled!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockPlace</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Prevent placing in certain areas</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">in_region</span><span class="p">(</span><span class="nx">block</span><span class="p">.</span><span class="nx">location</span><span class="p">,</span><span class="w"> </span><span class="nx">protected_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="type-checking">Type Checking</h2>
+<p>Check what type a value is:</p>
+<p><strong>Using type_of():</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="nx">type_of</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span><span class="w">           </span><span class="c1">// &quot;number&quot;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;hello&quot;</span>
+<span class="nx">type_of</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span><span class="w">        </span><span class="c1">// &quot;string&quot;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="nx">flag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="nx">type_of</span><span class="p">(</span><span class="nx">flag</span><span class="p">)</span><span class="w">        </span><span class="c1">// &quot;boolean&quot;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="nx">nothing</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">null</span>
+<span class="nx">type_of</span><span class="p">(</span><span class="nx">nothing</span><span class="p">)</span><span class="w">     </span><span class="c1">// &quot;null&quot;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="nx">items</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span>
+<span class="nx">type_of</span><span class="p">(</span><span class="nx">items</span><span class="p">)</span><span class="w">       </span><span class="c1">// &quot;list&quot;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">get_player</span><span class="p">(</span><span class="s">&quot;Steve&quot;</span><span class="p">)</span>
+<span class="nx">type_of</span><span class="p">(</span><span class="nx">player</span><span class="p">)</span><span class="w">      </span><span class="c1">// &quot;player&quot;</span>
+</code></pre></div>
+
+<p><strong>Available type names:</strong><br />
+- <code>"number"</code><br />
+- <code>"string"</code><br />
+- <code>"boolean"</code><br />
+- <code>"null"</code><br />
+- <code>"list"</code><br />
+- <code>"map"</code><br />
+- <code>"player"</code><br />
+- <code>"location"</code><br />
+- <code>"item"</code><br />
+- <code>"entity"</code><br />
+- <code>"world"</code><br />
+- <code>"scope"</code><br />
+- <code>"region"</code><br />
+- <code>"event"</code><br />
+- <code>"function"</code></p>
+<p><strong>Conditional logic based on type:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">some_function</span><span class="p">()</span>
+
+<span class="k">if</span><span class="w"> </span><span class="nx">type_of</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;player&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">heal</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">type_of</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;number&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Got number: {value}&quot;</span><span class="p">)</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Unknown type: {type_of(value)}&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="type-conversion">Type Conversion</h2>
+<p>Convert between types:</p>
+<p><strong>To String:</strong></p>
+<div class="highlight"><pre><span></span><code>to_string(42)           // &quot;42&quot;
+to_string(3.14)         // &quot;3.14&quot;
+to_string(true)         // &quot;true&quot;
+to_string(null)         // &quot;null&quot;
+to_string([1, 2, 3])    // &quot;[1, 2, 3]&quot;
+
+// Alternative: string concatenation
+let text = &quot;&quot; + 42      // &quot;42&quot;
+</code></pre></div>
+
+<p><strong>To Number:</strong></p>
+<div class="highlight"><pre><span></span><code>to_number(&quot;42&quot;)         // 42.0
+to_number(&quot;3.14&quot;)       // 3.14
+to_number(true)         // 1.0
+to_number(false)        // 0.0
+
+// Errors on invalid strings
+to_number(&quot;hello&quot;)      // Error: cannot convert
+</code></pre></div>
+
+<p><strong>To Boolean:</strong></p>
+<div class="highlight"><pre><span></span><code>to_boolean(1)           // true
+to_boolean(0)           // false
+to_boolean(&quot;text&quot;)      // true (non-empty string)
+to_boolean(&quot;&quot;)          // false (empty string)
+to_boolean(null)        // false
+to_boolean([1])         // true (non-empty list)
+
+// Explicit is often better
+if len(text) &gt; 0 {      // Better than: if to_boolean(text)
+    // ...
+}
+</code></pre></div>
+
+<p><strong>Automatic Conversion:</strong></p>
+<p>Quill automatically converts types in some contexts:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// String concatenation converts to string</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Count: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">42</span><span class="w">           </span><span class="c1">// &quot;Count: 42&quot;</span>
+
+<span class="c1">// Conditions convert to boolean</span>
+<span class="k">if</span><span class="w"> </span><span class="s">&quot;text&quot;</span><span class="w"> </span><span class="p">{</span><span class="w">                         </span><span class="c1">// Non-empty string is truthy</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// Comparison converts types</span>
+<span class="mi">10</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;10&quot;</span><span class="w">                          </span><span class="c1">// false (no automatic conversion)</span>
+</code></pre></div>
+
+<p><strong>Best Practices:</strong></p>
+<ol>
+<li><strong>Be explicit when possible:</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1">// Unclear</span>
+<span class="k">if</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// Clear</span>
+<span class="k">if</span><span class="w"> </span><span class="n">value</span><span class="w"> </span>!<span class="p">=</span><span class="w"> </span><span class="nb">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ol start="2">
+<li><strong>Validate user input:</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerChat) {
+    let input = chat.message
+
+    try {
+        let number = to_number(input)
+        log(&quot;You entered: {number}&quot;)
+    } catch error {
+        sendmessage(player, &quot;Please enter a valid number!&quot;)
+    }
+}
+</code></pre></div>
+
+<ol start="3">
+<li><strong>Use type_of for safety:</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">process_value</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">type_of</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">log</span><span class="p">(</span><span class="s2">&quot;Error: expected number&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Safe</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">number</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ol start="4">
+<li><strong>Document expected types:</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Good</span><span class="p">:</span><span class="w"> </span><span class="n">function</span><span class="w"> </span><span class="n">comment</span><span class="w"> </span><span class="n">documents</span><span class="w"> </span><span class="n">types</span>
+<span class="o">//</span><span class="w"> </span><span class="n">heal_player</span><span class="p">:</span><span class="w"> </span><span class="n">Player</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Boolean</span>
+<span class="o">//</span><span class="w"> </span><span class="n">Heals</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">given</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">full</span><span class="w"> </span><span class="n">health</span>
+<span class="o">//</span><span class="w"> </span><span class="n">Returns</span><span class="w"> </span><span class="bp">true</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">successful</span>
+<span class="k">func</span><span class="w"> </span><span class="n">heal_player</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">type_of</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">&quot;player&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="bp">false</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">heal</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="bp">true</span>
+<span class="p">}</span>
+</code></pre></div>
+
                     <div class="page-meta">
-                        <span class="last-modified">Last updated: November 07, 2025</span>
+                        <span class="last-modified">Last updated: November 15, 2025</span>
                     </div>
                 </article>
 
-                <!-- Table of Contents -->
-                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#primitives'>Primitives</a></li><li style='margin-left:0px'><a href='#complex-types'>Complex types</a></li><li style='margin-left:0px'><a href='#object-properties'>Object properties</a></li><li style='margin-left:20px'><a href='#player'>Player</a></li><li style='margin-left:20px'><a href='#location'>Location</a></li><li style='margin-left:20px'><a href='#item'>Item</a></li><li style='margin-left:20px'><a href='#entity'>Entity</a></li><li style='margin-left:20px'><a href='#scope'>Scope</a></li><li style='margin-left:20px'><a href='#region'>Region</a></li><li style='margin-left:0px'><a href='#lists'>Lists</a></li><li style='margin-left:0px'><a href='#type-inspection'>Type inspection</a></li><li style='margin-left:0px'><a href='#type-conversion'>Type conversion</a></li><li style='margin-left:0px'><a href='#null-and-existence'>Null and existence</a></li><li style='margin-left:0px'><a href='#related-topics'>Related topics</a></li></ul></nav>
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#primitive-types'>Primitive Types</a></li><li style='margin-left:20px'><a href='#number'>Number</a></li><li style='margin-left:20px'><a href='#string'>String</a></li><li style='margin-left:20px'><a href='#boolean'>Boolean</a></li><li style='margin-left:20px'><a href='#null'>Null</a></li><li style='margin-left:0px'><a href='#collection-types'>Collection Types</a></li><li style='margin-left:20px'><a href='#list'>List</a></li><li style='margin-left:20px'><a href='#map'>Map</a></li><li style='margin-left:0px'><a href='#minecraft-types'>Minecraft Types</a></li><li style='margin-left:20px'><a href='#player'>Player</a></li><li style='margin-left:20px'><a href='#location'>Location</a></li><li style='margin-left:20px'><a href='#item'>Item</a></li><li style='margin-left:20px'><a href='#entity'>Entity</a></li><li style='margin-left:20px'><a href='#world'>World</a></li><li style='margin-left:20px'><a href='#scope'>Scope</a></li><li style='margin-left:20px'><a href='#region'>Region</a></li><li style='margin-left:20px'><a href='#event'>Event</a></li><li style='margin-left:0px'><a href='#type-checking'>Type Checking</a></li><li style='margin-left:0px'><a href='#type-conversion'>Type Conversion</a></li></ul></nav>
             </div>
 
-            <!-- Footer -->
             <footer class="doc-footer">
                 <div class="footer-content">
                     <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
@@ -176,9 +1066,7 @@ let players = scope.players
         </main>
     </div>
 
-    <!-- Smooth scroll and particle animation -->
     <script>
-        // Generate floating particles
         function createParticles() {
             const particles = document.getElementById('particles');
             const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
@@ -199,7 +1087,6 @@ let players = scope.players
         document.addEventListener('DOMContentLoaded', function () {
             createParticles();
 
-            // Smooth scroll for TOC links
             document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -210,7 +1097,6 @@ let players = scope.players
                 });
             });
 
-            // Highlight current section in TOC
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
                     const id = entry.target.getAttribute('id');

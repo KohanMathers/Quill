@@ -1,5 +1,6 @@
 package me.kmathers.quill.parser;
 
+import me.kmathers.quill.Quill;
 import me.kmathers.quill.lexer.QuillLexer.Token;
 import me.kmathers.quill.lexer.QuillLexer.TokenType;
 import me.kmathers.quill.parser.AST.*;
@@ -37,7 +38,7 @@ public class QuillParser {
     private Token consume(TokenType expected) throws ParseException {
         Token token = current();
         if (token.kind != expected) {
-            throw new ParseException("Expected " + expected + " but got " + token.kind + " at line " + token.line);
+            throw new ParseException(Quill.getPlugin(Quill.class).translate("quill.error.runtime.parser.expected", expected, token.kind, token.line));
         }
         position++;
         return token;
@@ -232,7 +233,7 @@ public class QuillParser {
     
     // === Expression Parsing ===
     
-    private ASTNode parseExpression() throws ParseException {
+    public ASTNode parseExpression() throws ParseException {
         return parseAssignment();
     }
     
@@ -347,6 +348,12 @@ public class QuillParser {
                 position++;
                 Token property = consume(TokenType.Identifier);
                 expr = new MemberExpression(expr, property.value, dot.line, dot.column);
+            } else if (check(TokenType.OpenBracket)) {
+                Token openBracket = current();
+                position++;
+                ASTNode index = parseExpression();
+                consume(TokenType.CloseBracket);
+                expr = new IndexExpression(expr, index, openBracket.line, openBracket.column);
             } else if (check(TokenType.OpenParen)) {
                 Token openParen = current();
                 position++;
@@ -407,7 +414,10 @@ public class QuillParser {
                 
             case OpenBracket:
                 return parseListLiteral();
-                
+
+            case OpenBrace:
+                return parseMapLiteral();
+
             case New:
                 return parseNewExpression();
                 
@@ -452,6 +462,38 @@ public class QuillParser {
         return new ScopeCreation(args, newToken.line, newToken.column);
     }
     
+    private MapLiteral parseMapLiteral() throws ParseException {
+        Token openBrace = consume(TokenType.OpenBrace);
+        List<MapLiteral.MapEntry> entries = new ArrayList<>();
+        
+        if (!check(TokenType.CloseBrace)) {
+            do {
+                if (check(TokenType.Comma)) {
+                    position++;
+                }
+                
+                String key;
+                if (check(TokenType.Identifier)) {
+                    key = current().value;
+                    position++;
+                } else if (check(TokenType.StringLiteral)) {
+                    key = current().value;
+                    position++;
+                } else {
+                    throw new ParseException(Quill.getPlugin(Quill.class).translate("quill.error.runtime.parser.expected", "identifier or string as map key", current().kind, current().line));
+                }
+                
+                consume(TokenType.Colon);
+                ASTNode value = parseExpression();
+                entries.add(new MapLiteral.MapEntry(key, value));
+                
+            } while (check(TokenType.Comma));
+        }
+        
+        consume(TokenType.CloseBrace);
+        return new MapLiteral(entries, openBrace.line, openBrace.column);
+    }
+
     // === Exception Class ===
     
     public static class ParseException extends Exception {

@@ -1,0 +1,257 @@
+quill:
+  system:
+    state:
+      enabled: "Quill enabled successfully!"
+      disabled: "Quill disabled successfully!"
+      command-unavailable: "{0} will NOT work!"
+
+    fileops:
+      translations-rename-fail: "Failed to rename translations.yml to translations_old.yml"
+      config-rename-fail: "Failed to rename config.yml to config_old.yml"
+      config-temp-fail: "Failed to create temp config file"
+
+    autoload:
+      no-scripts: "No scripts found to auto-load"
+      no-scripts-hint: "Place .ql or .quill files in: {0}"
+      autoload: "Auto-loading {0} scripts..."
+      loading: "Loading: {0}"
+      fail: "Failed to load {0}"
+      success: "Successfully loaded {0} / {1} script(s)"
+
+    config:
+      lower-version: "Config version is lower than current plugin version; some features may have changed."
+      higher-version: "PEBKAC error detected in config version! Reverting config to stable version..."
+      usermod-backup: "Backed up user-modified config to config_broken_backup.yml"
+      usermod-fail: "Failed to back up config; attempting to overwrite anyway"
+      config-restore: "Default config has been restored. Do not change the config version manually!"
+      invalid-url: "Invalid editor URL: must start with http:// or https://"
+
+  script-manager:
+    status:
+      tokenized-count: "Tokenized {0} ({1} tokens)"
+      parsed-count: "Parsed {0} ({1} statements)"
+      execute-success: "Successfully executed script: {0}"
+      unloaded: "Unloaded script: {0}"
+      unloaded-all: "Unloaded all scripts"
+
+    file:
+      file-not-found: "Script file not found: {0}"
+      read-fail: "Failed to read script file: {0}"
+      invalid-boundaries: "Invalid boundaries in scope '{0}'; refusing to run script '{1}'!"
+
+    error:
+      lexer-error: "Lexer error in {0}: {1}"
+      parser-error: "Parser error in {0}: {1}"
+      runtime-error: "Runtime error in {0}: {1}"
+
+  scope-manager:
+    file:
+      file-not-found: "Scope file not found: {0}"
+      read-fail: "Failed to read scope file: {0}"
+      write-fail: "Failed to write scope file: {0}"
+      saved-success: "Successfully saved scope '{0}' to {1}"
+      loaded: "Successfully loaded {0} / {1} scope(s)"
+
+    format:
+      invalid-format: "Scope {0} has invalid format"
+      invalid-mode: "Scope security mode {0} is invalid"
+      invalid-owner-uuid: "Scope owner UUID '{0}' is invalid"
+      invalid-player-uuid: "Invalid player UUID '{0}' - skipping"
+
+    status:
+      loaded-success: "Successfully loaded scope: {0}"
+
+  commands:
+    global:
+      unknown: "Unknown subcommand: {0}"
+      unknown-hint: "Use /quill help for available commands"
+      no-permission: "You don't have permission to {0}"
+      success: "Successfully {0}"
+      fail: "Failed to {0}. Check console for errors."
+      invalid-url: "Cannot open editor: URL is not valid"
+      no-sessionid: "createSession() did not return a session id!"
+      session-created: "Editor session created!"
+
+    scripts:
+      available: "Available Quill Scripts"
+      none: "No scripts found in scripts folder"
+      saved: "Saved edits to {0}"
+
+    usage:
+      filename: "Usage: /quill {0} <filename>"
+
+    help:
+      title: "Quill Commands"
+      load: "Load a script"
+      reload: "Reload a script"
+      unload: "Unload a script"
+      edit: "Edit a script"
+      info: "Show plugin info"
+      help: "Show this help"
+      scope: "Manage scopes (use /quill help scope)"
+
+    info:
+      title: "Quill Plugin Info"
+      version: "Version"
+      loaded: "Scripts Loaded"
+      directory: "Scripts Directory"
+
+    scope:
+      title: "Scope Commands"
+      create: "Create a scope"
+      delete: "Delete a scope"
+      list: "List all loaded scopes"
+      created: "Created scope: {0}"
+      deleted: "Deleted scope: {0}"
+      already-exists: "Scope {0} already exists"
+
+      info:
+        help-hint: "Show info about a scope"
+        not-found: "Could not find scope: {0}"
+        title: "{0} Info"
+        name: "Name"
+        owner: "Owner"
+        boundaries: "Boundaries"
+        mode: "Security Mode"
+        whitelisted-funcs: "Whitelisted Functions"
+        blacklisted-funcs: "Blacklisted Functions"
+        persistent: "Persistent Variables"
+        funcs-hint: "See list with /quill scope permission list {0}"
+        persistent-hint: "See list with /quill scope persist list {0}"
+
+      permission:
+        help-hint: "Grant or revoke a scope function"
+        list:
+          title: "{0}'s {1} Functions"
+          no-funcs: "{0} has no {1} functions."
+
+      persist:
+        help-hint: "Add or remove a persistent variable from scope"
+        list:
+          title: "{0}'s Persistent Variables"
+          no-funcs: "{0} has no persistent variables."
+
+      list:
+        help-hint: "List all scripts"
+        title: "Loaded Scopes"
+        none: "No scopes available"
+
+      grant:
+        success: "Granted permission {0} to {1}"
+        fail:
+          already-granted: "Scope {0} has already been granted function '{1}'"
+          scope-not-found: "Scope '{0}' not found"
+          default: "Failed to grant function to scope '{0}'. Check console for errors."
+
+      revoke:
+        success: "Revoked permission {0} from {1}"
+        fail:
+          not-granted: "Scope '{0}' has not been granted function '{1}'"
+          already-revoked: "Scope '{0}' has already had function '{1}' revoked"
+          scope-not-found: "Scope '{0}' not found"
+          default: "Failed to revoke function to scope '{0}'. Check console for errors."
+
+      add-persistent:
+        success: "Added persistent variable '{0}' to {1}"
+        fail:
+          already-exists: "Scope {0} already has persistent variable {1}"
+          scope-not-found: "Scope '{0}' not found"
+          default: "Failed to add persistent variable to scope '{0}'. Check console for errors."
+
+      remove-persistent:
+        success: "Removed persistent variable '{0}' from {1}"
+        fail:
+          does-not-exist: "Scope {0} does not have persistent variable {1}"
+          scope-not-found: "Scope '{0}' not found"
+          default: "Failed to remove persistent variable from scope '{0}'. Check console for errors."
+
+      mode:
+        success: "Set security mode {0} on {1}"
+        fail:
+          already-set: "Scope '{0}' already uses security mode '{1}'"
+          no-mode: "Invalid security mode: {0}"
+          default: "Failed to set security mode on scope '{0}'. Check console for errors."
+
+      addplayer:
+        success: "Added player {0} to scope {1}"
+        fail:
+          already-in-scope: "Player {1} is already in scope {0}"
+          scope-not-found: "Scope '{0}' not found"
+          default: "Failed to add player to scope. Check console for errors."
+      
+      removeplayer:
+        success: "Removed player {0} from scope {1}"
+        fail:
+          not-in-scope: "Player {1} is not in scope {0}"
+          scope-not-found: "Scope '{0}' not found"
+          default: "Failed to remove player from scope. Check console for errors."
+      
+      listplayers:
+        title: "{0}'s Players"
+        none: "Scope {0} has no players"
+
+  error:
+    user:
+      world:
+        world-not-found: "World not found: {0}"
+        no-region-defined: "No region defined in scope — cannot determine world"
+
+      item:
+        empty-item-id: "Invalid item_id: cannot be null or empty"
+        invalid-item-id: "Invalid item_id: '{0}' is not a valid Minecraft item"
+        under-1-item: "Item amount must be at least 1, got: {0}"
+
+      scope:
+        already-defined: "Variable {0} already defined in this scope"
+        undefined: "Undefined variable: {0}"
+        wrong-boundary-list-size: "Scope boundaries must be 6 items: (x1, y1, z1, x2, y2, z2)"
+        no-persistent-var: "Persistent variable '{0}' does not exist"
+        no-player: "Player '{0}' not found. They must have joined the server at least once."
+        cannot-const: "Cannot reassign constant variable '{0}'"
+
+      misc:
+        invalid-sound: "Invalid sound: {0}"
+        invlid-potion: "Invalid potion effect: {0}"
+
+      value:
+        expected: "Expected {0} but got {1}"
+
+    runtime:
+      interpreter:
+        unknown-ast: "Unknown AST node type: {0}"
+        unknown-prop: "Unknown {0} property: {1}"
+        cannot-prop: "Cannot access property {0} on {1}"
+        zero-division: "Division by zero"
+        unknown-op: "Unknown {0} operator: {1}"
+        cannot-assign: "Cannot assign to property of {0}"
+        invalid-assignee: "Invalid assignment target"
+        not-func: "Not a function: {0}"
+        missing-permission: "Scope '{0}' does not have permission to call function '{1}'; refusing to evaluate!"
+        cannot-persist: "Cannot persist variable: {0}"
+        index-out-of-bounds: "Index {0} out of bounds of list of size {1}"
+        cannot-index: "Cannot index object of type {0}"
+
+      parser:
+        expected: "Expected {0} but got {1} at line {2}"
+
+      editor:
+        no-sessionid: "sessionId not found in response: {0}"
+        write-failed: "Failed to write file: {0}"
+        read-failed: "Failed to read file: {0}"
+        create-fail: "Failed to create file: {0}"
+
+    developer:
+      arguments:
+        requires-single: "{0} requires 1 argument: {1}"
+        requires-multiple: "{0} requires {1} arguments: {2}"
+        expected: "Expected {0} in {1}, found: {2}"
+
+      misc:
+        cannot-cancel: "Cannot cancel event {0}"
+        cannot-convert: "Cannot convert {0} to {1}"
+
+  editor:
+    wrote-file: "Saved edits to {0}"
+
+  internal:
+    reserved: "Internal use only"

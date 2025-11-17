@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>General Commands — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html' class='active'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Commands</span><span class='separator'>/</span><span class='current'>General</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">General Commands</h1>
+                    <h1 id="general-commands">General Commands</h1>
+<h2 id="overview">Overview</h2>
+<p>Quill provides general utility commands for viewing plugin information, accessing help documentation, and managing your interaction with the plugin. These commands are foundational for understanding and using Quill effectively.</p>
+<hr />
+<h2 id="quill-info">/quill info</h2>
+<p>Display information about the Quill plugin, including version, loaded scripts, and directory paths.</p>
+<h3 id="syntax">Syntax</h3>
+<div class="highlight"><pre><span></span><code>/quill info
+</code></pre></div>
+
+<h3 id="permissions">Permissions</h3>
+<ul>
+<li><code>quill.info</code> (default: true)</li>
+</ul>
+<h3 id="output">Output</h3>
+<p>The command displays:<br />
+- <strong>Version</strong>: The current Quill plugin version<br />
+- <strong>Scripts Loaded</strong>: Number of currently active scripts<br />
+- <strong>Scripts Directory</strong>: Absolute filesystem path to the scripts folder</p>
+<h3 id="example">Example</h3>
+<div class="highlight"><pre><span></span><code>/quill info
+</code></pre></div>
+
+<p><strong>Sample Output:</strong></p>
+<div class="highlight"><pre><span></span><code>=== Quill Plugin Info ===
+Version: 0.2.0
+Scripts Loaded: 5
+Scripts Directory: /server/plugins/Quill/scripts
+========================
+</code></pre></div>
+
+<p><strong>Use Cases:</strong><br />
+- Verify plugin version for support requests<br />
+- Check how many scripts are currently active<br />
+- Confirm the scripts directory path for manual file operations<br />
+- Troubleshooting script loading issues</p>
+<hr />
+<h2 id="quill-help">/quill help</h2>
+<p>Display help information for Quill commands. Can show general help or topic-specific help.</p>
+<h3 id="syntax_1">Syntax</h3>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">help</span><span class="w"> </span><span class="o">[</span><span class="n">topic</span><span class="o">]</span>
+</code></pre></div>
+
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><code>[topic]</code> - Optional. The help topic to display</li>
+<li>Omit for general command overview</li>
+<li>Use <code>scope</code> for scope-specific commands</li>
+</ul>
+<h3 id="permissions_1">Permissions</h3>
+<ul>
+<li><code>quill.help</code> (default: true)</li>
+</ul>
+<h3 id="topics">Topics</h3>
+<h4 id="general-help-no-topic">General Help (no topic)</h4>
+<p>Shows all main Quill commands with brief descriptions.</p>
+<p><strong>Command:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill help
+</code></pre></div>
+
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">===</span><span class="w"> </span><span class="n">Quill</span><span class="w"> </span><span class="n">Commands</span><span class="w"> </span><span class="o">===</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="k">load</span><span class="w"> </span><span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">Load</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">script</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Reload</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">script</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">unload</span><span class="w"> </span><span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Unload</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">script</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">edit</span><span class="w"> </span><span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Edit</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">script</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">List</span><span class="w"> </span><span class="ow">all</span><span class="w"> </span><span class="n">scripts</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Show</span><span class="w"> </span><span class="n">plugin</span><span class="w"> </span><span class="n">info</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="k">scope</span><span class="w"> </span><span class="o">&lt;</span><span class="n">subcommand</span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">args</span><span class="o">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Manage</span><span class="w"> </span><span class="n">scopes</span><span class="w"> </span><span class="p">(</span><span class="k">use</span><span class="w"> </span><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">help</span><span class="w"> </span><span class="k">scope</span><span class="p">)</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">help</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Show</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">help</span>
+<span class="o">=====================</span>
+</code></pre></div>
+
+<h4 id="scope-help">Scope Help</h4>
+<p>Shows detailed information about scope management commands.</p>
+<p><strong>Command:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill help scope
+</code></pre></div>
+
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">===</span><span class="w"> </span><span class="n">Scope</span><span class="w"> </span><span class="n">Commands</span><span class="w"> </span><span class="o">===</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">create</span><span class="w"> </span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">owner</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">x1</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">y1</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">z1</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">x2</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">y2</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">z2</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">whitelist</span><span class="o">|</span><span class="n">blacklist</span><span class="o">&gt;</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">scope</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">delete</span><span class="w"> </span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Delete</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">scope</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">List</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">scripts</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Show</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="n">about</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">scope</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">permission</span><span class="w"> </span><span class="o">&lt;</span><span class="n">grant</span><span class="o">|</span><span class="n">revoke</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">function</span><span class="o">&gt;</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Grant</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">revoke</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">function</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">persist</span><span class="w"> </span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">variable</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">add</span><span class="o">|</span><span class="n">remove</span><span class="o">&gt;</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Add</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">remove</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">persistent</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">scope</span>
+<span class="o">=====================</span>
+</code></pre></div>
+
+<h3 id="examples">Examples</h3>
+<p><strong>View general help:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill help
+</code></pre></div>
+
+<p><strong>View scope-specific help:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill help scope
+</code></pre></div>
+
+<p><strong>Quick reference for new users:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill help
+/quill list
+/quill info
+</code></pre></div>
+
+<hr />
+<h2 id="command-aliases">Command Aliases</h2>
+<p>Quill provides command aliases to reduce typing and improve command-line efficiency.</p>
+<h3 id="available-aliases">Available Aliases</h3>
+<table>
+<thead>
+<tr>
+<th>Full Command</th>
+<th>Alias</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/quill</code></td>
+<td><code>/ql</code></td>
+<td>Main command shortcut</td>
+</tr>
+</tbody>
+</table>
+<h3 id="usage-examples">Usage Examples</h3>
+<p><strong>Standard syntax:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">welcome</span><span class="o">.</span><span class="n">ql</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">myscript</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">list</span>
+</code></pre></div>
+
+<p><strong>Using alias:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">ql</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">welcome</span><span class="o">.</span><span class="n">ql</span>
+<span class="o">/</span><span class="n">ql</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">myscript</span>
+<span class="o">/</span><span class="n">ql</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">list</span>
+</code></pre></div>
+
+<p><strong>All subcommands work with the alias:</strong></p>
+<div class="highlight"><pre><span></span><code>/ql info
+/ql help
+/ql list
+/ql edit welcome.ql
+/ql scope create myScope Player 0 64 0 100 120 100 whitelist
+</code></pre></div>
+
+<hr />
+<h2 id="tab-completion">Tab Completion</h2>
+<p>Quill provides intelligent tab completion for all commands, making it easier to discover and use commands correctly.</p>
+<h3 id="first-argument-subcommands">First Argument (Subcommands)</h3>
+<p>Press <code>Tab</code> after <code>/quill</code> to see all available subcommands:</p>
+<div class="highlight"><pre><span></span><code>/quill &lt;Tab&gt;
+</code></pre></div>
+
+<p><strong>Completions:</strong><br />
+- <code>load</code><br />
+- <code>reload</code><br />
+- <code>unload</code><br />
+- <code>edit</code><br />
+- <code>list</code><br />
+- <code>info</code><br />
+- <code>scope</code><br />
+- <code>help</code></p>
+<h3 id="script-names">Script Names</h3>
+<p>Press <code>Tab</code> after load/reload/unload/edit commands to see available scripts:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Tab</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Tab</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">unload</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Tab</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">edit</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Tab</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<p><strong>Completions:</strong><br />
+- All <code>.ql</code> and <code>.quill</code> files in the scripts directory<br />
+- Includes scope scripts (e.g., <code>myScope/events.ql</code>)<br />
+- Filtered based on your permissions</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">w</span><span class="o">&lt;</span><span class="n">Tab</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<p>Completes to:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">welcome</span><span class="o">.</span><span class="n">ql</span>
+</code></pre></div>
+
+<h3 id="scope-subcommands">Scope Subcommands</h3>
+<p>Press <code>Tab</code> after <code>/quill scope</code> to see scope-specific commands:</p>
+<div class="highlight"><pre><span></span><code>/quill scope &lt;Tab&gt;
+</code></pre></div>
+
+<p><strong>Completions:</strong><br />
+- <code>create</code><br />
+- <code>delete</code><br />
+- <code>list</code><br />
+- <code>info</code><br />
+- <code>permission</code><br />
+- <code>persist</code><br />
+- <code>mode</code></p>
+<h3 id="scope-names">Scope Names</h3>
+<p>Press <code>Tab</code> when a scope name is expected:</p>
+<div class="highlight"><pre><span></span><code>/quill scope info &lt;Tab&gt;
+/quill scope delete &lt;Tab&gt;
+/quill scope permission grant &lt;Tab&gt;
+</code></pre></div>
+
+<p><strong>Completions:</strong><br />
+- All loaded scope names<br />
+- Filtered based on your permissions (owners see their scopes, ops see all)</p>
+<h3 id="permission-actions">Permission Actions</h3>
+<p>Press <code>Tab</code> for permission subcommands:</p>
+<div class="highlight"><pre><span></span><code>/quill scope permission &lt;Tab&gt;
+</code></pre></div>
+
+<p><strong>Completions:</strong><br />
+- <code>grant</code><br />
+- <code>revoke</code><br />
+- <code>list</code></p>
+<h3 id="persist-actions">Persist Actions</h3>
+<p>Press <code>Tab</code> for persist subcommands:</p>
+<div class="highlight"><pre><span></span><code>/quill scope persist &lt;Tab&gt;
+</code></pre></div>
+
+<p><strong>Completions:</strong><br />
+- <code>add</code><br />
+- <code>remove</code><br />
+- <code>list</code></p>
+<h3 id="security-modes">Security Modes</h3>
+<p>Press <code>Tab</code> when setting scope mode:</p>
+<div class="highlight"><pre><span></span><code>/quill scope mode myScope &lt;Tab&gt;
+</code></pre></div>
+
+<p><strong>Completions:</strong><br />
+- <code>whitelist</code><br />
+- <code>blacklist</code></p>
+<h3 id="smart-completion-examples">Smart Completion Examples</h3>
+<p><strong>Loading a scope script:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">my</span><span class="o">&lt;</span><span class="n">Tab</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<p>Might complete to:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">myScope</span><span class="o">/&lt;</span><span class="n">Tab</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<p>Then:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="n">myScope</span><span class="o">/</span><span class="n">events</span><span class="o">.</span><span class="n">ql</span>
+</code></pre></div>
+
+<p><strong>Managing scope permissions:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill scope per&lt;Tab&gt;
+</code></pre></div>
+
+<p>Completes to:</p>
+<div class="highlight"><pre><span></span><code>/quill scope permission &lt;Tab&gt;
+</code></pre></div>
+
+<p>Then:</p>
+<div class="highlight"><pre><span></span><code>/quill scope permission grant &lt;Tab&gt;
+</code></pre></div>
+
+<p>Shows all scope names:</p>
+<div class="highlight"><pre><span></span><code>/quill scope permission grant myScope 
+</code></pre></div>
+
+<hr />
+<h2 id="permission-hierarchy">Permission Hierarchy</h2>
+<p>Quill uses a hierarchical permission system that allows fine-grained control over who can do what. Understanding this hierarchy is crucial for server administrators.</p>
+<h3 id="permission-structure">Permission Structure</h3>
+<div class="highlight"><pre><span></span><code><span class="n">quill</span><span class="o">.</span><span class="n">admin</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">command</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">info</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">help</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">script</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">global</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">script</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">scope</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">script</span><span class="o">.</span><span class="n">reload</span><span class="o">.</span><span class="n">global</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">script</span><span class="o">.</span><span class="n">reload</span><span class="o">.</span><span class="n">scope</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">script</span><span class="o">.</span><span class="n">unload</span><span class="o">.</span><span class="n">global</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">script</span><span class="o">.</span><span class="n">unload</span><span class="o">.</span><span class="n">scope</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">script</span><span class="o">.</span><span class="n">edit</span><span class="o">.</span><span class="n">global</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">script</span><span class="o">.</span><span class="n">edit</span><span class="o">.</span><span class="n">scope</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">script</span><span class="o">.</span><span class="n">list</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">script</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">all</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">create</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">delete</span><span class="o">.</span><span class="n">any</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">list</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">all</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">info</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">any</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">permission</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">persist</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">persist</span><span class="o">.</span><span class="n">any</span>
+<span class="err">└──</span><span class="w"> </span><span class="n">quill</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">mode</span>
+</code></pre></div>
+
+<h3 id="master-permission">Master Permission</h3>
+<p><strong><code>quill.admin</code> (default: op)</strong><br />
+- Grants <strong>all</strong> Quill permissions<br />
+- Intended for server administrators and trusted staff<br />
+- Includes all script and scope management capabilities</p>
+<p><strong>Grant to trusted admins:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">quill.admin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+
+<h3 id="core-permissions">Core Permissions</h3>
+<p><strong><code>quill.command</code> (default: true)</strong><br />
+- Basic permission to use <code>/quill</code> command<br />
+- Required for any Quill interaction<br />
+- Usually granted to all players</p>
+<p><strong><code>quill.info</code> (default: true)</strong><br />
+- View plugin information with <code>/quill info</code><br />
+- Harmless read-only information</p>
+<p><strong><code>quill.help</code> (default: true)</strong><br />
+- Access help system with <code>/quill help</code><br />
+- Essential for user guidance</p>
+<h3 id="script-management-permissions">Script Management Permissions</h3>
+<h4 id="global-scripts">Global Scripts</h4>
+<p><strong><code>quill.script.load.global</code> (default: op)</strong><br />
+- Load scripts from the root scripts directory<br />
+- Global scripts affect the entire server</p>
+<p><strong><code>quill.script.reload.global</code> (default: op)</strong><br />
+- Reload global scripts<br />
+- Allows updating server-wide automation</p>
+<p><strong><code>quill.script.unload.global</code> (default: op)</strong><br />
+- Unload global scripts<br />
+- Can disable server-wide features</p>
+<p><strong><code>quill.script.edit.global</code> (default: op)</strong><br />
+- Edit global scripts via web editor<br />
+- Potentially dangerous, requires trust</p>
+<h4 id="scope-scripts">Scope Scripts</h4>
+<p><strong><code>quill.script.load.scope</code> (default: true)</strong><br />
+- Load scripts within scopes you own<br />
+- Safe for regular players (limited by scope permissions)</p>
+<p><strong><code>quill.script.reload.scope</code> (default: true)</strong><br />
+- Reload scripts in your own scopes<br />
+- Allows iteration during development</p>
+<p><strong><code>quill.script.unload.scope</code> (default: true)</strong><br />
+- Unload scripts in your own scopes<br />
+- Stop your own automation</p>
+<p><strong><code>quill.script.edit.scope</code> (default: true)</strong><br />
+- Edit scripts in your own scopes<br />
+- Enables player creativity</p>
+<p><strong>Note:</strong> Scope owners automatically have these permissions for their own scopes, regardless of explicit permission grants.</p>
+<h4 id="script-listing">Script Listing</h4>
+<p><strong><code>quill.script.list</code> (default: true)</strong><br />
+- List scripts you have access to<br />
+- Shows global scripts and your scope scripts</p>
+<p><strong><code>quill.script.list.all</code> (default: op)</strong><br />
+- List <strong>all</strong> scripts on the server<br />
+- Includes scripts in other players' scopes</p>
+<h3 id="scope-management-permissions">Scope Management Permissions</h3>
+<p><strong><code>quill.scope.create</code> (default: op)</strong><br />
+- Create new scopes<br />
+- Define regions and owners<br />
+- Should be restricted to prevent scope spam</p>
+<p><strong><code>quill.scope.delete.any</code> (default: op)</strong><br />
+- Delete any scope on the server<br />
+- Scope owners can always delete their own scopes</p>
+<p><strong><code>quill.scope.list</code> (default: true)</strong><br />
+- List scopes you own<br />
+- Basic read access</p>
+<p><strong><code>quill.scope.list.all</code> (default: op)</strong><br />
+- List <strong>all</strong> scopes on the server<br />
+- Administrative oversight</p>
+<p><strong><code>quill.scope.info</code> (default: true)</strong><br />
+- View information about scopes you own<br />
+- See boundaries, mode, owner</p>
+<p><strong><code>quill.scope.info.any</code> (default: op)</strong><br />
+- View information about <strong>any</strong> scope<br />
+- Server-wide visibility</p>
+<p><strong><code>quill.scope.permission</code> (default: op)</strong><br />
+- Manage function permissions for any scope<br />
+- Scope owners can manage their own scopes</p>
+<p><strong><code>quill.scope.persist</code> (default: true)</strong><br />
+- Manage persistent variables in owned scopes<br />
+- Add/remove persistent storage</p>
+<p><strong><code>quill.scope.persist.any</code> (default: op)</strong><br />
+- Manage persistent variables in <strong>any</strong> scope<br />
+- Administrative control</p>
+<p><strong><code>quill.scope.mode</code> (default: op)</strong><br />
+- Change security mode (whitelist/blacklist) for any scope<br />
+- Significant security implications</p>
+<h3 id="permission-examples">Permission Examples</h3>
+<h4 id="regular-player-setup">Regular Player Setup</h4>
+<p>Grant basic Quill access for creative players:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">quill.command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">quill.info</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">quill.help</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">quill.script.load.scope</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">quill.script.reload.scope</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">quill.script.unload.scope</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">quill.script.edit.scope</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">quill.script.list</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">quill.scope.list</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">quill.scope.info</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">quill.scope.persist</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+
+<p><strong>What they can do:</strong><br />
+- Manage scripts in their own scopes<br />
+- View their own scopes<br />
+- List available scripts<br />
+- Cannot affect global scripts or other players' scopes</p>
+<h4 id="trusted-player-setup">Trusted Player Setup</h4>
+<p>Grant additional scope creation ability:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># All regular player permissions, plus:</span>
+<span class="w">  </span><span class="nt">quill.scope.create</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+
+<p><strong>What they can do:</strong><br />
+- Create their own scopes<br />
+- Full management of their scopes<br />
+- Cannot interfere with other players</p>
+<h4 id="moderator-setup">Moderator Setup</h4>
+<p>Grant oversight capabilities without global script access:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># All trusted player permissions, plus:</span>
+<span class="w">  </span><span class="nt">quill.script.list.all</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">quill.scope.list.all</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">quill.scope.info.any</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+
+<p><strong>What they can do:</strong><br />
+- View all scripts and scopes<br />
+- Monitor player automation<br />
+- Cannot modify global scripts or others' scopes</p>
+<h4 id="administrator-setup">Administrator Setup</h4>
+<p>Grant full Quill access:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">quill.admin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+
+<p><strong>What they can do:</strong><br />
+- Everything<br />
+- Manage global scripts<br />
+- Manage all scopes<br />
+- Full control over the plugin</p>
+<h3 id="permission-inheritance">Permission Inheritance</h3>
+<p>Quill's permission system respects the following ownership rules:</p>
+<ol>
+<li><strong>Scope Owners</strong>: Always have script management permissions for their own scopes, regardless of explicit permission grants</li>
+<li><strong>Operators</strong>: Have all permissions by default unless explicitly denied</li>
+<li><strong>Master Permission</strong>: <code>quill.admin</code> inherits all child permissions</li>
+</ol>
+<h3 id="security-best-practices">Security Best Practices</h3>
+<p><strong>Principle of Least Privilege:</strong><br />
+- Grant only necessary permissions<br />
+- Start restrictive, expand as needed<br />
+- Regular permission audits</p>
+<p><strong>Trust Levels:</strong></p>
+<div class="highlight"><pre><span></span><code>New Players:
+  quill.command, quill.info, quill.help
+
+Regular Players:
+  + scope script management
+  + quill.scope.list, quill.scope.info
+
+Trusted Players:
+  + quill.scope.create
+
+Moderators:
+  + list.all, info.any
+
+Administrators:
+  quill.admin
+</code></pre></div>
+
+<p><strong>Avoid:</strong><br />
+- Granting <code>quill.admin</code> to players<br />
+- Allowing <code>quill.script.*.global</code> to untrusted users<br />
+- Giving <code>quill.scope.mode</code> without understanding security implications</p>
+<p><strong>Monitor:</strong><br />
+- Who has <code>quill.scope.create</code> (prevent scope spam)<br />
+- Who can edit global scripts<br />
+- Who can view all scopes (privacy concerns)</p>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#/quill-info'>/quill info</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#output'>Output</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#/quill-help'>/quill help</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#topics'>Topics</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#command-aliases'>Command Aliases</a></li><li style='margin-left:20px'><a href='#available-aliases'>Available Aliases</a></li><li style='margin-left:20px'><a href='#usage-examples'>Usage Examples</a></li><li style='margin-left:0px'><a href='#tab-completion'>Tab Completion</a></li><li style='margin-left:20px'><a href='#first-argument-subcommands'>First Argument (Subcommands)</a></li><li style='margin-left:20px'><a href='#script-names'>Script Names</a></li><li style='margin-left:20px'><a href='#scope-subcommands'>Scope Subcommands</a></li><li style='margin-left:20px'><a href='#scope-names'>Scope Names</a></li><li style='margin-left:20px'><a href='#permission-actions'>Permission Actions</a></li><li style='margin-left:20px'><a href='#persist-actions'>Persist Actions</a></li><li style='margin-left:20px'><a href='#security-modes'>Security Modes</a></li><li style='margin-left:20px'><a href='#smart-completion-examples'>Smart Completion Examples</a></li><li style='margin-left:0px'><a href='#permission-hierarchy'>Permission Hierarchy</a></li><li style='margin-left:20px'><a href='#permission-structure'>Permission Structure</a></li><li style='margin-left:20px'><a href='#master-permission'>Master Permission</a></li><li style='margin-left:20px'><a href='#core-permissions'>Core Permissions</a></li><li style='margin-left:20px'><a href='#script-management-permissions'>Script Management Permissions</a></li><li style='margin-left:20px'><a href='#scope-management-permissions'>Scope Management Permissions</a></li><li style='margin-left:20px'><a href='#permission-examples'>Permission Examples</a></li><li style='margin-left:20px'><a href='#permission-inheritance'>Permission Inheritance</a></li><li style='margin-left:20px'><a href='#security-best-practices'>Security Best Practices</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

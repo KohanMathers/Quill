@@ -1,5 +1,5 @@
 name: Quill
-version: 0.1.1
+version: 1.0.0
 main: me.kmathers.quill.Quill
 api-version: 1.20
 author: Kohan Mathers
@@ -9,32 +9,128 @@ website: https://github.com/kohanmathers/quill
 commands:
   quill:
     description: Main Quill command
-    usage: /quill <load|reload|unload|list|info|help> [filename]
+    permission: quill.command
+    usage: |
+      /quill <info|list>
+      /quill <help> [topic]
+      /quill <load|unload|edit|reload> <filename>
+      /quill <scope> <create|delete|list|info> <args...>
+      /quill scope create <name> <owner> <x1> <y1> <z1> <x2> <y2> <z2> <whitelist|blacklist>
+      /quill scope delete <name>
+      /quill scope list
+      /quill scope info <name>
+      /quill scope permission <grant|revoke> <name> <function>
+      /quill scope permission list <name>
+      /quill scope persist <add|remove> <name> <variable>
+      /quill scope persist list <name>
+
     aliases: [ql]
     permission: quill.command
 
 permissions:
   quill.command:
-    description: Access to basic Quill commands
+    description: Use the /quill command
     default: true
-  quill.script.load:
-    description: Load Quill scripts
+
+  quill.script.load.global:
+    description: Load global Quill scripts
     default: op
-  quill.script.reload:
-    description: Reload Quill scripts
+  quill.script.load.scope:
+    description: Load scope Quill scripts
+    default: true
+  quill.script.reload.global:
+    description: Reload global Quill scripts
     default: op
-  quill.script.unload:
-    description: Unload Quill scripts
+  quill.script.reload.scope:
+    description: Reload scope Quill scripts
+    default: true
+  quill.script.unload.global:
+    description: Unload global Quill scripts
     default: op
+  quill.script.unload.scope:
+    description: Unload scope Quill scripts
+    default: true
+  quill.script.edit.global:
+    description: Edit global Quill scripts
+    default: op
+  quill.script.edit.scope:
+    description: Edit scope Quill scripts
+    default: true
   quill.script.list:
     description: List Quill scripts
     default: true
+  quill.script.list.all:
+    description: List all Quill scripts
+    default: op
+
+  quill.info:
+    description: Show plugin info
+    default: true
+  quill.help:
+    description: Show help command
+    default: true
+
+  quill.scope.create:
+    description: Create Quill scopes
+    default: op
+  quill.scope.delete.any:
+    description: Delete any Quill scope
+    default: op
+  quill.scope.list:
+    description: List Quill scopes
+    default: true
+  quill.scope.list.all:
+    description: List all Quill scopes
+    default: op
+  quill.scope.info:
+    description: Show scope info
+    default: true
+  quill.scope.info.any:
+    description: Show any scope's info
+    default: op
+  quill.scope.permission:
+    description: Modify a scope's security
+    default: op
+  quill.scope.persist:
+    description: Modify a scope's persistent variables
+    default: true
+  quill.scope.persist.any:
+    description: Modify any scope's persistent variables
+    default: op
+  quill.scope.mode:
+    description: Modify a scope's security mode
+    default: op
+  quill.scope.players:
+    description: Modify scope player lists
+    default: true
+  quill.scope.players.any:
+    description: Modify any scope's player lists
+    default: op
+
   quill.admin:
     description: Full Quill administrative access
     default: op
     children:
       quill.command: true
-      quill.script.load: true
-      quill.script.reload: true
-      quill.script.unload: true
+      quill.script.load.global: true
+      quill.script.load.scope: true
+      quill.script.reload.global: true
+      quill.script.reload.scope: true
+      quill.script.unload.global: true
+      quill.script.unload.scope: true
+      quill.script.edit.global: true
+      quill.script.edit.scope: true
       quill.script.list: true
+      quill.script.list.all: true
+      quill.info: true
+      quill.help: true
+      quill.scope.create: true
+      quill.scope.delete.any: true
+      quill.scope.list: true
+      quill.scope.list.all: true
+      quill.scope.info: true
+      quill.scope.info.any: true
+      quill.scope.permission: true
+      quill.scope.persist: true
+      quill.scope.persist.any: true
+      quill.scope.mode: true

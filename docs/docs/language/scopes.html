@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Scopes — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html' class='active'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Language</span><span class='separator'>/</span><span class='current'>Scopes</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Scopes</h1>
+                    <h1 id="scopes">Scopes</h1>
+<h2 id="overview">Overview</h2>
+<p>Scopes in Quill serve two distinct but related purposes: they control variable visibility and lifetime (lexical scoping), and they define physical regions in the Minecraft world with associated permissions and player tracking (physical scoping). Understanding both concepts is essential for building complex Quill systems.</p>
+<p>Lexical scopes determine which variables are accessible at different points in your code. Physical scopes allow you to create secure, bounded regions with custom permissions and player management.</p>
+<h2 id="what-is-a-scope">What is a Scope?</h2>
+<p>A scope is a context that defines:<br />
+1. <strong>Variable accessibility</strong> - Which variables can be read and written<br />
+2. <strong>Physical boundaries</strong> - A 3D region in the Minecraft world (optional)<br />
+3. <strong>Player membership</strong> - Which players belong to the scope<br />
+4. <strong>Function permissions</strong> - Which built-in functions can be called<br />
+5. <strong>Persistent variables</strong> - Variables that survive script reloads</p>
+<h3 id="scope-hierarchy">Scope Hierarchy</h3>
+<p>Scopes form a hierarchical tree structure:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Global</span><span class="w"> </span><span class="n">Scope</span><span class="w"> </span><span class="p">(</span><span class="n">scripts</span><span class="o">/</span><span class="n">script</span><span class="o">.</span><span class="n">ql</span><span class="p">)</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">Function</span><span class="w"> </span><span class="n">Scope</span><span class="w"> </span><span class="p">(</span><span class="k">func</span><span class="w"> </span><span class="n">myFunction</span><span class="p">)</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">Nested</span><span class="w"> </span><span class="n">Function</span><span class="w"> </span><span class="n">Scope</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">Event</span><span class="w"> </span><span class="n">Handler</span><span class="w"> </span><span class="n">Scope</span><span class="w"> </span><span class="p">(</span><span class="n">OnEvent</span><span class="p">)</span>
+<span class="err">└──</span><span class="w"> </span><span class="n">For</span><span class="w"> </span><span class="n">Loop</span><span class="w"> </span><span class="n">Scope</span><span class="w"> </span><span class="p">(</span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">players</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Child scopes can access variables from parent scopes, but not vice versa.</p>
+<h3 id="global-scope">Global Scope</h3>
+<p>Every script runs in a global scope, which is either:<br />
+- <strong>"global"</strong> - For scripts in the root <code>scripts/</code> directory<br />
+- <strong>Named scope</strong> - For scripts in <code>scripts/&lt;scope_name&gt;/</code> subdirectories</p>
+<p>Global scope variables persist for the entire script lifecycle:</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">runs</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">global</span><span class="w"> </span><span class="n">scope</span>
+<span class="n">let</span><span class="w"> </span><span class="n">serverName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;My Server&quot;</span>
+<span class="n">let</span><span class="w"> </span><span class="n">spawnLocation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Can</span><span class="w"> </span><span class="n">access</span><span class="w"> </span><span class="n">global</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">variables</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Welcome to {serverName}!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">spawnLocation</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="script-scope">Script Scope</h3>
+<p>Scripts placed in subdirectories run in named scopes:</p>
+<div class="highlight"><pre><span></span><code>scripts/
+├── lobby.ql              (global scope)
+├── spawn/
+│   └── protection.ql     (spawn scope)
+└── arena/
+    └── pvp.ql            (arena scope)
+</code></pre></div>
+
+<p>Named scopes must be created via command before scripts can use them:</p>
+<div class="highlight"><pre><span></span><code>/quill scope create spawn &lt;owner&gt; &lt;x1&gt; &lt;y1&gt; &lt;z1&gt; &lt;x2&gt; &lt;y2&gt; &lt;z2&gt; &lt;whitelist|blacklist&gt;
+</code></pre></div>
+
+<h3 id="function-scope">Function Scope</h3>
+<p>Each function creates a new scope with access to outer scopes (closure):</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">multiplier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">calculate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">multiplier</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Accesses</span><span class="w"> </span><span class="n">outer</span><span class="w"> </span><span class="n">scope</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">result</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="nb">log</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="n">Error</span><span class="p">:</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">accessible</span><span class="w"> </span><span class="n">here</span>
+</code></pre></div>
+
+<p>Parameters become variables in the function's scope:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">greet</span><span class="p">(</span><span class="n">playerName</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">playerName</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">local</span><span class="w"> </span><span class="n">variable</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Hello, {playerName}!&quot;</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="physical-scopes-regions">Physical Scopes (Regions)</h2>
+<p>Physical scopes define 3D rectangular regions in the Minecraft world. They enable location-based logic, player tracking, and security restrictions.</p>
+<h3 id="creating-physical-scopes">Creating Physical Scopes</h3>
+<p>Create physical scopes using the <code>/quill scope create</code> command:</p>
+<div class="highlight"><pre><span></span><code>/quill scope create &lt;name&gt; &lt;owner&gt; &lt;x1&gt; &lt;y1&gt; &lt;z1&gt; &lt;x2&gt; &lt;y2&gt; &lt;z2&gt; &lt;whitelist|blacklist&gt;
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br />
+- <code>name</code> - Unique scope identifier<br />
+- <code>owner</code> - Player UUID or username<br />
+- <code>x1, y1, z1</code> - First corner coordinates<br />
+- <code>x2, y2, z2</code> - Opposite corner coordinates<br />
+- <code>whitelist|blacklist</code> - Security mode (see Scope Security)</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill scope create arena Steve 100 64 100 200 100 200 whitelist
+</code></pre></div>
+
+<p>This creates an arena scope from (100, 64, 100) to (200, 100, 200) owned by Steve using whitelist security mode.</p>
+<h3 id="scope-boundaries">Scope Boundaries</h3>
+<p>Scope boundaries are automatically normalized so that x1 ≤ x2, y1 ≤ y2, and z1 ≤ z2:</p>
+<div class="highlight"><pre><span></span><code>Create: (200, 100, 200) to (100, 64, 100)
+Stored: (100, 64, 100) to (200, 100, 200)
+</code></pre></div>
+
+<p>Access and modify boundaries using scope functions:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Get region boundaries</span>
+<span class="n">let</span><span class="w"> </span><span class="n">region</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_region</span><span class="p">(</span><span class="n">myScope</span><span class="p">)</span>
+<span class="c1">// Returns: Region(x1, y1, z1, x2, y2, z2)</span>
+
+<span class="c1">// Set new boundaries</span>
+<span class="n">set_region</span><span class="p">(</span><span class="n">myScope</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span><span class="w"> </span><span class="mi">150</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="region-checking">Region Checking</h3>
+<p>Check if players or locations are within a scope's region:</p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">myScope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You are in the protected area!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">block</span><span class="p">.</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">myScope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Cannot break blocks here!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="subscopes">Subscopes</h2>
+<p>Subscopes are dynamically created scopes within your script, useful for temporary contexts or nested regions.</p>
+<h3 id="creating-subscopes">Creating Subscopes</h3>
+<p>Create subscopes using <code>new Scope()</code>:</p>
+<div class="highlight"><pre><span></span><code>let tempScope = new Scope(x1, y1, z1, x2, y2, z2)
+</code></pre></div>
+
+<p>The subscope inherits the world from the parent scope's region.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Create a temporary safe zone</span>
+<span class="n">let</span><span class="w"> </span><span class="n">safeZone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">damage</span><span class="p">.</span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="n">safeZone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">damage</span><span class="p">.</span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Safe zone protected you!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="subscope-regions">Subscope Regions</h3>
+<p>Access and modify subscope regions like physical scopes:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">buildArea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">60</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">120</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">)</span>
+
+<span class="c1">// Check region</span>
+<span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">buildArea</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You&#39;re in the build area!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Modify region</span>
+<span class="n">set_region</span><span class="p">(</span><span class="n">buildArea</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">150</span><span class="p">,</span><span class="w"> </span><span class="mh">60</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">150</span><span class="p">,</span><span class="w"> </span><span class="mh">150</span><span class="p">,</span><span class="w"> </span><span class="mh">120</span><span class="p">,</span><span class="w"> </span><span class="mh">150</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="subscope-variables">Subscope Variables</h3>
+<p>Subscopes have their own variable storage:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">gameScope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">Store</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">subscope</span>
+<span class="o">//</span><span class="w"> </span><span class="n">Note</span><span class="p">:</span><span class="w"> </span><span class="n">Direct</span><span class="w"> </span><span class="n">subscope</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">storage</span><span class="w"> </span><span class="n">requires</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">context</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">addtoscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">gameScope</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="use-cases">Use Cases</h3>
+<p><strong>Mini-game Arenas:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">arena1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">200</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">200</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">arena2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">300</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">300</span><span class="p">,</span><span class="w"> </span><span class="mh">400</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">400</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arena1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Arena 1 logic</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">arena2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Arena 2 logic</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Dynamic Safe Zones:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">safeZones</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">createSafeZone</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">radius</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">    </span><span class="n">append</span><span class="p">(</span><span class="n">safeZones</span><span class="p">,</span><span class="w"> </span><span class="n">zone</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">zone</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">zone</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">safeZones</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">damage</span><span class="o">.</span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="n">zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Temporary Event Zones:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">startEvent</span><span class="p">(</span><span class="n">centerX</span><span class="p">,</span><span class="w"> </span><span class="n">centerY</span><span class="p">,</span><span class="w"> </span><span class="n">centerZ</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">eventZone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span>
+<span class="w">        </span><span class="n">centerX</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">centerY</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="n">centerZ</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">        </span><span class="n">centerX</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">centerY</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="n">centerZ</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">50</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;Event started!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">eventZone</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="scope-security">Scope Security</h2>
+<p>Scope security controls which built-in functions scripts can execute within a scope. This prevents malicious or buggy scripts from causing harm.</p>
+<h3 id="whitelist-mode">Whitelist Mode</h3>
+<p>In whitelist mode, <strong>only explicitly granted functions</strong> can be called:</p>
+<div class="highlight"><pre><span></span><code>/quill scope create myScope Player 0 0 0 100 100 100 whitelist
+</code></pre></div>
+
+<p>Initially, <strong>no functions are available</strong>. Grant permissions individually:</p>
+<div class="highlight"><pre><span></span><code>/quill scope permission grant myScope sendmessage
+/quill scope permission grant myScope teleport
+/quill scope permission grant myScope heal
+</code></pre></div>
+
+<p>Now scripts in <code>myScope</code> can only call <code>sendmessage</code>, <code>teleport</code>, and <code>heal</code>.</p>
+<p><strong>Use whitelist mode for:</strong><br />
+- Untrusted script authors<br />
+- Player-created content<br />
+- Restricted environments<br />
+- Maximum security</p>
+<h3 id="blacklist-mode">Blacklist Mode</h3>
+<p>In blacklist mode, <strong>all functions are available except explicitly revoked ones</strong>:</p>
+<div class="highlight"><pre><span></span><code>/quill scope create myScope Player 0 0 0 100 100 100 blacklist
+</code></pre></div>
+
+<p>Initially, <strong>all functions work</strong>. Revoke dangerous functions:</p>
+<div class="highlight"><pre><span></span><code>/quill scope permission revoke myScope kill
+/quill scope permission revoke myScope kick
+/quill scope permission revoke myScope create_explosion
+</code></pre></div>
+
+<p>Now scripts in <code>myScope</code> can call any function except <code>kill</code>, <code>kick</code>, and <code>create_explosion</code>.</p>
+<p><strong>Use blacklist mode for:</strong><br />
+- Trusted script authors<br />
+- Development environments<br />
+- Less restricted scopes<br />
+- Convenience</p>
+<h3 id="function-permissions">Function Permissions</h3>
+<p><strong>Granting Permissions (Whitelist Mode):</strong></p>
+<div class="highlight"><pre><span></span><code>/quill scope permission grant &lt;scope&gt; &lt;function&gt;
+</code></pre></div>
+
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code>/quill scope permission grant arena give
+/quill scope permission grant arena remove_item
+/quill scope permission grant arena set_health
+</code></pre></div>
+
+<p><strong>Revoking Permissions (Blacklist Mode):</strong></p>
+<div class="highlight"><pre><span></span><code>/quill scope permission revoke &lt;scope&gt; &lt;function&gt;
+</code></pre></div>
+
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code>/quill scope permission revoke arena kill
+/quill scope permission revoke arena create_explosion
+</code></pre></div>
+
+<p><strong>Listing Permissions:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill scope permission list &lt;scope&gt;
+</code></pre></div>
+
+<p>Shows all whitelisted functions (whitelist mode) or blacklisted functions (blacklist mode).</p>
+<p><strong>Switching Security Modes:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill scope mode &lt;scope&gt; &lt;whitelist|blacklist&gt;
+</code></pre></div>
+
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code>/quill scope mode arena blacklist
+</code></pre></div>
+
+<p><strong>Permission Enforcement:</strong></p>
+<p>When a script attempts to call a function without permission, execution halts with an error:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// In a whitelist scope without &#39;kill&#39; permission</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">kill</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w">  </span><span class="c1">// Error: Scope &#39;myScope&#39; does not have permission to call function &#39;kill&#39;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="scope-players">Scope Players</h2>
+<p>Scopes can track which players belong to them, enabling player-specific logic and iteration.</p>
+<h3 id="adding-players-to-scopes">Adding Players to Scopes</h3>
+<p>Use <code>addtoscope()</code> to add a player to a scope's player list:</p>
+<div class="highlight"><pre><span></span><code>let teamScope = new Scope(0, 64, 0, 100, 100, 100)
+
+OnEvent(PlayerJoin) {
+    addtoscope(player, teamScope)
+    sendmessage(player, &quot;You joined the team!&quot;)
+}
+</code></pre></div>
+
+<p><strong>Note:</strong> Adding a player to a scope does <strong>not</strong> teleport them. It only adds them to the scope's internal player list.</p>
+<h3 id="removing-players-from-scopes">Removing Players from Scopes</h3>
+<p>Use <code>removefromscope()</code> to remove a player from a scope's player list:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">leaveTeam</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">teamScope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">removefromscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">teamScope</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;You left the team!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerQuit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">removefromscope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">teamScope</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="iterating-over-scope-players">Iterating Over Scope Players</h3>
+<p>Use <code>getplayers()</code> to get all players in a scope, then iterate with a for loop:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">gameScope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">healAllPlayers</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getplayers</span><span class="p">(</span><span class="n">gameScope</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;You have been healed!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">chat</span><span class="o">.</span><span class="n">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!heal&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">healAllPlayers</span><span class="p">()</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Broadcasting to Scope Players:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">broadcastToScope</span><span class="p">(</span><span class="n">scope</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getplayers</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">block</span><span class="o">.</span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;diamond_ore&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">broadcastToScope</span><span class="p">(</span><span class="n">miningScope</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;{player.name} found diamonds!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Checking Player Membership:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">isInScope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">scope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">members</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getplayers</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">contains</span><span class="p">(</span><span class="n">members</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerInteract</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">isInScope</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">vipScope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;VIP access granted!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="scope-organization">Scope Organization</h3>
+<p><strong>Organize scripts by functionality:</strong></p>
+<div class="highlight"><pre><span></span><code>scripts/
+├── global.ql              # Server-wide utilities
+├── spawn/
+│   ├── protection.ql      # Spawn protection
+│   └── welcome.ql         # Welcome messages
+├── pvp/
+│   ├── arena.ql           # Arena mechanics
+│   └── rewards.ql         # Kill rewards
+└── minigames/
+    ├── spleef.ql          # Spleef game
+    └── parkour.ql         # Parkour game
+</code></pre></div>
+
+<p><strong>Use one scope per major feature:</strong><br />
+- <code>spawn</code> - Protected spawn area<br />
+- <code>pvp</code> - PvP arena<br />
+- <code>shop</code> - Shopping district<br />
+- <code>survival</code> - Survival world</p>
+<p><strong>Don't create too many scopes:</strong><br />
+- Too many scopes = complex permission management<br />
+- Prefer subscopes for temporary regions<br />
+- Use one scope for related features</p>
+<h3 id="naming-conventions">Naming Conventions</h3>
+<p><strong>Use descriptive, lowercase names:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">Good</span><span class="o">:</span><span class="w"> </span><span class="n">spawn</span><span class="o">,</span><span class="w"> </span><span class="n">pvp_arena</span><span class="o">,</span><span class="w"> </span><span class="n">survival_world</span><span class="o">,</span><span class="w"> </span><span class="n">minigame_hub</span>
+<span class="n">Avoid</span><span class="o">:</span><span class="w"> </span><span class="n">s</span><span class="o">,</span><span class="w"> </span><span class="n">arena1</span><span class="o">,</span><span class="w"> </span><span class="n">test</span><span class="o">,</span><span class="w"> </span><span class="n">my_scope</span>
+</code></pre></div>
+
+<p><strong>Follow a consistent pattern:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">feature_zone</span><span class="o">:</span><span class="w">     </span><span class="n">pvp_arena</span><span class="o">,</span><span class="w"> </span><span class="n">survival_zone</span><span class="o">,</span><span class="w"> </span><span class="n">creative_zone</span>
+<span class="n">feature_system</span><span class="o">:</span><span class="w">   </span><span class="n">shop_system</span><span class="o">,</span><span class="w"> </span><span class="n">quest_system</span><span class="o">,</span><span class="w"> </span><span class="n">rank_system</span>
+<span class="n">game_name</span><span class="o">:</span><span class="w">        </span><span class="n">spleef_game</span><span class="o">,</span><span class="w"> </span><span class="n">parkour_game</span><span class="o">,</span><span class="w"> </span><span class="n">bedwars_game</span>
+</code></pre></div>
+
+<p><strong>Variable naming in scopes:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Good - Clear purpose</span>
+<span class="n">let</span><span class="w"> </span><span class="n">arenaPlayers</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">getplayers</span><span class="p">(</span><span class="n">pvpArena</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">spawnRegion</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_region</span><span class="p">(</span><span class="n">spawnScope</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">buildZone</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1">// Avoid - Unclear</span>
+<span class="n">let</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">getplayers</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">get_region</span><span class="p">(</span><span class="n">scope1</span><span class="p">)</span>
+<span class="n">let</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="security-configuration">Security Configuration</h3>
+<p><strong>Start with whitelist mode for player content:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill scope create player_builds &lt;player&gt; &lt;coords&gt; whitelist
+/quill scope permission grant player_builds sendmessage
+/quill scope permission grant player_builds set_block
+/quill scope permission grant player_builds get_block
+</code></pre></div>
+
+<p><strong>Use blacklist mode for trusted environments:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">create</span><span class="w"> </span><span class="n">admin_tools</span><span class="w"> </span><span class="o">&lt;</span><span class="n">admin</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">coords</span><span class="o">&gt;</span><span class="w"> </span><span class="n">blacklist</span>
+<span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">permission</span><span class="w"> </span><span class="n">revoke</span><span class="w"> </span><span class="n">admin_tools</span><span class="w"> </span><span class="n">kill</span>
+</code></pre></div>
+
+<p><strong>Document required permissions:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// REQUIRED PERMISSIONS:</span>
+<span class="c1">// - sendmessage</span>
+<span class="c1">// - teleport</span>
+<span class="c1">// - heal</span>
+<span class="c1">// - give</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Welcome!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">spawnLocation</span><span class="p">)</span>
+<span class="w">    </span><span class="n">heal</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="n">give</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;stone_sword&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Regularly audit permissions:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill scope permission list myScope
+</code></pre></div>
+
+<p>Review the list and remove unnecessary permissions.</p>
+<p><strong>Separate privileged operations:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">scripts</span><span class="o">/</span><span class="n">admin_tools</span><span class="o">.</span><span class="n">ql</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Blacklist</span><span class="w"> </span><span class="n">mode</span>
+<span class="k">func</span><span class="w"> </span><span class="n">adminKill</span><span class="p">(</span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">kill</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;{target.name} was eliminated!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="o">//</span><span class="w"> </span><span class="n">scripts</span><span class="o">/</span><span class="n">player_scripts</span><span class="o">/</span><span class="n">game</span><span class="o">.</span><span class="n">ql</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Whitelist</span><span class="w"> </span><span class="n">mode</span>
+<span class="o">//</span><span class="w"> </span><span class="n">Cannot</span><span class="w"> </span><span class="n">call</span><span class="w"> </span><span class="n">kill</span><span class="p">()</span><span class="w"> </span><span class="n">directly</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;You died!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Test security before deployment:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Test that restricted functions fail</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">chat</span><span class="p">.</span><span class="n">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;!test&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">kill</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w">  </span><span class="c1">// Should fail in whitelist</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ERROR: kill() should be blocked!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="nb">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Security working: {error}&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Use minimal permissions:</strong></p>
+<p>Only grant what's necessary:</p>
+<div class="highlight"><pre><span></span><code><span class="gh">#</span> Too permissive
+/quill scope permission grant game kill
+/quill scope permission grant game kick
+/quill scope permission grant game create_explosion
+
+<span class="gh">#</span> Better - only what&#39;s needed
+/quill scope permission grant game sendmessage
+/quill scope permission grant game teleport
+/quill scope permission grant game give
+</code></pre></div>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#what-is-a-scope'>What is a Scope?</a></li><li style='margin-left:20px'><a href='#scope-hierarchy'>Scope Hierarchy</a></li><li style='margin-left:20px'><a href='#global-scope'>Global Scope</a></li><li style='margin-left:20px'><a href='#script-scope'>Script Scope</a></li><li style='margin-left:20px'><a href='#function-scope'>Function Scope</a></li><li style='margin-left:0px'><a href='#physical-scopes-regions'>Physical Scopes (Regions)</a></li><li style='margin-left:20px'><a href='#creating-physical-scopes'>Creating Physical Scopes</a></li><li style='margin-left:20px'><a href='#scope-boundaries'>Scope Boundaries</a></li><li style='margin-left:20px'><a href='#region-checking'>Region Checking</a></li><li style='margin-left:0px'><a href='#subscopes'>Subscopes</a></li><li style='margin-left:20px'><a href='#creating-subscopes'>Creating Subscopes</a></li><li style='margin-left:20px'><a href='#subscope-regions'>Subscope Regions</a></li><li style='margin-left:20px'><a href='#subscope-variables'>Subscope Variables</a></li><li style='margin-left:20px'><a href='#use-cases'>Use Cases</a></li><li style='margin-left:0px'><a href='#scope-security'>Scope Security</a></li><li style='margin-left:20px'><a href='#whitelist-mode'>Whitelist Mode</a></li><li style='margin-left:20px'><a href='#blacklist-mode'>Blacklist Mode</a></li><li style='margin-left:20px'><a href='#function-permissions'>Function Permissions</a></li><li style='margin-left:0px'><a href='#scope-players'>Scope Players</a></li><li style='margin-left:20px'><a href='#adding-players-to-scopes'>Adding Players to Scopes</a></li><li style='margin-left:20px'><a href='#removing-players-from-scopes'>Removing Players from Scopes</a></li><li style='margin-left:20px'><a href='#iterating-over-scope-players'>Iterating Over Scope Players</a></li><li style='margin-left:0px'><a href='#best-practices'>Best Practices</a></li><li style='margin-left:20px'><a href='#scope-organization'>Scope Organization</a></li><li style='margin-left:20px'><a href='#naming-conventions'>Naming Conventions</a></li><li style='margin-left:20px'><a href='#security-configuration'>Security Configuration</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

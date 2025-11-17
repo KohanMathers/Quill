@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Basic Script Examples — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html' class='active'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Examples</span><span class='separator'>/</span><span class='current'>Basic Scripts</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Basic Script Examples</h1>
+                    <h1 id="basic-script-examples">Basic Script Examples</h1>
+<h2 id="overview">Overview</h2>
+<p>This guide provides practical, ready-to-use Quill script examples that demonstrate core functionality. Each example includes complete code and detailed explanations of how it works.</p>
+<p><strong>Learning Path:</strong><br />
+1. <strong>Hello World</strong> - Basic script structure and broadcasting<br />
+2. <strong>Welcome Message</strong> - Event handling and player data<br />
+3. <strong>Heal Command</strong> - Chat commands and player modification<br />
+4. <strong>Teleport Pad</strong> - Location checking and teleportation<br />
+5. <strong>Block Counter</strong> - Persistent variables and tracking<br />
+6. <strong>Auto Heal Zone</strong> - Region-based automation<br />
+7. <strong>Chat Commands</strong> - Complex command parsing<br />
+8. <strong>Time-Based Events</strong> - Scheduled actions and world events</p>
+<p><strong>Prerequisites:</strong><br />
+- Quill plugin installed and running<br />
+- Basic understanding of programming concepts<br />
+- Access to <code>/quill</code> commands</p>
+<hr />
+<h2 id="hello-world">Hello World</h2>
+<p>The simplest Quill script - broadcast a message when a player joins.</p>
+<h3 id="code">Code</h3>
+<p><strong>File:</strong> <code>plugins/Quill/scripts/hello.ql</code></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="explanation">Explanation</h3>
+<p><strong>Line-by-Line:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</code></pre></div>
+
+<ul>
+<li><code>OnEvent()</code> - Registers an event handler</li>
+<li><code>PlayerJoin</code> - Triggers when any player joins the server</li>
+<li><code>{</code> - Begins the event handler body</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><code>broadcast()</code> - Sends a message to all online players</li>
+<li>Message appears in chat for everyone</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>Closes the event handler</li>
+</ul>
+<p><strong>Execution Flow:</strong><br />
+1. Server starts, script loads<br />
+2. Event handler registered for PlayerJoin<br />
+3. When player joins: handler executes<br />
+4. All players see: "Hello, World!"</p>
+<p><strong>Testing:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Load the script</span>
+/quill<span class="w"> </span>load<span class="w"> </span>hello.ql
+
+<span class="c1"># Join the server or have another player join</span>
+<span class="c1"># You should see: Hello, World!</span>
+</code></pre></div>
+
+<p><strong>Variations:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Welcome specific player</span>
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;Welcome, &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Colored message (using Minecraft color codes)</span>
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;§aHello, §bWorld!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="welcome-message">Welcome Message</h2>
+<p>Send a personalized welcome message to joining players.</p>
+<h3 id="code_1">Code</h3>
+<p><strong>File:</strong> <code>plugins/Quill/scripts/welcome.ql</code></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">name</span>
+
+<span class="w">    </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;§eWelcome back, §b&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;§e!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§7You have joined the server.&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">player</span><span class="p">.</span><span class="nx">isOp</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§c[ADMIN] You have operator privileges.&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="explanation_1">Explanation</h3>
+<p><strong>Variables:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+</code></pre></div>
+
+<ul>
+<li><code>event.player</code> - The player who triggered the event</li>
+<li>Stored in variable for easy access</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">name</span>
+</code></pre></div>
+
+<ul>
+<li><code>player.name</code> - Gets the player's username</li>
+<li>Access player properties with dot notation</li>
+</ul>
+<p><strong>Broadcasting:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;§eWelcome back, §b&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;§e!&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><code>§e</code> - Yellow color code</li>
+<li><code>§b</code> - Aqua color code</li>
+<li><code>+</code> - Concatenates strings</li>
+<li>Everyone sees this message</li>
+</ul>
+<p><strong>Private Messages:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§7You have joined the server.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><code>sendMessage()</code> - Sends message to specific player</li>
+<li>Only the joining player sees this</li>
+</ul>
+<p><strong>Conditional Logic:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">player</span><span class="p">.</span><span class="nx">isOp</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§c[ADMIN] You have operator privileges.&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li><code>player.isOp</code> - Boolean property (true/false)</li>
+<li>Only executes for operators</li>
+<li><code>§c</code> - Red color for admin messages</li>
+</ul>
+<p><strong>Testing:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>load<span class="w"> </span>welcome.ql
+<span class="c1"># Join as regular player - see welcome + join message</span>
+<span class="c1"># Join as op - see welcome + join + admin message</span>
+</code></pre></div>
+
+<p><strong>Enhanced Version:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">name</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">health</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">food</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">foodLevel</span>
+
+<span class="w">    </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;§e&gt;&gt;&gt; §b&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;§e joined the server!&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§7═══════════════════════════&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§6Welcome to the server!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§7Health: §c&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">health</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;§7 | Food: §6&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">food</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§7Type §a/help§7 for commands&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§7═══════════════════════════&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">playSound</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;entity.player.levelup&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="heal-command">Heal Command</h2>
+<p>Create a chat command that heals the player.</p>
+<h3 id="code_2">Code</h3>
+<p><strong>File:</strong> <code>plugins/Quill/scripts/heal.ql</code></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">chat</span><span class="p">.</span><span class="nx">message</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!heal&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20.0</span>
+<span class="w">        </span><span class="nx">player</span><span class="p">.</span><span class="nx">foodLevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20</span>
+<span class="w">        </span><span class="nx">player</span><span class="p">.</span><span class="nx">saturation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20.0</span>
+
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§a✓ You have been healed!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">playSound</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;entity.player.levelup&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.2</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="explanation_2">Explanation</h3>
+<p><strong>Event Context:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</code></pre></div>
+
+<ul>
+<li>Triggers when any player sends a chat message</li>
+<li>Runs before message is broadcast to other players</li>
+</ul>
+<p><strong>Extracting Data:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">chat</span><span class="p">.</span><span class="nx">message</span>
+</code></pre></div>
+
+<ul>
+<li><code>event.player</code> - Player who sent the message</li>
+<li><code>event.chat.message</code> - The actual message text</li>
+<li>Store in variables for easier access</li>
+</ul>
+<p><strong>Command Detection:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!heal&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</code></pre></div>
+
+<ul>
+<li><code>==</code> - Equality comparison</li>
+<li>Checks if message exactly matches "!heal"</li>
+<li>Case-sensitive by default</li>
+</ul>
+<p><strong>Healing the Player:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20.0</span>
+</code></pre></div>
+
+<ul>
+<li>Sets health to maximum (20 = 10 hearts)</li>
+<li>Direct property assignment</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nx">player</span><span class="p">.</span><span class="nx">foodLevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20</span>
+</code></pre></div>
+
+<ul>
+<li>Sets hunger to maximum (20 = 10 drumsticks)</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nx">player</span><span class="p">.</span><span class="nx">saturation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20.0</span>
+</code></pre></div>
+
+<ul>
+<li>Sets saturation (hidden hunger buffer)</li>
+<li>Prevents immediate hunger loss</li>
+</ul>
+<p><strong>Feedback:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§a✓ You have been healed!&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><code>§a</code> - Green color for success</li>
+<li>Confirms action to player</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nx">playSound</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;entity.player.levelup&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.2</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li>Plays level-up sound</li>
+<li><code>1.0</code> - Volume</li>
+<li><code>1.2</code> - Pitch (higher = faster)</li>
+</ul>
+<p><strong>Testing:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>load<span class="w"> </span>heal.ql
+<span class="c1"># In chat, type: !heal</span>
+<span class="c1"># You should be fully healed with sound</span>
+</code></pre></div>
+
+<p><strong>Enhanced Version with Cooldown:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">lastHeal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">chat</span><span class="p">.</span><span class="nx">message</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">uuid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">uuid</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!heal&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">millis</span><span class="p">()</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">lastTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">lastHeal</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">lastTime</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">now</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">lastTime</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">30000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="nx">remaining</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span><span class="p">((</span><span class="mf">30000</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="nx">now</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">lastTime</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§cCooldown: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">remaining</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;s remaining&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20.0</span>
+<span class="w">        </span><span class="nx">player</span><span class="p">.</span><span class="nx">foodLevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20</span>
+<span class="w">        </span><span class="nx">player</span><span class="p">.</span><span class="nx">saturation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20.0</span>
+
+<span class="w">        </span><span class="nx">lastHeal</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">now</span>
+
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§a✓ You have been healed!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">playSound</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;entity.player.levelup&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.2</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="teleport-pad">Teleport Pad</h2>
+<p>Create a pressure plate that teleports players to a specific location.</p>
+<h3 id="code_3">Code</h3>
+<p><strong>File:</strong> <code>plugins/Quill/scripts/teleport_pad.ql</code></p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">PAD_X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">PAD_Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">64.0</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">PAD_Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">200.0</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">DEST_X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">500.0</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">DEST_Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">80.0</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">DEST_Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">300.0</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">move</span><span class="p">.</span><span class="nx">to</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">loc</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">PAD_X</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">PAD_X</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">        </span><span class="nx">loc</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">PAD_Y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">PAD_Y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">        </span><span class="nx">loc</span><span class="p">.</span><span class="nx">z</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">PAD_Z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">z</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">PAD_Z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">location</span><span class="p">(</span><span class="nx">DEST_X</span><span class="p">,</span><span class="w"> </span><span class="nx">DEST_Y</span><span class="p">,</span><span class="w"> </span><span class="nx">DEST_Z</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">teleport</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">dest</span><span class="p">)</span>
+
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§d✦ Teleported!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">playSound</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;entity.enderman.teleport&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="explanation_3">Explanation</h3>
+<p><strong>Constants:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">PAD_X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">PAD_Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">64.0</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">PAD_Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">200.0</span>
+</code></pre></div>
+
+<ul>
+<li><code>const</code> - Creates a constant (cannot be changed)</li>
+<li>Define teleport pad coordinates</li>
+<li>More maintainable than hardcoding</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">DEST_X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">500.0</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">DEST_Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">80.0</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">DEST_Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">300.0</span>
+</code></pre></div>
+
+<ul>
+<li>Destination coordinates</li>
+<li>Where players will be teleported</li>
+</ul>
+<p><strong>Movement Event:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</code></pre></div>
+
+<ul>
+<li>Triggers on every player movement</li>
+<li>High-frequency event - keep logic fast</li>
+</ul>
+<p><strong>Getting Location:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">move</span><span class="p">.</span><span class="nx">to</span>
+</code></pre></div>
+
+<ul>
+<li><code>event.move.to</code> - Where player moved to</li>
+<li>Contains x, y, z coordinates</li>
+</ul>
+<p><strong>Boundary Check:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">loc</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">PAD_X</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">PAD_X</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">    </span><span class="nx">loc</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">PAD_Y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">PAD_Y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">    </span><span class="nx">loc</span><span class="p">.</span><span class="nx">z</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">PAD_Z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">z</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">PAD_Z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</code></pre></div>
+
+<ul>
+<li><code>&amp;&amp;</code> - Logical AND</li>
+<li>Checks if player is within 1 block of pad center</li>
+<li>Creates a 3x3x3 activation zone</li>
+</ul>
+<p><strong>Teleporting:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">location</span><span class="p">(</span><span class="nx">DEST_X</span><span class="p">,</span><span class="w"> </span><span class="nx">DEST_Y</span><span class="p">,</span><span class="w"> </span><span class="nx">DEST_Z</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><code>location()</code> - Creates a Location object</li>
+<li>Parameters: x, y, z, world name</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nx">teleport</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">dest</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li>Instantly moves player to destination</li>
+<li>Preserves player rotation</li>
+</ul>
+<p><strong>Testing:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>load<span class="w"> </span>teleport_pad.ql
+<span class="c1"># Walk to coordinates (100, 64, 200)</span>
+<span class="c1"># You should teleport to (500, 80, 300)</span>
+</code></pre></div>
+
+<p><strong>Multi-Pad System:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">pads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">x</span><span class="o">:</span><span class="w"> </span><span class="mf">100</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="o">:</span><span class="w"> </span><span class="mf">64</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="o">:</span><span class="w"> </span><span class="mf">200</span><span class="p">,</span><span class="w"> </span><span class="nx">destX</span><span class="o">:</span><span class="w"> </span><span class="mf">500</span><span class="p">,</span><span class="w"> </span><span class="nx">destY</span><span class="o">:</span><span class="w"> </span><span class="mf">80</span><span class="p">,</span><span class="w"> </span><span class="nx">destZ</span><span class="o">:</span><span class="w"> </span><span class="mf">300</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">x</span><span class="o">:</span><span class="w"> </span><span class="mf">150</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="o">:</span><span class="w"> </span><span class="mf">64</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="o">:</span><span class="w"> </span><span class="mf">250</span><span class="p">,</span><span class="w"> </span><span class="nx">destX</span><span class="o">:</span><span class="w"> </span><span class="mf">600</span><span class="p">,</span><span class="w"> </span><span class="nx">destY</span><span class="o">:</span><span class="w"> </span><span class="mf">80</span><span class="p">,</span><span class="w"> </span><span class="nx">destZ</span><span class="o">:</span><span class="w"> </span><span class="mf">400</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">x</span><span class="o">:</span><span class="w"> </span><span class="mf">200</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="o">:</span><span class="w"> </span><span class="mf">64</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="o">:</span><span class="w"> </span><span class="mf">300</span><span class="p">,</span><span class="w"> </span><span class="nx">destX</span><span class="o">:</span><span class="w"> </span><span class="mf">700</span><span class="p">,</span><span class="w"> </span><span class="nx">destY</span><span class="o">:</span><span class="w"> </span><span class="mf">80</span><span class="p">,</span><span class="w"> </span><span class="nx">destZ</span><span class="o">:</span><span class="w"> </span><span class="mf">500</span><span class="w"> </span><span class="p">}</span>
+<span class="p">]</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">move</span><span class="p">.</span><span class="nx">to</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="nx">pad</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">pads</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">loc</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">pad</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">pad</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">            </span><span class="nx">loc</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">pad</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">pad</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">            </span><span class="nx">loc</span><span class="p">.</span><span class="nx">z</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">pad</span><span class="p">.</span><span class="nx">z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">z</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">pad</span><span class="p">.</span><span class="nx">z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="nx">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">location</span><span class="p">(</span><span class="nx">pad</span><span class="p">.</span><span class="nx">destX</span><span class="p">,</span><span class="w"> </span><span class="nx">pad</span><span class="p">.</span><span class="nx">destY</span><span class="p">,</span><span class="w"> </span><span class="nx">pad</span><span class="p">.</span><span class="nx">destZ</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">teleport</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">dest</span><span class="p">)</span>
+
+<span class="w">            </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§d✦ Teleported!&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">playSound</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;entity.enderman.teleport&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="block-counter">Block Counter</h2>
+<p>Track how many blocks each player has broken using persistent variables.</p>
+<h3 id="code_4">Code</h3>
+<p><strong>File:</strong> <code>plugins/Quill/scripts/myScope/block_counter.ql</code></p>
+<p><strong>Setup:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># First, create the scope and add persistent variable</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>myScope<span class="w"> </span>YourName<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="m">120</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>whitelist
+/quill<span class="w"> </span>scope<span class="w"> </span>persist<span class="w"> </span>add<span class="w"> </span>myScope<span class="w"> </span>blocksBroken
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>broadcast
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>myScope<span class="w"> </span>sendMessage
+</code></pre></div>
+
+<p><strong>Script:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">BlockBreak</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">blockType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">block</span><span class="p">.</span><span class="nx">type</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">uuid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">uuid</span>
+
+<span class="w">    </span><span class="c1">// Get current count</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">scope</span><span class="p">.</span><span class="nx">getPersistent</span><span class="p">(</span><span class="s2">&quot;blocksBroken&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Increment player&#39;s count</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">count</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">count</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">count</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">count</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span>
+
+<span class="w">    </span><span class="c1">// Save back to persistent storage</span>
+<span class="w">    </span><span class="nx">scope</span><span class="p">.</span><span class="nx">setPersistent</span><span class="p">(</span><span class="s2">&quot;blocksBroken&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">count</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c1">// Show count every 10 blocks</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">count</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§6⛏ Total blocks broken: §e&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">count</span><span class="p">[</span><span class="nx">uuid</span><span class="p">])</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="explanation_4">Explanation</h3>
+<p><strong>Persistent Variables:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">scope</span><span class="p">.</span><span class="nx">getPersistent</span><span class="p">(</span><span class="s2">&quot;blocksBroken&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><code>scope.getPersistent()</code> - Retrieves saved variable</li>
+<li>Returns <code>null</code> if not set yet</li>
+<li>Survives script reloads and server restarts</li>
+</ul>
+<p><strong>Initialization:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>First run: create empty map</li>
+<li>Map will store UUID → count pairs</li>
+</ul>
+<p><strong>UUID as Key:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">uuid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">uuid</span>
+</code></pre></div>
+
+<ul>
+<li><code>player.uuid</code> - Unique identifier for player</li>
+<li>Never changes, even if player changes name</li>
+<li>Perfect for persistent data</li>
+</ul>
+<p><strong>Incrementing:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">count</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">count</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span>
+<span class="p">}</span>
+<span class="nx">count</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">count</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span>
+</code></pre></div>
+
+<ul>
+<li><code>count[uuid]</code> - Access map value by key</li>
+<li>Initialize to 0 if player not in map</li>
+<li>Increment by 1</li>
+</ul>
+<p><strong>Saving:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">scope</span><span class="p">.</span><span class="nx">setPersistent</span><span class="p">(</span><span class="s2">&quot;blocksBroken&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">count</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><code>scope.setPersistent()</code> - Saves variable</li>
+<li>Writes to scope's YAML file</li>
+<li>Persists across reloads/restarts</li>
+</ul>
+<p><strong>Modulo Operator:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">count</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</code></pre></div>
+
+<ul>
+<li><code>%</code> - Modulo (remainder after division)</li>
+<li><code>count % 10 == 0</code> - True every 10 blocks (10, 20, 30...)</li>
+<li>Prevents chat spam</li>
+</ul>
+<p><strong>Testing:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>load<span class="w"> </span>myScope/block_counter.ql
+<span class="c1"># Break blocks in the scope region</span>
+<span class="c1"># Every 10 blocks: see total count</span>
+<span class="c1"># Reload script: count persists</span>
+</code></pre></div>
+
+<p><strong>Leaderboard Version:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">chat</span><span class="p">.</span><span class="nx">message</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!top&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">scope</span><span class="p">.</span><span class="nx">getPersistent</span><span class="p">(</span><span class="s2">&quot;blocksBroken&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§7No data yet!&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// Convert to sorted array</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">leaders</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="nx">uuid</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">count</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">leaders</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span><span class="w"> </span><span class="nx">uuid</span><span class="o">:</span><span class="w"> </span><span class="nx">uuid</span><span class="p">,</span><span class="w"> </span><span class="nx">count</span><span class="o">:</span><span class="w"> </span><span class="nx">count</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="p">})</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// Simple bubble sort</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">range</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="nx">leaders</span><span class="p">.</span><span class="nx">length</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="nx">j</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">range</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="nx">leaders</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">leaders</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">leaders</span><span class="p">[</span><span class="nx">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">].</span><span class="nx">count</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="kd">let</span><span class="w"> </span><span class="nx">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">leaders</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span>
+<span class="w">                    </span><span class="nx">leaders</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">leaders</span><span class="p">[</span><span class="nx">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">]</span>
+<span class="w">                    </span><span class="nx">leaders</span><span class="p">[</span><span class="nx">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">temp</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§6=== Top Block Breakers ===&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">range</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="mf">5</span><span class="p">,</span><span class="w"> </span><span class="nx">leaders</span><span class="p">.</span><span class="nx">length</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="nx">entry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">leaders</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="nx">playerName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getPlayerName</span><span class="p">(</span><span class="nx">entry</span><span class="p">.</span><span class="nx">uuid</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§e&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;. §f&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">playerName</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; §7- §e&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">entry</span><span class="p">.</span><span class="nx">count</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="auto-heal-zone">Auto Heal Zone</h2>
+<p>Automatically heal players when they enter a specific region.</p>
+<h3 id="code_5">Code</h3>
+<p><strong>File:</strong> <code>plugins/Quill/scripts/auto_heal.ql</code></p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">HEAL_X1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">HEAL_Y1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">64.0</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">HEAL_Z1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">200.0</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">HEAL_X2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">150.0</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">HEAL_Y2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">HEAL_Z2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">250.0</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="nx">playersInZone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">move</span><span class="p">.</span><span class="nx">to</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">uuid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">uuid</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">inZone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">HEAL_X1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">HEAL_X2</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">                 </span><span class="nx">loc</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">HEAL_Y1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">HEAL_Y2</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">                 </span><span class="nx">loc</span><span class="p">.</span><span class="nx">z</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">HEAL_Z1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">z</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">HEAL_Z2</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">wasInZone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">playersInZone</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">inZone</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="nx">wasInZone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Just entered zone</span>
+<span class="w">        </span><span class="nx">playersInZone</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§a✦ Entered healing zone&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">playSound</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;block.note_block.chime&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">inZone</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">wasInZone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Just left zone</span>
+<span class="w">        </span><span class="nx">playersInZone</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§7✦ Left healing zone&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">inZone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Heal while in zone</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">20.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">20.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20.0</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="explanation_5">Explanation</h3>
+<p><strong>Zone Boundaries:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">HEAL_X1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0</span><span class="w">  </span><span class="c1">// Minimum X</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">HEAL_Y1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">64.0</span><span class="w">   </span><span class="c1">// Minimum Y</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">HEAL_Z1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">200.0</span><span class="w">  </span><span class="c1">// Minimum Z</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">HEAL_X2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">150.0</span><span class="w">  </span><span class="c1">// Maximum X</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">HEAL_Y2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0</span><span class="w">  </span><span class="c1">// Maximum Y</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">HEAL_Z2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">250.0</span><span class="w">  </span><span class="c1">// Maximum Z</span>
+</code></pre></div>
+
+<ul>
+<li>Defines a rectangular healing zone</li>
+<li>50x36x50 block region</li>
+</ul>
+<p><strong>Tracking State:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">playersInZone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+
+<ul>
+<li>Map: UUID → boolean</li>
+<li>Tracks who's currently in zone</li>
+<li>Used to detect entry/exit</li>
+</ul>
+<p><strong>Zone Detection:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">inZone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">HEAL_X1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">HEAL_X2</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">             </span><span class="nx">loc</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">HEAL_Y1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">y</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">HEAL_Y2</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">             </span><span class="nx">loc</span><span class="p">.</span><span class="nx">z</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">HEAL_Z1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">loc</span><span class="p">.</span><span class="nx">z</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">HEAL_Z2</span>
+</code></pre></div>
+
+<ul>
+<li><code>inZone</code> - Boolean: is player in zone now?</li>
+<li>Checks all three dimensions</li>
+</ul>
+<p><strong>Entry Detection:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">wasInZone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">playersInZone</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">inZone</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="nx">wasInZone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Just entered zone</span>
+<span class="w">    </span><span class="nx">playersInZone</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§a✦ Entered healing zone&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">playSound</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;block.note_block.chime&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li><code>inZone &amp;&amp; !wasInZone</code> - Currently in, wasn't before</li>
+<li>Mark as in zone</li>
+<li>Send welcome message and sound</li>
+<li>Only triggers once on entry</li>
+</ul>
+<p><strong>Exit Detection:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">inZone</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">wasInZone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Just left zone</span>
+<span class="w">    </span><span class="nx">playersInZone</span><span class="p">[</span><span class="nx">uuid</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§7✦ Left healing zone&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li><code>!inZone &amp;&amp; wasInZone</code> - Currently out, was in before</li>
+<li>Mark as out of zone</li>
+<li>Send goodbye message</li>
+</ul>
+<p><strong>Gradual Healing:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">inZone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">20.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">20.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20.0</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>Heals 0.5 hearts per movement tick</li>
+<li>Only if below max health</li>
+<li>Caps at 20.0 (10 hearts)</li>
+<li>Gradual, not instant</li>
+</ul>
+<p><strong>Testing:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>load<span class="w"> </span>auto_heal.ql
+<span class="c1"># Walk into zone (100,64,200) to (150,100,250)</span>
+<span class="c1"># See message and hear chime</span>
+<span class="c1"># Take damage and watch health regenerate</span>
+<span class="c1"># Walk out and see exit message</span>
+</code></pre></div>
+
+<p><strong>Enhanced Version with Particles:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">inZone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">20.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">20.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">20.0</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// Spawn healing particles</span>
+<span class="w">        </span><span class="nx">particle</span><span class="p">(</span><span class="nx">loc</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;heart&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="chat-commands">Chat Commands</h2>
+<p>Create a comprehensive chat command system with multiple commands.</p>
+<h3 id="code_6">Code</h3>
+<p><strong>File:</strong> <code>plugins/Quill/scripts/commands.ql</code></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">chat</span><span class="p">.</span><span class="nx">message</span>
+
+<span class="w">    </span><span class="c1">// Spawn command</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!spawn&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">spawn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">location</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">64</span><span class="p">,</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">teleport</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">spawn</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§a✓ Teleported to spawn!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Time command</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!time&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">world</span><span class="p">.</span><span class="nx">getTime</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">timeOfDay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getTimeOfDay</span><span class="p">(</span><span class="nx">time</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§7Current time: §e&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">timeOfDay</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Weather command</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!weather&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">weatherObj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">world</span><span class="p">.</span><span class="nx">getWeather</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">weather</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">weatherObj</span><span class="p">.</span><span class="nx">raining</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s2">&quot;Raining&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Clear&quot;</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§7Current weather: §b&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">weather</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Location command</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!loc&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">location</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">loc</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">loc</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">loc</span><span class="p">.</span><span class="nx">z</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§7Position: §e&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;§7, §e&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;§7, §e&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">z</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Help command</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!help&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§6=== Commands ===&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§e!spawn §7- Teleport to spawn&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§e!time §7- Show current time&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§e!weather §7- Show weather&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§e!loc §7- Show your position&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§e!help §7- Show this help&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">func</span><span class="w"> </span><span class="nx">getTimeOfDay</span><span class="p">(</span><span class="nx">ticks</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">ticks</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">ticks</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">6000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;Morning&quot;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">ticks</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">6000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">ticks</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">12000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;Day&quot;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">ticks</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">12000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">ticks</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">13000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;Dusk&quot;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">ticks</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">13000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">ticks</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">23000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;Night&quot;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;Dawn&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="explanation_6">Explanation</h3>
+<p><strong>Command Structure:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!spawn&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Handle spawn command</span>
+<span class="w">    </span><span class="k">return</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>Each command in separate <code>if</code> block</li>
+<li><code>return</code> - Stops execution (don't check other commands)</li>
+<li>Prefix with <code>!</code> to distinguish from regular chat</li>
+</ul>
+<p><strong>Spawn Command:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">spawn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">location</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">64</span><span class="p">,</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="nx">teleport</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">spawn</span><span class="p">)</span>
+<span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§a✓ Teleported to spawn!&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li>Creates location at world origin</li>
+<li>Teleports player instantly</li>
+<li>Confirms with green message</li>
+</ul>
+<p><strong>Time Command:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">world</span><span class="p">.</span><span class="nx">getTime</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">timeOfDay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getTimeOfDay</span><span class="p">(</span><span class="nx">time</span><span class="p">)</span>
+<span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§7Current time: §e&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">timeOfDay</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><code>world.getTime()</code> - Gets world time in ticks</li>
+<li>Calls helper function to convert to readable format</li>
+<li>Displays in chat</li>
+</ul>
+<p><strong>Helper Function:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">func</span><span class="w"> </span><span class="nx">getTimeOfDay</span><span class="p">(</span><span class="nx">ticks</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">ticks</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">ticks</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">6000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;Morning&quot;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">ticks</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">6000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">ticks</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">12000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;Day&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// ... more conditions</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li><code>func</code> - Declares a function</li>
+<li>Takes <code>ticks</code> parameter</li>
+<li>Returns string based on time ranges</li>
+<li>Minecraft time: 0-24000 ticks per day</li>
+</ul>
+<p><strong>Weather Command:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">weatherObj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">world</span><span class="p">.</span><span class="nx">getWeather</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">weather</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">weatherObj</span><span class="p">.</span><span class="nx">raining</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s2">&quot;Raining&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Clear&quot;</span>
+</code></pre></div>
+
+<ul>
+<li><code>world.getWeather()</code> - Gets weather info</li>
+<li>Ternary operator: <code>condition ? ifTrue : ifFalse</code></li>
+<li>Checks <code>raining</code> property</li>
+</ul>
+<p><strong>Location Command:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">player</span><span class="p">.</span><span class="nx">location</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">loc</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">loc</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">loc</span><span class="p">.</span><span class="nx">z</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><code>player.location</code> - Current position</li>
+<li><code>Math.floor()</code> - Rounds down to whole number</li>
+<li>Formats as "X, Y, Z"</li>
+</ul>
+<p><strong>Help Command:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§6=== Commands ===&quot;</span><span class="p">)</span>
+<span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§e!spawn §7- Teleport to spawn&quot;</span><span class="p">)</span>
+<span class="c1">// ... more lines</span>
+</code></pre></div>
+
+<ul>
+<li>Lists all available commands</li>
+<li>Color codes for readability</li>
+<li>Documentation for users</li>
+</ul>
+<p><strong>Testing:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>load<span class="w"> </span>commands.ql
+<span class="c1"># In chat:</span>
+!help<span class="w">          </span><span class="c1"># See command list</span>
+!spawn<span class="w">         </span><span class="c1"># Teleport to spawn</span>
+!time<span class="w">          </span><span class="c1"># Check time</span>
+!weather<span class="w">       </span><span class="c1"># Check weather</span>
+!loc<span class="w">           </span><span class="c1"># See coordinates</span>
+</code></pre></div>
+
+<p><strong>Advanced Version with Arguments:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">chat</span><span class="p">.</span><span class="nx">message</span>
+
+<span class="w">    </span><span class="c1">// Split message into parts</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">parts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">message</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">parts</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">command</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!tp&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">parts</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">4</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">parseFloat</span><span class="p">(</span><span class="nx">parts</span><span class="p">[</span><span class="mf">1</span><span class="p">])</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">parseFloat</span><span class="p">(</span><span class="nx">parts</span><span class="p">[</span><span class="mf">2</span><span class="p">])</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">parseFloat</span><span class="p">(</span><span class="nx">parts</span><span class="p">[</span><span class="mf">3</span><span class="p">])</span>
+
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">dest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">location</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">teleport</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">dest</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§a✓ Teleported to &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;, &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;, &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">z</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">command</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;!give&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">parts</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">parts</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">amount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">parts</span><span class="p">[</span><span class="mf">2</span><span class="p">])</span>
+
+<span class="w">        </span><span class="nx">giveItem</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">item</span><span class="p">,</span><span class="w"> </span><span class="nx">amount</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§a✓ Gave &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">amount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;x &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">item</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="time-based-events">Time-Based Events</h2>
+<p>Trigger events at specific times of day or on a schedule.</p>
+<h3 id="code_7">Code</h3>
+<p><strong>File:</strong> <code>plugins/Quill/scripts/timed_events.ql</code></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">lastTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">announcementShown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">TimeChange</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">world</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">world</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">time</span><span class="p">.</span><span class="ow">new</span>
+
+<span class="w">    </span><span class="c1">// Morning announcement (6000 ticks = 6 AM)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">6000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">6100</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="nx">announcementShown</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;§e☀ Good morning! The sun is rising!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">announcementShown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Night announcement (13000 ticks = 7 PM)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">13000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">13100</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">announcementShown</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;§9★ Good evening! Night has fallen!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">announcementShown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Hourly message (every 1000 ticks)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">lastTime</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">hour</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mf">3</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// Every 3 hours</span>
+<span class="w">            </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;§7Time: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">getTimeString</span><span class="p">(</span><span class="nx">time</span><span class="p">))</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">lastTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">time</span>
+<span class="p">}</span>
+
+<span class="nx">func</span><span class="w"> </span><span class="nx">getTimeString</span><span class="p">(</span><span class="nx">ticks</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">ticks</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">minutes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">((</span><span class="nx">ticks</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">16.67</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">hour</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">6</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">hour</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">18</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">hour</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;:&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">pad</span><span class="p">(</span><span class="nx">minutes</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; AM&quot;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="nx">hour</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;:&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">pad</span><span class="p">(</span><span class="nx">minutes</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; PM&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">func</span><span class="w"> </span><span class="nx">pad</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">num</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">num</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">num</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="explanation_7">Explanation</h3>
+<p><strong>Time Change Event:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">TimeChange</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">world</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">world</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">time</span><span class="p">.</span><span class="ow">new</span>
+</code></pre></div>
+
+<ul>
+<li>Triggers when world time changes</li>
+<li><code>event.time.new</code> - Current time in ticks</li>
+<li>0-24000 ticks = 1 Minecraft day</li>
+</ul>
+<p><strong>One-Time Announcements:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">announcementShown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+</code></pre></div>
+
+<ul>
+<li>Flag variable to prevent spam</li>
+<li>Ensures announcement only shows once</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">6000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">6100</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="nx">announcementShown</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;§e☀ Good morning! The sun is rising!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">announcementShown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>Checks time range (6000-6100 = sunrise window)</li>
+<li>Checks flag hasn't been set</li>
+<li>Broadcasts message</li>
+<li>Sets flag to prevent repeat</li>
+</ul>
+<p><strong>Reset Flag at Night:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">13000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">13100</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">announcementShown</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;§9★ Good evening! Night has fallen!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">announcementShown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>Resets flag for next day</li>
+<li>Allows morning message again</li>
+</ul>
+<p><strong>Periodic Messages:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">lastTime</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">hour</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mf">3</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// Every 3 hours</span>
+<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;§7Time: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">getTimeString</span><span class="p">(</span><span class="nx">time</span><span class="p">))</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">lastTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">time</span>
+</code></pre></div>
+
+<ul>
+<li><code>Math.floor(time / 1000)</code> - Converts ticks to hours</li>
+<li>Compares current hour to last hour</li>
+<li><code>hour % 3 == 0</code> - Every 3rd hour (0, 3, 6, 9...)</li>
+<li><code>lastTime = time</code> - Save for next comparison</li>
+</ul>
+<p><strong>Time Formatting:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">func</span><span class="w"> </span><span class="nx">getTimeString</span><span class="p">(</span><span class="nx">ticks</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">ticks</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">minutes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">((</span><span class="nx">ticks</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">16.67</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">hour</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">6</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">hour</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">18</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">hour</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;:&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">pad</span><span class="p">(</span><span class="nx">minutes</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; AM&quot;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="nx">hour</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;:&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">pad</span><span class="p">(</span><span class="nx">minutes</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; PM&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>Converts ticks to hour:minute format</li>
+<li><code>16.67</code> - Ticks per minute conversion</li>
+<li>AM/PM formatting based on hour</li>
+</ul>
+<p><strong>Zero Padding:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">func</span><span class="w"> </span><span class="nx">pad</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">num</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;0&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">num</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">num</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>Adds leading zero to single digits</li>
+<li>"5" becomes "05"</li>
+<li>Makes time display consistent</li>
+</ul>
+<p><strong>Testing:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill<span class="w"> </span>load<span class="w"> </span>timed_events.ql
+<span class="c1"># Wait for time to change or use:</span>
+/time<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">6000</span><span class="w">   </span><span class="c1"># Morning announcement</span>
+/time<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">13000</span><span class="w">  </span><span class="c1"># Evening announcement</span>
+<span class="c1"># Watch for periodic messages</span>
+</code></pre></div>
+
+<p><strong>Enhanced Version with Multiple Worlds:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">lastTimes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">morningShown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">eveningShown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">TimeChange</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">worldName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">world</span><span class="p">.</span><span class="nx">name</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">time</span><span class="p">.</span><span class="ow">new</span>
+
+<span class="w">    </span><span class="c1">// Initialize tracking for this world</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">lastTimes</span><span class="p">[</span><span class="nx">worldName</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">lastTimes</span><span class="p">[</span><span class="nx">worldName</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span>
+<span class="w">        </span><span class="nx">morningShown</span><span class="p">[</span><span class="nx">worldName</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">        </span><span class="nx">eveningShown</span><span class="p">[</span><span class="nx">worldName</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Morning announcement</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">6000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">6100</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="nx">morningShown</span><span class="p">[</span><span class="nx">worldName</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">broadcastWorld</span><span class="p">(</span><span class="nx">worldName</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§e☀ Good morning in &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">worldName</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">morningShown</span><span class="p">[</span><span class="nx">worldName</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">        </span><span class="nx">eveningShown</span><span class="p">[</span><span class="nx">worldName</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Evening announcement</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">13000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">13100</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="nx">eveningShown</span><span class="p">[</span><span class="nx">worldName</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">broadcastWorld</span><span class="p">(</span><span class="nx">worldName</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§9★ Good evening in &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">worldName</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">eveningShown</span><span class="p">[</span><span class="nx">worldName</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">        </span><span class="nx">morningShown</span><span class="p">[</span><span class="nx">worldName</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Boss spawn at midnight</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">18000</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">18100</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">spawnLoc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">location</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">70</span><span class="p">,</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="nx">worldName</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">spawnEntity</span><span class="p">(</span><span class="nx">spawnLoc</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;wither&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">broadcastWorld</span><span class="p">(</span><span class="nx">worldName</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;§c⚠ A Wither has spawned at spawn!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">lastTimes</span><span class="p">[</span><span class="nx">worldName</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">time</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Schedule-Based Version:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">nextEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">TimeChange</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">time</span><span class="p">.</span><span class="ow">new</span>
+
+<span class="w">    </span><span class="c1">// Check every 100 ticks</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">nextEvent</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">100</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">nextEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">time</span>
+
+<span class="w">        </span><span class="c1">// Run scheduled tasks</span>
+<span class="w">        </span><span class="nx">checkAutoSave</span><span class="p">(</span><span class="nx">time</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">checkServerAnnouncement</span><span class="p">(</span><span class="nx">time</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">checkBossSpawn</span><span class="p">(</span><span class="nx">time</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">func</span><span class="w"> </span><span class="nx">checkAutoSave</span><span class="p">(</span><span class="nx">time</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Auto-save every 6000 ticks (5 minutes)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mf">6000</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;§7[Auto-Save] Saving world...&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">executeCommand</span><span class="p">(</span><span class="s2">&quot;save-all&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">func</span><span class="w"> </span><span class="nx">checkServerAnnouncement</span><span class="p">(</span><span class="nx">time</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Reminder every 2000 ticks</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mf">2000</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;§6Tip: Type §e!help §6for available commands!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">func</span><span class="w"> </span><span class="nx">checkBossSpawn</span><span class="p">(</span><span class="nx">time</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Spawn boss at midnight (18000) and noon (6000)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">time</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">6000</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">18000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">location</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">70</span><span class="p">,</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">spawnEntity</span><span class="p">(</span><span class="nx">loc</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;zombie&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;§c⚠ A boss has spawned at spawn!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">playSound</span><span class="p">(</span><span class="nx">loc</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;entity.wither.spawn&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="additional-examples">Additional Examples</h2>
+<h3 id="quick-reference">Quick Reference</h3>
+<p><strong>Essential Patterns:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 1. Event Handler</span>
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">EventName</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Your code here</span>
+<span class="p">}</span>
+
+<span class="c1">// 2. Variables</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">myVariable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;value&quot;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">MY_CONSTANT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100</span>
+
+<span class="c1">// 3. Conditionals</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">condition</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Do something</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">otherCondition</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Do something else</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Default action</span>
+<span class="p">}</span>
+
+<span class="c1">// 4. Loops</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="nx">item</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">list</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Process each item</span>
+<span class="p">}</span>
+
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nx">condition</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Keep looping</span>
+<span class="p">}</span>
+
+<span class="c1">// 5. Functions</span>
+<span class="nx">func</span><span class="w"> </span><span class="nx">myFunction</span><span class="p">(</span><span class="nx">param1</span><span class="p">,</span><span class="w"> </span><span class="nx">param2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Function body</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">result</span>
+<span class="p">}</span>
+
+<span class="c1">// 6. Player Access</span>
+<span class="nx">event</span><span class="p">.</span><span class="nx">player</span><span class="p">.</span><span class="nx">name</span>
+<span class="nx">event</span><span class="p">.</span><span class="nx">player</span><span class="p">.</span><span class="nx">health</span>
+<span class="nx">event</span><span class="p">.</span><span class="nx">player</span><span class="p">.</span><span class="nx">location</span>
+<span class="nx">event</span><span class="p">.</span><span class="nx">player</span><span class="p">.</span><span class="nx">uuid</span>
+
+<span class="c1">// 7. Location</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">location</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="nx">teleport</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">loc</span><span class="p">)</span>
+
+<span class="c1">// 8. Messages</span>
+<span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;Everyone sees this&quot;</span><span class="p">)</span>
+<span class="nx">sendMessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Only this player sees this&quot;</span><span class="p">)</span>
+
+<span class="c1">// 9. Sounds</span>
+<span class="nx">playSound</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;sound.name&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">volume</span><span class="p">,</span><span class="w"> </span><span class="nx">pitch</span><span class="p">)</span>
+
+<span class="c1">// 10. World</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">world</span><span class="p">.</span><span class="nx">getTime</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">weather</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">world</span><span class="p">.</span><span class="nx">getWeather</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Common Event Types:</strong><br />
+- <code>PlayerJoin</code> - Player joins server<br />
+- <code>PlayerQuit</code> - Player leaves server<br />
+- <code>PlayerChat</code> - Player sends message<br />
+- <code>PlayerMove</code> - Player moves (high frequency!)<br />
+- <code>PlayerDamage</code> - Player takes damage<br />
+- <code>PlayerDeath</code> - Player dies<br />
+- <code>PlayerRespawn</code> - Player respawns<br />
+- <code>PlayerInteract</code> - Player right-clicks<br />
+- <code>BlockBreak</code> - Block is broken<br />
+- <code>BlockPlace</code> - Block is placed<br />
+- <code>BlockInteract</code> - Block is right-clicked<br />
+- <code>EntitySpawn</code> - Entity spawns<br />
+- <code>EntityDeath</code> - Entity dies<br />
+- <code>TimeChange</code> - World time changes<br />
+- <code>WeatherChange</code> - Weather changes</p>
+<p><strong>Useful Functions:</strong><br />
+- <code>broadcast(message)</code> - Send to all players<br />
+- <code>sendMessage(player, message)</code> - Send to one player<br />
+- <code>teleport(player, location)</code> - Move player<br />
+- <code>playSound(player, sound, volume, pitch)</code> - Play sound<br />
+- <code>giveItem(player, item, amount)</code> - Give items<br />
+- <code>spawnEntity(location, type)</code> - Spawn mob<br />
+- <code>particle(location, type, count, x, y, z, speed)</code> - Spawn particles<br />
+- <code>executeCommand(command)</code> - Run server command<br />
+- <code>console.log(message)</code> - Log to console</p>
+<p><strong>Best Practices:</strong><br />
+1. Use constants for coordinates and configuration<br />
+2. Add comments explaining complex logic<br />
+3. Use descriptive variable names<br />
+4. Handle null/undefined cases<br />
+5. Test in a scope before going global<br />
+6. Use try-catch for error handling<br />
+7. Avoid heavy operations in high-frequency events (PlayerMove)<br />
+8. Use return to exit early from event handlers<br />
+9. Store UUIDs, not player names, for persistence<br />
+10. Keep code organized with helper functions</p>
+<p><strong>Next Steps:</strong><br />
+- Read the Language Reference for complete syntax<br />
+- Check Built-in Functions for all available APIs<br />
+- Explore Advanced Examples for complex scenarios<br />
+- Join the Discord for community support<br />
+- Share your scripts with others!</p>
+<hr />
+<h2 id="learning-resources">Learning Resources</h2>
+<p><strong>Official Documentation:</strong><br />
+- Language Reference - Complete syntax guide<br />
+- Built-in Functions - All available APIs<br />
+- Event Reference - All event types and their context<br />
+- Scope System - Understanding regional scripting</p>
+<p><strong>Community:</strong><br />
+- Discord: https://discord.gg/FZuVXszuuM<br />
+- GitHub: https://github.com/kohanmathers/quill<br />
+- Examples Repository: Community-contributed scripts</p>
+<p><strong>Troubleshooting:</strong><br />
+- Check server console for error messages<br />
+- Use <code>console.log()</code> for debugging<br />
+- Test scripts in a scope before going global<br />
+- Start with simple scripts and build complexity<br />
+- Ask for help in the Discord server</p>
+<p><strong>Contributing:</strong><br />
+- Share your scripts with the community<br />
+- Report bugs on GitHub<br />
+- Suggest features and improvements<br />
+- Help other users in Discord<br />
+- Write tutorials and guides</p>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#hello-world'>Hello World</a></li><li style='margin-left:20px'><a href='#code'>Code</a></li><li style='margin-left:20px'><a href='#explanation'>Explanation</a></li><li style='margin-left:0px'><a href='#welcome-message'>Welcome Message</a></li><li style='margin-left:20px'><a href='#code'>Code</a></li><li style='margin-left:20px'><a href='#explanation'>Explanation</a></li><li style='margin-left:0px'><a href='#heal-command'>Heal Command</a></li><li style='margin-left:20px'><a href='#code'>Code</a></li><li style='margin-left:20px'><a href='#explanation'>Explanation</a></li><li style='margin-left:0px'><a href='#teleport-pad'>Teleport Pad</a></li><li style='margin-left:20px'><a href='#code'>Code</a></li><li style='margin-left:20px'><a href='#explanation'>Explanation</a></li><li style='margin-left:0px'><a href='#block-counter'>Block Counter</a></li><li style='margin-left:20px'><a href='#code'>Code</a></li><li style='margin-left:20px'><a href='#explanation'>Explanation</a></li><li style='margin-left:0px'><a href='#auto-heal-zone'>Auto Heal Zone</a></li><li style='margin-left:20px'><a href='#code'>Code</a></li><li style='margin-left:20px'><a href='#explanation'>Explanation</a></li><li style='margin-left:0px'><a href='#chat-commands'>Chat Commands</a></li><li style='margin-left:20px'><a href='#code'>Code</a></li><li style='margin-left:20px'><a href='#explanation'>Explanation</a></li><li style='margin-left:0px'><a href='#time-based-events'>Time-Based Events</a></li><li style='margin-left:20px'><a href='#code'>Code</a></li><li style='margin-left:20px'><a href='#explanation'>Explanation</a></li><li style='margin-left:0px'><a href='#additional-examples'>Additional Examples</a></li><li style='margin-left:20px'><a href='#quick-reference'>Quick Reference</a></li><li style='margin-left:0px'><a href='#learning-resources'>Learning Resources</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

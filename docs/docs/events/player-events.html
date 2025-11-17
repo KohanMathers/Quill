@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Player Events — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html' class='active'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Events</span><span class='separator'>/</span><span class='current'>Player Events</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Player Events</h1>
+                    <h1 id="player-events">Player Events</h1>
+<h2 id="overview">Overview</h2>
+<p>Player events are triggered by player actions in Minecraft. These events allow your scripts to respond to player behavior, create interactive experiences, and implement game mechanics.</p>
+<p>All player events provide a <code>player</code> variable in their context, giving you access to the player who triggered the event. Many events also provide additional context-specific data and can be cancelled using the <code>cancel()</code> function.</p>
+<p><strong>Basic event structure:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">EventName</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">always</span><span class="w"> </span><span class="n">available</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">contains</span><span class="w"> </span><span class="n">event</span><span class="o">-</span><span class="n">specific</span><span class="w"> </span><span class="n">data</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Use</span><span class="w"> </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">cancellable</span><span class="w"> </span><span class="n">events</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="playerjoin">PlayerJoin</h2>
+<p>Triggered when a player joins the server.</p>
+<h3 id="event-context">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player who joined<br />
+- <code>event</code> - The Bukkit PlayerJoinEvent object</p>
+<p><strong>Cancellable:</strong> No</p>
+<h3 id="example">Example</h3>
+<p><strong>Welcome new players:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerJoin) {
+    sendmessage(player, &quot;Welcome to the server, &quot; + get_name(player) + &quot;!&quot;)
+    sendtitle(player, &quot;Welcome!&quot;, &quot;Enjoy your stay&quot;, 10, 70, 20)
+    playsound(player, &quot;entity.player.levelup&quot;, 1.0, 1.0)
+}
+</code></pre></div>
+
+<p><strong>Assign players to teams:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">team_red</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="n">let</span><span class="w"> </span><span class="n">team_blue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">redCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">team_red</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">blueCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">len</span><span class="p">(</span><span class="n">team_blue</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">redCount</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">blueCount</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">append</span><span class="p">(</span><span class="n">team_red</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You&#39;ve been assigned to Red Team&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">65</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">append</span><span class="p">(</span><span class="n">team_blue</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You&#39;ve been assigned to Blue Team&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">65</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Track player join count:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">join_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">join_count</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">join_count</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">join_count</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">join_count</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">join_count</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; joined for the first time!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; has joined &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">join_count</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; times&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="playerquit">PlayerQuit</h2>
+<p>Triggered when a player leaves the server.</p>
+<h3 id="event-context_1">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player who quit<br />
+- <code>event</code> - The Bukkit PlayerQuitEvent object</p>
+<p><strong>Cancellable:</strong> No</p>
+<h3 id="example_1">Example</h3>
+<p><strong>Cleanup player data:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">active_players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">[]</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">append</span><span class="p">(</span><span class="n">active_players</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">)</span>
+<span class="err">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerQuit</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Remove</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">active</span><span class="w"> </span><span class="n">players</span><span class="w"> </span><span class="n">list</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">active_players</span><span class="p">))</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">active_players</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">remove</span><span class="p">(</span><span class="n">active_players</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; has left the server&quot;</span><span class="p">)</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Save player location:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">logout_locations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerQuit</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_location</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">logout_locations</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="nl">x</span><span class="p">:</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">x</span><span class="p">,</span>
+<span class="w">        </span><span class="nl">y</span><span class="p">:</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">y</span><span class="p">,</span>
+<span class="w">        </span><span class="nl">z</span><span class="p">:</span><span class="w"> </span><span class="n">loc</span><span class="p">.</span><span class="n">z</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Saved logout location for &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">name</span><span class="p">)</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="playerchat">PlayerChat</h2>
+<p>Triggered when a player sends a chat message.</p>
+<h3 id="event-context_2">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player who sent the message<br />
+- <code>event</code> - The Bukkit AsyncPlayerChatEvent object<br />
+- <code>message</code> - The chat message text (string)</p>
+<p><strong>Cancellable:</strong> Yes</p>
+<h3 id="example_2">Example</h3>
+<p><strong>Chat filter:</strong></p>
+<div class="highlight"><pre><span></span><code>let blocked_words = [&quot;spam&quot;, &quot;badword&quot;, &quot;cheat&quot;]
+
+OnEvent(PlayerChat) {
+    let msg = message
+
+    for word in blocked_words {
+        if contains(msg, word) {
+            cancel(event)
+            sendmessage(player, &quot;Your message contains a blocked word&quot;)
+            return
+        }
+    }
+}
+</code></pre></div>
+
+<p><strong>Command system:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerChat) {
+    if contains(message, &quot;!help&quot;) {
+        cancel(event)
+        sendmessage(player, &quot;Available commands:&quot;)
+        sendmessage(player, &quot;  !help - Show this help&quot;)
+        sendmessage(player, &quot;  !spawn - Teleport to spawn&quot;)
+        sendmessage(player, &quot;  !stats - Show your stats&quot;)
+    } else if contains(message, &quot;!spawn&quot;) {
+        cancel(event)
+        teleport(player, 0, 100, 0)
+        sendmessage(player, &quot;Teleported to spawn!&quot;)
+    } else if contains(message, &quot;!stats&quot;) {
+        cancel(event)
+        sendmessage(player, &quot;Health: &quot; + get_health(player))
+        sendmessage(player, &quot;Gamemode: &quot; + get_gamemode(player))
+    }
+}
+</code></pre></div>
+
+<p><strong>Chat formatting:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">player_ranks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerChat</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="nf">rank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;Member&quot;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">player_ranks</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="nf">rank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_ranks</span><span class="o">[</span><span class="n">name</span><span class="o">]</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Cancel</span><span class="w"> </span><span class="n">original</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">send</span><span class="w"> </span><span class="n">formatted</span><span class="w"> </span><span class="n">version</span>
+<span class="w">    </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">formatted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;[&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rank</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot;] &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot;: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">message</span>
+<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="n">formatted</span><span class="p">)</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="playermove">PlayerMove</h2>
+<p>Triggered when a player moves from one location to another.</p>
+<h3 id="event-context_3">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player who moved<br />
+- <code>event</code> - The Bukkit PlayerMoveEvent object<br />
+- <code>from</code> - The location the player moved from (Location)<br />
+- <code>to</code> - The location the player moved to (Location)</p>
+<p><strong>Cancellable:</strong> Yes</p>
+<p><strong>Note:</strong> This event fires very frequently (multiple times per second). Use carefully to avoid performance issues.</p>
+<h3 id="example_3">Example</h3>
+<p><strong>Region entry detection:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">spawn_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">20</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">20</span><span class="p">,</span><span class="w"> </span><span class="mh">20</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">20</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">oldLoc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">from</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">newLoc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to</span>
+
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">wasInSpawn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">oldLoc</span><span class="p">,</span><span class="w"> </span><span class="n">spawn_zone</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">isInSpawn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">newLoc</span><span class="p">,</span><span class="w"> </span><span class="n">spawn_zone</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">wasInSpawn</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">isInSpawn</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Welcome to spawn!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">playsound</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;block.note_block.chime&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.5</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">wasInSpawn</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">isInSpawn</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You left spawn!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Prevent movement in region:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">frozen_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">70</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">70</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">to</span><span class="p">,</span><span class="w"> </span><span class="n">frozen_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You cannot enter this area!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Speed detection:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">last_positions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">currentLoc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">to</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">last_positions</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">lastLoc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">last_positions</span><span class="o">[</span><span class="n">name</span><span class="o">]</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">distance</span><span class="p">(</span><span class="n">lastLoc</span><span class="p">,</span><span class="w"> </span><span class="n">currentLoc</span><span class="p">)</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="k">If</span><span class="w"> </span><span class="n">moved</span><span class="w"> </span><span class="n">more</span><span class="w"> </span><span class="k">than</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">blocks</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="n">tick</span><span class="p">,</span><span class="w"> </span><span class="n">likely</span><span class="w"> </span><span class="n">teleporting</span><span class="o">/</span><span class="n">cheating</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Suspicious movement by &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot;: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; blocks&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">last_positions</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentLoc</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="playerdamage">PlayerDamage</h2>
+<p>Triggered when a player takes damage.</p>
+<h3 id="event-context_4">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player who took damage<br />
+- <code>event</code> - The Bukkit EntityDamageEvent object<br />
+- <code>damage</code> - The amount of damage dealt (number)<br />
+- <code>cause</code> - The damage cause (string)</p>
+<p><strong>Cancellable:</strong> Yes</p>
+<p><strong>Common damage causes:</strong><br />
+- <code>"FALL"</code> - Fall damage<br />
+- <code>"ENTITY_ATTACK"</code> - Attacked by entity<br />
+- <code>"FIRE"</code> - Fire damage<br />
+- <code>"LAVA"</code> - Lava damage<br />
+- <code>"DROWNING"</code> - Drowning<br />
+- <code>"VOID"</code> - Void damage<br />
+- <code>"BLOCK_EXPLOSION"</code> - TNT or other blocks<br />
+- <code>"ENTITY_EXPLOSION"</code> - Creeper explosion</p>
+<h3 id="example_4">Example</h3>
+<p><strong>Safe zone (no damage):</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">safe_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">20</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">20</span><span class="p">,</span><span class="w"> </span><span class="mh">20</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">20</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">safe_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You are protected in the safe zone!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>No fall damage:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">OnEvent</span><span class="ss">(</span><span class="nv">PlayerDamage</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nv">cause</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;FALL&quot;</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">cancel</span><span class="ss">(</span><span class="nv">event</span><span class="ss">)</span>
+<span class="w">        </span><span class="nv">sendmessage</span><span class="ss">(</span><span class="nv">player</span>,<span class="w"> </span><span class="s2">&quot;Fall damage is disabled!&quot;</span><span class="ss">)</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<p><strong>Damage multiplier by region:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">danger_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">200</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">200</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">danger_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Double damage in danger zone</span>
+<span class="w">        </span><span class="k">event</span><span class="p">.</span><span class="n">damage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">damage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mh">2</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Danger zone - 2x damage!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Track damage taken:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">damage_taken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDamage</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">damage_taken</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">damage_taken</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">damage_taken</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">damage_taken</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">damage</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="playerdeath">PlayerDeath</h2>
+<p>Triggered when a player dies.</p>
+<h3 id="event-context_5">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player who died<br />
+- <code>event</code> - The Bukkit PlayerDeathEvent object<br />
+- <code>killer</code> - The entity that killed the player (may be null)</p>
+<p><strong>Cancellable:</strong> No</p>
+<h3 id="example_5">Example</h3>
+<p><strong>Custom respawn:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerDeath) {
+    sendmessage(player, &quot;You died! Respawning in 5 seconds...&quot;)
+
+    // Note: actual respawn handling requires PlayerRespawn event
+    log(get_name(player) + &quot; died&quot;)
+}
+</code></pre></div>
+
+<p><strong>Kill tracking:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">kills</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+<span class="n">let</span><span class="w"> </span><span class="n">deaths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDeath</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">victimName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Track</span><span class="w"> </span><span class="n">deaths</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">deaths</span><span class="p">,</span><span class="w"> </span><span class="n">victimName</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">deaths</span><span class="o">[</span><span class="n">victimName</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="w">    </span><span class="n">deaths</span><span class="o">[</span><span class="n">victimName</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deaths</span><span class="o">[</span><span class="n">victimName</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Track</span><span class="w"> </span><span class="n">kills</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">killer</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">killerName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">killer</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">kills</span><span class="p">,</span><span class="w"> </span><span class="n">killerName</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">kills</span><span class="o">[</span><span class="n">killerName</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">        </span><span class="n">kills</span><span class="o">[</span><span class="n">killerName</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kills</span><span class="o">[</span><span class="n">killerName</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="n">killerName</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; killed &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">victimName</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">killer</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Total kills: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kills</span><span class="o">[</span><span class="n">killerName</span><span class="o">]</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">broadcast</span><span class="p">(</span><span class="n">victimName</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; died&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Keep inventory in specific region:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">keep_inventory_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDeath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">keep_inventory_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">event</span><span class="p">.</span><span class="n">keepInventory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">true</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Your items were saved!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="playerrespawn">PlayerRespawn</h2>
+<p>Triggered when a player respawns after dying.</p>
+<h3 id="event-context_6">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player who respawned<br />
+- <code>event</code> - The Bukkit PlayerRespawnEvent object<br />
+- <code>respawn_location</code> - The location where player will respawn (Location)</p>
+<p><strong>Cancellable:</strong> No (but can modify respawn location)</p>
+<h3 id="example_6">Example</h3>
+<p><strong>Custom respawn location:</strong></p>
+<div class="highlight"><pre><span></span><code>let custom_spawn = location(0, 100, 0)
+
+OnEvent(PlayerRespawn) {
+    teleport(player, custom_spawn)
+    sendmessage(player, &quot;Respawned at spawn!&quot;)
+    heal(player)
+}
+</code></pre></div>
+
+<p><strong>Team respawn points:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">team_spawns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+<span class="n">team_spawns</span><span class="o">[</span><span class="n">&quot;red&quot;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="n">team_spawns</span><span class="o">[</span><span class="n">&quot;blue&quot;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">location</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">let</span><span class="w"> </span><span class="n">player_teams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerRespawn</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">player_teams</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">team</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_teams</span><span class="o">[</span><span class="n">name</span><span class="o">]</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">spawn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">team_spawns</span><span class="o">[</span><span class="n">team</span><span class="o">]</span>
+
+<span class="w">        </span><span class="n">teleport</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">spawn</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Respawned at &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">team</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; team base&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Respawn with effects:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerRespawn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Give player temporary invulnerability</span>
+<span class="w">    </span><span class="n">give_effect</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;damage_resistance&quot;</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">4</span><span class="p">)</span>
+<span class="w">    </span><span class="n">give_effect</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;regeneration&quot;</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">1</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You have 5 seconds of protection!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="playerinteract">PlayerInteract</h2>
+<p>Triggered when a player interacts with blocks or air.</p>
+<h3 id="event-context_7">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player who interacted<br />
+- <code>event</code> - The Bukkit PlayerInteractEvent object<br />
+- <code>block</code> - The block that was interacted with (may be null)<br />
+- <code>action</code> - The type of interaction (string)</p>
+<p><strong>Cancellable:</strong> Yes</p>
+<p><strong>Action types:</strong><br />
+- <code>"RIGHT_CLICK_BLOCK"</code> - Right-clicked a block<br />
+- <code>"RIGHT_CLICK_AIR"</code> - Right-clicked air<br />
+- <code>"LEFT_CLICK_BLOCK"</code> - Left-clicked a block<br />
+- <code>"LEFT_CLICK_AIR"</code> - Left-clicked air</p>
+<h3 id="example_7">Example</h3>
+<p><strong>Click to teleport:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerInteract) {
+    if action == &quot;RIGHT_CLICK_BLOCK&quot; {
+        if block != null {
+            let blockType = get_block(block.location)
+
+            if blockType == &quot;GOLD_BLOCK&quot; {
+                teleport(player, 0, 100, 0)
+                sendmessage(player, &quot;Teleported to spawn!&quot;)
+            }
+        }
+    }
+}
+</code></pre></div>
+
+<p><strong>Custom signs:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerInteract) {
+    if action == &quot;RIGHT_CLICK_BLOCK&quot; &amp;&amp; block != null {
+        let blockType = get_block(block.location)
+
+        if contains(blockType, &quot;SIGN&quot;) {
+            // Check sign location or text to determine action
+            let loc = block.location
+
+            // Sign at specific location = shop
+            if loc.x == 10 &amp;&amp; loc.y == 64 &amp;&amp; loc.z == 10 {
+                sendmessage(player, &quot;Opening shop...&quot;)
+                trigger_custom(&quot;open_shop&quot;, {player: player})
+            }
+        }
+    }
+}
+</code></pre></div>
+
+<p><strong>Block interaction cooldown:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">last_interact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerInteract</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">currentTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_time</span><span class="p">(</span><span class="n">player</span><span class="p">.</span><span class="n">world</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">last_interact</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">lastTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">last_interact</span><span class="o">[</span><span class="n">name</span><span class="o">]</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Require</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="n">ticks</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="k">second</span><span class="p">)</span><span class="w"> </span><span class="ow">between</span><span class="w"> </span><span class="n">interactions</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">currentTime</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastTime</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">last_interact</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentTime</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="playerdropitem">PlayerDropItem</h2>
+<p>Triggered when a player drops an item.</p>
+<h3 id="event-context_8">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player who dropped the item<br />
+- <code>event</code> - The Bukkit PlayerDropItemEvent object<br />
+- <code>item</code> - The item that was dropped (ItemStack)</p>
+<p><strong>Cancellable:</strong> Yes</p>
+<h3 id="example_8">Example</h3>
+<p><strong>Prevent dropping specific items:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">protected_items</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;diamond_sword&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;netherite_helmet&quot;</span><span class="p">]</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerDropItem</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">itemType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">contains</span><span class="p">(</span><span class="nx">protected_items</span><span class="p">,</span><span class="w"> </span><span class="nx">itemType</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You cannot drop this item!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Prevent item dropping in region:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">no_drop_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">20</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">20</span><span class="p">,</span><span class="w"> </span><span class="mh">20</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">20</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDropItem</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">no_drop_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You cannot drop items here!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Track dropped items:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">items_dropped</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDropItem</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">items_dropped</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">items_dropped</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">items_dropped</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">items_dropped</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">item</span><span class="p">.</span><span class="n">amount</span>
+<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; dropped &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">item</span><span class="p">.</span><span class="n">amount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">item</span><span class="p">.</span><span class="n">type</span><span class="p">)</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="playerpickupitem">PlayerPickupItem</h2>
+<p>Triggered when a player picks up an item.</p>
+<h3 id="event-context_9">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player who picked up the item<br />
+- <code>event</code> - The Bukkit EntityPickupItemEvent object<br />
+- <code>item</code> - The item that was picked up (ItemStack)</p>
+<p><strong>Cancellable:</strong> Yes</p>
+<h3 id="example_9">Example</h3>
+<p><strong>Prevent picking up items:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">no_pickup_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">70</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">70</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerPickupItem</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">no_pickup_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Auto-smelt ores:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerPickupItem</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">itemType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="k">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">itemType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;RAW_IRON&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">give</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;iron_ingot&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">amount</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Auto-smelted &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">amount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; iron!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">itemType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;RAW_GOLD&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">cancel</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">give</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;gold_ingot&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">amount</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Auto-smelted &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">amount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; gold!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Item collection tracking:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">items_collected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerPickupItem</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">itemType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">item</span><span class="p">.</span><span class="n">type</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">items_collected</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">items_collected</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">items_collected</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">itemType</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">items_collected</span><span class="o">[</span><span class="n">name</span><span class="o">][</span><span class="n">itemType</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">items_collected</span><span class="o">[</span><span class="n">name</span><span class="o">][</span><span class="n">itemType</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">items_collected</span><span class="o">[</span><span class="n">name</span><span class="o">][</span><span class="n">itemType</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">item</span><span class="p">.</span><span class="n">amount</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="playerteleport">PlayerTeleport</h2>
+<p>Triggered when a player teleports.</p>
+<h3 id="event-context_10">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player who teleported<br />
+- <code>event</code> - The Bukkit PlayerTeleportEvent object<br />
+- <code>from</code> - The location teleported from (Location)<br />
+- <code>to</code> - The location teleported to (Location)<br />
+- <code>cause</code> - The cause of teleport (string)</p>
+<p><strong>Cancellable:</strong> Yes</p>
+<p><strong>Common teleport causes:</strong><br />
+- <code>"COMMAND"</code> - /tp command<br />
+- <code>"PLUGIN"</code> - Plugin teleport<br />
+- <code>"ENDER_PEARL"</code> - Ender pearl<br />
+- <code>"CHORUS_FRUIT"</code> - Chorus fruit</p>
+<h3 id="example_10">Example</h3>
+<p><strong>Restrict teleports:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">no_teleport_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">200</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">200</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerTeleport</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">to</span><span class="p">,</span><span class="w"> </span><span class="n">no_teleport_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;You cannot teleport there!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Teleport logging:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerTeleport) {
+    let fromLoc = from
+    let toLoc = to
+
+    log(get_name(player) + &quot; teleported:&quot;)
+    log(&quot;  From: &quot; + fromLoc.x + &quot;, &quot; + fromLoc.y + &quot;, &quot; + fromLoc.z)
+    log(&quot;  To: &quot; + toLoc.x + &quot;, &quot; + toLoc.y + &quot;, &quot; + toLoc.z)
+    log(&quot;  Cause: &quot; + cause)
+}
+</code></pre></div>
+
+<p><strong>Teleport cooldown:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">last_teleport</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+<span class="n">let</span><span class="w"> </span><span class="n">cooldown_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w">  </span><span class="o">//</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">seconds</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">ticks</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerTeleport</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="k">Only</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="n">cooldown</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">ender</span><span class="w"> </span><span class="n">pearls</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">cause</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="ss">&quot;ENDER_PEARL&quot;</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">currentTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_time</span><span class="p">(</span><span class="n">player</span><span class="p">.</span><span class="n">world</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">last_teleport</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">lastTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">last_teleport</span><span class="o">[</span><span class="n">name</span><span class="o">]</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">timeSince</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentTime</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastTime</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">timeSince</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cooldown_time</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">cancel</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="w">            </span><span class="n">let</span><span class="w"> </span><span class="n">remaining</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ceil</span><span class="p">((</span><span class="n">cooldown_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">timeSince</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Teleport cooldown: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">remaining</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; seconds&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">last_teleport</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentTime</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="playergamemodechange">PlayerGamemodeChange</h2>
+<p>Triggered when a player's gamemode changes.</p>
+<h3 id="event-context_11">Event Context</h3>
+<p><strong>Available variables:</strong><br />
+- <code>player</code> - The player whose gamemode changed<br />
+- <code>event</code> - The Bukkit PlayerGameModeChangeEvent object<br />
+- <code>new_gamemode</code> - The new gamemode (string)</p>
+<p><strong>Cancellable:</strong> Yes</p>
+<p><strong>Gamemode values:</strong><br />
+- <code>"SURVIVAL"</code><br />
+- <code>"CREATIVE"</code><br />
+- <code>"ADVENTURE"</code><br />
+- <code>"SPECTATOR"</code></p>
+<h3 id="example_11">Example</h3>
+<p><strong>Prevent gamemode changes:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerGamemodeChange) {
+    if !is_op(player) {
+        cancel(event)
+        sendmessage(player, &quot;You cannot change your gamemode!&quot;)
+    }
+}
+</code></pre></div>
+
+<p><strong>Track gamemode changes:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerGamemodeChange</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">oldMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_gamemode</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">newMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_gamemode</span>
+
+<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; changed gamemode: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">oldMode</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; -&gt; &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">newMode</span><span class="p">)</span>
+<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; is now in &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">newMode</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; mode&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Restrict gamemodes in regions:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">creative_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">50</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerGamemodeChange</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">new_gamemode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;CREATIVE&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">creative_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Creative mode is only allowed in the creative zone!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="event-properties-reference">Event Properties Reference</h2>
+<h3 id="common-properties">Common Properties</h3>
+<p>All player events have these properties:</p>
+<p><strong>player</strong> (Player object)<br />
+- <code>player.name</code> - Player's username (string)<br />
+- <code>player.health</code> - Current health (number, 0-20)<br />
+- <code>player.hunger</code> - Hunger level (number, 0-20)<br />
+- <code>player.location</code> - Current location (Location)<br />
+- <code>player.gamemode</code> - Current gamemode (string)<br />
+- <code>player.flying</code> - Whether player is flying (boolean)<br />
+- <code>player.online</code> - Whether player is online (boolean)</p>
+<p><strong>event</strong> (Bukkit Event object)<br />
+- Use with <code>cancel(event)</code> to cancel cancellable events</p>
+<h3 id="location-properties">Location Properties</h3>
+<p>Events with <code>from</code> and <code>to</code> locations:</p>
+<p><strong>Location properties:</strong><br />
+- <code>location.x</code> - X coordinate (number)<br />
+- <code>location.y</code> - Y coordinate (number)<br />
+- <code>location.z</code> - Z coordinate (number)<br />
+- <code>location.world</code> - World name (World)</p>
+<h3 id="item-properties">Item Properties</h3>
+<p>Events with <code>item</code>:</p>
+<p><strong>Item properties:</strong><br />
+- <code>item.type</code> - Material type (string, e.g., "DIAMOND_SWORD")<br />
+- <code>item.amount</code> - Stack size (number, 1-64)</p>
+<h2 id="common-patterns">Common Patterns</h2>
+<h3 id="region-based-behavior">Region-Based Behavior</h3>
+<p>Check if events occur in specific regions:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">pvp_zone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">Scope</span><span class="p">(</span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">64</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">,</span><span class="w"> </span><span class="mh">100</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDamage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">cause</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;ENTITY_ATTACK&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">pvp_zone</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cancel</span><span class="p">(</span><span class="k">event</span><span class="p">)</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;PvP is disabled outside the arena!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="player-data-tracking">Player Data Tracking</h3>
+<p>Store and retrieve player-specific data:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">player_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">func</span><span class="w"> </span><span class="n">getPlayerData</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">player_data</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">player_data</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="nl">joins</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nl">kills</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nl">deaths</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nl">score</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">player_data</span><span class="o">[</span><span class="n">name</span><span class="o">]</span>
+<span class="err">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="k">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getPlayerData</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="k">data</span><span class="p">.</span><span class="n">joins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">data</span><span class="p">.</span><span class="n">joins</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="err">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDeath</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="k">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getPlayerData</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="k">data</span><span class="p">.</span><span class="n">deaths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">data</span><span class="p">.</span><span class="n">deaths</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h3 id="cooldown-system">Cooldown System</h3>
+<p>Implement cooldowns for any event:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">cooldowns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">func</span><span class="w"> </span><span class="n">hasCooldown</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">cooldownName</span><span class="p">,</span><span class="w"> </span><span class="n">durationTicks</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot;:&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cooldownName</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">currentTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_time</span><span class="p">(</span><span class="n">player</span><span class="p">.</span><span class="n">world</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="n">cooldowns</span><span class="p">,</span><span class="w"> </span><span class="k">key</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">lastTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cooldowns</span><span class="o">[</span><span class="n">key</span><span class="o">]</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">currentTime</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastTime</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">durationTicks</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="k">true</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">cooldowns</span><span class="o">[</span><span class="n">key</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentTime</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">false</span>
+<span class="err">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerInteract</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">action</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;RIGHT_CLICK_AIR&quot;</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">hasCooldown</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;special_ability&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Ability is on cooldown!&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="k">Use</span><span class="w"> </span><span class="n">ability</span>
+<span class="w">        </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Special ability activated!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h3 id="event-chaining">Event Chaining</h3>
+<p>Use custom events to chain player events:</p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerDeath) {
+    if killer != null {
+        trigger_custom(&quot;player_killed&quot;, {
+            victim: player,
+            killer: killer,
+            location: get_location(player)
+        })
+    }
+}
+
+OnEvent(player_killed) {
+    let victim = event.victim
+    let killer = event.killer
+
+    // Award points to killer
+    sendmessage(killer, &quot;+10 points!&quot;)
+
+    // Respawn victim elsewhere
+    trigger_custom(&quot;custom_respawn&quot;, {
+        player: victim,
+        spawn: location(100, 64, 100)
+    })
+}
+</code></pre></div>
+
+<h3 id="permission-checks">Permission Checks</h3>
+<p>Combine events with permission checks:</p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerInteract) {
+    if action == &quot;RIGHT_CLICK_BLOCK&quot; {
+        if !is_op(player) {
+            cancel(event)
+            sendmessage(player, &quot;Only admins can interact with this!&quot;)
+        }
+    }
+}
+</code></pre></div>
+
+<h3 id="state-machines">State Machines</h3>
+<p>Track player state through multiple events:</p>
+<div class="highlight"><pre><span></span><code><span class="n">let</span><span class="w"> </span><span class="n">player_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">player_state</span><span class="o">[</span><span class="n">get_name(player)</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;lobby&quot;</span>
+<span class="err">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_state</span><span class="o">[</span><span class="n">name</span><span class="o">]</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;lobby&quot;</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">game_zone</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">player_state</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;in_game&quot;</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Entering game!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="ss">&quot;in_game&quot;</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">game_zone</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">player_state</span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;lobby&quot;</span>
+<span class="w">            </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Returned to lobby&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#playerjoin'>PlayerJoin</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#playerquit'>PlayerQuit</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#playerchat'>PlayerChat</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#playermove'>PlayerMove</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#playerdamage'>PlayerDamage</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#playerdeath'>PlayerDeath</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#playerrespawn'>PlayerRespawn</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#playerinteract'>PlayerInteract</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#playerdropitem'>PlayerDropItem</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#playerpickupitem'>PlayerPickupItem</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#playerteleport'>PlayerTeleport</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#playergamemodechange'>PlayerGamemodeChange</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:20px'><a href='#example'>Example</a></li><li style='margin-left:0px'><a href='#event-properties-reference'>Event Properties Reference</a></li><li style='margin-left:20px'><a href='#common-properties'>Common Properties</a></li><li style='margin-left:20px'><a href='#location-properties'>Location Properties</a></li><li style='margin-left:20px'><a href='#item-properties'>Item Properties</a></li><li style='margin-left:0px'><a href='#common-patterns'>Common Patterns</a></li><li style='margin-left:20px'><a href='#region-based-behavior'>Region-Based Behavior</a></li><li style='margin-left:20px'><a href='#player-data-tracking'>Player Data Tracking</a></li><li style='margin-left:20px'><a href='#cooldown-system'>Cooldown System</a></li><li style='margin-left:20px'><a href='#event-chaining'>Event Chaining</a></li><li style='margin-left:20px'><a href='#permission-checks'>Permission Checks</a></li><li style='margin-left:20px'><a href='#state-machines'>State Machines</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

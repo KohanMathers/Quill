@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A sandboxed scripting language for Minecraft event automation">
+    <title>Custom Events — Quill</title>
+    <link rel="stylesheet" href="https://quill.kmathers.co.uk/docs/quilldocs.css">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>
+                    <img src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                        alt="Quill Logo">
+                    <a href="../index.html">Quill</a>
+                </h2>
+                <p class="sidebar-tagline">A sandboxed scripting language for Minecraft event automation</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul><li class='folder'><span class='folder-name'>advanced</span><ul><li><a href='/docs/advanced/custom-events.html' class='active'>Custom Events</a></li><li><a href='/docs/advanced/error-handling.html'>Error Handling</a></li><li><a href='/docs/advanced/persistent-variables.html'>Persistent Variables</a></li><li><a href='/docs/advanced/security.html'>Security</a></li><li><a href='/docs/advanced/subscopes.html'>Subscopes</a></li></ul></li><li class='folder'><span class='folder-name'>api</span><ul><li><a href='/docs/api/constructors.html'>Constructors</a></li><li><a href='/docs/api/player.html'>Player</a></li><li><a href='/docs/api/scope.html'>Scope</a></li><li><a href='/docs/api/utility.html'>Utility</a></li><li><a href='/docs/api/world.html'>World</a></li></ul></li><li class='folder'><span class='folder-name'>commands</span><ul><li><a href='/docs/commands/general.html'>General</a></li><li><a href='/docs/commands/scope-management.html'>Scope Management</a></li><li><a href='/docs/commands/script-management.html'>Script Management</a></li></ul></li><li><a href='/docs/configuration.html'>Configuration</a></li><li class='folder'><span class='folder-name'>developer</span><ul><li><a href='/docs/developer/api-integration.html'>Api Integration</a></li></ul></li><li class='folder'><span class='folder-name'>events</span><ul><li><a href='/docs/events/block-events.html'>Block Events</a></li><li><a href='/docs/events/entity-events.html'>Entity Events</a></li><li><a href='/docs/events/player-events.html'>Player Events</a></li><li><a href='/docs/events/world-events.html'>World Events</a></li></ul></li><li class='folder'><span class='folder-name'>examples</span><ul><li><a href='/docs/examples/basic-scripts.html'>Basic Scripts</a></li><li><a href='/docs/examples/minigames.html'>Minigames</a></li></ul></li><li><a href='/docs/faq.html'>Faq</a></li><li><a href='/docs/getting-started.html'>Getting Started</a></li><li><a href='/docs/index.html'>Index</a></li><li><a href='/docs/installation.html'>Installation</a></li><li class='folder'><span class='folder-name'>language</span><ul><li><a href='/docs/language/data-types.html'>Data Types</a></li><li><a href='/docs/language/events.html'>Events</a></li><li><a href='/docs/language/functions.html'>Functions</a></li><li><a href='/docs/language/scopes.html'>Scopes</a></li><li><a href='/docs/language/string-interpolation.html'>String Interpolation</a></li><li><a href='/docs/language/syntax.html'>Syntax</a></li></ul></li><li><a href='/docs/quickstart.html'>Quickstart</a></li></ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="github-link" href="https://github.com/kohanmathers/quill" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    View on GitHub
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="hero hide-hero">
+                <img class="hero-logo"
+                    src="https://raw.githubusercontent.com/KohanMathers/Quill/refs/heads/main/QuillLogo.png"
+                    alt="Quill Logo">
+                <h1>Quill</h1>
+                <p>A sandboxed scripting language for Minecraft event automation</p>
+                <div class="button-group">
+                    <a class="ghbutton" href="https://github.com/kohanmathers/quill" target="_blank">View on GitHub</a>
+                    <a class="learnmore" href="getting-started.html">Get Started</a>
+                </div>
+            </header>
+
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href='../index.html'>Quill</a><span class='separator'>/</span><span>Advanced</span><span class='separator'>/</span><span class='current'>Custom Events</span>
+            </nav>
+
+            <div class="doc-layout">
+                <article class="doc-content">
+                    <h1 class="page-title">Custom Events</h1>
+                    <h1 id="custom-events">Custom Events</h1>
+<h2 id="overview">Overview</h2>
+<p>Custom events in Quill allow you to create your own event system for communication between scripts, scopes, and even external systems. Unlike Minecraft's built-in events (like <code>PlayerJoin</code> or <code>BlockBreak</code>), custom events are entirely user-defined and can carry any data you need.</p>
+<p>Custom events are useful for:<br />
+- Coordinating actions between different scopes<br />
+- Building complex game systems with multiple phases<br />
+- Creating notification systems<br />
+- Integrating with external plugins or systems</p>
+<h2 id="creating-custom-events">Creating Custom Events</h2>
+<h3 id="using-trigger_custom">Using trigger_custom()</h3>
+<p>The <code>trigger_custom()</code> function creates and dispatches a custom event. It takes two arguments:</p>
+<div class="highlight"><pre><span></span><code>trigger_custom(event_name, data)
+</code></pre></div>
+
+<ul>
+<li><code>event_name</code> (string): The name of your custom event</li>
+<li><code>data</code> (map or JSON string): The data to pass to event handlers</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Trigger with a map</span>
+<span class="n">let</span><span class="w"> </span><span class="n">eventData</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">message</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Hello from custom event!&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">score</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">    </span><span class="n">players</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Alice&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bob&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">trigger_custom</span><span class="p">(</span><span class="s">&quot;game_start&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">eventData</span><span class="p">)</span>
+
+<span class="c1">// Trigger with JSON string</span>
+<span class="n">let</span><span class="w"> </span><span class="n">jsonData</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&#39;{&quot;phase&quot;: &quot;boss_fight&quot;, &quot;boss_health&quot;: 1000}&#39;</span>
+<span class="n">trigger_custom</span><span class="p">(</span><span class="s">&quot;phase_change&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">jsonData</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="event-names">Event Names</h3>
+<p>Event names are case-sensitive strings. Choose descriptive names that clearly indicate what the event represents:</p>
+<p><strong>Good naming:</strong></p>
+<div class="highlight"><pre><span></span><code>trigger_custom(&quot;player_achievement_unlocked&quot;, data)
+trigger_custom(&quot;minigame_round_end&quot;, data)
+trigger_custom(&quot;shop_purchase_complete&quot;, data)
+</code></pre></div>
+
+<p><strong>Avoid generic names:</strong></p>
+<div class="highlight"><pre><span></span><code>trigger_custom(&quot;event1&quot;, data)  // Too vague
+trigger_custom(&quot;update&quot;, data)  // Too generic
+</code></pre></div>
+
+<h3 id="event-data">Event Data</h3>
+<p>Event data can be passed as either a map or a JSON string. The data structure is entirely up to you.</p>
+<p><strong>Using maps (recommended):</strong></p>
+<div class="highlight"><pre><span></span><code>let data = {
+    player_name: &quot;Steve&quot;,
+    item: &quot;diamond_sword&quot;,
+    quantity: 1,
+    timestamp: 1234567890
+}
+trigger_custom(&quot;item_crafted&quot;, data)
+</code></pre></div>
+
+<p><strong>Using JSON strings:</strong></p>
+<div class="highlight"><pre><span></span><code>let jsonString = &#39;{&quot;x&quot;: 100, &quot;y&quot;: 64, &quot;z&quot;: -200, &quot;dimension&quot;: &quot;overworld&quot;}&#39;
+trigger_custom(&quot;location_discovered&quot;, jsonString)
+</code></pre></div>
+
+<p><strong>Complex nested data:</strong></p>
+<div class="highlight"><pre><span></span><code>let complexData = {
+    team: &quot;red&quot;,
+    players: [&quot;Alice&quot;, &quot;Bob&quot;, &quot;Charlie&quot;],
+    stats: {
+        kills: 15,
+        deaths: 3,
+        score: 450
+    },
+    victory: true
+}
+trigger_custom(&quot;team_victory&quot;, complexData)
+</code></pre></div>
+
+<h2 id="handling-custom-events">Handling Custom Events</h2>
+<h3 id="onevent-for-custom-events">OnEvent for Custom Events</h3>
+<p>Use the <code>OnEvent</code> statement to listen for custom events, just like you would for Minecraft events:</p>
+<div class="highlight"><pre><span></span><code>OnEvent(game_start) {
+    let message = event.message
+    let score = event.score
+    log(&quot;Game started with message: &quot; + message)
+    log(&quot;Starting score: &quot; + score)
+}
+</code></pre></div>
+
+<h3 id="accessing-custom-data">Accessing Custom Data</h3>
+<p>All custom event data is available through the <code>event</code> variable. Access nested properties using dot notation or map access:</p>
+<div class="highlight"><pre><span></span><code>OnEvent(phase_change) {
+    let phase = event.phase
+    let bossHealth = event.boss_health
+
+    broadcast(&quot;Entering phase: &quot; + phase)
+    broadcast(&quot;Boss health: &quot; + bossHealth)
+}
+</code></pre></div>
+
+<p><strong>Accessing nested data:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(team_victory) {
+    let teamName = event.team
+    let kills = event.stats.kills
+    let deaths = event.stats.deaths
+
+    log(&quot;Team &quot; + teamName + &quot; won!&quot;)
+    log(&quot;K/D ratio: &quot; + (kills / deaths))
+}
+</code></pre></div>
+
+<p><strong>Working with lists in event data:</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(game_start) {
+    let players = event.players
+
+    for player in players {
+        log(&quot;Player in game: &quot; + player)
+    }
+}
+</code></pre></div>
+
+<h2 id="event-propagation">Event Propagation</h2>
+<h3 id="scope-boundaries">Scope Boundaries</h3>
+<p>Custom events respect scope boundaries. When you trigger a custom event:</p>
+<ol>
+<li><strong>Global scope events</strong> are handled by all global event handlers</li>
+<li><strong>Scoped events</strong> are only handled by handlers in that specific scope</li>
+</ol>
+<p><strong>Example - Global event:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// In global scope script</span>
+<span class="n">trigger_custom</span><span class="p">(</span><span class="s">&quot;server_restart_warning&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="n">minutes</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">})</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">server_restart_warning</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">minutes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">minutes</span>
+<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="s">&quot;Server restarting in &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">minutes</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; minutes!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Example - Scoped event:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// In a scope called &quot;arena&quot;</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">in_region</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">this_scope</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">trigger_custom</span><span class="p">(</span><span class="s">&quot;arena_player_join&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="n">player</span><span class="p">:</span><span class="w"> </span><span class="n">player</span><span class="p">})</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">arena_player_join</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">joinedPlayer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">player</span>
+<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="s">&quot;Player entered the arena!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="c1">// This only fires for the &quot;arena&quot; scope</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="event-context">Event Context</h3>
+<p>The event context includes both your custom data and scope information. The event handler runs within the scope where the event was triggered:</p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">custom_event_name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">event</span><span class="o">.*</span><span class="w"> </span><span class="n">contains</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="n">custom</span><span class="w"> </span><span class="n">data</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Scope</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">accessible</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">this_scope</span><span class="w"> </span><span class="n">refers</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">scope</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="use-cases">Use Cases</h2>
+<h3 id="cross-scope-communication">Cross-Scope Communication</h3>
+<p>Custom events allow different scopes to communicate without tight coupling:</p>
+<p><strong>Scope A (Shop):</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerInteract) {
+    if player_clicked_shop_sign {
+        trigger_custom(&quot;shop_purchase&quot;, {
+            player: player,
+            item: &quot;golden_apple&quot;,
+            cost: 10
+        })
+    }
+}
+</code></pre></div>
+
+<p><strong>Scope B (Economy):</strong></p>
+<div class="highlight"><pre><span></span><code>OnEvent(shop_purchase) {
+    let buyer = event.player
+    let cost = event.cost
+
+    if player_has_money(buyer, cost) {
+        deduct_money(buyer, cost)
+        give(buyer, event.item)
+        trigger_custom(&quot;transaction_complete&quot;, {
+            player: buyer,
+            success: true
+        })
+    } else {
+        trigger_custom(&quot;transaction_complete&quot;, {
+            player: buyer,
+            success: false,
+            reason: &quot;insufficient_funds&quot;
+        })
+    }
+}
+</code></pre></div>
+
+<h3 id="plugin-integration">Plugin Integration</h3>
+<p>Trigger custom events that external systems can listen for:</p>
+<div class="highlight"><pre><span></span><code>OnEvent(PlayerDeath) {
+    trigger_custom(&quot;player_died&quot;, {
+        player: player.name,
+        location: {
+            x: player.location.x,
+            y: player.location.y,
+            z: player.location.z
+        },
+        killer: killer.name,
+        timestamp: current_time()
+    })
+    // External logging plugin can capture this
+}
+</code></pre></div>
+
+<h3 id="complex-game-logic">Complex Game Logic</h3>
+<p>Build state machines and game phases:</p>
+<div class="highlight"><pre><span></span><code>let gamePhase = &quot;waiting&quot;
+let players_ready = []
+
+OnEvent(PlayerInteract) {
+    if player_clicked_ready_button {
+        append(players_ready, player)
+
+        if len(players_ready) &gt;= 4 {
+            gamePhase = &quot;starting&quot;
+            trigger_custom(&quot;game_phase_change&quot;, {
+                from: &quot;waiting&quot;,
+                to: &quot;starting&quot;,
+                player_count: len(players_ready)
+            })
+        }
+    }
+}
+
+OnEvent(game_phase_change) {
+    let newPhase = event.to
+    let count = event.player_count
+
+    if newPhase == &quot;starting&quot; {
+        broadcast(&quot;Game starting with &quot; + count + &quot; players!&quot;)
+        // Start countdown, prepare arena, etc.
+    }
+}
+</code></pre></div>
+
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="event-naming">Event Naming</h3>
+<ol>
+<li><strong>Use descriptive names:</strong> <code>player_achievement_unlocked</code> instead of <code>achievement</code></li>
+<li><strong>Use snake_case:</strong> <code>game_round_start</code> instead of <code>GameRoundStart</code> or <code>game-round-start</code></li>
+<li><strong>Include context:</strong> <code>arena_player_eliminated</code> instead of just <code>eliminated</code></li>
+<li><strong>Be consistent:</strong> Choose a naming pattern and stick to it across your project</li>
+</ol>
+<h3 id="data-structure">Data Structure</h3>
+<ol>
+<li><strong>Keep it simple:</strong> Only include necessary data</li>
+<li><strong>Use consistent types:</strong> Don't mix strings and numbers for the same field</li>
+<li><strong>Document your events:</strong> Comment what data each event carries</li>
+</ol>
+<p><strong>Good example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Event: player_level_up</span>
+<span class="c1">// Data: {</span>
+<span class="c1">//   player: Player object,</span>
+<span class="c1">//   old_level: number,</span>
+<span class="c1">//   new_level: number,</span>
+<span class="c1">//   rewards: list of strings</span>
+<span class="c1">// }</span>
+<span class="n">trigger_custom</span><span class="p">(</span><span class="s">&quot;player_level_up&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">player</span><span class="p">:</span><span class="w"> </span><span class="n">player</span><span class="p">,</span>
+<span class="w">    </span><span class="n">old_level</span><span class="p">:</span><span class="w"> </span><span class="n">currentLevel</span><span class="p">,</span>
+<span class="w">    </span><span class="n">new_level</span><span class="p">:</span><span class="w"> </span><span class="n">currentLevel</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">    </span><span class="n">rewards</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;experience_bottle&quot;</span><span class="p">]</span>
+<span class="p">})</span>
+</code></pre></div>
+
+<h3 id="documentation">Documentation</h3>
+<p>Always document your custom events at the top of your script:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// ==========================================</span>
+<span class="c1">// CUSTOM EVENTS IN THIS SCRIPT</span>
+<span class="c1">// ==========================================</span>
+<span class="c1">//</span>
+<span class="c1">// game_start</span>
+<span class="c1">//   Triggered when: Game countdown completes</span>
+<span class="c1">//   Data: { players: list, mode: string, map: string }</span>
+<span class="c1">//</span>
+<span class="c1">// player_eliminated  </span>
+<span class="c1">//   Triggered when: Player dies in game</span>
+<span class="c1">//   Data: { player: Player, killer: Player, method: string }</span>
+<span class="c1">//</span>
+<span class="c1">// game_end</span>
+<span class="c1">//   Triggered when: Game concludes</span>
+<span class="c1">//   Data: { winner: Player, duration: number, stats: map }</span>
+<span class="c1">// ==========================================</span>
+</code></pre></div>
+
+<h2 id="examples">Examples</h2>
+<h3 id="simple-notification-system">Simple Notification System</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Broadcaster script (could be in any scope)</span>
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">trigger_custom</span><span class="p">(</span><span class="s">&quot;player_notification&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;welcome&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">player</span><span class="p">:</span><span class="w"> </span><span class="nx">player</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">message</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Welcome to the server!&quot;</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="p">}</span>
+
+<span class="c1">// Notification handler (global scope)</span>
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">player_notification</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">notifType</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="k">type</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">target</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">message</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">message</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">notifType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;welcome&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">sendtitle</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Welcome!&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">message</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">70</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="game-phase-system">Game Phase System</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">currentPhase</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;lobby&quot;</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">phaseTimer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">currentPhase</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;lobby&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">addtoscope</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">game_scope</span><span class="p">)</span>
+
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">playerCount</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">len</span><span class="p">(</span><span class="nx">getplayers</span><span class="p">(</span><span class="nx">game_scope</span><span class="p">))</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">playerCount</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">trigger_custom</span><span class="p">(</span><span class="s">&quot;phase_change&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;lobby&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nx">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;countdown&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nx">reason</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;minimum_players_reached&quot;</span>
+<span class="w">            </span><span class="p">})</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">phase_change</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">currentPhase</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">to</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">from</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">reason</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">reason</span>
+
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Phase changed from &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; to &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">to</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">(</span><span class="s">&quot;Reason: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">reason</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">currentPhase</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;countdown&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">phaseTimer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s">&quot;Game starting in 10 seconds!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Timer system (simplified)</span>
+<span class="nx">OnEvent</span><span class="p">(</span><span class="nx">ServerTick</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">currentPhase</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;countdown&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">phaseTimer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">phaseTimer</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">phaseTimer</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">trigger_custom</span><span class="p">(</span><span class="s">&quot;phase_change&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;countdown&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nx">to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;active&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nx">reason</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;countdown_complete&quot;</span>
+<span class="w">            </span><span class="p">})</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="achievement-system">Achievement System</h3>
+<div class="highlight"><pre><span></span><code><span class="o">//</span><span class="w"> </span><span class="n">Track</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">stats</span>
+<span class="n">let</span><span class="w"> </span><span class="n">player_kills</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerDeath</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">killerName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">killer</span><span class="p">.</span><span class="n">name</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="err">!</span><span class="k">contains</span><span class="p">(</span><span class="n">player_kills</span><span class="p">,</span><span class="w"> </span><span class="n">killerName</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">player_kills</span><span class="o">[</span><span class="n">killerName</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="n">player_kills</span><span class="o">[</span><span class="n">killerName</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">player_kills</span><span class="o">[</span><span class="n">killerName</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="k">Check</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">achievements</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">player_kills</span><span class="o">[</span><span class="n">killerName</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">trigger_custom</span><span class="p">(</span><span class="ss">&quot;achievement_unlocked&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="nl">player</span><span class="p">:</span><span class="w"> </span><span class="n">killer</span><span class="p">,</span>
+<span class="w">            </span><span class="nl">achievement</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;first_blood_10&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nl">title</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;Warrior&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nl">description</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;Get 10 kills&quot;</span>
+<span class="w">        </span><span class="err">}</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">player_kills</span><span class="o">[</span><span class="n">killerName</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="n">trigger_custom</span><span class="p">(</span><span class="ss">&quot;achievement_unlocked&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="nl">player</span><span class="p">:</span><span class="w"> </span><span class="n">killer</span><span class="p">,</span>
+<span class="w">            </span><span class="nl">achievement</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;first_blood_50&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nl">title</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;Legend&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nl">description</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;Get 50 kills&quot;</span>
+<span class="w">        </span><span class="err">}</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">achievement_unlocked</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">player</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">title</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">description</span>
+
+<span class="w">    </span><span class="n">sendtitle</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;Achievement Unlocked!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">70</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sendmessage</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="n">description</span><span class="p">)</span>
+<span class="w">    </span><span class="n">playsound</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="w"> </span><span class="ss">&quot;entity.player.levelup&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">broadcast</span><span class="p">(</span><span class="n">get_name</span><span class="p">(</span><span class="n">player</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; unlocked: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">title</span><span class="p">)</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="event-not-firing">Event Not Firing</h3>
+<p><strong>Problem:</strong> Your <code>OnEvent</code> handler never executes.</p>
+<p><strong>Solutions:</strong><br />
+1. Check event name spelling (case-sensitive!)<br />
+2. Verify the event is being triggered in the same or global scope<br />
+3. Ensure the script with the handler is loaded<br />
+4. Check for errors in the console</p>
+<p><strong>Debug approach:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Add logging to verify trigger</span>
+<span class="n">trigger_custom</span><span class="p">(</span><span class="s">&quot;my_event&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="n">test</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;data&quot;</span><span class="p">})</span>
+<span class="nb">log</span><span class="p">(</span><span class="s">&quot;Triggered my_event&quot;</span><span class="p">)</span>
+
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">my_event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;my_event handler fired!&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">log</span><span class="p">(</span><span class="s">&quot;Data: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">test</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="data-not-accessible">Data Not Accessible</h3>
+<p><strong>Problem:</strong> <code>event.property</code> returns null or undefined.</p>
+<p><strong>Solutions:</strong><br />
+1. Verify you're passing data correctly to <code>trigger_custom()</code><br />
+2. Check property names match exactly<br />
+3. Ensure data is a valid map or JSON string</p>
+<p><strong>Debug approach:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">OnEvent</span><span class="p">(</span><span class="n">my_event</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Event received&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Type: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">type_of</span><span class="p">(</span><span class="n">event</span><span class="p">))</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="nf">Log</span><span class="w"> </span><span class="ow">all</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">properties</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="nf">log</span><span class="p">(</span><span class="ss">&quot;Property: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="ss">&quot; = &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">event</span><span class="o">[</span><span class="n">key</span><span class="o">]</span><span class="p">)</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<h3 id="scope-issues">Scope Issues</h3>
+<p><strong>Problem:</strong> Event only fires in some scopes.</p>
+<p><strong>Understanding scope propagation:</strong><br />
+- Custom events triggered in a scope only fire handlers in that scope<br />
+- To make an event global, trigger it from a global scope script<br />
+- Use persistent variables or shared data structures for cross-scope state</p>
+<p><strong>Example fix:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Instead of triggering in scope A and expecting scope B to see it...</span>
+<span class="c1">// Trigger from global and let both scopes handle it:</span>
+
+<span class="c1">// Global script:</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">PlayerInteract</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">trigger_custom</span><span class="p">(</span><span class="s">&quot;global_event&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="n">data</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;accessible_everywhere&quot;</span><span class="p">})</span>
+<span class="p">}</span>
+
+<span class="c1">// Scope A handler:</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">global_event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Handles in scope A</span>
+<span class="p">}</span>
+
+<span class="c1">// Scope B handler:</span>
+<span class="n">OnEvent</span><span class="p">(</span><span class="n">global_event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Also handles in scope B</span>
+<span class="p">}</span>
+</code></pre></div>
+
+                    <div class="page-meta">
+                        <span class="last-modified">Last updated: November 15, 2025</span>
+                    </div>
+                </article>
+
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#creating-custom-events'>Creating Custom Events</a></li><li style='margin-left:20px'><a href='#using-trigger_custom'>Using trigger_custom()</a></li><li style='margin-left:20px'><a href='#event-names'>Event Names</a></li><li style='margin-left:20px'><a href='#event-data'>Event Data</a></li><li style='margin-left:0px'><a href='#handling-custom-events'>Handling Custom Events</a></li><li style='margin-left:20px'><a href='#onevent-for-custom-events'>OnEvent for Custom Events</a></li><li style='margin-left:20px'><a href='#accessing-custom-data'>Accessing Custom Data</a></li><li style='margin-left:0px'><a href='#event-propagation'>Event Propagation</a></li><li style='margin-left:20px'><a href='#scope-boundaries'>Scope Boundaries</a></li><li style='margin-left:20px'><a href='#event-context'>Event Context</a></li><li style='margin-left:0px'><a href='#use-cases'>Use Cases</a></li><li style='margin-left:20px'><a href='#cross-scope-communication'>Cross-Scope Communication</a></li><li style='margin-left:20px'><a href='#plugin-integration'>Plugin Integration</a></li><li style='margin-left:20px'><a href='#complex-game-logic'>Complex Game Logic</a></li><li style='margin-left:0px'><a href='#best-practices'>Best Practices</a></li><li style='margin-left:20px'><a href='#event-naming'>Event Naming</a></li><li style='margin-left:20px'><a href='#data-structure'>Data Structure</a></li><li style='margin-left:20px'><a href='#documentation'>Documentation</a></li><li style='margin-left:0px'><a href='#examples'>Examples</a></li><li style='margin-left:20px'><a href='#simple-notification-system'>Simple Notification System</a></li><li style='margin-left:20px'><a href='#game-phase-system'>Game Phase System</a></li><li style='margin-left:20px'><a href='#achievement-system'>Achievement System</a></li><li style='margin-left:0px'><a href='#troubleshooting'>Troubleshooting</a></li><li style='margin-left:20px'><a href='#event-not-firing'>Event Not Firing</a></li><li style='margin-left:20px'><a href='#data-not-accessible'>Data Not Accessible</a></li><li style='margin-left:20px'><a href='#scope-issues'>Scope Issues</a></li></ul></nav>
+            </div>
+
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="alpha-banner">Quill — A sandboxed scripting language for Minecraft event automation</div>
+                    <div class="footer-links">
+                        <a href="https://github.com/kohanmathers/quill/issues" target="_blank">Report Issue</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill/blob/main/LICENSE" target="_blank">License</a>
+                        <span class="separator">•</span>
+                        <a href="https://github.com/kohanmathers/quill" target="_blank">Contribute</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            const symbols = ['fn', 'let', 'if', '{}', '()', '=>', '[]', '&&', '||', '==', '!='];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+
+            document.querySelectorAll('.toc a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -80% 0px' });
+
+            document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+                observer.observe(heading);
+            });
+        });
+    </script>
+</body>
+
+</html>

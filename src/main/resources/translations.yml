@@ -56,6 +56,7 @@ quill:
       invalid-format: "Scope {0} has invalid format"
       invalid-mode: "Scope security mode {0} is invalid"
       invalid-owner-uuid: "Scope owner UUID '{0}' is invalid"
+      invalid-player-uuid: "Invalid player UUID '{0}' - skipping"
 
     status:
       loaded-success: "Successfully loaded scope: {0}"
@@ -170,6 +171,24 @@ quill:
           already-set: "Scope '{0}' already uses security mode '{1}'"
           no-mode: "Invalid security mode: {0}"
           default: "Failed to set security mode on scope '{0}'. Check console for errors."
+
+      addplayer:
+        success: "Added player {0} to scope {1}"
+        fail:
+          already-in-scope: "Player {1} is already in scope {0}"
+          scope-not-found: "Scope '{0}' not found"
+          default: "Failed to add player to scope. Check console for errors."
+      
+      removeplayer:
+        success: "Removed player {0} from scope {1}"
+        fail:
+          not-in-scope: "Player {1} is not in scope {0}"
+          scope-not-found: "Scope '{0}' not found"
+          default: "Failed to remove player from scope. Check console for errors."
+      
+      listplayers:
+        title: "{0}'s Players"
+        none: "Scope {0} has no players"
 
   error:
     user:

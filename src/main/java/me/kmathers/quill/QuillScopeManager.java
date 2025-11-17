@@ -105,6 +105,18 @@ public class QuillScopeManager {
                 funcs = new ArrayList<>();
             }
             
+            List<String> playerStrings = config.getStringList("players");
+            List<UUID> players = new ArrayList<>();
+            if (playerStrings != null) {
+                for (String playerStr : playerStrings) {
+                    try {
+                        players.add(UUID.fromString(playerStr));
+                    } catch (IllegalArgumentException e) {
+                        logger.warning(plugin.translate("quill.scope-manager.format.invalid-player-uuid", playerStr));
+                    }
+                }
+            }
+            
             Map<String, Object> persistentVars = new HashMap<>();
             if (config.contains("persistent")) {
                 var section = config.getConfigurationSection("persistent");
@@ -115,6 +127,7 @@ public class QuillScopeManager {
             
             Scope scope = new Scope(name, owner, boundaries, mode);
             scope.setFuncs(funcs);
+            scope.setPlayers(players);
             scope.setPersistentVars(persistentVars);
             scopes.put(scope.getName(), scope);
             
@@ -144,6 +157,12 @@ public class QuillScopeManager {
             
             List<String> funcs = scope.getFuncs();
             config.set("funcs", funcs != null ? funcs : new ArrayList<>());
+            
+            List<String> playerStrings = new ArrayList<>();
+            for (UUID playerId : scope.getPlayers()) {
+                playerStrings.add(playerId.toString());
+            }
+            config.set("players", playerStrings);
             
             Map<String, Object> persistentVars = scope.getPersistentVars();
             if (persistentVars == null) {
@@ -353,5 +372,38 @@ public class QuillScopeManager {
         } else {
             return null;
         }
+    }
+
+    public BooleanResult addPlayer(String scopeName, UUID playerId) {
+        if (scopes.containsKey(scopeName)) {
+            Scope scope = scopes.get(scopeName);
+            if (scope.hasPlayer(playerId)) {
+                return BooleanResult.fail("already-in-scope");
+            }
+            scope.addPlayer(playerId);
+            saveScope(scope, scopeName + ".yml");
+            return BooleanResult.ok();
+        }
+        return BooleanResult.fail("scope-not-found");
+    }
+
+    public BooleanResult removePlayer(String scopeName, UUID playerId) {
+        if (scopes.containsKey(scopeName)) {
+            Scope scope = scopes.get(scopeName);
+            if (!scope.hasPlayer(playerId)) {
+                return BooleanResult.fail("not-in-scope");
+            }
+            scope.removePlayer(playerId);
+            saveScope(scope, scopeName + ".yml");
+            return BooleanResult.ok();
+        }
+        return BooleanResult.fail("scope-not-found");
+    }
+
+    public List<UUID> getPlayersInScope(String scopeName) {
+        if (scopes.containsKey(scopeName)) {
+            return scopes.get(scopeName).getPlayers();
+        }
+        return new ArrayList<>();
     }
 }

@@ -644,4 +644,213 @@ public class ScopeCommands {
             return List.of();
         }
     }
+
+    public static class AddPlayer implements SubCommand {
+        private final Quill plugin;
+        private final QuillScopeManager scopeManager;
+        
+        public AddPlayer(Quill plugin, QuillScopeManager scopeManager) {
+            this.plugin = plugin;
+            this.scopeManager = scopeManager;
+        }
+        
+        @Override
+        public boolean execute(CommandSender sender, String[] args) {
+            if (args.length < 2) {
+                sender.sendMessage(Component.text(
+                    "Usage: /quill scope addplayer <scope> <player>",
+                    NamedTextColor.RED));
+                return true;
+            }
+            
+            String scopeName = args[0];
+            String playerName = args[1];
+            
+            var scope = scopeManager.getScope(scopeName);
+            if (scope == null) {
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.commands.scope.info.not-found", scopeName),
+                    NamedTextColor.RED));
+                return true;
+            }
+            
+            // CHANGED: Only .any permission can add players (no ownership check)
+            if (!sender.isOp() && !sender.hasPermission("quill.scope.players.any")) {
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.commands.global.no-permission", "add players to scopes"),
+                    NamedTextColor.RED));
+                return true;
+            }
+            
+            OfflinePlayer target = Bukkit.getOfflinePlayer(playerName);
+            if (!target.hasPlayedBefore() && !target.isOnline()) {
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.error.scope.no-player", playerName),
+                    NamedTextColor.RED));
+                return true;
+            }
+            
+            BooleanResult result = scopeManager.addPlayer(scopeName, target.getUniqueId());
+            
+            if (result.success()) {
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.commands.scope.addplayer.success", target.getName(), scopeName),
+                    NamedTextColor.GREEN));
+            } else {
+                String errorKey = result.message().orElse("default");
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.commands.scope.addplayer.fail." + errorKey, scopeName, target.getName()),
+                    NamedTextColor.RED));
+            }
+            
+            return true;
+        }
+        
+        @Override
+        public String getName() {
+            return "addplayer";
+        }
+        
+        @Override
+        public List<String> getPermissions() {
+            return List.of("quill.scope.players.any");
+        }
+    }
+
+    public static class RemovePlayer implements SubCommand {
+        private final Quill plugin;
+        private final QuillScopeManager scopeManager;
+        
+        public RemovePlayer(Quill plugin, QuillScopeManager scopeManager) {
+            this.plugin = plugin;
+            this.scopeManager = scopeManager;
+        }
+        
+        @Override
+        public boolean execute(CommandSender sender, String[] args) {
+            if (args.length < 2) {
+                sender.sendMessage(Component.text(
+                    "Usage: /quill scope removeplayer <scope> <player>",
+                    NamedTextColor.RED));
+                return true;
+            }
+            
+            String scopeName = args[0];
+            String playerName = args[1];
+            
+            var scope = scopeManager.getScope(scopeName);
+            if (scope == null) {
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.commands.scope.info.not-found", scopeName),
+                    NamedTextColor.RED));
+                return true;
+            }
+            
+            // Check permissions
+            if (!sender.isOp() && !sender.hasPermission("quill.scope.players.any")) {
+                if (!(sender instanceof Player player) || !scope.getOwner().equals(player.getUniqueId())) {
+                    sender.sendMessage(Component.text(
+                        plugin.translate("quill.commands.global.no-permission", "modify this scope's players"),
+                        NamedTextColor.RED));
+                    return true;
+                }
+            }
+            
+            OfflinePlayer target = Bukkit.getOfflinePlayer(playerName);
+            if (!target.hasPlayedBefore() && !target.isOnline()) {
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.error.scope.no-player", playerName),
+                    NamedTextColor.RED));
+                return true;
+            }
+            
+            BooleanResult result = scopeManager.removePlayer(scopeName, target.getUniqueId());
+            
+            if (result.success()) {
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.commands.scope.removeplayer.success", target.getName(), scopeName),
+                    NamedTextColor.GREEN));
+            } else {
+                String errorKey = result.message().orElse("default");
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.commands.scope.removeplayer.fail." + errorKey, scopeName, target.getName()),
+                    NamedTextColor.RED));
+            }
+            
+            return true;
+        }
+        
+        @Override
+        public String getName() {
+            return "removeplayer";
+        }
+        
+        @Override
+        public List<String> getPermissions() {
+            return List.of("quill.scope.players");
+        }
+    }
+
+    public static class ListPlayers implements SubCommand {
+        private final Quill plugin;
+        private final QuillScopeManager scopeManager;
+        
+        public ListPlayers(Quill plugin, QuillScopeManager scopeManager) {
+            this.plugin = plugin;
+            this.scopeManager = scopeManager;
+        }
+        
+        @Override
+        public boolean execute(CommandSender sender, String[] args) {
+            if (args.length < 1) {
+                sender.sendMessage(Component.text(
+                    "Usage: /quill scope listplayers <scope>",
+                    NamedTextColor.RED));
+                return true;
+            }
+            
+            String scopeName = args[0];
+            var scope = scopeManager.getScope(scopeName);
+            
+            if (scope == null) {
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.commands.scope.info.not-found", scopeName),
+                    NamedTextColor.RED));
+                return true;
+            }
+            
+            List<UUID> players = scopeManager.getPlayersInScope(scopeName);
+            
+            sender.sendMessage(Component.text(
+                "=== " + plugin.translate("quill.commands.scope.listplayers.title", scopeName) + " ===",
+                NamedTextColor.GOLD));
+            
+            if (players.isEmpty()) {
+                sender.sendMessage(Component.text(
+                    plugin.translate("quill.commands.scope.listplayers.none", scopeName),
+                    NamedTextColor.YELLOW));
+            } else {
+                for (UUID playerId : players) {
+                    OfflinePlayer player = Bukkit.getOfflinePlayer(playerId);
+                    String status = player.isOnline() ? " (online)" : "";
+                    sender.sendMessage(Component.text(
+                        "- " + player.getName() + status,
+                        NamedTextColor.YELLOW));
+                }
+            }
+            
+            sender.sendMessage(Component.text("==============================", NamedTextColor.GOLD));
+            return true;
+        }
+        
+        @Override
+        public String getName() {
+            return "listplayers";
+        }
+        
+        @Override
+        public List<String> getPermissions() {
+            return List.of("quill.scope.players");
+        }
+    }
 }

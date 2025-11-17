@@ -1,7 +1,6 @@
 package me.kmathers.quill.events;
 
 import me.kmathers.quill.QuillScriptManager;
-import me.kmathers.quill.interpreter.QuillInterpreter;
 import me.kmathers.quill.interpreter.QuillValue;
 import me.kmathers.quill.interpreter.QuillValue.*;
 
@@ -29,18 +28,15 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Bridges Minecraft events to Quill event handlers.
  */
 public class QuillEventBridge implements Listener {
-    private final QuillScriptManager scriptManager;
     private final Plugin plugin;
     
     public QuillEventBridge(QuillScriptManager scriptManager, Plugin plugin) {
-        this.scriptManager = scriptManager;
         this.plugin = plugin;
     }
     
@@ -384,27 +380,5 @@ public class QuillEventBridge implements Listener {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             Bukkit.getPluginManager().callEvent(new QuillEvent("WeatherChange", context, null));
         });
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onQuillEvent(QuillEvent event) {
-        if (event.isCancelled()) return;
-        
-        String scopeName = event.getScope() != null ? event.getScope().getName() : "global";
-        
-        List<QuillInterpreter> handlers = scriptManager.getHandlersForScopeAndEvent(
-            scopeName, 
-            event.getEventName()
-        );
-        
-        for (QuillInterpreter interpreter : handlers) {
-            try {
-                interpreter.triggerEvent(event.getEventName(), event.getContext());
-            } catch (Exception e) {
-                plugin.getLogger().severe("Error triggering " + event.getEventName() + 
-                    " in " + scopeName + ": " + e.getMessage());
-                e.printStackTrace();
-            }
-        }
     }
 }

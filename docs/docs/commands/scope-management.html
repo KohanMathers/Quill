@@ -58,10 +58,11 @@
                     <h1 class="page-title">Scope Management Commands</h1>
                     <h1 id="scope-management-commands">Scope Management Commands</h1>
 <h2 id="overview">Overview</h2>
-<p>Scopes are regional boundaries in Quill that restrict where scripts can execute and what functions they can access. Each scope has an owner, defined boundaries (coordinates), a security mode (whitelist/blacklist), and configurable permissions. Scopes enable safe, sandboxed scripting where players can create automation without affecting the entire server.</p>
+<p>Scopes are regional boundaries in Quill that restrict where scripts can execute and what functions they can access. Each scope has an owner, defined boundaries (coordinates), a security mode (whitelist/blacklist), player membership, and configurable permissions. Scopes enable safe, sandboxed scripting where players can create automation without affecting the entire server.</p>
 <p><strong>Key Concepts:</strong><br />
 - <strong>Boundaries</strong>: 3D rectangular regions defined by two corner coordinates (x1, y1, z1, x2, y2, z2)<br />
 - <strong>Owner</strong>: The player who controls the scope (identified by UUID or username)<br />
+- <strong>Player Membership</strong>: Players registered to the scope who will receive events from scope scripts<br />
 - <strong>Security Mode</strong>: Either <code>whitelist</code> (only allowed functions work) or <code>blacklist</code> (all functions except blocked ones work)<br />
 - <strong>Function Permissions</strong>: Control which built-in functions scripts can use within the scope<br />
 - <strong>Persistent Variables</strong>: Variables that maintain their values across script reloads</p>
@@ -230,9 +231,120 @@ Persistent Variables: See list with /quill scope persist list playerBase
 </code></pre></div>
 
 <hr />
+<h2 id="quill-scope-addplayer">/quill scope addplayer</h2>
+<p>Add a player to a scope's membership list. Players in the scope will receive events triggered by scripts running in that scope.</p>
+<h3 id="syntax_4">Syntax</h3>
+<div class="highlight"><pre><span></span><code>/quill scope addplayer &lt;scope&gt; &lt;player&gt;
+</code></pre></div>
+
+<h3 id="parameters_3">Parameters</h3>
+<ul>
+<li><code>&lt;scope&gt;</code> - The name of the scope</li>
+<li><code>&lt;player&gt;</code> - The username of the player to add</li>
+<li>Player must have joined the server at least once</li>
+<li>Player can be offline</li>
+</ul>
+<h3 id="permissions_4">Permissions</h3>
+<ul>
+<li><code>quill.scope.players.any</code> (default: op) - Add players to any scope</li>
+</ul>
+<p><strong>Note:</strong> Only operators and players with the <code>.any</code> permission can add players to scopes. This is an admin-only operation for security reasons. Scope owners can use the <code>addtoscope()</code> function in their scripts for controlled membership management.</p>
+<h3 id="behavior">Behavior</h3>
+<ul>
+<li>Players added to a scope will receive events from that scope's scripts</li>
+<li>Event handlers in scope scripts will only trigger for registered players</li>
+<li>Players can be members of multiple scopes simultaneously</li>
+<li>Membership persists across server restarts</li>
+</ul>
+<h3 id="examples_4">Examples</h3>
+<p><strong>Add a player to an event scope:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill scope addplayer eventZone Steve
+/quill scope addplayer eventZone Alex
+</code></pre></div>
+
+<p><strong>Setup for a minigame:</strong></p>
+<div class="highlight"><pre><span></span><code># Create the minigame scope
+/quill scope create pvpArena Admin 0 60 0 100 100 100 whitelist
+
+# Add participants
+/quill scope addplayer pvpArena Player1
+/quill scope addplayer pvpArena Player2
+/quill scope addplayer pvpArena Player3
+
+# Verify membership
+/quill scope listplayers pvpArena
+</code></pre></div>
+
+<hr />
+<h2 id="quill-scope-removeplayer">/quill scope removeplayer</h2>
+<p>Remove a player from a scope's membership list.</p>
+<h3 id="syntax_5">Syntax</h3>
+<div class="highlight"><pre><span></span><code>/quill scope removeplayer &lt;scope&gt; &lt;player&gt;
+</code></pre></div>
+
+<h3 id="parameters_4">Parameters</h3>
+<ul>
+<li><code>&lt;scope&gt;</code> - The name of the scope</li>
+<li><code>&lt;player&gt;</code> - The username of the player to remove</li>
+</ul>
+<h3 id="permissions_5">Permissions</h3>
+<ul>
+<li>Scope owners can remove players from their own scopes</li>
+<li><code>quill.scope.players</code> (default: true) - Remove players from owned scopes</li>
+<li><code>quill.scope.players.any</code> (default: op) - Remove players from any scope</li>
+</ul>
+<h3 id="examples_5">Examples</h3>
+<p><strong>Remove a player from a scope:</strong></p>
+<div class="highlight"><pre><span></span><code>/quill scope removeplayer eventZone Steve
+</code></pre></div>
+
+<p><strong>Clean up after an event:</strong></p>
+<div class="highlight"><pre><span></span><code># Remove all participants
+/quill scope removeplayer pvpArena Player1
+/quill scope removeplayer pvpArena Player2
+/quill scope removeplayer pvpArena Player3
+</code></pre></div>
+
+<hr />
+<h2 id="quill-scope-listplayers">/quill scope listplayers</h2>
+<p>Display all players who are members of a scope.</p>
+<h3 id="syntax_6">Syntax</h3>
+<div class="highlight"><pre><span></span><code>/quill scope listplayers &lt;scope&gt;
+</code></pre></div>
+
+<h3 id="parameters_5">Parameters</h3>
+<ul>
+<li><code>&lt;scope&gt;</code> - The name of the scope</li>
+</ul>
+<h3 id="permissions_6">Permissions</h3>
+<ul>
+<li><code>quill.scope.players</code> (default: true) - List players in owned scopes</li>
+<li><code>quill.scope.players.any</code> (default: op) - List players in any scope</li>
+</ul>
+<h3 id="output_2">Output</h3>
+<p>Displays a list of player usernames with their online status.</p>
+<h3 id="examples_6">Examples</h3>
+<div class="highlight"><pre><span></span><code>/quill scope listplayers eventZone
+</code></pre></div>
+
+<p><strong>Sample Output:</strong></p>
+<div class="highlight"><pre><span></span><code>=== eventZone&#39;s Players ===
+- Steve (online)
+- Alex
+- Notch (online)
+==============================
+</code></pre></div>
+
+<p>or if no players:</p>
+<div class="highlight"><pre><span></span><code>=== eventZone&#39;s Players ===
+Scope eventZone has no players
+==============================
+</code></pre></div>
+
+<hr />
 <h2 id="quill-scope-permission">/quill scope permission</h2>
 <p>Manage which functions are allowed or blocked within a scope.</p>
-<h3 id="syntax_4">Syntax</h3>
+<h3 id="syntax_7">Syntax</h3>
 <div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="k">scope</span><span class="w"> </span><span class="n">permission</span><span class="w"> </span><span class="o">&lt;</span><span class="k">grant</span><span class="o">|</span><span class="k">revoke</span><span class="o">|</span><span class="n">list</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">function</span><span class="o">]</span>
 </code></pre></div>
 
@@ -248,11 +360,11 @@ Persistent Variables: See list with /quill scope persist list playerBase
 
 <p><strong>Parameters:</strong><br />
 - <code>&lt;name&gt;</code> - The scope name<br />
-- <code>&lt;function&gt;</code> - The function name to allow (e.g., <code>broadcast</code>, <code>teleport</code>, <code>giveItem</code>)</p>
+- <code>&lt;function&gt;</code> - The function name to allow (e.g., <code>broadcast</code>, <code>teleport</code>, <code>give</code>)</p>
 <p><strong>Examples:</strong></p>
 <div class="highlight"><pre><span></span><code>/quill scope permission grant playerBase broadcast
 /quill scope permission grant eventZone teleport
-/quill scope permission grant farmArea spawnEntity
+/quill scope permission grant farmArea spawn_entity
 </code></pre></div>
 
 <h4 id="revoke">revoke</h4>
@@ -268,8 +380,8 @@ Persistent Variables: See list with /quill scope persist list playerBase
 - <code>&lt;name&gt;</code> - The scope name<br />
 - <code>&lt;function&gt;</code> - The function name to block</p>
 <p><strong>Examples:</strong></p>
-<div class="highlight"><pre><span></span><code>/quill scope permission revoke playerBase giveItem
-/quill scope permission revoke eventZone killEntity
+<div class="highlight"><pre><span></span><code>/quill scope permission revoke playerBase give
+/quill scope permission revoke eventZone kill
 </code></pre></div>
 
 <h4 id="list">list</h4>
@@ -284,7 +396,7 @@ Persistent Variables: See list with /quill scope persist list playerBase
 <div class="highlight"><pre><span></span><code>=== playerBase&#39;s Whitelisted Functions ===
 broadcast
 teleport
-playSound
+playsound
 ==============================
 </code></pre></div>
 
@@ -297,31 +409,31 @@ playSound
 /quill scope permission list eventZone
 </code></pre></div>
 
-<h3 id="permissions_4">Permissions</h3>
+<h3 id="permissions_7">Permissions</h3>
 <ul>
 <li>Scope owners can always manage their own scope permissions</li>
 <li><code>quill.scope.permission</code> (default: op) - Manage permissions for any scope</li>
 </ul>
-<h3 id="examples_4">Examples</h3>
+<h3 id="examples_7">Examples</h3>
 <p><strong>Setting up a safe event scope:</strong></p>
 <div class="highlight"><pre><span></span><code>/quill scope create eventZone Admin 0 60 0 100 100 100 whitelist
 /quill scope permission grant eventZone broadcast
-/quill scope permission grant eventZone playSound
-/quill scope permission grant eventZone spawnEntity
+/quill scope permission grant eventZone playsound
+/quill scope permission grant eventZone spawn_entity
 /quill scope permission list eventZone
 </code></pre></div>
 
 <p><strong>Restricting dangerous functions:</strong></p>
 <div class="highlight"><pre><span></span><code>/quill scope create publicZone Steve -200 60 -200 200 120 200 blacklist
-/quill scope permission revoke publicZone killEntity
-/quill scope permission revoke publicZone clearInventory
-/quill scope permission revoke publicZone executeCommand
+/quill scope permission revoke publicZone kill
+/quill scope permission revoke publicZone remove_item
+/quill scope permission revoke publicZone kick
 </code></pre></div>
 
 <hr />
 <h2 id="quill-scope-persist">/quill scope persist</h2>
 <p>Manage persistent variables that survive script reloads within a scope.</p>
-<h3 id="syntax_5">Syntax</h3>
+<h3 id="syntax_8">Syntax</h3>
 <div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">quill</span><span class="w"> </span><span class="k">scope</span><span class="w"> </span><span class="n">persist</span><span class="w"> </span><span class="o">&lt;</span><span class="k">add</span><span class="o">|</span><span class="n">remove</span><span class="o">|</span><span class="n">list</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">variable</span><span class="o">]</span>
 </code></pre></div>
 
@@ -386,27 +498,25 @@ scoreTotal
 /quill scope persist list eventZone
 </code></pre></div>
 
-<h3 id="permissions_5">Permissions</h3>
+<h3 id="permissions_8">Permissions</h3>
 <ul>
 <li><code>quill.scope.persist</code> (default: true) - Manage persistent variables in owned scopes</li>
 <li><code>quill.scope.persist.any</code> (default: op) - Manage persistent variables in any scope</li>
 </ul>
-<h3 id="examples_5">Examples</h3>
+<h3 id="examples_8">Examples</h3>
 <p><strong>Setting up a visitor counter:</strong></p>
 <div class="highlight"><pre><span></span><code>/quill scope persist add myBase visitCount
 </code></pre></div>
 
 <p>Then in your script:</p>
 <div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerJoin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">scope</span><span class="p">.</span><span class="nx">region</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">player</span><span class="p">.</span><span class="nx">location</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">scope</span><span class="p">.</span><span class="nx">getPersistent</span><span class="p">(</span><span class="s2">&quot;visitCount&quot;</span><span class="p">)</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="nx">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span>
-<span class="w">        </span><span class="nx">scope</span><span class="p">.</span><span class="nx">setPersistent</span><span class="p">(</span><span class="s2">&quot;visitCount&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">count</span><span class="p">)</span>
-<span class="w">        </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;Total visits: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">count</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">visitCount</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span>
 <span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span>
+<span class="w">    </span><span class="nx">visitCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">count</span>
+<span class="w">    </span><span class="nx">broadcast</span><span class="p">(</span><span class="s2">&quot;Total visits: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">count</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -420,22 +530,22 @@ scoreTotal
 <hr />
 <h2 id="quill-scope-mode">/quill scope mode</h2>
 <p>Change a scope's security mode between whitelist and blacklist.</p>
-<h3 id="syntax_6">Syntax</h3>
+<h3 id="syntax_9">Syntax</h3>
 <div class="highlight"><pre><span></span><code>/quill scope mode &lt;name&gt; &lt;whitelist|blacklist&gt;
 </code></pre></div>
 
-<h3 id="parameters_3">Parameters</h3>
+<h3 id="parameters_6">Parameters</h3>
 <ul>
 <li><code>&lt;name&gt;</code> - The scope name to modify</li>
 <li><code>&lt;whitelist|blacklist&gt;</code> - The new security mode</li>
 <li><code>whitelist</code> - Only explicitly granted functions are allowed (secure by default)</li>
 <li><code>blacklist</code> - All functions are allowed except explicitly revoked ones (permissive by default)</li>
 </ul>
-<h3 id="permissions_6">Permissions</h3>
+<h3 id="permissions_9">Permissions</h3>
 <ul>
 <li><code>quill.scope.mode</code> (default: op)</li>
 </ul>
-<h3 id="examples_6">Examples</h3>
+<h3 id="examples_9">Examples</h3>
 <p><strong>Switch to whitelist mode for security:</strong></p>
 <div class="highlight"><pre><span></span><code>/quill scope mode playerBase whitelist
 </code></pre></div>
@@ -445,19 +555,19 @@ scoreTotal
 </code></pre></div>
 
 <p><strong>Security workflow:</strong></p>
-<div class="highlight"><pre><span></span><code>#<span class="w"> </span><span class="nv">Start</span><span class="w"> </span><span class="nv">restrictive</span>
-<span class="o">/</span><span class="nv">quill</span><span class="w"> </span><span class="nv">scope</span><span class="w"> </span><span class="nv">create</span><span class="w"> </span><span class="nv">testZone</span><span class="w"> </span><span class="nv">Player</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="nv">whitelist</span>
+<div class="highlight"><pre><span></span><code><span class="gh">#</span> Start restrictive
+/quill scope create testZone Player 0 60 0 50 100 50 whitelist
 
-#<span class="w"> </span><span class="nv">Grant</span><span class="w"> </span><span class="nv">only</span><span class="w"> </span><span class="nv">needed</span><span class="w"> </span><span class="nv">functions</span>
-<span class="o">/</span><span class="nv">quill</span><span class="w"> </span><span class="nv">scope</span><span class="w"> </span><span class="nv">permission</span><span class="w"> </span><span class="nv">grant</span><span class="w"> </span><span class="nv">testZone</span><span class="w"> </span><span class="nv">broadcast</span>
-<span class="o">/</span><span class="nv">quill</span><span class="w"> </span><span class="nv">scope</span><span class="w"> </span><span class="nv">permission</span><span class="w"> </span><span class="nv">grant</span><span class="w"> </span><span class="nv">testZone</span><span class="w"> </span><span class="nv">playSound</span>
+<span class="gh">#</span> Grant only needed functions
+/quill scope permission grant testZone broadcast
+/quill scope permission grant testZone playsound
 
-#<span class="w"> </span><span class="nv">Later</span>,<span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">you</span><span class="w"> </span><span class="nv">want</span><span class="w"> </span><span class="nv">more</span><span class="w"> </span><span class="nv">freedom</span>
-<span class="o">/</span><span class="nv">quill</span><span class="w"> </span><span class="nv">scope</span><span class="w"> </span><span class="nv">mode</span><span class="w"> </span><span class="nv">testZone</span><span class="w"> </span><span class="nv">blacklist</span>
+<span class="gh">#</span> Later, if you want more freedom
+/quill scope mode testZone blacklist
 
-#<span class="w"> </span><span class="nv">Block</span><span class="w"> </span><span class="nv">only</span><span class="w"> </span><span class="nv">dangerous</span><span class="w"> </span><span class="nv">functions</span>
-<span class="o">/</span><span class="nv">quill</span><span class="w"> </span><span class="nv">scope</span><span class="w"> </span><span class="nv">permission</span><span class="w"> </span><span class="nv">revoke</span><span class="w"> </span><span class="nv">testZone</span><span class="w"> </span><span class="nv">killEntity</span>
-<span class="o">/</span><span class="nv">quill</span><span class="w"> </span><span class="nv">scope</span><span class="w"> </span><span class="nv">permission</span><span class="w"> </span><span class="nv">revoke</span><span class="w"> </span><span class="nv">testZone</span><span class="w"> </span><span class="nv">clearInventory</span>
+<span class="gh">#</span> Block only dangerous functions
+/quill scope permission revoke testZone kill
+/quill scope permission revoke testZone remove_item
 </code></pre></div>
 
 <hr />
@@ -480,6 +590,27 @@ admin_spawn          - Spawn protection zone
 - Use Y-levels that make sense (64 to 120 for surface builds)<br />
 - Consider future expansion when setting boundaries<br />
 - Align to chunk boundaries (multiples of 16) when possible</p>
+<h3 id="player-management">Player Management</h3>
+<p><strong>Adding Players:</strong><br />
+- Only admins can add players to scopes using commands<br />
+- Use <code>addtoscope()</code> function in scripts for controlled player addition<br />
+- Add players when they enter an event/minigame area<br />
+- Keep membership lists updated</p>
+<p><strong>Example player management in scripts:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">OnEvent</span><span class="p">(</span><span class="nx">PlayerMove</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">in_region</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">scope</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">contains</span><span class="p">(</span><span class="nx">scope</span><span class="p">.</span><span class="nx">players</span><span class="p">,</span><span class="w"> </span><span class="nx">player</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">addtoscope</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="nx">scope</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">sendmessage</span><span class="p">(</span><span class="nx">player</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Welcome to the event zone!&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Removing Players:</strong><br />
+- Scope owners can remove players from their scopes<br />
+- Clean up player lists after events end<br />
+- Use <code>removefromscope()</code> in scripts for automatic removal</p>
 <h3 id="permission-management">Permission Management</h3>
 <p><strong>Whitelist Mode (Recommended for Players):</strong><br />
 - Start with zero permissions<br />
@@ -492,8 +623,8 @@ admin_spawn          - Spawn protection zone
 
 <span class="c1"># Grant basic functions</span>
 /quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>safeZone<span class="w"> </span>broadcast
-/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>safeZone<span class="w"> </span>playSound
-/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>safeZone<span class="w"> </span>console.log
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>safeZone<span class="w"> </span>playsound
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>safeZone<span class="w"> </span>log
 
 <span class="c1"># No dangerous functions are accessible</span>
 </code></pre></div>
@@ -508,24 +639,23 @@ admin_spawn          - Spawn protection zone
 /quill<span class="w"> </span>scope<span class="w"> </span>create<span class="w"> </span>flexZone<span class="w"> </span>TrustedPlayer<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">500</span><span class="w"> </span><span class="m">120</span><span class="w"> </span><span class="m">500</span><span class="w"> </span>blacklist
 
 <span class="c1"># Block dangerous functions</span>
-/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>flexZone<span class="w"> </span>killEntity
-/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>flexZone<span class="w"> </span>clearInventory
-/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>flexZone<span class="w"> </span>executeCommand
-/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>flexZone<span class="w"> </span>op
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>flexZone<span class="w"> </span><span class="nb">kill</span>
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>flexZone<span class="w"> </span>remove_item
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>revoke<span class="w"> </span>flexZone<span class="w"> </span>kick
 </code></pre></div>
 
 <p><strong>Common Safe Functions (Whitelist):</strong><br />
 - <code>broadcast</code> - Send messages to players<br />
-- <code>playSound</code> - Play sounds<br />
-- <code>console.log</code> - Debugging output<br />
-- <code>particle</code> - Spawn particles<br />
-- <code>title</code> - Send titles to players</p>
+- <code>playsound</code> - Play sounds<br />
+- <code>log</code> - Debugging output<br />
+- <code>sendmessage</code> - Send messages to specific players<br />
+- <code>sendtitle</code> - Send titles to players</p>
 <p><strong>Common Dangerous Functions (Blacklist):</strong><br />
-- <code>killEntity</code> - Kill entities/players<br />
-- <code>clearInventory</code> - Remove items<br />
-- <code>executeCommand</code> - Run arbitrary commands<br />
-- <code>op</code> - Grant operator status<br />
-- <code>setBlock</code> - Modify world blocks</p>
+- <code>kill</code> - Kill entities/players<br />
+- <code>remove_item</code> - Remove items from inventories<br />
+- <code>kick</code> - Kick players from the server<br />
+- <code>set_gamemode</code> - Change player gamemodes<br />
+- <code>set_block</code> - Modify world blocks</p>
 <p><strong>Permission Auditing:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Regularly review permissions</span>
 /quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>list<span class="w"> </span>myScope
@@ -561,9 +691,9 @@ admin_spawn          - Spawn protection zone
 
 <span class="c1"># Grant necessary permissions</span>
 /quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>steve_mining_farm<span class="w"> </span>broadcast
-/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>steve_mining_farm<span class="w"> </span>playSound
-/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>steve_mining_farm<span class="w"> </span>console.log
-/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>steve_mining_farm<span class="w"> </span>giveItem
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>steve_mining_farm<span class="w"> </span>playsound
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>steve_mining_farm<span class="w"> </span>log
+/quill<span class="w"> </span>scope<span class="w"> </span>permission<span class="w"> </span>grant<span class="w"> </span>steve_mining_farm<span class="w"> </span>give
 
 <span class="c1"># Verify configuration</span>
 /quill<span class="w"> </span>scope<span class="w"> </span>info<span class="w"> </span>steve_mining_farm
@@ -582,19 +712,21 @@ admin_spawn          - Spawn protection zone
 - Remove unused scopes: <code>/quill scope delete oldScope</code><br />
 - Audit permissions before granting operator status<br />
 - Monitor console for permission denied errors<br />
-- Test script behavior after permission changes</p>
+- Test script behavior after permission changes<br />
+- Clean up player membership lists after events</p>
 <p><strong>Isolation Strategy:</strong><br />
 - Keep test scopes separate from production<br />
 - Use small boundaries for experimental scripts<br />
 - Create backup scopes before major changes<br />
-- Document scope purposes in external notes</p>
+- Document scope purposes in external notes<br />
+- Limit player membership to relevant participants only</p>
 
                     <div class="page-meta">
-                        <span class="last-modified">Last updated: November 15, 2025</span>
+                        <span class="last-modified">Last updated: November 17, 2025</span>
                     </div>
                 </article>
 
-                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#/quill-scope-create'>/quill scope create</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-delete'>/quill scope delete</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-list'>/quill scope list</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#output'>Output</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-info'>/quill scope info</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#output'>Output</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-permission'>/quill scope permission</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#subcommands'>Subcommands</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-persist'>/quill scope persist</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#subcommands'>Subcommands</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-mode'>/quill scope mode</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#best-practices'>Best Practices</a></li><li style='margin-left:20px'><a href='#scope-organization'>Scope Organization</a></li><li style='margin-left:20px'><a href='#permission-management'>Permission Management</a></li><li style='margin-left:20px'><a href='#naming-conventions'>Naming Conventions</a></li><li style='margin-left:20px'><a href='#security-considerations'>Security Considerations</a></li></ul></nav>
+                <nav class='toc'><h4>On This Page</h4><ul><li style='margin-left:0px'><a href='#overview'>Overview</a></li><li style='margin-left:0px'><a href='#/quill-scope-create'>/quill scope create</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-delete'>/quill scope delete</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-list'>/quill scope list</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#output'>Output</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-info'>/quill scope info</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#output'>Output</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-addplayer'>/quill scope addplayer</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#behavior'>Behavior</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-removeplayer'>/quill scope removeplayer</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-listplayers'>/quill scope listplayers</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#output'>Output</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-permission'>/quill scope permission</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#subcommands'>Subcommands</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-persist'>/quill scope persist</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#subcommands'>Subcommands</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#/quill-scope-mode'>/quill scope mode</a></li><li style='margin-left:20px'><a href='#syntax'>Syntax</a></li><li style='margin-left:20px'><a href='#parameters'>Parameters</a></li><li style='margin-left:20px'><a href='#permissions'>Permissions</a></li><li style='margin-left:20px'><a href='#examples'>Examples</a></li><li style='margin-left:0px'><a href='#best-practices'>Best Practices</a></li><li style='margin-left:20px'><a href='#scope-organization'>Scope Organization</a></li><li style='margin-left:20px'><a href='#player-management'>Player Management</a></li><li style='margin-left:20px'><a href='#permission-management'>Permission Management</a></li><li style='margin-left:20px'><a href='#naming-conventions'>Naming Conventions</a></li><li style='margin-left:20px'><a href='#security-considerations'>Security Considerations</a></li></ul></nav>
             </div>
 
             <footer class="doc-footer">

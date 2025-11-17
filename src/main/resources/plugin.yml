@@ -100,6 +100,12 @@ permissions:
   quill.scope.mode:
     description: Modify a scope's security mode
     default: op
+  quill.scope.players:
+    description: Modify scope player lists
+    default: true
+  quill.scope.players.any:
+    description: Modify any scope's player lists
+    default: op
 
   quill.admin:
     description: Full Quill administrative access

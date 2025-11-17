@@ -1,5 +1,6 @@
 package me.kmathers.quill.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ public class Scope {
     private List<Double> boundaries;
     private SecurityConfig config;
     private Map<String, Object> persistentVariables;
+    private List<UUID> players;
     private Quill plugin;
 
     public Scope(String name, UUID owner, List<Double> boundaries, SecurityMode mode) {
@@ -22,6 +24,7 @@ public class Scope {
         this.boundaries = boundaries;
         this.config = new SecurityConfig(mode);
         this.persistentVariables = new HashMap<>();
+        this.players = new ArrayList<>();
         this.plugin = Quill.getPlugin(Quill.class);
     }
 
@@ -47,6 +50,28 @@ public class Scope {
 
     public Map<String, Object> getPersistentVars() {
         return persistentVariables;
+    }
+    
+    public List<UUID> getPlayers() {
+        return new ArrayList<>(players);
+    }
+    
+    public void addPlayer(UUID playerId) {
+        if (!players.contains(playerId)) {
+            players.add(playerId);
+        }
+    }
+    
+    public void removePlayer(UUID playerId) {
+        players.remove(playerId);
+    }
+    
+    public boolean hasPlayer(UUID playerId) {
+        return players.contains(playerId);
+    }
+    
+    public void setPlayers(List<UUID> players) {
+        this.players = new ArrayList<>(players);
     }
     
     public void setName(String name) {

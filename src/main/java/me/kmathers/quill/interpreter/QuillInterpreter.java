@@ -286,6 +286,17 @@ public class QuillInterpreter {
                             } else if (current.isMap()) {
                                 MapValue mapValue = (MapValue) current;
                                 current = mapValue.get(prop);
+                            } else if(current.isInventory()) {
+                                InventoryValue inventory = current.asInventory();
+                                switch (prop) {
+                                    case "name": return new StringValue(inventory.getName());
+                                    case "size": return new NumberValue(inventory.getSize());
+                                    case "items": return new NumberValue(inventory.getSize() - inventory.getAmount(ItemStack.of(Material.AIR)));
+                                    case "full": return new BooleanValue(inventory.isFull());
+                                    case "empty": return new BooleanValue(inventory.isEmpty());
+                                    default:
+                                        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "inventory", prop));
+                                }
                             } else {
                                 throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.cannot-prop", prop, current.getType()));
                             }

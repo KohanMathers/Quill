@@ -17,7 +17,9 @@ import me.kmathers.quill.lexer.QuillLexer;
 import me.kmathers.quill.lexer.QuillLexer.Token;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -428,6 +430,19 @@ public class QuillInterpreter {
         if (object.isMap()) {
             MapValue mapValue = (MapValue) object;
             return mapValue.get(node.property);
+        }
+
+        if (object.isInventory()) {
+            InventoryValue inventory = object.asInventory();
+            switch (node.property) {
+                case "name": return new StringValue(inventory.getName());
+                case "size": return new NumberValue(inventory.getSize());
+                case "items": return new NumberValue(inventory.getSize() - inventory.getAmount(ItemStack.of(Material.AIR)));
+                case "full": return new BooleanValue(inventory.isFull());
+                case "empty": return new BooleanValue(inventory.isEmpty());
+                default:
+                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "inventory", node.property));
+            }
         }
 
         throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.cannot-prop", node.property, object.getType()));

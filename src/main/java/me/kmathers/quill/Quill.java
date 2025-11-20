@@ -4,12 +4,9 @@ import me.kmathers.quill.commands.QuillCommands;
 import me.kmathers.quill.events.QuillEventBridge;
 import me.kmathers.quill.events.QuillInternalListeners;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +19,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Main plugin class for Quill.
  */
 public class Quill extends JavaPlugin {
+    private static final int CURRENT_CONFIG_VERSION = 2;
+    private static final int CURRENT_TRANSLATION_VERSION = 2;
+    
     private QuillScriptManager scriptManager;
     private QuillEventBridge eventBridge;
     private FileConfiguration translations;
@@ -33,7 +33,7 @@ public class Quill extends JavaPlugin {
     @Override
     public void onEnable() {
         getLogger().info("Enabling Quill...");
-    
+
         saveDefaultConfig();
         saveResource("translations.yml", false);
 
@@ -41,17 +41,15 @@ public class Quill extends JavaPlugin {
             getDataFolder().mkdirs();
         }
 
+        File translationsFile = new File(getDataFolder(), "translations.yml");
+        translations = YamlConfiguration.loadConfiguration(translationsFile);
+
         validateConfig();
 
         getServer().getPluginManager().registerEvents(new QuillInternalListeners(this), this);
 
-        File translationsFile = new File(getDataFolder(), "translations.yml");
-        translations = YamlConfiguration.loadConfiguration(translationsFile);
-
         scopeManager = new QuillScopeManager(this, getDataFolder(), getLogger());
-
         scriptManager = new QuillScriptManager(this, getDataFolder(), getLogger(), scopeManager);
-
         eventBridge = new QuillEventBridge(scriptManager, this);
 
         try {
@@ -68,7 +66,7 @@ public class Quill extends JavaPlugin {
 
         getLogger().info(translate("quill.system.state.enabled"));
     }
-    
+        
     @Override
     public void onDisable() {
         getLogger().info("Disabling Quill...");
@@ -91,8 +89,8 @@ public class Quill extends JavaPlugin {
         String[] scripts = scriptManager.listAllScripts();
         
         if (scripts.length == 0) {
-            getLogger().info(translate("autoload.no-scripts"));
-            getLogger().info(translate("autoload.no-scripts-hint", scriptManager.getScriptsDirectory().getAbsolutePath()));
+            getLogger().info(translate("quill.system.autoload.no-scripts"));
+            getLogger().info(translate("quill.system.autoload.no-scripts-hint", scriptManager.getScriptsDirectory().getAbsolutePath()));
             return;
         }
         
@@ -114,109 +112,97 @@ public class Quill extends JavaPlugin {
             getServer().getPluginManager().registerEvents(eventBridge, this);
         }
     }
-    
-    /**
-     * Get the script manager.
-     */
+
     public QuillScriptManager getScriptManager() {
         return scriptManager;
     }
 
-    /**
-     * Validate the config
-     */
-
     private void validateConfig() {
+        handleConfigVersion();
+        handleTranslationVersion();
+        validateEditorUrl();
+    }
+
+    private void handleConfigVersion() {
         int version = getConfig().getInt("config-version", 0);
-        if (version < 1) {
+        
+        if (version == CURRENT_CONFIG_VERSION) {
+            return;
+        }
+        
+        if (version < CURRENT_CONFIG_VERSION) {
             getLogger().warning(translate("quill.system.config.lower-version"));
+            getLogger().info("Migrating config from v" + version + " to v" + CURRENT_CONFIG_VERSION);
             mergeConfig();
-        } else if (version > 1) {
-            getLogger().warning(translate("quill.system.config.higher-version"));
+            return;
+        }
+        
+        getLogger().warning(translate("quill.system.config.higher-version"));
+        backupAndResetConfig(version);
+    }
 
-            File configFile = new File(getDataFolder(), "config.yml");
-            File backupFile = new File(getDataFolder(), "config_broken_backup.yml");
+    private void handleTranslationVersion() {
+        int version = translations.getInt("translation-version", 0);
+        
+        if (version == CURRENT_TRANSLATION_VERSION) {
+            return;
+        }
+        
+        if (version < CURRENT_TRANSLATION_VERSION) {
+            getLogger().info("Updating translations from v" + version + " to v" + CURRENT_TRANSLATION_VERSION);
+            mergeTranslations();
+            return;
+        }
+        
+        getLogger().warning("Translation file is newer (v" + version + ") than plugin supports (v" + CURRENT_TRANSLATION_VERSION + "). Resetting to defaults.");
+        backupAndResetTranslations(version);
+    }
 
+    private void backupAndResetConfig(int userVersion) {
+        File configFile = new File(getDataFolder(), "config.yml");
+        File backupFile = new File(getDataFolder(), "config_v" + userVersion + "_backup.yml");
+
+        try {
             if (configFile.exists()) {
                 if (backupFile.exists()) {
                     backupFile.delete();
                 }
-                if (configFile.renameTo(backupFile)) {
-                    getLogger().warning(translate("quill.system.config.usermod-backup"));
-                } else {
-                    getLogger().warning(translate("quill.system.config.usermod-fail"));
-                }
+                java.nio.file.Files.copy(configFile.toPath(), backupFile.toPath());
+                getLogger().warning(translate("quill.system.config.usermod-backup"));
             }
 
             saveResource("config.yml", true);
             reloadConfig();
             getLogger().warning(translate("quill.system.config.config-restore"));
-        }
-
-        int transVersion = getConfig().getInt("translation-version", 0);
-        if (transVersion < 1) {
-            mergeTranslations();
-        }
-
-        String url = getConfig().getString("editor.url", "");
-        if (!(url.startsWith("https://") || url.startsWith("http://"))) {
-            getLogger().warning(translate("quill.system.config.invalid-url"));
-            getLogger().warning(translate("quill.system.command-unavailable", "/quill edit"));
-            editValid = false;
-        }
-    }
-
-    /**
-     * Merge user translations with new default translations.
-     */
-    private void mergeTranslations() {
-        File translationsFile = new File(getDataFolder(), "translations.yml");
-        File oldTranslationsFile = new File(getDataFolder(), "translations_old.yml");
-        
-        if (!translationsFile.exists()) {
-            saveResource("translations.yml", false);
-            return;
-        }
-        
-        try {
-            if (oldTranslationsFile.exists()) {
-                oldTranslationsFile.delete();
-            }
-            
-            if (!translationsFile.renameTo(oldTranslationsFile)) {
-                getLogger().warning(translate("quill.system.translations-rename-fail"));
-                return;
-            }
-            
-            saveResource("translations.yml", true);
-            
-            FileConfiguration oldTranslations = YamlConfiguration.loadConfiguration(oldTranslationsFile);
-            FileConfiguration newTranslations = YamlConfiguration.loadConfiguration(translationsFile);
-            
-            mergeConfigurationRecursive(oldTranslations, newTranslations, "");
-            
-            newTranslations.save(translationsFile);
-            
-            if (oldTranslationsFile.exists()) {
-                oldTranslationsFile.delete();
-            }
-        } catch (Exception e) {
-            getLogger().warning("Failed to merge translations: " + e.getMessage());
+        } catch (IOException e) {
+            getLogger().severe("Failed to backup and reset config: " + e.getMessage());
             e.printStackTrace();
-            
-            if (oldTranslationsFile.exists() && !translationsFile.exists()) {
-                oldTranslationsFile.renameTo(translationsFile);
-            }
         }
     }
 
-    /**
-     * Merge user config with new default config.
-     */
+    private void backupAndResetTranslations(int userVersion) {
+        File translationsFile = new File(getDataFolder(), "translations.yml");
+        File backupFile = new File(getDataFolder(), "translations_v" + userVersion + "_backup.yml");
+
+        try {
+            if (translationsFile.exists()) {
+                if (backupFile.exists()) {
+                    backupFile.delete();
+                }
+                java.nio.file.Files.copy(translationsFile.toPath(), backupFile.toPath());
+                getLogger().info("Backed up translations to: " + backupFile.getName());
+            }
+
+            saveResource("translations.yml", true);
+            translations = YamlConfiguration.loadConfiguration(translationsFile);
+        } catch (IOException e) {
+            getLogger().severe("Failed to backup and reset translations: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     private void mergeConfig() {
         File configFile = new File(getDataFolder(), "config.yml");
-        File oldConfigFile = new File(getDataFolder(), "config_old.yml");
-        File tempConfigFile = new File(getDataFolder(), "config_new.yml");
         
         if (!configFile.exists()) {
             saveDefaultConfig();
@@ -224,209 +210,66 @@ public class Quill extends JavaPlugin {
         }
         
         try {
-            if (oldConfigFile.exists()) {
-                oldConfigFile.delete();
-            }
+            FileConfiguration userConfig = YamlConfiguration.loadConfiguration(configFile);
             
-            if (!configFile.renameTo(oldConfigFile)) {
-                getLogger().warning(translate("quill.system.config-rename-fail"));
-                return;
-            }
+            InputStreamReader defaultConfigStream = new InputStreamReader(getResource("config.yml"));
+            FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(defaultConfigStream);
             
-            saveResource("config.yml", true);
-            if (!configFile.renameTo(tempConfigFile)) {
-                getLogger().warning(translate("quill.system.config-temp-fail"));
-                oldConfigFile.renameTo(configFile);
-                return;
-            }
+            userConfig.setDefaults(defaultConfig);
+            userConfig.options().copyDefaults(true);
             
-            FileConfiguration oldConfig = YamlConfiguration.loadConfiguration(oldConfigFile);
+            userConfig.set("config-version", CURRENT_CONFIG_VERSION);
             
-            List<String> newConfigLines = readFileLines(tempConfigFile);
+            userConfig.save(configFile);
             
-            List<String> mergedLines = mergeConfigLines(newConfigLines, oldConfig);
+            reloadConfig();
             
-            writeFileLines(configFile, mergedLines);
+            getLogger().info("Config successfully merged with new defaults");
             
-            if (oldConfigFile.exists()) {
-                oldConfigFile.delete();
-            }
-            if (tempConfigFile.exists()) {
-                tempConfigFile.delete();
-            }            
         } catch (Exception e) {
-            getLogger().warning("Failed to merge config: " + e.getMessage());
+            getLogger().severe("Failed to merge config: " + e.getMessage());
             e.printStackTrace();
-            
-            if (oldConfigFile.exists() && !configFile.exists()) {
-                oldConfigFile.renameTo(configFile);
-            }
-            if (tempConfigFile.exists()) {
-                tempConfigFile.delete();
-            }
         }
     }
 
-    /**
-     * Read all lines from a file.
-     */
-    private List<String> readFileLines(File file) throws IOException {
-        List<String> lines = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                lines.add(line);
-            }
-        }
-        return lines;
-    }
-
-    /**
-     * Write lines to a file.
-     */
-    private void writeFileLines(File file, List<String> lines) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            for (int i = 0; i < lines.size(); i++) {
-                writer.write(lines.get(i));
-                if (i < lines.size() - 1) {
-                    writer.newLine();
-                }
-            }
-        }
-    }
-
-    /**
-     * Merge config lines, replacing values from old config while preserving structure and comments.
-     */
-    private List<String> mergeConfigLines(List<String> newLines, FileConfiguration oldConfig) {
-        List<String> result = new ArrayList<>();
-        List<String> currentPath = new ArrayList<>();
+    private void mergeTranslations() {
+        File translationsFile = new File(getDataFolder(), "translations.yml");
         
-        for (String line : newLines) {
-            String trimmed = line.trim();
-            
-            if (trimmed.startsWith("#") || trimmed.isEmpty()) {
-                result.add(line);
-                continue;
-            }
-            
-            String[] parts = line.split(":", 2);
-            if (parts.length < 1) {
-                result.add(line);
-                continue;
-            }
-            
-            String keyPart = parts[0];
-            int indent = keyPart.length() - keyPart.trim().length();
-            String key = keyPart.trim();
-            
-            int pathLevel = indent / 2;
-            while (currentPath.size() > pathLevel) {
-                currentPath.remove(currentPath.size() - 1);
-            }
-            
-            String fullPath = buildPath(currentPath, key);
-            
-            if (parts.length == 2) {
-                String value = parts[1].trim();
-                
-                if (!value.isEmpty()) {
-                    if (!fullPath.equals("config-version") && !fullPath.equals("translation-version") && oldConfig.contains(fullPath)) {
-                        Object oldValue = oldConfig.get(fullPath);
-                        
-                        if (!oldConfig.isConfigurationSection(fullPath)) {
-                            String newLine = keyPart + ": " + formatConfigValue(oldValue);
-                            result.add(newLine);
-                            continue;
-                        }
-                    }
-                }
-                
-                if (value.isEmpty()) {
-                    currentPath.add(key);
-                }
-            } else {
-                currentPath.add(key);
-            }
-            
-            result.add(line);
+        if (!translationsFile.exists()) {
+            saveResource("translations.yml", false);
+            translations = YamlConfiguration.loadConfiguration(translationsFile);
+            return;
         }
         
-        return result;
-    }
-
-    /**
-     * Build a dot-notation path from path components.
-     */
-    private String buildPath(List<String> pathComponents, String key) {
-        StringBuilder sb = new StringBuilder();
-        for (String component : pathComponents) {
-            if (sb.length() > 0) {
-                sb.append(".");
-            }
-            sb.append(component);
-        }
-        if (sb.length() > 0) {
-            sb.append(".");
-        }
-        sb.append(key);
-        return sb.toString();
-    }
-
-    /**
-     * Format a config value for YAML output.
-     */
-    private String formatConfigValue(Object value) {
-        if (value == null) {
-            return "null";
-        }
-        
-        if (value instanceof String) {
-            String str = (String) value;
-            if (str.contains(":") || str.contains("#") || str.contains("'") || 
-                str.contains("\"") || str.startsWith(" ") || str.endsWith(" ")) {
-                return "\"" + str.replace("\"", "\\\"") + "\"";
-            }
-            return str;
-        }
-        
-        if (value instanceof List) {
-            List<?> list = (List<?>) value;
-            if (list.isEmpty()) {
-                return "[]";
-            }
-            StringBuilder sb = new StringBuilder("[");
-            for (int i = 0; i < list.size(); i++) {
-                if (i > 0) sb.append(", ");
-                sb.append(formatConfigValue(list.get(i)));
-            }
-            sb.append("]");
-            return sb.toString();
-        }
-        
-        return value.toString();
-    }
-
-    private void mergeConfigurationRecursive(FileConfiguration oldConfig, FileConfiguration newConfig, String path) {
-        for (String key : newConfig.getKeys(false)) {
-            String currentPath = path.isEmpty() ? key : path + "." + key;
+        try {
+            FileConfiguration userTranslations = YamlConfiguration.loadConfiguration(translationsFile);
             
-            if (oldConfig.contains(currentPath)) {
-                Object oldValue = oldConfig.get(currentPath);
-                @SuppressWarnings("unused")
-                Object newValue = newConfig.get(currentPath);
-                
-                if (oldConfig.isConfigurationSection(currentPath) && 
-                    newConfig.isConfigurationSection(currentPath)) {
-                    mergeConfigurationRecursive(oldConfig, newConfig, currentPath);
-                } 
-                else if (oldValue instanceof String) {
-                    newConfig.set(currentPath, oldValue);
-                }
-            }
-            else if (newConfig.isConfigurationSection(currentPath)) {
-                mergeConfigurationRecursive(oldConfig, newConfig, currentPath);
-            }
+            InputStreamReader defaultTransStream = new InputStreamReader(getResource("translations.yml"));
+            FileConfiguration defaultTranslations = YamlConfiguration.loadConfiguration(defaultTransStream);
+            
+            userTranslations.setDefaults(defaultTranslations);
+            userTranslations.options().copyDefaults(true);
+            
+            userTranslations.set("translation-version", CURRENT_TRANSLATION_VERSION);
+            
+            userTranslations.save(translationsFile);
+            
+            translations = userTranslations;
+            
+            getLogger().info("Translations successfully merged with new defaults");
+            
+        } catch (Exception e) {
+            getLogger().severe("Failed to merge translations: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void validateEditorUrl() {
+        String url = getConfig().getString("editor.url", "");
+        if (!(url.startsWith("https://") || url.startsWith("http://"))) {
+            getLogger().warning(translate("quill.system.config.invalid-url"));
+            getLogger().warning(translate("quill.system.command-unavailable", "/quill edit"));
+            editValid = false;
         }
     }
 

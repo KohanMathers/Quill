@@ -16,7 +16,17 @@
 editor:
   url: https://quill.kmathers.co.uk/editor/#
 
+##############
+#   Safety   #
+##############
+
+# Runtime safety limits to prevent resource abuse
+safety:
+  # Loop detection - prevents infinite loops
+  max-loop-iterations: 10000
+  max-loop-time-ms: 5000
+
 ####################
 # DO NOT CHANGE THESE
-config-version: 1
-translation-version: 1
+config-version: 2
+translation-version: 2

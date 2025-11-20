@@ -6,79 +6,17 @@ import me.kmathers.quill.parser.QuillParser;
 import me.kmathers.quill.utils.Scope;
 import me.kmathers.quill.Quill;
 import me.kmathers.quill.QuillScopeManager;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.ClearEffectsFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetGamemodeFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetHealthFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetHungerFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetLocationFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GetNameFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GiveEffectFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.GiveFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.HasItemFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.HealFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.IsOnlineFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.IsOpFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.KickFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.KillFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.PlaySoundFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.RemoveEffectFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.RemoveItemFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SendMessageFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SendTitleFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SetFlyingFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SetGamemodeFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SetHealthFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.SetHungerFunction;
-import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.TeleportFunction;
-import me.kmathers.quill.interpreter.BuiltInScopeFuncs.AddToScopeFunction;
-import me.kmathers.quill.interpreter.BuiltInScopeFuncs.GetPlayersFunction;
-import me.kmathers.quill.interpreter.BuiltInScopeFuncs.GetRegionFunction;
-import me.kmathers.quill.interpreter.BuiltInScopeFuncs.InRegionFunction;
-import me.kmathers.quill.interpreter.BuiltInScopeFuncs.RemoveFromScopeFunction;
-import me.kmathers.quill.interpreter.BuiltInScopeFuncs.SetRegionFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.AbsFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.AppendFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.CancelFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.CeilFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.ContainsFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.DistanceFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.FloorFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.GetOnlinePlayersFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.GetPlayerFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.JoinFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.LenFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.LogFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.PowFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.RandomChoiceFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.RandomFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.RangeFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.RemoveFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.RoundFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.SplitFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.SqrtFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.ToBooleanFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.ToNumberFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.ToStringFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.TriggerCustomFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.TypeOfFunction;
-import me.kmathers.quill.interpreter.BuiltInUtilFuncs.WaitFunction;
-import me.kmathers.quill.interpreter.BuiltInWorldFuncs.BreakBlockFunction;
-import me.kmathers.quill.interpreter.BuiltInWorldFuncs.BroadcastFunction;
-import me.kmathers.quill.interpreter.BuiltInWorldFuncs.CreateExplosionFunction;
-import me.kmathers.quill.interpreter.BuiltInWorldFuncs.GetTimeFunction;
-import me.kmathers.quill.interpreter.BuiltInWorldFuncs.GetWeatherFunction;
-import me.kmathers.quill.interpreter.BuiltInWorldFuncs.GetWorldFunction;
-import me.kmathers.quill.interpreter.BuiltInWorldFuncs.RemoveEntityFunction;
-import me.kmathers.quill.interpreter.BuiltInWorldFuncs.SetBlockFunction;
-import me.kmathers.quill.interpreter.BuiltInWorldFuncs.GetBlockFunction;
-import me.kmathers.quill.interpreter.BuiltInWorldFuncs.SetTimeFunction;
-import me.kmathers.quill.interpreter.BuiltInWorldFuncs.SetWeatherFunction;
-import me.kmathers.quill.interpreter.BuiltInWorldFuncs.SpawnEntityFunction;
-import me.kmathers.quill.interpreter.BuiltInWorldFuncs.StrikeLightningFunction;
+import me.kmathers.quill.interpreter.BuiltInPlayerFuncs.*;
+import me.kmathers.quill.interpreter.BuiltInScopeFuncs.*;
+import me.kmathers.quill.interpreter.BuiltInUtilFuncs.*;
+import me.kmathers.quill.interpreter.BuiltInWorldFuncs.*;
+import me.kmathers.quill.interpreter.BuiltInConstructorFuncs.*;
+import me.kmathers.quill.interpreter.BuiltInInventoryFuncs.*;
 import me.kmathers.quill.interpreter.QuillValue.*;
 import me.kmathers.quill.lexer.QuillLexer;
 import me.kmathers.quill.lexer.QuillLexer.Token;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -94,7 +32,13 @@ public class QuillInterpreter {
     private Map<String, BuiltInFunction> builtIns;
     private Map<String, List<EventHandler>> eventHandlers;
     private Scope permissionScope;
-    
+    private ThreadLocal<LoopDetector> loopDetector = ThreadLocal.withInitial(() -> 
+        new LoopDetector(
+            plugin.getConfig().getInt("safety.max-loop-iterations", 10000), 
+            plugin.getConfig().getLong("safety.max-loop-time-ms", 5000)
+        )
+    );
+
     private static class ReturnSignal extends RuntimeException {
         final QuillValue value;
         ReturnSignal(QuillValue value) { this.value = value; }
@@ -115,13 +59,33 @@ public class QuillInterpreter {
     }
     
     // === Main Evaluation ===
-    
+        
     public void execute(Program program) {
-        for (ASTNode statement : program.statements) {
-            evaluate(statement);
+        executeStatementsAsync(program.statements, 0);
+    }
+
+    private void executeStatementsAsync(List<ASTNode> statements, int startIndex) {
+        for (int i = startIndex; i < statements.size(); i++) {
+            final int currentIndex = i;
+            try {
+                evaluate(statements.get(i));
+            } catch (RuntimeException e) {
+                if (e.getMessage() != null && e.getMessage().startsWith("QL-INTERNAL-CALL-WAIT:")) {
+                    int ticks = Integer.parseInt(e.getMessage().substring("QL-INTERNAL-CALL-WAIT:".length()));
+                    
+                    final List<ASTNode> finalStatements = statements;
+                    
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        executeStatementsAsync(finalStatements, currentIndex + 1);
+                    }, ticks);
+                    
+                    return;
+                }
+                throw e;
+            }
         }
     }
-    
+
     public QuillValue evaluate(ASTNode node) {
         if (node == null) {
             return NullValue.INSTANCE;
@@ -305,6 +269,18 @@ public class QuillInterpreter {
                                     default:
                                         throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "entity", prop));
                                 }
+                            } else if (current.isRegion()) {
+                                RegionValue region = (RegionValue) current;
+                                switch (prop) {
+                                    case "x1": current = new NumberValue(region.getX1()); break;
+                                    case "y1": current = new NumberValue(region.getY1()); break;
+                                    case "z1": current = new NumberValue(region.getZ1()); break;
+                                    case "x2": current = new NumberValue(region.getX2()); break;
+                                    case "y2": current = new NumberValue(region.getY2()); break;
+                                    case "z2": current = new NumberValue(region.getZ2()); break;
+                                    default:
+                                        throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "region", prop));
+                                }
                             } else if (current.isMap()) {
                                 MapValue mapValue = (MapValue) current;
                                 current = mapValue.get(prop);
@@ -435,6 +411,20 @@ public class QuillInterpreter {
             }
         }
         
+        if (object.isRegion()) {
+            RegionValue region = object.asRegion();
+            switch (node.property) {
+                case "x1": return new NumberValue(region.getX1());
+                case "y1": return new NumberValue(region.getY1());
+                case "z1": return new NumberValue(region.getZ1());
+                case "x2": return new NumberValue(region.getX2());
+                case "y2": return new NumberValue(region.getY2());
+                case "z2": return new NumberValue(region.getZ2());
+                default:
+                    throw new RuntimeException(plugin.translate("quill.error.runtime.interpreter.unknown-prop", "region", node.property));
+            }
+        }
+
         if (object.isMap()) {
             MapValue mapValue = (MapValue) object;
             return mapValue.get(node.property);
@@ -730,8 +720,12 @@ public class QuillInterpreter {
     }
     
     private QuillValue evaluateWhileStatement(WhileStatement node) {
+        LoopDetector detector = loopDetector.get();
+        detector.startLoop();
+
         try {
             while (evaluate(node.condition).isTruthy()) {
+                detector.checkIteration();
                 try {
                     for (ASTNode statement : node.body) {
                         evaluate(statement);
@@ -742,6 +736,13 @@ public class QuillInterpreter {
             }
         } catch (BreakSignal b) {
             // Break out of loop
+        } catch (LoopDetector.InfiniteLoopException e) {
+            throw new RuntimeException(
+                plugin.translate("quill.error.runtime.interpreter.infinite-loop", 
+                    "while", e.getMessage())
+            );
+        } finally {
+            detector.endLoop();
         }
         
         return NullValue.INSTANCE;
@@ -750,7 +751,8 @@ public class QuillInterpreter {
 
     private QuillValue evaluateForStatement(ForStatement node) {
         QuillValue iterable = evaluate(node.iterable);
-        
+        LoopDetector detector = loopDetector.get();
+
         if (!iterable.isList()) {
             throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "list", iterable.getType()));
         }
@@ -771,8 +773,11 @@ public class QuillInterpreter {
             }
         }
         
+        detector.startLoop();
+
         try {
             for (QuillValue item : items) {
+                detector.checkIteration();
                 ScopeContext iterationScope = isSubscopeIteration 
                     ? new ScopeContext(subscope)
                     : new ScopeContext(currentScope);
@@ -796,6 +801,13 @@ public class QuillInterpreter {
             }
         } catch (BreakSignal b) {
             // Break out of loop
+        }  catch (LoopDetector.InfiniteLoopException e) {
+            throw new RuntimeException(
+                plugin.translate("quill.error.runtime.interpreter.infinite-loop", 
+                    "for", e.getMessage())
+            );
+        } finally {
+            detector.endLoop();
         }
         
         return NullValue.INSTANCE;
@@ -962,8 +974,32 @@ public class QuillInterpreter {
         builtIns.put("random_choice", new RandomChoiceFunction());
         
         // Constructor Functions
-        builtIns.put("location", new BuiltInConstructorFuncs.LocationFunction());
-        builtIns.put("item", new BuiltInConstructorFuncs.ItemFunction());
+        builtIns.put("location", new LocationFunction());
+        builtIns.put("item", new ItemFunction());
+        builtIns.put("inventory", new InventoryFunction());
+
+        // Inventory Functions
+        builtIns.put("show_inventory", new ShowInventoryFunction());
+        builtIns.put("close_inventory", new CloseInventoryFunction());
+        builtIns.put("get_slot", new GetSlotFunction());
+        builtIns.put("set_slot", new SetSlotFunction());
+        builtIns.put("get_inventory_name", new GetInventoryNameFunction());
+        builtIns.put("set_inventory_name", new SetInventoryNameFunction());
+        builtIns.put("get_size", new GetSizeFunction());
+        builtIns.put("is_large", new IsLargeFunction());
+        builtIns.put("clear_inventory", new ClearInventoryFunction());
+        builtIns.put("clear_inventory_slot", new ClearInventorySlotFunction());
+        builtIns.put("add_inventory_item", new AddInventoryItemFunction());
+        builtIns.put("remove_inventory_item", new RemoveInventoryItemFunction());
+        builtIns.put("contains_item", new ContainsItemFunction());
+        builtIns.put("contains_at_least", new ContainsAtLeastFunction());
+        builtIns.put("get_amount", new GetAmountFunction());
+        builtIns.put("get_all_items", new GetAllItemsFunction());
+        builtIns.put("set_inventory", new SetInventoryFunction());
+        builtIns.put("is_empty", new IsEmptyFunction());
+        builtIns.put("is_full", new IsFullFunction());
+        builtIns.put("first_empty", new FirstEmptyFunction());
+        builtIns.put("all", new AllFunction());
     }
     
     public interface BuiltInFunction {
@@ -1042,5 +1078,11 @@ public class QuillInterpreter {
 
     public Set<String> getRegisteredEvents() {
         return eventHandlers.keySet();
+    }
+
+    public void setLoopLimits(int maxIterations, long maxExecutionTimeMs) {
+        loopDetector = ThreadLocal.withInitial(() -> 
+            new LoopDetector(maxIterations, maxExecutionTimeMs)
+        );
     }
 }

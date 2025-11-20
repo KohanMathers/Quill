@@ -200,6 +200,8 @@ quill:
         empty-item-id: "Invalid item_id: cannot be null or empty"
         invalid-item-id: "Invalid item_id: '{0}' is not a valid Minecraft item"
         under-1-item: "Item amount must be at least 1, got: {0}"
+        custom-namespace-not-supported: "Custom namespace '{0}' is not supported"     
+        no-metadata-support: "Item type '{0}' does not support metadata"   
 
       scope:
         already-defined: "Variable {0} already defined in this scope"
@@ -230,6 +232,7 @@ quill:
         cannot-persist: "Cannot persist variable: {0}"
         index-out-of-bounds: "Index {0} out of bounds of list of size {1}"
         cannot-index: "Cannot index object of type {0}"
+        infinite-loop: "Infinite loop detected in {0} loop: {1}"
 
       parser:
         expected: "Expected {0} but got {1} at line {2}"

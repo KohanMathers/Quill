@@ -19,6 +19,7 @@ import org.bukkit.NamespacedKey;
 import me.kmathers.quill.Quill;
 import me.kmathers.quill.interpreter.QuillValue.ItemValue;
 import me.kmathers.quill.interpreter.QuillValue.LocationValue;
+import me.kmathers.quill.interpreter.QuillValue.InventoryValue;
 
 import net.kyori.adventure.text.Component;
 
@@ -61,6 +62,20 @@ public class BuiltInConstructorFuncs {
         }
     }
     
+    public static class InventoryFunction implements QuillInterpreter.BuiltInFunction {
+        @Override
+        public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {
+            if (args.size() != 2) {
+                throw new RuntimeException(plugin.translate("quill.error.developer.arguments.requires-multiple", "inventory()", "2", "inventory(name, large)"));
+            }
+            
+            String name = args.get(0).asString();
+            boolean large = args.get(1).asBoolean();
+            
+            return new InventoryValue(name, large);
+        }
+    }
+
     public static class ItemFunction implements QuillInterpreter.BuiltInFunction {
         @Override
         public QuillValue call(List<QuillValue> args, ScopeContext scope, QuillInterpreter interpreter) {

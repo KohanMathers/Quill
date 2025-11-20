@@ -3,14 +3,17 @@ package me.kmathers.quill.interpreter;
 import me.kmathers.quill.Quill;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import org.bukkit.World;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public abstract class QuillValue {
     private static Quill plugin = Quill.getPlugin(Quill.class);
@@ -31,6 +34,7 @@ public abstract class QuillValue {
         REGION,
         MAP,
         EVENT,
+        INVENTORY,
     }
     
     public abstract ValueType getType();
@@ -53,7 +57,8 @@ public abstract class QuillValue {
     public boolean isRegion() {return getType() == ValueType.REGION; }
     public boolean isMap() { return getType() == ValueType.MAP; }
     public boolean isEvent() { return getType() == ValueType.EVENT; }
-    
+    public boolean isInventory() { return getType() == ValueType.INVENTORY; }
+
     // === Type Conversion (with runtime checks) ===
     
     public double asNumber() {
@@ -147,6 +152,13 @@ public abstract class QuillValue {
             throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "event", getType()));
         }
         return (org.bukkit.event.Event) getValue();
+    }
+
+    public InventoryValue asInventory() {
+        if (!isInventory()) {
+            throw new RuntimeException(plugin.translate("quill.error.user.value.expected", "inventory", getValue()));
+        }
+        return (InventoryValue) getValue();
     }
 
     // === Truthiness ===
@@ -434,6 +446,199 @@ public abstract class QuillValue {
         public String toString() { 
             return String.format("Region(%.1f, %.1f, %.1f -> %.1f, %.1f, %.1f)", 
                 x1, y1, z1, x2, y2, z2);
+        }
+    }
+
+    public static class InventoryValue extends QuillValue {
+        private List<ItemStack> inventory = new ArrayList<>();
+        private boolean large;
+        private final int SMALL_SIZE = 27;
+        private final int LARGE_SIZE = 52;
+        private String name;
+
+        public InventoryValue(String name, boolean large) {
+            ItemStack air = ItemStack.of(Material.AIR);
+            this.large = large;
+            if (large) {
+                this.inventory = IntStream.range(0, 54).mapToObj(i -> new ItemStack(air)).toList();
+            } else {
+                this.inventory = IntStream.range(0, 27).mapToObj(i -> new ItemStack(air)).toList();
+            }
+            this.name = name;
+        }
+
+        @Override
+        public ValueType getType() { return ValueType.INVENTORY; }
+        
+        @Override
+        public Object getValue() { return this; }
+
+        public ItemStack getSlot(int slot) {
+            if (large) {
+                if (slot > LARGE_SIZE || slot < 0) {
+                    throw new RuntimeException(plugin.translate("quill.error.user.inventory.invalid-index", slot, name));
+                }
+            } else {
+                if (slot > SMALL_SIZE || slot < 0) {
+                    throw new RuntimeException(plugin.translate("quill.error.user.inventory.invalid-index", slot, name));
+                }
+            }
+            return (inventory.get(slot)); 
+        }
+
+        public void setSlot(int slot, ItemStack item) {
+            if (large) {
+                if (slot > LARGE_SIZE || slot < 0) {
+                    throw new RuntimeException(plugin.translate("quill.error.user.inventory.invalid-index", slot, name));
+                }
+            } else {
+                if (slot > SMALL_SIZE || slot < 0) {
+                    throw new RuntimeException(plugin.translate("quill.error.user.inventory.invalid-index", slot, name));
+                }
+            }
+            inventory.set(slot, item);
+        }
+
+        public String getName() { return this.name; }
+
+        public void setName(String name) { this.name = name; };
+
+        public int getSize() { return this.large ? LARGE_SIZE : SMALL_SIZE; }
+
+        public List<ItemStack> getInventory() { return this.inventory; }
+
+        public boolean isLarge() { return this.large; }
+
+        public void clear() {
+            ItemStack air = ItemStack.of(Material.AIR);
+            if (large) {
+                this.inventory = IntStream.range(0, 27).mapToObj(i -> new ItemStack(air)).toList();
+            } else {
+                this.inventory = IntStream.range(0, 54).mapToObj(i -> new ItemStack(air)).toList();
+            }
+        }
+
+        public void clearSlot(int slot) {
+            if (large) {
+                if (slot > LARGE_SIZE || slot < 0) {
+                    throw new RuntimeException(plugin.translate("quill.error.user.inventory.invalid-index", slot, name));
+                }
+            } else {
+                if (slot > SMALL_SIZE || slot < 0) {
+                    throw new RuntimeException(plugin.translate("quill.error.user.inventory.invalid-index", slot, name));
+                }
+            }
+            inventory.set(slot, ItemStack.of(Material.AIR));
+        }
+
+        public int addItem(ItemStack item) {
+            for (int index = 0; index < inventory.size(); index++) {
+                if (inventory.get(index).isSimilar(ItemStack.of(Material.AIR))) {
+                    inventory.set(index, item);
+                    return index;
+                }
+            }
+            return -1;
+        }
+
+        public boolean removeItem(ItemStack item) {
+            for (int index = 0; index < inventory.size(); index++) {
+                if (inventory.get(index).isSimilar(item)) {
+                    inventory.set(index, ItemStack.of(Material.AIR));
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public boolean contains(ItemStack item) {
+            for (int index = 0; index < inventory.size(); index++) {
+                if (inventory.get(index).isSimilar(item)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public boolean containsAtLeast(ItemStack item, int amount) {
+            int realAmount = 0;
+            for (int index = 0; index < inventory.size(); index++) {
+                if (inventory.get(index).isSimilar(item)) {
+                    realAmount = realAmount + inventory.get(index).getAmount();
+                }
+            }
+            return realAmount >= amount;
+        }
+
+        public int getAmount(ItemStack item) {
+            int amount = 0;
+            for (int index = 0; index < inventory.size(); index++) {
+                if (inventory.get(index).isSimilar(item)) {
+                    amount = amount + inventory.get(index).getAmount();
+                }
+            }
+            return amount;
+        }
+
+        public List<ItemStack> getAllItems() {
+            List<ItemStack> items = new ArrayList<>();
+            for (int index = 0; index < inventory.size(); index++) {
+                if (!(inventory.get(index).isSimilar(ItemStack.of(Material.AIR)))) {
+                    items.add(inventory.get(index));
+                }
+            }
+            return items;
+        }
+
+        public void setInventory(List<ItemStack> items) {
+            int size = items.size();
+            if (large) {
+                if (size > LARGE_SIZE || size < 0) {
+                    throw new RuntimeException(plugin.translate("quill.error.user.inventory.invalid-size", size, name));
+                }
+            } else {
+                if (size > SMALL_SIZE || size < 0) {
+                    throw new RuntimeException(plugin.translate("quill.error.user.inventory.invalid-size", size, name));
+                }
+            }
+            inventory = items;
+        }
+
+        public boolean isEmpty() {
+            for (int index = 0; index < inventory.size(); index++) {
+                if (!(inventory.get(index).isSimilar(ItemStack.of(Material.AIR)))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public boolean isFull() {
+            for (int index = 0; index < inventory.size(); index++) {
+                if (inventory.get(index).isSimilar(ItemStack.of(Material.AIR))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public int firstEmpty() {
+            for (int index = 0; index < inventory.size(); index++) {
+                if (inventory.get(index).isSimilar(ItemStack.of(Material.AIR))) {
+                    return index;
+                }
+            }
+            return -1;
+        }
+
+        public List<Integer> all(ItemStack item) {
+            List<Integer> all = new ArrayList<>();
+            for (int index = 0; index < inventory.size(); index++) {
+                if (inventory.get(index).isSimilar(item)) {
+                    all.add(index);
+                }
+            }
+            return all;
         }
     }
 

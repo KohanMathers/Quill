@@ -397,5 +397,9 @@ public class QuillEventBridge implements Listener {
         context.put("hotbar_button", new NumberValue(event.getHotbarButton()));
         context.put("shift_click", new BooleanValue(event.isShiftClick()));
         context.put("event", new EventValue(event));
+
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Bukkit.getPluginManager().callEvent(new QuillEvent("InventoryClick", context, null));
+        });
     }
 }

@@ -17,6 +17,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.TimeSkipEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -380,5 +381,21 @@ public class QuillEventBridge implements Listener {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             Bukkit.getPluginManager().callEvent(new QuillEvent("WeatherChange", context, null));
         });
+    }
+
+    // === Inventory Events ===
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onInventoryClick(InventoryClickEvent event) {
+        Map<String, QuillValue> context = new HashMap<>();
+        context.put("player", new PlayerValue((Player) event.getWhoClicked()));
+        context.put("inventory", new StringValue(PlainTextComponentSerializer.plainText().serialize(event.getView().title())));
+        context.put("slot", new NumberValue(event.getSlot()));
+        context.put("click_type", new StringValue(event.getClick().name().toLowerCase()));
+        context.put("item", event.getCurrentItem() != null ? new ItemValue(event.getCurrentItem()) : NullValue.INSTANCE);
+        context.put("action", new StringValue(event.getAction().name().toLowerCase()));
+        context.put("cursor", event.getCursor() != null ? new ItemValue(event.getCursor()) : NullValue.INSTANCE);
+        context.put("hotbar_button", new NumberValue(event.getHotbarButton()));
+        context.put("shift_click", new BooleanValue(event.isShiftClick()));
+        context.put("event", new EventValue(event));
     }
 }

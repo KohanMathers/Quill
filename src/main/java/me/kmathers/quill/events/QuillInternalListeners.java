@@ -7,19 +7,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import me.kmathers.quill.Quill;
+import me.kmathers.quill.QuillScopeManager;
 import me.kmathers.quill.interpreter.QuillInterpreter;
 import me.kmathers.quill.interpreter.QuillValue;
 import me.kmathers.quill.utils.Scope;
 
 public class QuillInternalListeners implements Listener {
         private final Quill main;
+        private final QuillScopeManager scopeManager;
 
-        public QuillInternalListeners(Quill main) {
+        public QuillInternalListeners(Quill main, QuillScopeManager scopeManager) {
             this.main = main;
+            this.scopeManager = scopeManager;
         }
         
         @EventHandler(priority = EventPriority.HIGH)
@@ -32,6 +36,11 @@ public class QuillInternalListeners implements Listener {
                     event.setCancelled(true);
                 }
             }
+        }
+
+        @EventHandler
+        public void onPlayerJoin(PlayerJoinEvent event) {
+            scopeManager.notifyOwnerOfRequests(event.getPlayer().getUniqueId());
         }
 
         @EventHandler

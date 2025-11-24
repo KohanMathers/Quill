@@ -3,8 +3,14 @@ package me.kmathers.quill;
 import me.kmathers.quill.utils.Scope;
 import me.kmathers.quill.utils.Result.BooleanResult;
 import me.kmathers.quill.utils.SecurityConfig.SecurityMode;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import me.kmathers.quill.utils.SecurityConfig.AccessMode;
+
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,7 +40,7 @@ public class QuillScopeManager {
         }
     }
     
-    public Scope createScope(String name, UUID owner, List<Double> boundaries, SecurityMode mode, List<String> funcs, Map<String, Object> persistentVars) {
+    public Scope createScope(String name, UUID owner, List<Double> boundaries, SecurityMode mode, AccessMode access, List<String> funcs, Map<String, Object> persistentVars) {
         if(boundaries.get(0) > boundaries.get(3)) {
             double temp = boundaries.get(0);
             boundaries.set(0, boundaries.get(3));
@@ -51,7 +57,7 @@ public class QuillScopeManager {
             boundaries.set(5, temp);
         }
         
-        Scope scope = new Scope(name, owner, boundaries, mode);
+        Scope scope = new Scope(name, owner, boundaries, mode, access);
         scope.setFuncs(funcs != null ? funcs : new ArrayList<>());
         scope.setPersistentVars(persistentVars != null ? persistentVars : new HashMap<>());
         scopes.put(name, scope);
@@ -77,6 +83,7 @@ public class QuillScopeManager {
             String ownerStr = config.getString("owner");
             List<Double> boundaries = config.getDoubleList("boundaries");
             String modeStr = config.getString("mode", "whitelist");
+            String accessStr = config.getString("access", "private");
 
             if (name == null || ownerStr == null || boundaries == null || boundaries.size() != 6) {
                 logger.severe(plugin.translate("quill.scope-manager.format.invalid-format", filename));
@@ -100,6 +107,14 @@ public class QuillScopeManager {
                 mode = SecurityMode.WHITELIST;
             }
             
+            AccessMode access;
+            try {
+                access = AccessMode.valueOf(accessStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                logger.warning(plugin.translate("quill.scope-manager.format.invalid-access", accessStr));
+                access = AccessMode.PRIVATE;
+            }
+            
             List<String> funcs = config.getStringList("funcs");
             if (funcs == null) {
                 funcs = new ArrayList<>();
@@ -117,6 +132,23 @@ public class QuillScopeManager {
                 }
             }
             
+            Map<UUID, Long> pendingRequests = new HashMap<>();
+            List<String> requestStrings = config.getStringList("pendingRequests");
+            if (requestStrings != null) {
+                for (String requestStr : requestStrings) {
+                    String[] parts = requestStr.split(":");
+                    if (parts.length == 2) {
+                        try {
+                            UUID playerId = UUID.fromString(parts[0]);
+                            Long timestamp = Long.parseLong(parts[1]);
+                            pendingRequests.put(playerId, timestamp);
+                        } catch (IllegalArgumentException e) {
+                            logger.warning(plugin.translate("quill.scope-manager.format.invalid-request", requestStr));
+                        }
+                    }
+                }
+            }
+            
             Map<String, Object> persistentVars = new HashMap<>();
             if (config.contains("persistent")) {
                 var section = config.getConfigurationSection("persistent");
@@ -125,9 +157,10 @@ public class QuillScopeManager {
                 }
             }
             
-            Scope scope = new Scope(name, owner, boundaries, mode);
+            Scope scope = new Scope(name, owner, boundaries, mode, access);
             scope.setFuncs(funcs);
             scope.setPlayers(players);
+            scope.setPendingRequests(pendingRequests);
             scope.setPersistentVars(persistentVars);
             scopes.put(scope.getName(), scope);
             
@@ -154,6 +187,7 @@ public class QuillScopeManager {
             config.set("owner", scope.getOwner().toString());
             config.set("boundaries", scope.getBoundaries());
             config.set("mode", scope.getSecurityMode().toString().toLowerCase());
+            config.set("access", scope.getAccessMode().toString().toLowerCase());
             
             List<String> funcs = scope.getFuncs();
             config.set("funcs", funcs != null ? funcs : new ArrayList<>());
@@ -163,6 +197,12 @@ public class QuillScopeManager {
                 playerStrings.add(playerId.toString());
             }
             config.set("players", playerStrings);
+            
+            List<String> requestStrings = new ArrayList<>();
+            for (Map.Entry<UUID, Long> entry : scope.getPendingRequests().entrySet()) {
+                requestStrings.add(entry.getKey().toString() + ":" + entry.getValue());
+            }
+            config.set("pendingRequests", requestStrings);
             
             Map<String, Object> persistentVars = scope.getPersistentVars();
             if (persistentVars == null) {
@@ -405,5 +445,86 @@ public class QuillScopeManager {
             return scopes.get(scopeName).getPlayers();
         }
         return new ArrayList<>();
+    }
+
+    public BooleanResult addJoinRequest(String scopeName, UUID playerId) {
+        if (scopes.containsKey(scopeName)) {
+            Scope scope = scopes.get(scopeName);
+            
+            // Check if player is already in the scope
+            if (scope.hasPlayer(playerId)) {
+                return BooleanResult.fail("already-in-scope");
+            }
+            
+            // Check if request already exists
+            if (scope.hasJoinRequest(playerId)) {
+                return BooleanResult.fail("request-already-exists");
+            }
+            
+            scope.addJoinRequest(playerId);
+            saveScope(scope, scopeName + ".yml");
+            return BooleanResult.ok();
+        }
+        return BooleanResult.fail("scope-not-found");
+    }
+
+    public BooleanResult removeJoinRequest(String scopeName, UUID playerId) {
+        if (scopes.containsKey(scopeName)) {
+            Scope scope = scopes.get(scopeName);
+            
+            if (!scope.hasJoinRequest(playerId)) {
+                return BooleanResult.fail("no-request");
+            }
+            
+            scope.removeJoinRequest(playerId);
+            saveScope(scope, scopeName + ".yml");
+            return BooleanResult.ok();
+        }
+        return BooleanResult.fail("scope-not-found");
+    }
+
+    public Map<UUID, Long> getPendingRequests(String scopeName) {
+        if (scopes.containsKey(scopeName)) {
+            return scopes.get(scopeName).getPendingRequests();
+        }
+        return new HashMap<>();
+    }
+
+    public BooleanResult setAccessMode(String scopeName, String accessStr) {
+        if (scopes.containsKey(scopeName)) {
+            Scope scope = scopes.get(scopeName);
+            
+            try {
+                AccessMode newAccess = AccessMode.valueOf(accessStr.toUpperCase());
+                
+                if (scope.getAccessMode() == newAccess) {
+                    return BooleanResult.fail("already-set");
+                }
+                
+                scope.setAccessMode(newAccess);
+                saveScope(scope, scopeName + ".yml");
+                return BooleanResult.ok();
+            } catch (IllegalArgumentException e) {
+                return BooleanResult.fail("invalid-mode");
+            }
+        }
+        return BooleanResult.fail("scope-not-found");
+    }
+
+    public void notifyOwnerOfRequests(UUID ownerId) {
+        for (Scope scope : scopes.values()) {
+            if (scope.getOwner().equals(ownerId) && !scope.getPendingRequests().isEmpty()) {
+                Player owner = Bukkit.getPlayer(ownerId);
+                if (owner != null && owner.isOnline()) {
+                    int requestCount = scope.getPendingRequests().size();
+                    owner.sendMessage(Component.text(
+                        plugin.translate("quill.scope.requests.notification", scope.getName(), requestCount),
+                        NamedTextColor.YELLOW));
+                    owner.sendMessage(Component.text(
+                        plugin.translate("quill.scope.requests.view-hint", scope.getName()),
+                        NamedTextColor.GRAY));
+                }
+            }
+        }
     }
 }

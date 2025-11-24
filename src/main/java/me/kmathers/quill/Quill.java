@@ -43,7 +43,7 @@ public class Quill extends JavaPlugin {
 
         validateConfig();
 
-        getServer().getPluginManager().registerEvents(new QuillInternalListeners(this), this);
+        getServer().getPluginManager().registerEvents(new QuillInternalListeners(this, scopeManager), this);
 
         File translationsFile = new File(getDataFolder(), "translations.yml");
         translations = YamlConfiguration.loadConfiguration(translationsFile);

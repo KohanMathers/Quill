@@ -106,6 +106,24 @@ permissions:
   quill.scope.players.any:
     description: Modify any scope's player lists
     default: op
+  quill.scope.join:
+    description: Join scopes
+    default: true
+  quill.scope.leave:
+    description: Leave scopes
+    default: true
+  quill.scope.requests:
+    description: View join requests for owned scopes
+    default: true
+  quill.scope.requests.any:
+    description: View and manage any scope's join requests
+    default: op
+  quill.scope.access:
+    description: Change access mode for owned scopes
+    default: true
+  quill.scope.access.any:
+    description: Change access mode for any scope
+    default: op
 
   quill.admin:
     description: Full Quill administrative access
@@ -134,3 +152,9 @@ permissions:
       quill.scope.persist: true
       quill.scope.persist.any: true
       quill.scope.mode: true
+      quill.scope.join: true
+      quill.scope.leave: true
+      quill.scope.requests: true
+      quill.scopes.requests.any: true
+      quill.scope.access: true
+      quill.scope.access.any: true

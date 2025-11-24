@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import me.kmathers.quill.Quill;
 import me.kmathers.quill.utils.SecurityConfig.SecurityMode;
+import me.kmathers.quill.utils.SecurityConfig.AccessMode;
 
 public class Scope {
     private String name;
@@ -16,15 +17,17 @@ public class Scope {
     private SecurityConfig config;
     private Map<String, Object> persistentVariables;
     private List<UUID> players;
+    private Map<UUID, Long> pendingRequests;
     private Quill plugin;
 
-    public Scope(String name, UUID owner, List<Double> boundaries, SecurityMode mode) {
+    public Scope(String name, UUID owner, List<Double> boundaries, SecurityMode mode, AccessMode access) {
         this.name = name;
         this.owner = owner;
         this.boundaries = boundaries;
-        this.config = new SecurityConfig(mode);
+        this.config = new SecurityConfig(mode, access);
         this.persistentVariables = new HashMap<>();
         this.players = new ArrayList<>();
+        this.pendingRequests = new HashMap<>();
         this.plugin = Quill.getPlugin(Quill.class);
     }
 
@@ -56,6 +59,10 @@ public class Scope {
         return new ArrayList<>(players);
     }
     
+    public AccessMode getAccessMode() {
+        return config.getAccess();
+    }
+
     public void addPlayer(UUID playerId) {
         if (!players.contains(playerId)) {
             players.add(playerId);
@@ -114,6 +121,10 @@ public class Scope {
         this.persistentVariables = vars;
     }
 
+    public void setAccessMode(AccessMode accessMode) {
+        this.config.setAccess(accessMode);
+    }
+
     public void addFunc(String func) {
         this.config.addFunc(func);
     }
@@ -136,6 +147,28 @@ public class Scope {
         } else {
             throw new IllegalStateException(plugin.translate("quill.error.user.scope.no-persistent-var", name));
         }
+    }
+
+    public void addJoinRequest(UUID playerId) {
+        if (!pendingRequests.containsKey(playerId)) {
+            pendingRequests.put(playerId, System.currentTimeMillis());
+        }
+    }
+
+    public void removeJoinRequest(UUID playerId) {
+        pendingRequests.remove(playerId);
+    }
+
+    public boolean hasJoinRequest(UUID playerId) {
+        return pendingRequests.containsKey(playerId);
+    }
+
+    public Map<UUID, Long> getPendingRequests() {
+        return new HashMap<>(pendingRequests);
+    }
+
+    public void setPendingRequests(Map<UUID, Long> requests) {
+        this.pendingRequests = new HashMap<>(requests);
     }
 
     public boolean hasPersistentVar(String name) {

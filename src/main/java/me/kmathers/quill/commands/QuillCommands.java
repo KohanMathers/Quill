@@ -57,6 +57,12 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
         scopeRegistry.register(new ScopeCommands.AddPlayer(plugin, scopeManager));
         scopeRegistry.register(new ScopeCommands.RemovePlayer(plugin, scopeManager));
         scopeRegistry.register(new ScopeCommands.ListPlayers(plugin, scopeManager));
+        scopeRegistry.register(new ScopeCommands.Join(plugin, scopeManager));
+        scopeRegistry.register(new ScopeCommands.Leave(plugin, scopeManager));
+        scopeRegistry.register(new ScopeCommands.Accept(plugin, scopeManager));
+        scopeRegistry.register(new ScopeCommands.Deny(plugin, scopeManager));
+        scopeRegistry.register(new ScopeCommands.Requests(plugin, scopeManager));
+        scopeRegistry.register(new ScopeCommands.Access(plugin, scopeManager));
     }
 
     @Override
@@ -316,12 +322,18 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
             sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
         } else if (args.length >= 2 && args[1].equalsIgnoreCase("scope")) {
             sender.sendMessage(Component.text("=== " + plugin.translate("quill.commands.scope.title") + " ===", NamedTextColor.GOLD));
-            sender.sendMessage(Component.text("/quill scope create <name> <owner> <x1> <y1> <z1> <x2> <y2> <z2> <whitelist|blacklist>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.create"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill scope create <name> <owner> <x1> <y1> <z1> <x2> <y2> <z2> <whitelist|blacklist> <public|private>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.create"), NamedTextColor.WHITE)));
             sender.sendMessage(Component.text("/quill scope delete <name>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.delete"), NamedTextColor.WHITE)));
             sender.sendMessage(Component.text("/quill scope list", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.list.help-hint"), NamedTextColor.WHITE)));
             sender.sendMessage(Component.text("/quill scope info <name>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.info.help-hint"), NamedTextColor.WHITE)));
             sender.sendMessage(Component.text("/quill scope permission <grant|revoke> <name> <function>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.permission.help-hint"), NamedTextColor.WHITE)));
             sender.sendMessage(Component.text("/quill scope persist <name> <variable> <add|remove>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.persist.help-hint"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill scope join <scope>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.join.help-hint"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill scope leave <scope>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.persist.help-hint"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill scope accept <scope> <player>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.accept.help-hint"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill scope deny <scope> <player>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.deny.help-hint"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill scope requests <scope>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.requests.help-hint"), NamedTextColor.WHITE)));
+            sender.sendMessage(Component.text("/quill scope access <scope> <public|private>", NamedTextColor.YELLOW).append(Component.text(" - " + plugin.translate("quill.commands.scope.access.help-hint"), NamedTextColor.WHITE)));
             sender.sendMessage(Component.text("=====================", NamedTextColor.GOLD));
         }
     }
@@ -357,7 +369,7 @@ public class QuillCommands implements CommandExecutor, TabCompleter {
             }
             
             if (!hasPermission) {
-                sender.sendMessage(Component.text(plugin.translate("quill.commands.edit.no-permission", "edit scripts in scope: " + scopeName), NamedTextColor.RED));
+                sender.sendMessage(Component.text(plugin.translate("quill.commands.global.no-permission", "edit scripts in scope: " + scopeName), NamedTextColor.RED));
                 return;
             }
         }

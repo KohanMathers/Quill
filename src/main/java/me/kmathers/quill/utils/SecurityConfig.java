@@ -9,11 +9,18 @@ public class SecurityConfig {
         BLACKLIST
     }
 
+    public enum AccessMode {
+        PUBLIC,
+        PRIVATE
+    }
+
     private SecurityMode mode;
+    private AccessMode access;
     private List<String> funcs;
 
-    public SecurityConfig(SecurityMode mode) {
+    public SecurityConfig(SecurityMode mode, AccessMode access) {
         this.mode = mode;
+        this.access = access;
         this.funcs = new ArrayList<>();
     }
 
@@ -25,12 +32,20 @@ public class SecurityConfig {
         return funcs;
     }
 
+    public AccessMode getAccess() {
+        return access;
+    }
+
     public void setMode(SecurityMode mode) {
         this.mode = mode;
     }
 
     public void setFuncs(List<String> funcs) {
         this.funcs = funcs;
+    }
+
+    public void setAccess(AccessMode access) {
+        this.access = access;
     }
 
     public void addFunc(String func) {

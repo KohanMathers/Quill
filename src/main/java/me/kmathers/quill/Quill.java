@@ -46,7 +46,7 @@ public class Quill extends JavaPlugin {
 
         validateConfig();
 
-        getServer().getPluginManager().registerEvents(new QuillInternalListeners(this), this);
+        getServer().getPluginManager().registerEvents(new QuillInternalListeners(this, scopeManager), this);
 
         scopeManager = new QuillScopeManager(this, getDataFolder(), getLogger());
         scriptManager = new QuillScriptManager(this, getDataFolder(), getLogger(), scopeManager);

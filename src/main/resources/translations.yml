@@ -49,12 +49,15 @@ quill:
       file-not-found: "Scope file not found: {0}"
       read-fail: "Failed to read scope file: {0}"
       write-fail: "Failed to write scope file: {0}"
+      delete-fail: "Failed to delete scope file: {0}"
       saved-success: "Successfully saved scope '{0}' to {1}"
       loaded: "Successfully loaded {0} / {1} scope(s)"
 
     format:
       invalid-format: "Scope {0} has invalid format"
       invalid-mode: "Scope security mode {0} is invalid"
+      invalid-access: "Scope access mode {0} is invalid"
+      invalid-request: "Request {0} is invalid"
       invalid-owner-uuid: "Scope owner UUID '{0}' is invalid"
       invalid-player-uuid: "Invalid player UUID '{0}' - skipping"
 
@@ -71,6 +74,7 @@ quill:
       invalid-url: "Cannot open editor: URL is not valid"
       no-sessionid: "createSession() did not return a session id!"
       session-created: "Editor session created!"
+      player-only: "This command can only be run by players"
 
     scripts:
       available: "Available Quill Scripts"
@@ -166,10 +170,57 @@ quill:
           default: "Failed to remove persistent variable from scope '{0}'. Check console for errors."
 
       mode:
+        unknown: "Unknown mode: {0}"
         success: "Set security mode {0} on {1}"
         fail:
           already-set: "Scope '{0}' already uses security mode '{1}'"
           no-mode: "Invalid security mode: {0}"
+          default: "Failed to set security mode on scope '{0}'. Check console for errors."
+
+      join:
+        help-hint: "Join a scope"
+        already-in: "You are already in scope '{0}'"
+        request-pending: "You already have a join request pending for scope '{0}'"
+        success: "Successfully joined scope '{0}'"
+        fail: "Failed to join scope. Check console for errors."
+        request-sent: "Sent join request to scope '{0}'"
+      
+      requests:
+        help-hint: "List all pending join requests for the scope"
+        new-request: "{0} has requested to join scope '{1}'"
+        accepted: "Your request to join scope '{0}' has been accepted"
+        denied: "Your request to join scope '{0}' has been denied"
+        title: "Join Requests for {0}"
+        none: "'{0}' has no pending requests."
+        notification: "'{0}' has {1} pending join request(s)"
+        view-hint: "View with /quill scope requests {0}"
+
+      leave:
+        help-hint: "Leave a scope"
+        not-in: "You are not in scope '{0}'"
+        owner-cannot-leave: "Scope owners cannot leave their scope."
+        success: "Successfully left scope '{0}'"
+        fail: "Failed to leave scope. Check console for errors."
+      
+      accept:
+        help-hint: "Accept a join request for the scope"
+        no-request: "{0} has no pending join request for scope '{1}'"
+        success: "Accepted {0}'s request to join scope '{1}'"
+        fail: "Failed to accept request. Check console for errors."
+
+      deny:
+        help-hint: "Deny a join request for the scope"
+        no-request: "{0} has no pending join request for scope '{1}'"
+        success: "Denied {0}'s request to join scope '{1}'"
+        fail: "Failed to deny request. Check console for errors."
+
+      access:
+        help-hint: "Change the scope's access mode"
+        success: "Set {0}'s access mode to {1}"
+        fail:
+          already-set: "Scope '{0}' already uses access mode '{1}'"
+          invalid-mode: "Invalid access mode: {0}"
+          scope-not-found: "Scope '{0}' not found"
           default: "Failed to set security mode on scope '{0}'. Check console for errors."
 
       addplayer:

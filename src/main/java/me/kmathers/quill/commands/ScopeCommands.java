@@ -85,10 +85,43 @@ public class ScopeCommands {
         public String getName() {
             return "create";
         }
-        
+
         @Override
         public List<String> getPermissions() {
             return List.of("quill.scope.create");
+        }
+
+        @Override
+        public List<String> getTabCompletions(CommandSender sender, String[] args) {
+            return switch (args.length) {
+                case 1 -> List.of("<name>");
+                case 2 -> Bukkit.getOnlinePlayers().stream()
+                    .map(Player::getName)
+                    .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
+                    .collect(Collectors.toList());
+                case 3, 4, 5, 6, 7, 8 -> {
+                    if (sender instanceof Player player) {
+                        var loc = player.getLocation();
+                        yield switch (args.length) {
+                            case 3 -> List.of(String.valueOf((int) loc.getX()));
+                            case 4 -> List.of(String.valueOf((int) loc.getY()));
+                            case 5 -> List.of(String.valueOf((int) loc.getZ()));
+                            case 6 -> List.of(String.valueOf((int) loc.getX()));
+                            case 7 -> List.of(String.valueOf((int) loc.getY()));
+                            case 8 -> List.of(String.valueOf((int) loc.getZ()));
+                            default -> List.of();
+                        };
+                    }
+                    yield List.of();
+                }
+                case 9 -> Arrays.asList("whitelist", "blacklist").stream()
+                    .filter(m -> m.startsWith(args[8].toLowerCase()))
+                    .collect(Collectors.toList());
+                case 10 -> Arrays.asList("public", "private").stream()
+                    .filter(a -> a.startsWith(args[9].toLowerCase()))
+                    .collect(Collectors.toList());
+                default -> List.of();
+            };
         }
     }
     
@@ -144,13 +177,36 @@ public class ScopeCommands {
         public String getName() {
             return "delete";
         }
-        
+
         @Override
         public List<String> getPermissions() {
             return List.of();
         }
+
+        @Override
+        public List<String> getTabCompletions(CommandSender sender, String[] args) {
+            if (args.length == 1) {
+                List<String> completions = new ArrayList<>();
+                boolean canDeleteAny = sender.isOp() || sender.hasPermission("quill.scope.delete.any");
+
+                for (String scopeName : scopeManager.listScopes()) {
+                    if (canDeleteAny) {
+                        completions.add(scopeName);
+                    } else if (sender instanceof Player player) {
+                        var scope = scopeManager.getScope(scopeName);
+                        if (scope != null && scope.getOwner().equals(player.getUniqueId())) {
+                            completions.add(scopeName);
+                        }
+                    }
+                }
+                return completions.stream()
+                    .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
+            }
+            return List.of();
+        }
     }
-    
+
     public static class ListScopes implements SubCommand {
         private final Quill plugin;
         private final QuillScopeManager scopeManager;
@@ -299,13 +355,36 @@ public class ScopeCommands {
         public String getName() {
             return "info";
         }
-        
+
         @Override
         public List<String> getPermissions() {
             return List.of("quill.scope.info");
         }
+
+        @Override
+        public List<String> getTabCompletions(CommandSender sender, String[] args) {
+            if (args.length == 1) {
+                List<String> completions = new ArrayList<>();
+                boolean canViewAny = sender.isOp() || sender.hasPermission("quill.scope.info.any");
+
+                for (String scopeName : scopeManager.listScopes()) {
+                    if (canViewAny) {
+                        completions.add(scopeName);
+                    } else if (sender instanceof Player player) {
+                        var scope = scopeManager.getScope(scopeName);
+                        if (scope != null && scope.getOwner().equals(player.getUniqueId())) {
+                            completions.add(scopeName);
+                        }
+                    }
+                }
+                return completions.stream()
+                    .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
+            }
+            return List.of();
+        }
     }
-    
+
     public static class Permission implements SubCommand {
         private final Quill plugin;
         private final QuillScopeManager scopeManager;
@@ -423,7 +502,26 @@ public class ScopeCommands {
         @Override
         public List<String> getTabCompletions(CommandSender sender, String[] args) {
             if (args.length == 1) {
-                return Arrays.asList("grant", "revoke");
+                return Arrays.asList("grant", "revoke", "list").stream()
+                    .filter(a -> a.startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
+            } else if (args.length == 2) {
+                List<String> completions = new ArrayList<>();
+                boolean canModifyAny = sender.isOp() || sender.hasPermission("quill.scope.permission");
+
+                for (String scopeName : scopeManager.listScopes()) {
+                    if (canModifyAny) {
+                        completions.add(scopeName);
+                    } else if (sender instanceof Player player) {
+                        var scope = scopeManager.getScope(scopeName);
+                        if (scope != null && scope.getOwner().equals(player.getUniqueId())) {
+                            completions.add(scopeName);
+                        }
+                    }
+                }
+                return completions.stream()
+                    .filter(s -> s.toLowerCase().startsWith(args[1].toLowerCase()))
+                    .collect(Collectors.toList());
             }
             return List.of();
         }
@@ -544,7 +642,26 @@ public class ScopeCommands {
         @Override
         public List<String> getTabCompletions(CommandSender sender, String[] args) {
             if (args.length == 1) {
-                return Arrays.asList("add", "remove");
+                return Arrays.asList("add", "remove", "list").stream()
+                    .filter(a -> a.startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
+            } else if (args.length == 2) {
+                List<String> completions = new ArrayList<>();
+                boolean canModifyAny = sender.isOp() || sender.hasPermission("quill.scope.persist.any");
+
+                for (String scopeName : scopeManager.listScopes()) {
+                    if (canModifyAny) {
+                        completions.add(scopeName);
+                    } else if (sender instanceof Player player) {
+                        var scope = scopeManager.getScope(scopeName);
+                        if (scope != null && scope.getOwner().equals(player.getUniqueId())) {
+                            completions.add(scopeName);
+                        }
+                    }
+                }
+                return completions.stream()
+                    .filter(s -> s.toLowerCase().startsWith(args[1].toLowerCase()))
+                    .collect(Collectors.toList());
             }
             return List.of();
         }
@@ -642,8 +759,22 @@ public class ScopeCommands {
 
         @Override
         public List<String> getTabCompletions(CommandSender sender, String[] args) {
-            if (args.length == 2) {
-                return Arrays.asList("whitelist", "blacklist");
+            if (args.length == 1) {
+                List<String> completions = new ArrayList<>();
+                boolean canModifyAny = sender.isOp() || sender.hasPermission("quill.scope.mode");
+
+                for (String scopeName : scopeManager.listScopes()) {
+                    if (canModifyAny) {
+                        completions.add(scopeName);
+                    }
+                }
+                return completions.stream()
+                    .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
+            } else if (args.length == 2) {
+                return Arrays.asList("whitelist", "blacklist").stream()
+                    .filter(m -> m.startsWith(args[1].toLowerCase()))
+                    .collect(Collectors.toList());
             }
             return List.of();
         }
@@ -714,10 +845,31 @@ public class ScopeCommands {
         public String getName() {
             return "addplayer";
         }
-        
+
         @Override
         public List<String> getPermissions() {
             return List.of("quill.scope.players.any");
+        }
+
+        @Override
+        public List<String> getTabCompletions(CommandSender sender, String[] args) {
+            if (args.length == 1) {
+                return scopeManager.listScopes().stream()
+                    .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
+            } else if (args.length == 2) {
+                String scopeName = args[0];
+                var scope = scopeManager.getScope(scopeName);
+                if (scope != null) {
+                    Set<UUID> playersInScope = new HashSet<>(scopeManager.getPlayersInScope(scopeName));
+                    return Bukkit.getOnlinePlayers().stream()
+                        .filter(p -> !playersInScope.contains(p.getUniqueId()))
+                        .map(Player::getName)
+                        .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
+                        .collect(Collectors.toList());
+                }
+            }
+            return List.of();
         }
     }
 
@@ -788,10 +940,44 @@ public class ScopeCommands {
         public String getName() {
             return "removeplayer";
         }
-        
+
         @Override
         public List<String> getPermissions() {
             return List.of("quill.scope.players");
+        }
+
+        @Override
+        public List<String> getTabCompletions(CommandSender sender, String[] args) {
+            if (args.length == 1) {
+                List<String> completions = new ArrayList<>();
+                boolean canModifyAny = sender.isOp() || sender.hasPermission("quill.scope.players.any");
+
+                for (String scopeName : scopeManager.listScopes()) {
+                    if (canModifyAny) {
+                        completions.add(scopeName);
+                    } else if (sender instanceof Player player) {
+                        var scope = scopeManager.getScope(scopeName);
+                        if (scope != null && scope.getOwner().equals(player.getUniqueId())) {
+                            completions.add(scopeName);
+                        }
+                    }
+                }
+                return completions.stream()
+                    .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
+            } else if (args.length == 2) {
+                String scopeName = args[0];
+                var scope = scopeManager.getScope(scopeName);
+                if (scope != null) {
+                    return scopeManager.getPlayersInScope(scopeName).stream()
+                        .map(Bukkit::getOfflinePlayer)
+                        .map(OfflinePlayer::getName)
+                        .filter(Objects::nonNull)
+                        .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
+                        .collect(Collectors.toList());
+                }
+            }
+            return List.of();
         }
     }
 
@@ -851,10 +1037,20 @@ public class ScopeCommands {
         public String getName() {
             return "listplayers";
         }
-        
+
         @Override
         public List<String> getPermissions() {
             return List.of("quill.scope.players");
+        }
+
+        @Override
+        public List<String> getTabCompletions(CommandSender sender, String[] args) {
+            if (args.length == 1) {
+                return scopeManager.listScopes().stream()
+                    .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
+            }
+            return List.of();
         }
     }
 
